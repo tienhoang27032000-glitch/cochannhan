@@ -162,10 +162,14 @@
             let angle = this.player.aimAngle;
             if (!towardCursor && this.game && this.game.input) {
                 const inp = this.game.input;
-                const mx = (inp.right ? 1 : 0) - (inp.left ? 1 : 0);
-                const my = (inp.down ? 1 : 0) - (inp.up ? 1 : 0);
-                if (mx !== 0 || my !== 0) {
-                    angle = Math.atan2(my, mx);
+                if (Math.abs(inp.analogX || 0) > 0.05 || Math.abs(inp.analogY || 0) > 0.05) {
+                    angle = Math.atan2(inp.analogY, inp.analogX);
+                } else {
+                    const mx = (inp.right ? 1 : 0) - (inp.left ? 1 : 0);
+                    const my = (inp.down ? 1 : 0) - (inp.up ? 1 : 0);
+                    if (mx !== 0 || my !== 0) {
+                        angle = Math.atan2(my, mx);
+                    }
                 }
             }
 
@@ -2318,25 +2322,34 @@
         }
 
         _renderComboAndDashUI(ctx) {
+            const isMobile = document.body && document.body.classList.contains("mobile-ui");
+
             if (this.comboCount >= 2) {
                 const bonusPct = Math.min(30, Math.round(this.comboCount * 1.0));
+                const boxX = isMobile ? 10 : 16;
+                const boxY = isMobile ? 116 : 175;
+                const boxW = isMobile ? 156 : 195;
+                const boxH = isMobile ? 38 : 52;
+
                 ctx.save();
-                ctx.fillStyle = "rgba(14, 18, 26, 0.88)";
+                ctx.fillStyle = "rgba(14, 18, 26, 0.85)";
                 ctx.strokeStyle = "#e2bf75";
                 ctx.lineWidth = 1.5;
-                ctx.fillRect(16, 175, 195, 52);
-                ctx.strokeRect(16, 175, 195, 52);
+                ctx.fillRect(boxX, boxY, boxW, boxH);
+                ctx.strokeRect(boxX, boxY, boxW, boxH);
 
                 ctx.fillStyle = "#ffd700";
-                ctx.font = "bold 18px Georgia";
+                ctx.font = isMobile ? "bold 13px Georgia" : "bold 18px Georgia";
                 ctx.textAlign = "left";
-                ctx.fillText(`🔥 ${this.comboCount} LIÊN KÍCH!`, 26, 200);
+                ctx.fillText(`🔥 ${this.comboCount} LIÊN KÍCH!`, boxX + 8, boxY + (isMobile ? 16 : 25));
 
                 ctx.fillStyle = "#5cc995";
-                ctx.font = "12px Georgia";
-                ctx.fillText(`Khuếch đại cổ thuật: +${bonusPct}%`, 26, 218);
+                ctx.font = isMobile ? "10px Georgia" : "12px Georgia";
+                ctx.fillText(`Khuếch đại: +${bonusPct}%`, boxX + 8, boxY + (isMobile ? 31 : 43));
                 ctx.restore();
             }
+
+            if (isMobile) return;
 
             ctx.save();
             ctx.fillStyle = "rgba(14, 18, 26, 0.85)";

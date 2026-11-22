@@ -59,7 +59,6 @@
     margin-top: 6px;
 }
 
-/* Chỉ hiện nhắc xoay ngang khi ở chế độ mobile và đang cầm dọc */
 body.mobile-ui:not(.ignore-portrait-lock) #mobile-rotate-overlay {
     display: none;
 }
@@ -70,7 +69,6 @@ body.mobile-ui:not(.ignore-portrait-lock) #mobile-rotate-overlay {
     }
 }
 
-/* Các nút tiện ích mobile trên Hub */
 .mobile-hub-utility-btns {
     display: none;
     align-items: center;
@@ -232,7 +230,6 @@ body.mobile-ui .identity-sub .badge {
     padding: 1px 4px;
 }
 
-/* Ẩn bớt badge phụ trên màn quá hẹp */
 body.mobile-ui #hub-region-badge,
 body.mobile-ui #hub-faction-badge {
     display: none;
@@ -303,7 +300,6 @@ body.mobile-ui .btn-mobile-util {
     line-height: 1;
 }
 
-/* Khung chính Hub: 2 cột (Sidebar gọn + Nội dung cuộn mượt) */
 body.mobile-ui .hub-main-layout {
     grid-template-columns: 156px 1fr;
     height: calc(100dvh - 52px);
@@ -390,7 +386,6 @@ body.mobile-ui .equipped-loadout-banner .skill-slot {
     height: 36px;
 }
 
-/* Cột Nhật Ký chuyển thành Drawer trượt bên phải */
 body.mobile-ui .hub-right-log {
     display: flex;
     position: fixed;
@@ -417,12 +412,10 @@ body.mobile-ui #battle-screen {
     touch-action: none;
 }
 
-/* Ẩn thanh phím tắt PC ở dưới đáy để nhường chỗ cho bộ điều khiển Mobile */
 body.mobile-ui .battle-hud-bottom-center {
     display: none !important;
 }
 
-/* HUD góc trên trái (Máu + Chân Nguyên gọn) */
 body.mobile-ui .battle-hud-top-left {
     top: max(6px, var(--safe-top));
     left: max(8px, var(--safe-left));
@@ -464,7 +457,6 @@ body.mobile-ui .buff-badge {
     padding: 1px 4px;
 }
 
-/* HUD giữa trên (Mục tiêu Ải gọn) */
 body.mobile-ui .battle-hud-top-center {
     top: max(6px, var(--safe-top));
     width: clamp(210px, 36vw, 330px);
@@ -484,7 +476,6 @@ body.mobile-ui #battle-stage-objective {
     line-height: 1.25;
 }
 
-/* HUD góc trên phải (Minimap nhỏ + Nút Rút lui & Fullscreen) */
 body.mobile-ui .battle-hud-top-right {
     top: max(6px, var(--safe-top));
     right: max(8px, var(--safe-right));
@@ -521,7 +512,6 @@ body.mobile-ui #mobile-battle-controls {
     display: block;
 }
 
-/* --- CẦN ĐIỀU KHIỂN ẢO (VIRTUAL JOYSTICK 360°) --- */
 #mobile-joystick-zone {
     position: absolute;
     left: max(12px, var(--safe-left));
@@ -587,7 +577,6 @@ body.mobile-ui #mobile-battle-controls {
     pointer-events: none;
 }
 
-/* --- CỤM NÚT PHẢI: PHỤ TRỢ + 4 SÁT CHIÊU + 8 CỔ TRÙNG --- */
 #mobile-action-cluster {
     position: absolute;
     right: max(10px, var(--safe-right));
@@ -599,7 +588,6 @@ body.mobile-ui #mobile-battle-controls {
     touch-action: none;
 }
 
-/* Cột nút phụ trợ (Tương tác, Lướt, Hồi phục) */
 .mobile-aux-column {
     display: flex;
     flex-direction: column;
@@ -694,7 +682,6 @@ body.mobile-ui #mobile-battle-controls {
     50% { transform: scale(1.06); }
 }
 
-/* Cụm chính chứa 4 Sát Chiêu + 8 Cổ Trùng */
 .mobile-skills-panel {
     display: flex;
     flex-direction: column;
@@ -800,7 +787,6 @@ body.mobile-ui #mobile-battle-controls {
     border-style: dashed;
 }
 
-/* Banner thông báo tương tác trên mobile đưa lên gọn phía trên giữa */
 #mobile-interact-toast {
     position: absolute;
     bottom: 158px;
@@ -819,7 +805,6 @@ body.mobile-ui #mobile-battle-controls {
     pointer-events: none;
 }
 
-/* Nút bật Fullscreen nổi nhỏ gọn ở góc trên phải Battle */
 #btn-mobile-battle-fs {
     padding: 4px 8px;
     font-size: 10.5px;
@@ -828,7 +813,6 @@ body.mobile-ui #mobile-battle-controls {
     color: var(--text-gold);
 }
 
-/* Tự động thu nhỏ nhẹ cho điện thoại màn hình ngang thấp (height <= 385px) */
 @media (max-height: 385px) {
     body.mobile-ui .mobile-killer-row {
         grid-template-columns: repeat(4, 40px);

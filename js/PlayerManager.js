@@ -1194,7 +1194,10 @@
 
             let moveX = 0;
             let moveY = 0;
-            if (input) {
+            if (input && (Math.abs(input.analogX || 0) > 0.05 || Math.abs(input.analogY || 0) > 0.05)) {
+                moveX = input.analogX;
+                moveY = input.analogY;
+            } else if (input) {
                 if (input.up) moveY -= 1;
                 if (input.down) moveY += 1;
                 if (input.left) moveX -= 1;

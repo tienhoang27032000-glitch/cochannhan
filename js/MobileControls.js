@@ -19,12 +19,9 @@
             this.isMobileActive = false;
             this.modePreference = localStorage.getItem(MOBILE_MODE_STORAGE_KEY) || "auto";
 
-            // Trạng thái Joystick đa điểm chạm
             this.joystickPointerId = null;
-            this.joystickMaxDist = 40;
             this.lastMoveAngle = 0;
 
-            // Tọa độ ngắm chạm tay tạm thời trên Canvas
             this.manualAim = {
                 active: false,
                 worldX: 0,
@@ -32,7 +29,6 @@
                 expireAt: 0
             };
 
-            // Tham chiếu DOM Mobile
             this.el = {};
             this._init();
         }
@@ -47,7 +43,6 @@
             this._bindCanvasTouchAim();
             this._evaluateMobileMode();
 
-            // Vòng lặp đồng bộ UI nút bấm Mobile (~15 FPS cho nhẹ pin)
             setInterval(() => this._syncMobileBattleUI(), 75);
         }
 
@@ -89,17 +84,13 @@
                 if (reqFs && !document.fullscreenElement && !document.webkitFullscreenElement) {
                     await reqFs.call(docEl);
                 }
-            } catch (e) {
-                // Một số trình duyệt (iOS Safari) không hỗ trợ Fullscreen API trên documentElement
-            }
+            } catch (e) {}
 
             try {
                 if (screen.orientation && typeof screen.orientation.lock === "function") {
                     await screen.orientation.lock("landscape");
                 }
-            } catch (e) {
-                // Trình duyệt yêu cầu người dùng tự xoay máy vật lý
-            }
+            } catch (e) {}
 
             setTimeout(() => {
                 if (this.game && typeof this.game._handleResize === "function") {
@@ -135,7 +126,6 @@
             window.addEventListener("webkitfullscreenchange", onViewportChange);
             window.addEventListener("resize", () => this._evaluateMobileMode());
 
-            // Tự động đề xuất vào Fullscreen ở lần chạm đầu tiên khi vào trận trên Mobile
             document.addEventListener("pointerdown", () => {
                 if (
                     this.isMobileActive &&
@@ -199,7 +189,6 @@
                 if (rightLog) rightLog.classList.toggle("drawer-open");
             });
 
-            // Thêm nút đóng nhanh trên thanh tiêu đề Nhật ký khi ở Mobile
             if (rightLog) {
                 const logHeader = rightLog.querySelector(".log-header");
                 if (logHeader) {
@@ -246,7 +235,6 @@
             const battleScreen = document.getElementById("battle-screen");
             if (!battleScreen) return;
 
-            // Thêm nút Fullscreen nhỏ ở góc trên phải dưới nút Rút Lui
             const topRight = battleScreen.querySelector(".battle-hud-top-right");
             if (topRight && !document.getElementById("btn-mobile-battle-fs")) {
                 const fsBtn = document.createElement("button");
@@ -282,10 +270,8 @@
             `).join("");
 
             wrapper.innerHTML = `
-                <!-- Thông báo tương tác gọn -->
                 <div id="mobile-interact-toast" class="hidden"></div>
 
-                <!-- Cần điều khiển 360° (Ngón cái trái) -->
                 <div id="mobile-joystick-zone">
                     <div class="joystick-base" id="mobile-joystick-base">
                         <div class="joystick-knob" id="mobile-joystick-knob"></div>
@@ -293,7 +279,6 @@
                     <span class="joystick-hint" id="mobile-joystick-hint">Di chuyển</span>
                 </div>
 
-                <!-- Cụm hành động & Kỹ năng (Ngón cái phải) -->
                 <div id="mobile-action-cluster">
                     <div class="mobile-aux-column">
                         <div class="mobile-quick-items-row">
@@ -327,7 +312,6 @@
 
             battleScreen.appendChild(wrapper);
 
-            // Lưu tham chiếu DOM
             this.el.joystickZone = wrapper.querySelector("#mobile-joystick-zone");
             this.el.joystickBase = wrapper.querySelector("#mobile-joystick-base");
             this.el.joystickKnob = wrapper.querySelector("#mobile-joystick-knob");
@@ -384,7 +368,6 @@
                     inp.analogX = normX;
                     inp.analogY = normY;
 
-                    // Đồng bộ cả phím 8 hướng để tương thích hàm Dash & fallback
                     inp.left = normX < -0.32;
                     inp.right = normX > 0.32;
                     inp.up = normY < -0.32;
@@ -464,12 +447,6 @@
             });
         }
 
-        /**
-         * Tính tọa độ nhắm thông minh trên Mobile:
-         *  1. Nếu người chơi vừa chạm vào màn hình trong 1.8 giây -> bắn vào điểm chạm.
-         *  2. Tự động khóa mục tiêu Quái/Boss/NPC thù địch gần nhất trong tầm 620px.
-         *  3. Nếu không có địch -> bắn theo hướng di chuyển của Joystick.
-         */
         _resolveMobileAimTarget() {
             const pl = this.game.player;
             if (!pl) return { x: 2400, y: 2400 };
@@ -509,7 +486,6 @@
         }
 
         _bindBattleActionButtons() {
-            // 8 nút Cổ Trùng (dùng pointerdown để phản hồi tức thì)
             this.el.guBtns.forEach((btn) => {
                 btn.addEventListener("pointerdown", (e) => {
                     e.preventDefault();
@@ -521,7 +497,6 @@
                 });
             });
 
-            // 4 nút Sát Chiêu (Z, X, C, V)
             this.el.killerBtns.forEach((btn) => {
                 btn.addEventListener("pointerdown", (e) => {
                     e.preventDefault();
@@ -533,7 +508,6 @@
                 });
             });
 
-            // Nút Lướt Thân Pháp (Dash)
             if (this.el.btnDash) {
                 this.el.btnDash.addEventListener("pointerdown", (e) => {
                     e.preventDefault();
@@ -544,7 +518,6 @@
                 });
             }
 
-            // Nút Tương Tác [E]
             if (this.el.btnInteract) {
                 this.el.btnInteract.addEventListener("pointerdown", (e) => {
                     e.preventDefault();
@@ -554,7 +527,6 @@
                 });
             }
 
-            // Nút Hồi Nguyên & Trị Thương (tái sử dụng logic có sẵn của UIManager)
             if (this.el.btnStone) {
                 this.el.btnStone.addEventListener("pointerdown", (e) => {
                     e.preventDefault();
@@ -584,7 +556,6 @@
             const pl = this.game.player;
             if (!guSys || !combat || !ap || !pl) return;
 
-            // 1. Đồng bộ 8 ô Cổ Trùng
             this.el.guBtns.forEach((btn, idx) => {
                 const gu = guSys.getEquippedGuAt(idx);
                 const iconEl = btn.querySelector(".m-icon");
@@ -617,7 +588,6 @@
                 noEssEl.classList.toggle("hidden", enough);
             });
 
-            // 2. Đồng bộ 4 ô Sát Chiêu
             this.el.killerBtns.forEach((btn, idx) => {
                 const move = guSys.getEquippedKillerMoveAt(idx);
                 const iconEl = btn.querySelector(".m-icon");
@@ -644,7 +614,6 @@
                 cdText.textContent = cdRem > 0.05 ? cdRem.toFixed(1) : "";
             });
 
-            // 3. Đồng bộ nút Lướt (Dash)
             if (this.el.dashCdText) {
                 this.el.dashCdText.textContent = combat.dashCooldown > 0.05
                     ? `${combat.dashCooldown.toFixed(1)}s`
@@ -652,7 +621,6 @@
                 this.el.btnDash.style.opacity = combat.dashCooldown > 0.05 ? "0.55" : "1";
             }
 
-            // 4. Đồng bộ số lượng Nguyên Thạch & Thảo Dược
             if (this.el.stoneCount) {
                 this.el.stoneCount.textContent = pl.primevalStones > 999 ? "999+" : pl.primevalStones;
             }
@@ -661,7 +629,6 @@
                 this.el.herbCount.textContent = herbs;
             }
 
-            // 5. Đồng bộ trạng thái nút Tương tác [E] từ banner gốc của UIManager
             const origPrompt = document.getElementById("interaction-prompt");
             const hasTarget = origPrompt && !origPrompt.classList.contains("hidden");
             if (this.el.btnInteract) {
@@ -680,7 +647,6 @@
 
     global.MobileControls = MobileControls;
 
-    // Tự động gắn vào GameEngine ngay khi DOM sẵn sàng
     window.addEventListener("DOMContentLoaded", () => {
         const waitEngine = () => {
             if (global.vanCoTienDoGame) {
