@@ -1399,3 +1399,102 @@ input[type="text"]:focus, select:focus {
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================================================
+   8. BỔ SUNG: ZOOM, BÍ CẢNH TÀI NGUYÊN, TỰ LƯU, TỬ VONG & THẬP TUYỆT BẠO TẠC
+   ========================================================================= */
+.autosave-status-row {
+    grid-column: 1 / -1;
+    border-top: 1px dotted rgba(184, 151, 88, 0.35);
+    padding-top: 3px;
+    margin-top: 2px;
+}
+
+.autosave-banner-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    background: rgba(20, 56, 44, 0.35);
+    border: 1px solid #3ca67d;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+}
+
+.special-filter-btn {
+    border-color: #3ca67d !important;
+    color: #7ef7c4 !important;
+}
+.special-filter-btn.active {
+    background: rgba(60, 166, 125, 0.28) !important;
+    border-color: #7ef7c4 !important;
+    color: #ffffff !important;
+}
+
+.stage-map-card.special-resource-card {
+    background: linear-gradient(180deg, rgba(16, 42, 36, 0.96) 0%, rgba(10, 18, 22, 0.98) 100%);
+    border-color: #3ca67d;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.85), inset 0 0 14px rgba(92, 201, 149, 0.14);
+}
+.stage-map-card.special-resource-card:hover:not(.locked) {
+    border-color: #7ef7c4;
+}
+
+.zoom-controls-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px !important;
+    pointer-events: auto;
+}
+.zoom-btn {
+    padding: 3px 7px !important;
+    font-size: 11px !important;
+    line-height: 1.1;
+}
+.zoom-pct-btn {
+    min-width: 44px;
+    text-align: center;
+    padding: 3px 6px !important;
+    font-family: var(--font-mono);
+    font-size: 11px !important;
+    color: var(--text-gold) !important;
+}
+
+.battle-pressure-alert {
+    margin-top: 5px;
+    padding: 3px 7px;
+    font-size: 11px;
+    background: rgba(110, 55, 10, 0.82);
+    border: 1px solid #ff9f43;
+    color: #ffe0b2;
+    border-radius: 3px;
+}
+.battle-pressure-alert.critical {
+    background: rgba(135, 18, 18, 0.92);
+    border-color: #ff3b30;
+    color: #ffffff;
+    animation: pressurePulse 0.8s ease-in-out infinite;
+}
+@keyframes pressurePulse {
+    0%, 100% { box-shadow: 0 0 4px rgba(255, 59, 48, 0.5); }
+    50% { box-shadow: 0 0 14px rgba(255, 59, 48, 0.95); }
+}
+
+.defeat-modal-window {
+    border-color: #d62d2d !important;
+}
+.defeat-modal-header {
+    background: linear-gradient(90deg, #421212 0%, #1c0808 100%) !important;
+    color: #ff8a8a !important;
+}
+
+.permadeath-modal-window {
+    border-color: #ff2a2a !important;
+    box-shadow: 0 0 38px rgba(255, 42, 42, 0.45) !important;
+}
+.permadeath-modal-header {
+    background: linear-gradient(90deg, #690e0e 0%, #240404 100%) !important;
+    color: #ffd700 !important;
+    text-align: center;
+}

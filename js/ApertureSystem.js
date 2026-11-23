@@ -63,9 +63,9 @@
             minSea: 100,
             maxSea: 100,
             baseRegen: 2.80,
-            cultivateMult: 2.40,
+            cultivateMult: 2.65,
             breakthroughBonus: 0.25,
-            desc: "Dung lượng biển nguyên viên mãn 100%, nhân khí cực kỳ dồi dào, chắc chắn kết thành Siêu Cấp Phúc Địa khi thăng tiên nhưng Khiếu Bích luôn chịu áp lực."
+            desc: "Dung lượng biển nguyên viên mãn 100%, nhân khí cực kỳ dồi dào, chắc chắn kết thành Siêu Cấp Phúc Địa khi thăng tiên, nhưng ở Phàm Cảnh áp lực lên Không Khiếu tăng đều 1% mỗi 45 giây và chỉ reset về 0% khi đột phá lên một Đại Cảnh Giới mới — nếu đạt 100% sẽ BẠO TẠC CHẾT HẲN!"
         },
         SPECIAL_DREAM: {
             id: "SPECIAL_DREAM",
@@ -398,11 +398,15 @@
 
     class ApertureSystem {
         constructor() {
+            this.game = null;
             this.ui = null;
             this.reset();
         }
 
         init(systems = {}) {
+            if (systems.game) {
+                this.game = systems.game;
+            }
             if (systems.ui) {
                 this.ui = systems.ui;
             }
@@ -432,6 +436,8 @@
             this.maxWallProgress = MORTAL_RANKS[1].baseWallReq;
             this.wallPressure = 0;
             this.wallIntegrity = 100;
+            this.hasExploded = false;
+            this._pressureWarned = false;
 
             this.isMeditating = false;
             this.vitalGuId = null;
@@ -638,7 +644,7 @@
             this.currentEssence = rolled.maxSeaPercent;
             this.wallProgress = 0;
             this.maxWallProgress = MORTAL_RANKS[1].baseWallReq;
-            this.wallPressure = rolled.physique ? 20 : 5;
+            this.wallPressure = rolled.physique ? 0 : 5;
             this.vitalGuId = vital.id;
             this.vitalGuName = vital.name;
 
@@ -676,12 +682,33 @@
                     }
                 }
 
-                if (this.aptitude.physique) {
-                    const pRate = this.aptitude.physique.pressureRate * 10;
+                if (this.aptitude.physique && !this.hasExploded) {
+                    // Thập Tuyệt Thể ở Phàm Cảnh: tăng đúng 1% mỗi 45 giây, chỉ reset về 0% khi tăng 1 Đại Cảnh Giới
+                    const pRate = 1 / 45;
                     this.wallPressure = Math.min(100, this.wallPressure + pRate * dt);
 
-                    if (this.wallPressure >= 96 && player && typeof player.takeDamage === "function") {
-                        player.takeDamage(1.8 * dt, "Áp lực Thập Tuyệt Thể nứt Khiếu Bích");
+                    const uiRef = this.ui || (global.vanCoTienDoGame && global.vanCoTienDoGame.ui);
+                    if (this.wallPressure >= 80 && !this._pressureWarned) {
+                        this._pressureWarned = true;
+                        if (uiRef && typeof uiRef.addLog === "function") {
+                            uiRef.addLog(
+                                "🚨 [CẢNH BÁO SINH TỬ - THẬP TUYỆT THỂ] Áp lực Không Khiếu đã vượt 80%! Hãy nhanh chóng đột phá lên Đại Cảnh Giới tiếp theo (hoặc Thăng Tiên) để reset về 0% trước khi đạt 100% (Bạo tạc chết hẳn)!",
+                                "danger"
+                            );
+                        }
+                    } else if (this.wallPressure < 70) {
+                        this._pressureWarned = false;
+                    }
+
+                    if (this.wallPressure >= 100) {
+                        this.hasExploded = true;
+                        const gameRef = this.game || global.vanCoTienDoGame;
+                        if (gameRef && typeof gameRef.triggerPermadeath === "function") {
+                            gameRef.triggerPermadeath(
+                                `Áp lực 【${this.aptitude.physique.name}】 chạm ngưỡng 100% ở Phàm Cảnh (${this.getRealmDisplayName()}) — Không Khiếu nứt toác, tự bạo thành tro bụi!`
+                            );
+                        }
+                        return;
                     }
                 }
             } else if (this.immortalAperture.active) {
@@ -778,10 +805,12 @@
 
             this.currentEssence = Math.max(0, Number((this.currentEssence - calc.cost).toFixed(2)));
 
-            if (calc.overRankPenalty > 0) {
-                this.wallPressure = Math.min(100, this.wallPressure + calc.overRankPenalty * 10);
-            } else {
-                this.wallPressure = Math.min(100, this.wallPressure + 0.3);
+            if (!this.aptitude.physique) {
+                if (calc.overRankPenalty > 0) {
+                    this.wallPressure = Math.min(100, this.wallPressure + calc.overRankPenalty * 10);
+                } else {
+                    this.wallPressure = Math.min(100, this.wallPressure + 0.3);
+                }
             }
 
             return {
@@ -850,7 +879,9 @@
             // Giảm tốc độ tăng tiến độ Khiếu Bích mỗi lần vận công để tu luyện không còn quá nhanh
             const gain = 1.15 * this.aptitude.cultivateMult * externalBonus * dt;
             this.wallProgress = Math.min(this.maxWallProgress, Number((this.wallProgress + gain).toFixed(1)));
-            this.wallPressure = Math.min(100, this.wallPressure + 0.65 * dt);
+            if (!this.aptitude.physique) {
+                this.wallPressure = Math.min(100, this.wallPressure + 0.65 * dt);
+            }
 
             return {
                 success: true,
@@ -912,7 +943,18 @@
                     this.humanQi += 2 * this.rank;
                 }
 
-                this.wallPressure = Math.max(5, this.wallPressure - 40);
+                let pressureResetNote = "";
+                if (this.aptitude.physique) {
+                    if (isMajorRankBreakthrough) {
+                        this.wallPressure = 0;
+                        this._pressureWarned = false;
+                        pressureResetNote = " Áp lực Thập Tuyệt Thể đã được reset hoàn toàn về 0%!";
+                    }
+                } else {
+                    const relief = isMajorRankBreakthrough ? 80 : 55;
+                    this.wallPressure = Math.max(5, this.wallPressure - relief);
+                    if (this.wallPressure < 70) this._pressureWarned = false;
+                }
                 this.wallProgress = 0;
                 this.maxWallProgress = Math.round(
                     MORTAL_RANKS[this.rank].baseWallReq * MORTAL_SUBSTAGES[this.subStage].statMult
@@ -922,12 +964,14 @@
                     success: true,
                     newRealmName: this.getRealmDisplayName(),
                     wallName: this.getApertureWallName(),
-                    message: `⚡ Đột phá thành công! Cảnh giới tấn thăng lên 【${this.getRealmDisplayName()}】, Khiếu Bích ngưng tụ thành ${this.getApertureWallName()}!`
+                    message: `⚡ Đột phá thành công! Cảnh giới tấn thăng lên 【${this.getRealmDisplayName()}】, Khiếu Bích ngưng tụ thành ${this.getApertureWallName()}!${pressureResetNote}`
                 };
             } else {
                 // Thất bại sẽ sụt giảm tiến độ Khiếu Bích về 60%, đòi hỏi ôn dưỡng lại
                 this.wallProgress = Math.floor(this.maxWallProgress * 0.60);
-                this.wallPressure = Math.min(100, this.wallPressure + 18);
+                if (!this.aptitude.physique) {
+                    this.wallPressure = Math.min(100, this.wallPressure + 18);
+                }
                 return {
                     success: false,
                     message: `Xung kích cảnh giới thất bại! Khiếu Bích chấn động dữ dội, tiến độ ôn dưỡng sụt xuống còn ${this.wallProgress}/${this.maxWallProgress}.`
@@ -1097,6 +1141,8 @@
             this.rank = 6;
             this.subStage = 0; // Lục Chuyển Sơ Giai
             this.wallPressure = 0;
+            this.hasExploded = false;
+            this._pressureWarned = false;
 
             let gradeKey = "MEDIUM";
             const totalQi = this.ascensionState.heavenQi + this.ascensionState.earthQi + this.ascensionState.humanQiCommitted;
@@ -1318,6 +1364,65 @@
                 message: didAdvance
                     ? `${prefixLabel} Độ Tai Kiếp thành công (+${acreGain} mẫu Tiên Khiếu, +${daoMarkGain} Đạo Ngân)! ${breakthroughMsg}`
                     : `${prefixLabel} Tiên Khiếu vừa vượt qua 1 đợt Tai Kiếp (+${acreGain} mẫu Tiên Khiếu, +${daoMarkGain} Đạo Ngân)! Tiến độ tu vi: 【${this.getRealmDisplayName()}】 ${progressStr}.`
+            };
+        }
+
+        /**
+         * Xử phạt trừ tu vi khi Cổ Sư bị hết máu và tử vong trong chiến đấu (không phải bạo tạc Thập Tuyệt Thể)
+         */
+        applyDeathCultivationPenalty(player) {
+            const details = [];
+            let droppedSubStage = false;
+
+            if (!this.isImmortal) {
+                const wallLoss = Math.max(20, Math.round(this.maxWallProgress * 0.30));
+                if (this.wallProgress < Math.round(this.maxWallProgress * 0.15) && this.subStage > 0) {
+                    const oldRealm = this.getRealmDisplayName();
+                    this.subStage -= 1;
+                    droppedSubStage = true;
+                    const rankCfg = MORTAL_RANKS[this.rank] || MORTAL_RANKS[1];
+                    const subCfg = MORTAL_SUBSTAGES[this.subStage] || MORTAL_SUBSTAGES[0];
+                    this.maxWallProgress = Math.round(rankCfg.baseWallReq * subCfg.statMult);
+                    this.wallProgress = Math.round(this.maxWallProgress * 0.65);
+                    details.push(`Đạo cơ chấn động, rớt 1 tiểu cảnh giới từ 【${oldRealm}】 xuống 【${this.getRealmDisplayName()}】!`);
+                } else {
+                    const before = Math.floor(this.wallProgress);
+                    this.wallProgress = Math.max(0, Math.floor(this.wallProgress - wallLoss));
+                    const actualLoss = before - this.wallProgress;
+                    details.push(`Tổn thất -${actualLoss} điểm Ôn Dưỡng Khiếu Bích (còn ${this.wallProgress}/${this.maxWallProgress}).`);
+                }
+
+                const qiLoss = Math.min(Math.floor(this.humanQi), Math.max(1, Math.round(this.humanQi * 0.08)));
+                this.humanQi = Math.max(0, Number((this.humanQi - qiLoss).toFixed(1)));
+                if (qiLoss > 0) details.push(`Tán mất -${qiLoss} Nhân Khí.`);
+            } else {
+                const passed = this.immortalAperture.subStageTribulationsPassed || 0;
+                if (passed > 0) {
+                    this.immortalAperture.subStageTribulationsPassed = Math.max(0, passed - 1);
+                    this.wallProgress = this.immortalAperture.subStageTribulationsPassed;
+                    details.push(`Tiên Khiếu chấn động, tổn thất -1 tiến độ Độ Tai Kiếp (còn ${this.wallProgress}/${this.maxWallProgress}).`);
+                } else if (player && player.mainPath) {
+                    const lostMarks = Math.min(player.daoMarks[player.mainPath] || 0, 20);
+                    if (lostMarks > 0) {
+                        player.addDaoMarks(player.mainPath, -lostMarks);
+                        details.push(`Tổn thất -${lostMarks} Đạo Ngân ${player.mainPath}.`);
+                    }
+                }
+
+                const qiLoss = Math.min(Math.floor(this.humanQi), Math.max(3, Math.round(this.humanQi * 0.10)));
+                this.humanQi = Math.max(0, Number((this.humanQi - qiLoss).toFixed(1)));
+                if (qiLoss > 0) details.push(`Tán mất -${qiLoss} Nhân Khí.`);
+            }
+
+            if (player && typeof player.recalculateStats === "function") {
+                player.recalculateStats();
+            }
+
+            return {
+                droppedSubStage: droppedSubStage,
+                newRealmName: this.getRealmDisplayName(),
+                details: details,
+                summary: details.join(" ")
             };
         }
 
@@ -1610,6 +1715,7 @@
                 maxWallProgress: this.maxWallProgress,
                 wallPressure: this.wallPressure,
                 wallIntegrity: this.wallIntegrity,
+                hasExploded: this.hasExploded,
                 vitalGuId: this.vitalGuId,
                 vitalGuName: this.vitalGuName,
                 humanQi: this.humanQi,
@@ -1640,6 +1746,7 @@
 
             if (typeof data.wallPressure === "number") this.wallPressure = data.wallPressure;
             if (typeof data.wallIntegrity === "number") this.wallIntegrity = data.wallIntegrity;
+            this.hasExploded = Boolean(data.hasExploded);
             if (data.vitalGuId) this.vitalGuId = data.vitalGuId;
             if (data.vitalGuName) this.vitalGuName = data.vitalGuName;
             if (typeof data.humanQi === "number") this.humanQi = data.humanQi;

@@ -855,3 +855,29 @@ body.mobile-ui #mobile-battle-controls {
         height: 68px !important;
     }
 }
+
+
+/* -------------------------------------------------------------------------
+   7. BỔ SUNG MOBILE: ZOOM BAR, TỰ LƯU GỌN & CẢNH BÁO THẬP TUYỆT THỂ
+   ------------------------------------------------------------------------- */
+body.mobile-ui .autosave-status-row {
+    display: none;
+}
+
+body.mobile-ui .zoom-controls-bar {
+    padding: 3px 4px !important;
+    gap: 3px;
+    background: rgba(14, 18, 25, 0.82);
+}
+
+body.mobile-ui .zoom-btn,
+body.mobile-ui .zoom-pct-btn {
+    padding: 3px 5px !important;
+    font-size: 10px !important;
+    min-width: auto;
+}
+
+body.mobile-ui .battle-pressure-alert {
+    font-size: 9.5px;
+    padding: 2px 5px;
+}

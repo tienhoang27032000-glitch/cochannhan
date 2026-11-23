@@ -10,6 +10,8 @@
     "use strict";
 
     const SAVE_KEY_PREFIX = "van_co_tien_do_v2_slot_";
+    const AUTO_SAVE_KEY = "van_co_tien_do_v2_autosave";
+    const GRAVEYARD_KEY = "van_co_tien_do_v2_dead_uids";
 
     // =========================================================================
     // 1. DANH MỤC 25 BẢN ĐỒ LỊCH LUYỆN CHUẨN NGUYÊN TÁC (1 CHUYỂN -> 9 CHUYỂN)
@@ -895,6 +897,207 @@
                 { itemId: "soul_crystal", count: 12, chance: 1.0 }
             ],
             description: "[Cửu Chuyển Tôn Giả Chiến] Giữa Vô Cực Hỗn Độn Đại Trận tại Tầng Chín Phong Ma Quật, Tinh Tú Tiên Tôn và Cự Dương Tiên Tôn liên thủ vây sát ngươi bằng 12 Tiên Cổ Cửu Chuyển, 10 Sát Chiêu Cửu Chuyển, Khóa Sát Thương Vạn Pháp Bất Xâm và Niết Bàn Trọng Sinh!"
+        },
+
+        // ==================== 6 MÀN CHƠI ĐẶC BIỆT KIẾM TÀI NGUYÊN (FARM TỰ DO — KHÔNG CÓ BOSS) ====================
+        {
+            id: "special_spirit_spring",
+            order: 101,
+            isSpecialResourceStage: true,
+            noBoss: true,
+            resourceFocus: "💎 Nguyên Thạch & Khoáng Thạch",
+            name: "⭐ Bí Cảnh: Mỏ Nguyên Tuyền Cổ Mạch",
+            icon: "💎",
+            regionName: "Bí Cảnh Tài Nguyên (1 Chuyển+)",
+            reqRank: 1,
+            prevStageId: null,
+            arenaCenterX: 2400,
+            arenaCenterY: 2400,
+            themeTint: "rgba(35, 165, 110, 0.14)",
+            arenaBorderColor: "#4cd964",
+            mobTemplateId: "iron_boar",
+            mobName: "Thạch Linh Thủ Mỏ",
+            mobIsHuman: false,
+            targetKills: 0,
+            bossTemplateId: null,
+            bossName: "Không có Boss (Farm Tự Do)",
+            bossIsHuman: false,
+            mobMeritReward: 3,
+            mobHumanQiReward: 1,
+            mobDrops: [
+                { itemId: "primeval_stone", chance: 1.0, min: 7, max: 14 },
+                { itemId: "bronze_ore", chance: 0.55, min: 1, max: 2 },
+                { itemId: "spirit_herb", chance: 0.45, min: 1, max: 2 },
+                { itemId: "ration_meat", chance: 0.50, min: 1, max: 2 }
+            ],
+            dropPreview: "Quái rơi 7–14💎 Nguyên Thạch (Tinh Anh x2), Thanh Đồng Khoáng, Thanh Linh Thảo + 30 Mạch Nguyên Tuyền khai thác hồi nhanh 12s",
+            description: "[Farm Tự Do — Không Có Boss] Vào săn Thạch Linh Thủ Mỏ tái sinh liên tục và khai thác 30 Mạch Nguyên Thạch / Khoáng Thạch rồi rút lui bất cứ lúc nào!"
+        },
+        {
+            id: "special_herb_valley",
+            order: 102,
+            isSpecialResourceStage: true,
+            noBoss: true,
+            resourceFocus: "🌸 Cổ Tài Nuôi Cổ & Hợp Luyện",
+            name: "⭐ Bí Cảnh: Dược Cốc Ngũ Vực — Vườn Cổ Tài",
+            icon: "🌿",
+            regionName: "Bí Cảnh Tài Nguyên (2 Chuyển+)",
+            reqRank: 2,
+            prevStageId: null,
+            arenaCenterX: 2400,
+            arenaCenterY: 2400,
+            themeTint: "rgba(50, 145, 75, 0.16)",
+            arenaBorderColor: "#5cc995",
+            mobTemplateId: "wind_falcon",
+            mobName: "Dược Cốc Linh Thú",
+            mobIsHuman: false,
+            targetKills: 0,
+            bossTemplateId: null,
+            bossName: "Không có Boss (Farm Tự Do)",
+            bossIsHuman: false,
+            mobMeritReward: 4,
+            mobHumanQiReward: 1,
+            mobDrops: [
+                { itemId: "primeval_stone", chance: 0.90, min: 10, max: 18 },
+                { itemId: "moon_orchid", chance: 0.55, min: 1, max: 2 },
+                { itemId: "wind_essence_crystal", chance: 0.48, min: 1, max: 2 },
+                { itemId: "red_iron_ore", chance: 0.48, min: 1, max: 2 },
+                { itemId: "beast_blood_core", chance: 0.48, min: 1, max: 2 },
+                { itemId: "jade_bone", chance: 0.35, min: 1, max: 2 }
+            ],
+            dropPreview: "Nguyệt Lan Hoa, Phong Tuyền Tinh Thạch, Xích Thiết Tinh Khoáng, Bách Thú Tinh Huyết, Bạch Ngọc Cốt Tủy + 30 Bụi Cổ Tài hồi nhanh",
+            description: "[Farm Tự Do — Không Có Boss] Vườn cổ tài dồi dào bậc nhất Ngũ Vực — thoải mái thu hái và săn Linh Thú kiếm thức ăn nuôi & hợp luyện mọi Cổ Trùng!"
+        },
+        {
+            id: "special_relic_tomb",
+            order: 103,
+            isSpecialResourceStage: true,
+            noBoss: true,
+            resourceFocus: "⚪ Xá Lợi Cổ & Tàn Phương",
+            name: "⭐ Bí Cảnh: Cổ Mộ Xá Lợi — Tàn Phương Bí Điện",
+            icon: "🏛️",
+            regionName: "Bí Cảnh Tài Nguyên (3 Chuyển+)",
+            reqRank: 3,
+            prevStageId: null,
+            arenaCenterX: 2400,
+            arenaCenterY: 2400,
+            themeTint: "rgba(185, 145, 40, 0.18)",
+            arenaBorderColor: "#ffd700",
+            mobTemplateId: "blood_bat_king",
+            mobName: "Khôi Lỗi Thủ Mộ Cổ Sư",
+            mobIsHuman: true,
+            targetKills: 0,
+            bossTemplateId: null,
+            bossName: "Không có Boss (Farm Tự Do)",
+            bossIsHuman: false,
+            mobMeritReward: 8,
+            mobHumanQiReward: 2,
+            mobDrops: [
+                { itemId: "primeval_stone", chance: 0.95, min: 18, max: 32 },
+                { itemId: "remnant_recipe", chance: 0.32, min: 1, max: 1 },
+                { itemId: "red_iron_relic_gu", chance: 0.14, min: 1, max: 1 },
+                { itemId: "white_silver_relic_gu", chance: 0.10, min: 1, max: 1 },
+                { itemId: "yellow_gold_relic_gu", chance: 0.05, min: 1, max: 1 }
+            ],
+            dropPreview: "Cổ Mộ Xá Lợi Cổ (⚱️) & Bia Đá Tàn Phương (📜) rải khắp bản đồ + Quái rơi Xá Lợi Cổ, Tàn Phương & Điểm Cống Hiến",
+            description: "[Farm Tự Do — Không Có Boss] Cổ mộ chất đầy Xá Lợi Cổ & Tàn Phương — nguồn tiếp tế sinh tử giúp Thập Tuyệt Thể bứt tốc đột phá!"
+        },
+        {
+            id: "special_dang_hun",
+            order: 104,
+            isSpecialResourceStage: true,
+            noBoss: true,
+            resourceFocus: "🔮 Đãng Hồn Thạch & Nhân Khí",
+            name: "⭐ Bí Cảnh: Đãng Hồn Sơn — Đảm Thức Bảo Địa",
+            icon: "🔮",
+            regionName: "Bí Cảnh Tài Nguyên (4 Chuyển+)",
+            reqRank: 4,
+            prevStageId: null,
+            arenaCenterX: 2400,
+            arenaCenterY: 2400,
+            themeTint: "rgba(210, 75, 175, 0.20)",
+            arenaBorderColor: "#ff85d5",
+            mobTemplateId: "frost_python_lord",
+            mobName: "Thạch Nhân & Hồn Thú Đãng Hồn Sơn",
+            mobIsHuman: false,
+            targetKills: 0,
+            bossTemplateId: null,
+            bossName: "Không có Boss (Farm Tự Do)",
+            bossIsHuman: false,
+            mobMeritReward: 12,
+            mobHumanQiReward: 4,
+            mobDrops: [
+                { itemId: "primeval_stone", chance: 0.95, min: 28, max: 48 },
+                { itemId: "soul_crystal", chance: 0.65, min: 1, max: 2 },
+                { itemId: "hundred_year_ginseng", chance: 0.50, min: 1, max: 2 },
+                { itemId: "purple_crystal_relic_gu", chance: 0.06, min: 1, max: 1 }
+            ],
+            dropPreview: "Mỏ Đãng Hồn Tinh Thạch (🔮), Nhân Khí Linh Liên (☯️ +6~12 Nhân Khí) + Quái rơi Đãng Hồn Thạch, Khổ Sâm, Tử Tinh Xá Lợi Cổ",
+            description: "[Farm Tự Do — Không Có Boss] Thánh địa Hồn Đạo để thu gom Đãng Hồn Thạch Đan và tích lũy nhanh Nhân Khí thăm dò Mộng Cảnh & Thăng Tiên!"
+        },
+        {
+            id: "special_immortal_vein",
+            order: 105,
+            isSpecialResourceStage: true,
+            noBoss: true,
+            resourceFocus: "🌟 Tiên Nguyên Thạch (Lục Chuyển+)",
+            name: "⭐ Bí Cảnh: Thái Cổ Linh Mạch — Kho Tiên Thạch",
+            icon: "🌟",
+            regionName: "Bí Cảnh Tiên Tài (6 Chuyển+)",
+            reqRank: 6,
+            prevStageId: null,
+            arenaCenterX: 2400,
+            arenaCenterY: 2400,
+            themeTint: "rgba(65, 170, 235, 0.20)",
+            arenaBorderColor: "#4ce6ff",
+            mobTemplateId: "desolate_thunder_dragon",
+            mobName: "Hoang Thú Hộ Mạch Tiên Quáng",
+            mobIsHuman: false,
+            targetKills: 0,
+            bossTemplateId: null,
+            bossName: "Không có Boss (Farm Tự Do)",
+            bossIsHuman: false,
+            mobMeritReward: 25,
+            mobHumanQiReward: 5,
+            mobDrops: [
+                { itemId: "immortal_stone", chance: 0.85, min: 2, max: 5 },
+                { itemId: "primeval_stone", chance: 1.0, min: 120, max: 220 },
+                { itemId: "soul_crystal", chance: 0.60, min: 1, max: 3 }
+            ],
+            dropPreview: "Mạch Tiên Thạch Lộ Thiên (🌟 +3~7/lần) + Quái rơi 2–5🌟 Tiên Thạch (Tinh Anh 5–12🌟) & Đãng Hồn Thạch",
+            description: "[Farm Tự Do — Không Có Boss] Linh mạch Tiên Nguyên Thạch dồi dào dành cho Cổ Tiên Lục Chuyển+ vào đào mỏ và săn Hoang Thú gom Tiên Thạch!"
+        },
+        {
+            id: "special_chaos_vault",
+            order: 106,
+            isSpecialResourceStage: true,
+            noBoss: true,
+            resourceFocus: "👑 Kho Báu Tiên Thạch Chí Tôn (Bát Chuyển+)",
+            name: "⭐ Bí Cảnh: Bảo Khố Vô Cực — Thánh Địa Chí Tôn",
+            icon: "👑",
+            regionName: "Bí Cảnh Tiên Tài (8 Chuyển+)",
+            reqRank: 8,
+            prevStageId: null,
+            arenaCenterX: 2400,
+            arenaCenterY: 2400,
+            themeTint: "rgba(145, 50, 235, 0.22)",
+            arenaBorderColor: "#ffd700",
+            mobTemplateId: "desolate_thunder_dragon",
+            mobName: "Hỗn Độn Thủ Vệ Tiên Cương (Bát Chuyển)",
+            mobIsHuman: true,
+            targetKills: 0,
+            bossTemplateId: null,
+            bossName: "Không có Boss (Farm Tự Do)",
+            bossIsHuman: false,
+            mobMeritReward: 60,
+            mobHumanQiReward: 10,
+            mobDrops: [
+                { itemId: "immortal_stone", chance: 0.95, min: 10, max: 22 },
+                { itemId: "primeval_stone", chance: 1.0, min: 350, max: 600 },
+                { itemId: "soul_crystal", chance: 0.75, min: 2, max: 4 }
+            ],
+            dropPreview: "Thánh Mạch Tiên Thạch (👑 +14~28🌟/lần) + Quái rơi 10–22🌟 Tiên Thạch (Tinh Anh 22–45🌟) & Nhân Khí Linh Liên",
+            description: "[Farm Tự Do — Không Có Boss] Kho báu Tiên Nguyên Thạch khổng lồ cho Bát - Cửu Chuyển Cổ Tiên farm tự do chuẩn bị mua Tiên Cổ trên Bảo Hoàng Thiên!"
         }
     ];
 
@@ -923,8 +1126,15 @@
             this.currentScreen = "creation";
             this.lastFrameTime = performance.now();
             this.hudRefreshTimer = 0;
-            this.autoSaveTimer = 60;
+            this.autoSaveTimer = 8;
             this.reinforcementTimer = 14;
+            this.lastAutoSaveLabel = "";
+
+            this.characterUid = null;
+            this.activeSaveSlot = 1;
+            this.isPermadead = false;
+            this.isBattlePaused = false;
+            this.hasUserSetZoom = false;
 
             this.stageClears = {};
             this.claimedInheritances = [];
@@ -982,6 +1192,11 @@
             this._handleResize();
             window.addEventListener("resize", () => this._handleResize());
             this._bindKeyboardAndMouseEvents();
+            this._bindBrowserAutoSaveEvents();
+
+            if (this.ui && typeof this.ui.refreshStartScreenContinueButton === "function") {
+                this.ui.refreshStartScreenContinueButton();
+            }
 
             this.isRunning = true;
             this.lastFrameTime = performance.now();
@@ -993,9 +1208,42 @@
             this.canvas.width = window.innerWidth;
             this.canvas.height = window.innerHeight;
             if (this.map) {
-                this.map.camera.width = this.canvas.width;
-                this.map.camera.height = this.canvas.height;
+                const z = this.map.camera.zoom || 1.0;
+                this.map.camera.screenWidth = this.canvas.width;
+                this.map.camera.screenHeight = this.canvas.height;
+                this.map.camera.width = this.canvas.width / z;
+                this.map.camera.height = this.canvas.height / z;
             }
+        }
+
+        setBattleZoom(newZoom, isUserAction = true) {
+            if (!this.map) return 1.0;
+            if (isUserAction) this.hasUserSetZoom = true;
+            const z = this.map.setZoom(newZoom);
+            if (this.ui && typeof this.ui.updateZoomDisplay === "function") {
+                this.ui.updateZoomDisplay(z);
+            }
+            return z;
+        }
+
+        adjustBattleZoom(delta) {
+            if (!this.map) return 1.0;
+            return this.setBattleZoom(this.map.camera.zoom + delta, true);
+        }
+
+        _bindBrowserAutoSaveEvents() {
+            const flushSave = () => {
+                if (this.currentScreen !== "creation" && !this.isPermadead && this.aperture && this.aperture.isAwakened) {
+                    this.autoSaveNow("browser_exit");
+                }
+            };
+            window.addEventListener("beforeunload", flushSave);
+            window.addEventListener("pagehide", flushSave);
+            document.addEventListener("visibilitychange", () => {
+                if (document.visibilityState === "hidden") {
+                    flushSave();
+                }
+            });
         }
 
         startNewGameFromRitual(playerName, originKey = "righteous_clan", regionKey = "nam_cuong", skinKey = "phuong_nguyen") {
@@ -1003,6 +1251,10 @@
                 this.aperture.finalizeAwakening();
             }
 
+            this.characterUid = `char_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+            this.activeSaveSlot = 1;
+            this.isPermadead = false;
+            this.isBattlePaused = false;
             this.stageClears = {};
             this.claimedInheritances = [];
             this.activeStage = null;
@@ -1024,7 +1276,7 @@
                 "system"
             );
 
-            this.saveGame(1, true);
+            this.autoSaveNow("new_character");
         }
 
         // =====================================================================
@@ -1040,6 +1292,8 @@
         }
 
         getStageRepeatFactor(stageId) {
+            const st = STAGE_CATALOG.find(s => s.id === stageId);
+            if (st && st.isSpecialResourceStage) return 1.0;
             const prevClears = this.getStageClearCount(stageId);
             if (prevClears <= 0) return 1.0;
             return Math.max(0.08, Number((0.22 / (1 + (prevClears - 1) * 0.15)).toFixed(2)));
@@ -1081,13 +1335,15 @@
                 return;
             }
 
-            const totalBossCount = Array.isArray(st.venerableBosses) && st.venerableBosses.length > 0
-                ? st.venerableBosses.length
-                : 1;
+            const isNoBoss = Boolean(st.noBoss || st.isSpecialResourceStage);
+            const totalBossCount = isNoBoss
+                ? 0
+                : (Array.isArray(st.venerableBosses) && st.venerableBosses.length > 0 ? st.venerableBosses.length : 1);
 
             this.activeStage = {
                 ...st,
                 kills: 0,
+                harvests: 0,
                 bossSpawned: false,
                 bossDefeated: false,
                 bossTotalCount: totalBossCount,
@@ -1106,13 +1362,27 @@
 
             this._spawnStageMonsters(this.activeStage);
 
+            this.isBattlePaused = false;
             this.currentScreen = "battle";
+            if (!this.hasUserSetZoom && document.body && document.body.classList.contains("mobile-ui")) {
+                this.setBattleZoom(0.78, false);
+            } else if (this.ui && typeof this.ui.updateZoomDisplay === "function") {
+                this.ui.updateZoomDisplay(this.map ? this.map.camera.zoom : 1.0);
+            }
             this._handleResize();
             this.ui.showScreen("battle");
-            this.ui.addLog(
-                `⚔️ Đã tiến vào chiến trường 【${st.name}】! Hãy tiêu diệt ${st.targetKills} mục tiêu để dẫn dụ ${totalBossCount > 1 ? "Song Tôn Cửu Chuyển" : "Thủ Lĩnh"} 【${st.bossName}】 xuất hiện!`,
-                "combat"
-            );
+            if (st.isSpecialResourceStage || st.noBoss) {
+                this.reinforcementTimer = 6;
+                this.ui.addLog(
+                    `🌾 Đã tiến vào Bí Cảnh Tài Nguyên 【${st.name}】! Không có Boss — hãy tự do farm Quái, Tinh Anh và 30 Mỏ Cổ Tài tái sinh nhanh, sau đó bấm 'Rút Lui Về Đại Bản Doanh' bất cứ lúc nào để mang toàn bộ tài nguyên về!`,
+                    "loot"
+                );
+            } else {
+                this.ui.addLog(
+                    `⚔️ Đã tiến vào chiến trường 【${st.name}】! Hãy tiêu diệt ${st.targetKills} mục tiêu để dẫn dụ ${totalBossCount > 1 ? "Song Tôn Cửu Chuyển" : "Thủ Lĩnh"} 【${st.bossName}】 xuất hiện!`,
+                    "combat"
+                );
+            }
         }
 
         _spawnStageMonsters(stage) {
@@ -1140,7 +1410,7 @@
             });
 
             // 1. Sinh Quái thường phân bố ngẫu nhiên khắp vùng chiến trường mở rộng
-            const totalNormalMobs = stage.targetKills + 8;
+            const totalNormalMobs = stage.isSpecialResourceStage ? 16 : (stage.targetKills + 8);
             for (let i = 0; i < totalNormalMobs; i++) {
                 const pt = this.map
                     ? this.map.getRandomWalkablePoint(stage.arenaCenterX, stage.arenaCenterY, 220, 1250)
@@ -1149,8 +1419,8 @@
                 this._createStageEnemy(stage, pt.x, pt.y, false, false);
             }
 
-            // 2. Sinh 4 Quái Tinh Anh (Elite)
-            const eliteCount = 4;
+            // 2. Sinh Quái Tinh Anh (Elite)
+            const eliteCount = stage.isSpecialResourceStage ? 5 : 4;
             for (let e = 0; e < eliteCount; e++) {
                 const pt = this.map
                     ? this.map.getRandomWalkablePoint(stage.arenaCenterX, stage.arenaCenterY, 350, 1180)
@@ -1304,20 +1574,27 @@
                 color: customBossConfig && customBossConfig.projectileColor
                     ? customBossConfig.projectileColor
                     : (isStageBoss ? "#ff4d4d" : (isElite ? "#c278ff" : "#e0be77")),
-                drops: [
-                    {
-                        itemId: "primeval_stone",
-                        chance: isStageBoss ? 0.85 : (isElite ? 0.45 : 0.18),
-                        min: 1,
-                        max: isStageBoss ? Math.max(2, entityRank * 3) : (isElite ? Math.max(1, entityRank) : 1)
-                    },
-                    {
-                        itemId: "ration_meat",
-                        chance: isStageBoss ? 0.50 : 0.18,
-                        min: 1,
-                        max: 1
-                    }
-                ],
+                drops: (stage.isSpecialResourceStage && Array.isArray(stage.mobDrops))
+                    ? stage.mobDrops.map(d => ({
+                        itemId: d.itemId,
+                        chance: Math.min(1.0, isElite ? d.chance * 1.75 : d.chance),
+                        min: isElite ? Math.max(1, Math.round((d.min || 1) * 2)) : (d.min || 1),
+                        max: isElite ? Math.max(1, Math.round((d.max || 1) * 2.2)) : (d.max || 1)
+                    }))
+                    : [
+                        {
+                            itemId: "primeval_stone",
+                            chance: isStageBoss ? 0.85 : (isElite ? 0.45 : 0.18),
+                            min: 1,
+                            max: isStageBoss ? Math.max(2, entityRank * 3) : (isElite ? Math.max(1, entityRank) : 1)
+                        },
+                        {
+                            itemId: "ration_meat",
+                            chance: isStageBoss ? 0.50 : 0.18,
+                            min: 1,
+                            max: 1
+                        }
+                    ],
                 aiState: isStageBoss ? "chase" : "patrol",
                 patrolTargetX: x,
                 patrolTargetY: y,
@@ -1390,6 +1667,29 @@
                     return;
                 }
 
+                // Bí Cảnh Tài Nguyên: Không gọi Boss, thưởng trực tiếp khi farm Quái & Tinh Anh
+                if (st.isSpecialResourceStage || st.noBoss) {
+                    st.kills += 1;
+                    const mult = target.isElite ? 2 : 1;
+                    if (st.mobMeritReward) {
+                        this.player.meritPoints = (this.player.meritPoints || 0) + (st.mobMeritReward * mult);
+                    }
+                    if (st.mobHumanQiReward) {
+                        this.aperture.humanQi += (st.mobHumanQiReward * mult);
+                    }
+                    if (st.kills % 10 === 0) {
+                        this.combat.spawnFloatingText(
+                            this.player.x,
+                            this.player.y - 36,
+                            `🌾 Đã farm ${st.kills} quái! (Tự động lưu)`,
+                            "#7ef7c4"
+                        );
+                        this.autoSaveNow("farm_milestone");
+                    }
+                    this.ui.updateBattleHUD();
+                    return;
+                }
+
                 st.kills += target.isElite ? 2 : 1;
 
                 if (!st.bossSpawned && st.kills >= st.targetKills) {
@@ -1457,7 +1757,7 @@
                 ? st.rewardMerit
                 : Math.max(1, Math.round(st.rewardMerit * repeatFactor));
 
-            const actualHumanQi = isFirstClear
+            const actualHumanQi = (isFirstClear || st.isSpecialResourceStage)
                 ? st.rewardHumanQi
                 : (Math.random() < 0.20 ? 1 : 0);
 
@@ -1468,7 +1768,7 @@
             const obtainedItems = [];
             if (Array.isArray(st.drops)) {
                 for (const d of st.drops) {
-                    const effectiveChance = isFirstClear ? d.chance : d.chance * 0.35;
+                    const effectiveChance = (isFirstClear || st.isSpecialResourceStage) ? d.chance : d.chance * 0.35;
                     if (Math.random() <= effectiveChance) {
                         this.player.addItem(d.itemId, d.count || 1);
                         const meta = global.PlayerManager.ITEM_DATABASE[d.itemId] || { name: d.itemId, icon: "📦" };
@@ -1479,9 +1779,11 @@
 
             this.player.heal(Math.round(this.player.maxHp * 0.45));
 
-            const clearTypeLabel = isFirstClear
-                ? `<span style="color:#ffd700">[Thưởng Vượt Ải Lần Đầu 100%]</span>`
-                : `<span class="sub-text">[Thưởng Cày Lại Lần ${prevClears + 1} (${Math.round(repeatFactor * 100)}%)]</span>`;
+            const clearTypeLabel = st.isSpecialResourceStage
+                ? `<span style="color:#5cc995">[Bí Cảnh Tài Nguyên — Luôn 100% Thưởng]</span>`
+                : (isFirstClear
+                    ? `<span style="color:#ffd700">[Thưởng Vượt Ải Lần Đầu 100%]</span>`
+                    : `<span class="sub-text">[Thưởng Cày Lại Lần ${prevClears + 1} (${Math.round(repeatFactor * 100)}%)]</span>`);
 
             const summaryHtml = `
                 <p>Chúc mừng đạo hữu đã đánh bại <strong>${st.bossName}</strong> tại <strong>${st.name}</strong>! ${clearTypeLabel}</p>
@@ -1498,13 +1800,24 @@
                 "loot"
             );
 
-            this.saveGame(1, true);
+            this.autoSaveNow("stage_clear");
             this.ui.updateBattleHUD();
             this.ui.showStageVictoryModal(st, summaryHtml);
         }
 
         retreatToHub() {
+            const prevStage = this.activeStage;
+            if (prevStage && (prevStage.isSpecialResourceStage || prevStage.noBoss)) {
+                if ((prevStage.kills || 0) > 0 || (prevStage.harvests || 0) > 0) {
+                    this.ui.addLog(
+                        `🌾 Kết thúc chuyến farm tại 【${prevStage.name}】: Đã diệt ${prevStage.kills || 0} quái & khai thác ${prevStage.harvests || 0} mỏ cổ tài! Toàn bộ tài nguyên đã được giữ nguyên.`,
+                        "loot"
+                    );
+                }
+                this.autoSaveNow("farm_return");
+            }
             this.activeStage = null;
+            this.isBattlePaused = false;
             this.combat.reset();
             this.currentScreen = "hub";
             if (this.ui.dom.stageVictoryModal) {
@@ -1534,23 +1847,30 @@
             if (inh.rewardItemId) {
                 this.player.addItem(inh.rewardItemId, 1);
             }
+            let guRewardNote = "Cổ Trùng truyền thừa";
             if (inh.rewardGuId) {
-                this.guSystem.addGuToStorage(inh.rewardGuId, {
-                    rank: inh.rewardGuRank || inh.reqRank || 1,
-                    isRefined: true,
-                    refinementProgress: 100,
-                    isVital: false
-                });
+                const targetRank = inh.rewardGuRank || inh.reqRank || 1;
+                if (targetRank >= 6 && this.guSystem.hasImmortalGu(inh.rewardGuId)) {
+                    this.player.addItem("immortal_stone", 30);
+                    guRewardNote = "+30 Tiên Nguyên Thạch (bồi thường vì Tiên Cổ là duy nhất và ngươi đã sở hữu)";
+                } else {
+                    this.guSystem.addGuToStorage(inh.rewardGuId, {
+                        rank: targetRank,
+                        isRefined: true,
+                        refinementProgress: 100,
+                        isVital: false
+                    });
+                }
             }
             if (inh.rewardDaoPath && inh.rewardDaoMarks) {
                 this.player.addDaoMarks(inh.rewardDaoPath, inh.rewardDaoMarks);
             }
 
             this.ui.addLog(
-                `🕯️ Đã kế thừa 【${inh.name}】! Nhận Cổ Trùng truyền thừa, +${stoneGrant} Nguyên Thạch và +${inh.rewardDaoMarks} Đạo Ngân ${inh.rewardDaoPath}!`,
+                `🕯️ Đã kế thừa 【${inh.name}】! Nhận ${guRewardNote}, +${stoneGrant} Nguyên Thạch và +${inh.rewardDaoMarks} Đạo Ngân ${inh.rewardDaoPath}!`,
                 "cultivation"
             );
-            this.saveGame(1, true);
+            this.autoSaveNow("claim_inheritance");
         }
 
         // =====================================================================
@@ -1562,8 +1882,9 @@
                 this.input.mouseX = e.clientX;
                 this.input.mouseY = e.clientY;
                 if (this.map) {
-                    this.input.mouseWorldX = e.clientX + this.map.camera.x;
-                    this.input.mouseWorldY = e.clientY + this.map.camera.y;
+                    const pt = this.map.screenToWorld(e.clientX, e.clientY);
+                    this.input.mouseWorldX = pt.x;
+                    this.input.mouseWorldY = pt.y;
                 }
             });
 
@@ -1571,10 +1892,18 @@
                 this.canvas.addEventListener("mousedown", (e) => {
                     if (this.currentScreen !== "battle") return;
                     if (e.button === 0 && this.map) {
-                        this.input.mouseWorldX = e.clientX + this.map.camera.x;
-                        this.input.mouseWorldY = e.clientY + this.map.camera.y;
+                        const pt = this.map.screenToWorld(e.clientX, e.clientY);
+                        this.input.mouseWorldX = pt.x;
+                        this.input.mouseWorldY = pt.y;
                     }
                 });
+
+                this.canvas.addEventListener("wheel", (e) => {
+                    if (this.currentScreen !== "battle" || this.isBattlePaused) return;
+                    e.preventDefault();
+                    const delta = e.deltaY < 0 ? 0.10 : -0.10;
+                    this.adjustBattleZoom(delta);
+                }, { passive: false });
             }
 
             window.addEventListener("keydown", (e) => {
@@ -1584,6 +1913,24 @@
                 if (this.currentScreen !== "battle") return;
 
                 const code = e.code;
+
+                if (this.isBattlePaused || this.isPermadead) return;
+
+                if (code === "Equal" || code === "NumpadAdd") {
+                    e.preventDefault();
+                    this.adjustBattleZoom(0.10);
+                    return;
+                }
+                if (code === "Minus" || code === "NumpadSubtract") {
+                    e.preventDefault();
+                    this.adjustBattleZoom(-0.10);
+                    return;
+                }
+                if (code === "Digit0" || code === "Numpad0") {
+                    e.preventDefault();
+                    this.setBattleZoom(1.0, true);
+                    return;
+                }
 
                 if (code === "Escape") {
                     e.preventDefault();
@@ -1661,10 +2008,15 @@
             const res = this.map.harvestNode(nearNode.id, this.player, this.guSystem);
             this.ui.addLog(res.message, res.success ? "loot" : "warning");
             if (res.success) {
+                if (this.activeStage) {
+                    this.activeStage.harvests = (this.activeStage.harvests || 0) + 1;
+                }
+                const floatLabel = res.floatingText
+                    || (nearNode.isWildGu ? "Bắt Cổ Hoang Dã!" : `+${res.amount} Cổ Tài`);
                 this.combat.spawnFloatingText(
                     nearNode.x,
                     nearNode.y - 20,
-                    nearNode.isWildGu ? "Bắt Cổ Hoang Dã!" : `+${res.amount} Cổ Tài`,
+                    floatLabel,
                     "#5cc995"
                 );
                 if (!nearNode.isWildGu && this.enemies) {
@@ -1704,7 +2056,11 @@
         }
 
         _updateHubState(dt) {
+            if (this.isPermadead) return;
+
             this.aperture.update(dt, this.player);
+            if (this.isPermadead) return;
+
             if (this.player.hp < this.player.maxHp) {
                 this.player.hp = Math.min(this.player.maxHp, this.player.hp + 2.5 * dt);
             }
@@ -1728,23 +2084,34 @@
 
             this.autoSaveTimer -= dt;
             if (this.autoSaveTimer <= 0) {
-                this.autoSaveTimer = 60;
-                this.saveGame(1, true);
+                this.autoSaveTimer = 8;
+                this.autoSaveNow("periodic_hub");
             }
         }
 
         _updateBattleState(dt) {
+            if (this.isPermadead || this.isBattlePaused) return;
+
             if (this.map) {
-                this.input.mouseWorldX = this.input.mouseX + this.map.camera.x;
-                this.input.mouseWorldY = this.input.mouseY + this.map.camera.y;
+                const pt = this.map.screenToWorld(this.input.mouseX, this.input.mouseY);
+                this.input.mouseWorldX = pt.x;
+                this.input.mouseWorldY = pt.y;
             }
 
             this.aperture.update(dt, this.player);
+            if (this.isPermadead) return;
+
             this.player.update(dt, this.input, this.map);
 
             if (this.player.hp <= 0) {
                 this._handleBattleDefeat();
                 return;
+            }
+
+            this.autoSaveTimer -= dt;
+            if (this.autoSaveTimer <= 0) {
+                this.autoSaveTimer = 8;
+                this.autoSaveNow("periodic_battle");
             }
 
             this.guSystem.update(dt);
@@ -1753,16 +2120,19 @@
             this.combat.update(dt);
 
             if (this.activeStage && !this.activeStage.bossDefeated) {
+                const isSpecialFarm = Boolean(this.activeStage.isSpecialResourceStage || this.activeStage.noBoss);
                 this.reinforcementTimer -= dt;
                 if (this.reinforcementTimer <= 0) {
-                    this.reinforcementTimer = 14;
+                    this.reinforcementTimer = isSpecialFarm ? 6 : 14;
                     const livingMobs = (this.enemies.beasts || []).filter(b => !b.isDead && !b.isStageBoss).length;
-                    if (livingMobs < 10) {
-                        for (let i = 0; i < 3; i++) {
+                    const minMobs = isSpecialFarm ? 14 : 10;
+                    const spawnBatch = isSpecialFarm ? 4 : 3;
+                    if (livingMobs < minMobs) {
+                        for (let i = 0; i < spawnBatch; i++) {
                             const pt = this.map.getRandomWalkablePoint(
                                 this.activeStage.arenaCenterX,
                                 this.activeStage.arenaCenterY,
-                                280,
+                                260,
                                 1200
                             );
                             this._createStageEnemy(this.activeStage, pt.x, pt.y, false, i === 0);
@@ -1803,13 +2173,19 @@
         _renderBattleArena() {
             if (!this.ctx || !this.canvas) return;
 
+            const zoom = (this.map && this.map.camera && this.map.camera.zoom) ? this.map.camera.zoom : 1.0;
+
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+            this.ctx.save();
+            this.ctx.scale(zoom, zoom);
+
             this.map.renderWorld(this.ctx);
 
             if (this.activeStage) {
                 if (this.activeStage.themeTint) {
                     this.ctx.fillStyle = this.activeStage.themeTint;
-                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    this.ctx.fillRect(0, 0, this.map.camera.width, this.map.camera.height);
                 }
                 const ax = this.activeStage.arenaCenterX - this.map.camera.x;
                 const ay = this.activeStage.arenaCenterY - this.map.camera.y;
@@ -1830,28 +2206,177 @@
             this.combat.render(this.ctx, this.map.camera);
             this.map.renderLightingAndWeather(this.ctx, this.player);
 
+            this.ctx.restore();
+
             if (this.minimapCtx) {
                 this.map.renderMinimap(this.minimapCtx, this.player, this.enemies.beasts, this.enemies.npcs);
             }
         }
 
+        /**
+         * Xử lý khi hết Sinh Mệnh (HP <= 0) trong trận chiến:
+         *  - Nhân vật tử vong thực sự, dừng trận đấu, bị trừ một phần tu vi và lưu ngay xuống trình duyệt.
+         */
         _handleBattleDefeat() {
-            this.player.hp = Math.round(this.player.maxHp * 0.4);
+            if (this.isBattlePaused || this.isPermadead) return;
+            this.isBattlePaused = true;
+            this.player.hp = 0;
+
+            const stageName = this.activeStage ? this.activeStage.name : "Chiến Trường";
+            const penalty = this.aperture.applyDeathCultivationPenalty(this.player);
+
             this.ui.addLog(
-                "⚠️ Ngươi bị trọng thương trước uy áp Vô Địch của Song Tôn Cửu Chuyển và buộc phải rút lui về Đại Bản Doanh! Hãy kết hợp Hộ Thuẫn Cửu Chuyển, Trị Liệu và Thân Pháp né Sát Chiêu.",
+                `💀 Ngươi đã tử vong khi cạn kiệt Sinh Mệnh tại 【${stageName}】! ${penalty.summary}`,
                 "danger"
             );
+
+            // Lưu ngay lập tức sau khi trừ tu vi để không thể tải lại né phạt
+            this.autoSaveNow("combat_death");
+            this.ui.updateBattleHUD();
+
+            if (this.ui && typeof this.ui.showBattleDefeatModal === "function") {
+                this.ui.showBattleDefeatModal(stageName, penalty);
+            } else {
+                this.respawnAfterCombatDeath();
+            }
+        }
+
+        respawnAfterCombatDeath() {
+            this.player.hp = Math.max(10, Math.round(this.player.maxHp * 0.5));
+            this.player.mental = Math.max(10, Math.round(this.player.maxMental * 0.5));
+            this.isBattlePaused = false;
             this.retreatToHub();
+            this.autoSaveNow("respawn_hub");
+        }
+
+        /**
+         * Xử lý BẠO TẠC KHÔNG KHIẾU (CHẾT HẲN — PERMADEATH) dành riêng cho Thập Tuyệt Thể ở Phàm Cảnh!
+         * Không thể dùng lại file lưu đó (kể cả LocalStorage hay file .json đã xuất trước đó).
+         */
+        triggerPermadeath(reason = "Không Khiếu Thập Tuyệt Thể bạo tạc tan xác!") {
+            if (this.isPermadead) return;
+            this.isPermadead = true;
+            this.isBattlePaused = true;
+            this.player.hp = 0;
+
+            const uid = this.characterUid || `dead_${Date.now()}`;
+            this._markUidPermadead(uid);
+
+            const tombstonePayload = {
+                gameTitle: "VAN_CO_TIEN_DO",
+                version: "3.0.0",
+                isPermadead: true,
+                characterUid: uid,
+                savedAt: new Date().toLocaleString("vi-VN"),
+                playerName: this.player.name,
+                realmName: this.aperture.getRealmDisplayName(),
+                deathReason: reason
+            };
+
+            // Hủy & khóa vĩnh viễn mọi ô lưu thuộc về nhân vật này trên trình duyệt
+            try {
+                const rawAuto = localStorage.getItem(AUTO_SAVE_KEY);
+                if (rawAuto) {
+                    const parsedAuto = JSON.parse(rawAuto);
+                    if (!parsedAuto.characterUid || parsedAuto.characterUid === uid) {
+                        localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(tombstonePayload));
+                    }
+                } else {
+                    localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(tombstonePayload));
+                }
+
+                for (const slot of [1, 2, 3]) {
+                    const key = `${SAVE_KEY_PREFIX}${slot}`;
+                    const raw = localStorage.getItem(key);
+                    if (raw) {
+                        try {
+                            const parsed = JSON.parse(raw);
+                            if (slot === this.activeSaveSlot || parsed.characterUid === uid) {
+                                localStorage.setItem(key, JSON.stringify(tombstonePayload));
+                            }
+                        } catch (e) {
+                            if (slot === this.activeSaveSlot) {
+                                localStorage.setItem(key, JSON.stringify(tombstonePayload));
+                            }
+                        }
+                    } else if (slot === this.activeSaveSlot) {
+                        localStorage.setItem(key, JSON.stringify(tombstonePayload));
+                    }
+                }
+            } catch (e) {
+                console.error("Lỗi khi niêm phong file lưu đã tử vong:", e);
+            }
+
+            if (this.ui) {
+                this.ui.addLog(`💀 [BẠO TẠC KHÔNG KHIẾU — CHẾT HẲN] ${reason}`, "danger");
+                if (typeof this.ui.showPermadeathModal === "function") {
+                    this.ui.showPermadeathModal(reason);
+                }
+            }
+        }
+
+        returnToCharacterCreationAfterPermadeath() {
+            this.activeStage = null;
+            this.isBattlePaused = false;
+            this.isPermadead = false;
+            this.characterUid = null;
+            this.combat.reset();
+            this.aperture.reset();
+            this.player.reset();
+            this.guSystem.reset();
+            this.currentScreen = "creation";
+            if (this.ui) {
+                this.ui.resetCreationScreenToForm();
+                this.ui.showScreen("creation");
+                this.ui.refreshStartScreenContinueButton();
+            }
         }
 
         // =====================================================================
         // 8. HỆ THỐNG LƯU/TẢI 3 Ô (LOCALSTORAGE) & XUẤT/NHẬP FILE (.JSON)
         // =====================================================================
 
+        _getDeadUidSet() {
+            try {
+                const raw = localStorage.getItem(GRAVEYARD_KEY);
+                const arr = raw ? JSON.parse(raw) : [];
+                return new Set(Array.isArray(arr) ? arr : []);
+            } catch (e) {
+                return new Set();
+            }
+        }
+
+        _markUidPermadead(uid) {
+            if (!uid) return;
+            try {
+                const set = this._getDeadUidSet();
+                set.add(uid);
+                localStorage.setItem(GRAVEYARD_KEY, JSON.stringify(Array.from(set)));
+            } catch (e) {}
+        }
+
+        isUidPermadead(uid) {
+            if (!uid) return false;
+            return this._getDeadUidSet().has(uid);
+        }
+
+        _isPayloadPermadead(data) {
+            if (!data) return false;
+            if (data.isPermadead) return true;
+            if (data.aperture && data.aperture.hasExploded) return true;
+            if (data.characterUid && this.isUidPermadead(data.characterUid)) return true;
+            return false;
+        }
+
         _buildSavePayload() {
+            if (!this.characterUid) {
+                this.characterUid = `char_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+            }
             return {
                 gameTitle: "VAN_CO_TIEN_DO",
-                version: "2.9.6",
+                version: "3.0.0",
+                characterUid: this.characterUid,
+                isPermadead: Boolean(this.isPermadead),
                 savedAt: new Date().toLocaleString("vi-VN"),
                 playerName: this.player.name,
                 realmName: this.aperture.getRealmDisplayName(),
@@ -1869,6 +2394,12 @@
             if (!data || !data.aperture || !data.player) {
                 throw new Error("Cấu trúc file lưu không hợp lệ!");
             }
+            if (this._isPayloadPermadead(data)) {
+                throw new Error("PERMADEAD");
+            }
+            this.characterUid = data.characterUid || `char_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+            this.isPermadead = false;
+            this.isBattlePaused = false;
             this.stageClears = data.stageClears || {};
             this.claimedInheritances = data.claimedInheritances || [];
             this.aperture.fromSaveData(data.aperture);
@@ -1879,12 +2410,56 @@
             this.combat.reset();
         }
 
-        saveGame(slotNum = 1, isAuto = false) {
+        /**
+         * Tự động lưu trực tiếp trên trình duyệt mỗi người chơi (Auto-Save tức thì)
+         */
+        autoSaveNow(reason = "auto") {
+            if (this.isPermadead || this.currentScreen === "creation" || !this.aperture || !this.aperture.isAwakened) {
+                return false;
+            }
             try {
                 const payload = this._buildSavePayload();
-                localStorage.setItem(`${SAVE_KEY_PREFIX}${slotNum}`, JSON.stringify(payload));
+                const serialized = JSON.stringify(payload);
+                localStorage.setItem(AUTO_SAVE_KEY, serialized);
+                localStorage.setItem(`${SAVE_KEY_PREFIX}${this.activeSaveSlot || 1}`, serialized);
+
+                const now = new Date();
+                const hh = String(now.getHours()).padStart(2, "0");
+                const mm = String(now.getMinutes()).padStart(2, "0");
+                const ss = String(now.getSeconds()).padStart(2, "0");
+                this.lastAutoSaveLabel = `${hh}:${mm}:${ss}`;
+
+                if (this.ui && typeof this.ui.updateAutoSaveIndicator === "function") {
+                    this.ui.updateAutoSaveIndicator(this.lastAutoSaveLabel);
+                }
+                return true;
+            } catch (err) {
+                console.error("Lỗi tự động lưu trình duyệt:", err);
+                return false;
+            }
+        }
+
+        saveGame(slotNum = 1, isAuto = false) {
+            if (this.isPermadead) {
                 if (!isAuto && this.ui) {
-                    this.ui.addLog(`💾 Đã lưu tiến trình vào Ô Lưu ${slotNum} thành công!`, "system");
+                    this.ui.addLog("💀 Nhân vật đã bạo tạc chết hẳn, không thể lưu đè để hồi sinh!", "danger");
+                }
+                return false;
+            }
+            try {
+                this.activeSaveSlot = Number(slotNum) || 1;
+                const payload = this._buildSavePayload();
+                const serialized = JSON.stringify(payload);
+                localStorage.setItem(`${SAVE_KEY_PREFIX}${this.activeSaveSlot}`, serialized);
+                localStorage.setItem(AUTO_SAVE_KEY, serialized);
+
+                const now = new Date();
+                this.lastAutoSaveLabel = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
+                if (this.ui && typeof this.ui.updateAutoSaveIndicator === "function") {
+                    this.ui.updateAutoSaveIndicator(this.lastAutoSaveLabel);
+                }
+                if (!isAuto && this.ui) {
+                    this.ui.addLog(`💾 Đã lưu tiến trình vào Ô Lưu ${this.activeSaveSlot} (và bản Tự Động Lưu trình duyệt) thành công!`, "system");
                 }
                 return true;
             } catch (err) {
@@ -1902,6 +2477,12 @@
                 }
 
                 const data = JSON.parse(raw);
+                if (this._isPayloadPermadead(data)) {
+                    alert("💀 Không Khiếu của Cổ Sư trong ô lưu này đã BẠO TẠC VĨNH VIỄN do áp lực Thập Tuyệt Thể! Không thể tải lại file lưu đã chết hẳn.");
+                    return false;
+                }
+
+                this.activeSaveSlot = Number(slotNum) || 1;
                 this._applySavePayload(data);
 
                 this.currentScreen = "hub";
@@ -1912,12 +2493,65 @@
                 );
                 return true;
             } catch (err) {
-                console.error("Lỗi khi tải game:", err);
+                if (err && err.message === "PERMADEAD") {
+                    alert("💀 Nhân vật trong file lưu này đã bạo tạc Không Khiếu chết hẳn, không thể hồi sinh!");
+                } else {
+                    console.error("Lỗi khi tải game:", err);
+                }
                 return false;
             }
         }
 
+        loadAutoSave() {
+            try {
+                const raw = localStorage.getItem(AUTO_SAVE_KEY);
+                if (!raw) return this.loadAnyExistingSave();
+
+                const data = JSON.parse(raw);
+                if (this._isPayloadPermadead(data)) {
+                    alert("💀 Bản lưu tự động này thuộc về Cổ Sư Thập Tuyệt Thể đã bạo tạc chết hẳn! Hãy tạo nhân vật mới.");
+                    return false;
+                }
+
+                this._applySavePayload(data);
+                this.currentScreen = "hub";
+                this.ui.showScreen("hub");
+                this.ui.addLog(
+                    `📂 Đã tiếp tục hành trình từ Lưu Trữ Tự Động Trình Duyệt: ${this.player.name} (${this.aperture.getRealmDisplayName()}).`,
+                    "cultivation"
+                );
+                return true;
+            } catch (err) {
+                console.error("Lỗi khi đọc bản tự động lưu:", err);
+                return false;
+            }
+        }
+
+        getAutoSaveSummary() {
+            try {
+                const raw = localStorage.getItem(AUTO_SAVE_KEY) || localStorage.getItem(`${SAVE_KEY_PREFIX}1`);
+                if (!raw) return null;
+                const data = JSON.parse(raw);
+                if (this._isPayloadPermadead(data)) {
+                    return { isPermadead: true, label: `💀 ${data.playerName || "Cổ Sư"} (Đã Bạo Tạc Chết Hẳn)` };
+                }
+                return {
+                    isPermadead: false,
+                    playerName: data.playerName,
+                    realmName: data.realmName,
+                    savedAt: data.savedAt,
+                    label: `${data.playerName} — ${data.realmName}`
+                };
+            } catch (e) {
+                return null;
+            }
+        }
+
         exportSaveToFile() {
+            if (this.isPermadead) {
+                alert("💀 Nhân vật đã bạo tạc Không Khiếu chết hẳn, không thể xuất file lưu!");
+                return false;
+            }
             try {
                 const payload = this._buildSavePayload();
                 const jsonString = JSON.stringify(payload, null, 2);
@@ -1926,7 +2560,7 @@
 
                 const safeName = (this.player.name || "CoSu")
                     .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[̀-ͯ]/g, "")
                     .replace(/[^a-zA-Z0-9_-]/g, "_");
                 const fileName = `VanCoTienDo_${safeName}_Rank${this.aperture.rank}.json`;
 
@@ -1958,9 +2592,15 @@
             reader.onload = (e) => {
                 try {
                     const data = JSON.parse(e.target.result);
+                    if (this._isPayloadPermadead(data)) {
+                        alert("💀 File lưu này thuộc về Cổ Sư Thập Tuyệt Thể đã BẠO TẠC KHÔNG KHIẾU CHẾT HẲN! Vĩnh viễn không thể sử dụng lại file lưu này.");
+                        return;
+                    }
                     this._applySavePayload(data);
 
-                    localStorage.setItem(`${SAVE_KEY_PREFIX}1`, JSON.stringify(data));
+                    const serialized = JSON.stringify(this._buildSavePayload());
+                    localStorage.setItem(`${SAVE_KEY_PREFIX}1`, serialized);
+                    localStorage.setItem(AUTO_SAVE_KEY, serialized);
 
                     this.currentScreen = "hub";
                     this.ui.showScreen("hub");
@@ -1969,8 +2609,12 @@
                         "cultivation"
                     );
                 } catch (err) {
-                    console.error("Lỗi đọc file lưu .json:", err);
-                    alert("File .json không hợp lệ hoặc không đúng định dạng của Vạn Cổ Tiên Đồ!");
+                    if (err && err.message === "PERMADEAD") {
+                        alert("💀 File lưu này thuộc về nhân vật đã bạo tạc chết hẳn, không thể sử dụng nữa!");
+                    } else {
+                        console.error("Lỗi đọc file lưu .json:", err);
+                        alert("File .json không hợp lệ hoặc không đúng định dạng của Vạn Cổ Tiên Đồ!");
+                    }
                 }
             };
 
@@ -1978,10 +2622,24 @@
         }
 
         loadAnyExistingSave() {
+            const rawAuto = localStorage.getItem(AUTO_SAVE_KEY);
+            if (rawAuto) {
+                try {
+                    const d = JSON.parse(rawAuto);
+                    if (!this._isPayloadPermadead(d)) {
+                        return this.loadAutoSave();
+                    }
+                } catch (e) {}
+            }
             for (const slot of [1, 2, 3]) {
-                if (localStorage.getItem(`${SAVE_KEY_PREFIX}${slot}`)) {
-                    return this.loadGame(slot);
-                }
+                const raw = localStorage.getItem(`${SAVE_KEY_PREFIX}${slot}`);
+                if (!raw) continue;
+                try {
+                    const d = JSON.parse(raw);
+                    if (!this._isPayloadPermadead(d)) {
+                        return this.loadGame(slot);
+                    }
+                } catch (e) {}
             }
             return false;
         }
@@ -1991,6 +2649,9 @@
                 const raw = localStorage.getItem(`${SAVE_KEY_PREFIX}${slotNum}`);
                 if (!raw) return "Trống — Chưa có dữ liệu lưu trữ";
                 const data = JSON.parse(raw);
+                if (this._isPayloadPermadead(data)) {
+                    return `💀 ${data.playerName || "Cổ Sư"} | ĐÃ BẠO TẠC CHẾT HẲN (Không thể tải lại)`;
+                }
                 return `${data.playerName} | ${data.realmName} | Lưu lúc: ${data.savedAt}`;
             } catch (e) {
                 return "Dữ liệu lỗi";
@@ -1998,6 +2659,7 @@
         }
 
         clearAllSaves() {
+            localStorage.removeItem(AUTO_SAVE_KEY);
             [1, 2, 3].forEach(slot => localStorage.removeItem(`${SAVE_KEY_PREFIX}${slot}`));
         }
     }

@@ -64,33 +64,33 @@
     ];
 
     const TREASURE_YELLOW_HEAVEN_ITEMS = [
-        { type: "exchange_immortal", id: "immortal_stone", name: "Đổi 1 Tiên Nguyên Thạch", icon: "🌟", price: 1500, currency: "stones", light: "Bảo Quang 3 Trượng", desc: "Dùng 1500 Nguyên Thạch phàm phẩm tụ hợp đổi 1 viên Tiên Nguyên Thạch." },
-        { type: "item", id: "purple_crystal_relic_gu", name: "Tử Tinh Xá Lợi Cổ (Lô Hàng Tiên Nhân)", icon: "🟣", price: 6, currency: "immortal", light: "Bảo Quang 5 Trượng", desc: "Tăng thẳng 1 tiểu cảnh giới Ngũ Chuyển (Giá: 6 Tiên Nguyên Thạch)." },
-        { type: "item", id: "soul_crystal", name: "Đãng Hồn Thạch Đan (x5)", icon: "🔮", count: 5, price: 1, currency: "immortal", light: "Bảo Quang 4 Trượng", desc: "5 viên Đãng Hồn Thạch từ Hồ Tiên Phúc Địa (Giá: 1 Tiên Nguyên Thạch)." },
-        { type: "gu", id: "hoa_long_gu", guRank: 4, name: "Xích Viêm Hỏa Long Cổ Tứ Chuyển", icon: "🔥", price: 2, currency: "immortal", light: "Bảo Quang 6 Trượng", desc: "Linh cổ Viêm Đạo (Thăng được 1–9 Chuyển), giáng Hỏa Long và mưa thiên hỏa." },
-        { type: "gu", id: "bang_tuyet_phong_gu", guRank: 4, name: "Băng Tinh Tuyết Hoa Cổ Tứ Chuyển", icon: "❄️", price: 2, currency: "immortal", light: "Bảo Quang 6 Trượng", desc: "Linh cổ Băng Đạo (Thăng được 1–9 Chuyển), đóng băng cứng quần địch." },
-        { type: "gu", id: "van_kiem_quy_tong_gu", guRank: 4, name: "Khổ Lực Cổ Tứ Chuyển", icon: "🦣", price: 2, currency: "immortal", light: "Bảo Quang 7 Trượng", desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi đàn Cự Tượng Hư Ảnh." },
-        { type: "gu", id: "ban_son_luc_gu", guRank: 4, name: "Bàn Sơn Lực Cổ Tứ Chuyển", icon: "⛰️", price: 2, currency: "immortal", light: "Bảo Quang 7 Trượng", desc: "Linh cổ Thổ Đạo (Thăng được 1–9 Chuyển), dựng hộ thuẫn sơn nhạc bất hoại." },
-        { type: "gu", id: "thien_thi_vuong_gu", guRank: 4, name: "Thiên Thi Vương Cổ Tứ Chuyển", icon: "🧟", price: 3, currency: "immortal", light: "Bảo Quang 8 Trượng", desc: "Linh cổ Hồn Đạo (Thăng được 1–9 Chuyển), hút 25% máu và triệu hồi Thi Vương." },
-        { type: "gu", id: "thien_dia_hong_lo_gu", guRank: 4, name: "Thiên Địa Hồng Lô Cổ Tứ Chuyển", icon: "🏺", price: 3, currency: "immortal", light: "Bảo Quang 8 Trượng", desc: "Linh cổ Luyện Đạo (Thăng được 1–9 Chuyển), nung chảy đạo ngân địch trong biển lửa." },
-        { type: "gu", id: "thai_co_long_luc_gu", guRank: 5, name: "Thái Cổ Giao Long Lực Cổ Ngũ Chuyển", icon: "🐉", price: 6, currency: "immortal", light: "Bảo Quang 10 Trượng", desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi 3 Thái Cổ Giao Long." },
-        { type: "gu", id: "huyet_hai_thao_thien_gu", guRank: 5, name: "Huyết Hà Đại Trận Cổ Ngũ Chuyển", icon: "🩸", price: 6, currency: "immortal", light: "Bảo Quang 10 Trượng", desc: "Linh cổ Huyết Đạo (Thăng được 1–9 Chuyển), hút 35% máu & gọi Huyết Thú." },
-        { type: "gu", id: "sinh_co_moc_gu", guRank: 5, name: "Thiên Nguyên Bảo Liên Ngũ Chuyển", icon: "🪷", price: 7, currency: "immortal", light: "Bảo Quang 12 Trượng", desc: "Chí bảo Mộc Đạo của Nguyên Liên Tiên Tôn (Thăng được lên 9 Chuyển)." },
-        { type: "gu", id: "dinh_tien_du_gu", guRank: 6, name: "Định Tiên Du Lục Chuyển", icon: "🦋", price: 18, currency: "immortal", light: "Bảo Quang 22 Trượng!", desc: "Tiên Cổ Không Gian Đạo (Chỉ có ở Tiên Cấp 6–9 Chuyển), dịch chuyển tức thời & xé rách hư không." },
-        { type: "gu", id: "phi_kiem_tien_gu", guRank: 6, name: "Phi Kiếm Tiên Cổ Lục Chuyển", icon: "✨", price: 20, currency: "immortal", light: "Bảo Quang 25 Trượng!", desc: "Tiên Cổ Kiếm Đạo của Kiếm Tiên Bạc Thanh (Chỉ có ở Tiên Cấp 6–9 Chuyển)!" },
-        { type: "gu", id: "cau_thi_van_tien_gu", guRank: 6, name: "Cẩu Thỉ Vận Tiên Cổ Lục Chuyển", icon: "🎲", price: 22, currency: "immortal", light: "Bảo Quang 24 Trượng!", desc: "Tiên Cổ Vận Đạo của Cự Dương Tiên Tôn (6–9 Chuyển), hộ vệ khí vận và giảm 25% tiêu hao!" },
-        { type: "gu", id: "xuan_thu_thien_gu", guRank: 6, name: "Xuân Thu Thiền Lục Chuyển", icon: "🦗", price: 32, currency: "immortal", light: "Hồng Mông Bảo Quang!", desc: "Đệ Thất Kỳ Cổ Thời Gian Đạo của Hồng Liên Ma Tôn (Chỉ có ở Tiên Cấp 6–9 Chuyển)!" },
-        { type: "gu", id: "hoanh_xung_tien_gu", guRank: 7, name: "Hoành Xung Trực Chạm Tiên Cổ Thất Chuyển", icon: "🦏", price: 42, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "Tiên Cổ Lực Đạo (6–9 Chuyển) húc tung mọi trận hình và làm Choáng diện rộng!" },
-        { type: "gu", id: "dang_hon_tien_gu", guRank: 7, name: "Đãng Hồn Tiên Cổ Thất Chuyển", icon: "🔮", price: 45, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "Tiên Cổ Hồn Đạo tinh hoa Đãng Hồn Sơn (6–9 Chuyển), chấn nát hồn phách quần địch!" },
-        { type: "gu", id: "lac_phach_tien_gu", guRank: 7, name: "Lạc Phách Tiên Cổ Thất Chuyển", icon: "🌪️", price: 45, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "Tiên Cổ Phong Đạo từ Lạc Phách Cốc (6–9 Chuyển), thổi Lạc Phách Phong cắt lìa hồn phách!" },
-        { type: "gu", id: "nghich_luu_ho_than_gu", guRank: 7, name: "Nghịch Lưu Hộ Thân Ấn Cổ Thất Chuyển", icon: "🌊", price: 48, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "Tiên Cổ Thủy Đạo (6–9 Chuyển) khoác dòng sông Nghịch Lưu hộ thể và phản chấn sát thương!" },
-        { type: "gu", id: "van_nga_tien_gu", guRank: 7, name: "Vạn Ngã Tiên Cổ Thất Chuyển", icon: "👥", price: 48, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "Tiên Cổ hợp nhất Nô - Lực của Phương Nguyên (Chỉ có ở Tiên Cấp 6–9 Chuyển)!" },
-        { type: "gu", id: "thai_do_tien_gu", guRank: 8, name: "Thái Độ Tiên Cổ Bát Chuyển", icon: "🎭", price: 85, currency: "immortal", light: "Chí Tôn Tiên Quang!", desc: "Tiên Cổ truyền kỳ trong Nhân Tổ Truyện (6–9 Chuyển), lướt tàn ảnh cực nhanh và dẫn đường đạn!" },
-        { type: "gu", id: "kiep_van_dan_tien_gu", guRank: 8, name: "Kiếp Vận Đàn Tiên Cổ Bát Chuyển", icon: "⛩️", price: 90, currency: "immortal", light: "Chí Tôn Tiên Quang!", desc: "Chí bảo Trường Sinh Thiên của Cự Dương Tiên Tôn (6–9 Chuyển), vừa công kích vừa tạo khiên!" },
-        { type: "gu", id: "tri_tue_tien_gu", guRank: 8, name: "Trí Tuệ Cổ Bát Chuyển", icon: "🌟", price: 95, currency: "immortal", light: "Chí Tôn Tiên Quang!", desc: "Thập Đại Kỳ Cổ Trí Đạo (Tiên Cấp 6–9 Chuyển) giúp phá giải áp chế của Boss Bát - Cửu Chuyển!" },
-        { type: "gu", id: "ai_tinh_tien_gu", guRank: 9, name: "Ái Tình Tiên Cổ Cửu Chuyển", icon: "💖", price: 160, currency: "immortal", light: "Cửu Chuyển Tiên Quang!", desc: "Kỳ Cổ Cửu Chuyển của Linh Duyên Trai: Vừa gây sát thương khủng khiếp vừa hút 30% máu & hồi phục!" },
-        { type: "gu", id: "thien_co_tien_gu", guRank: 9, name: "Thiên Cơ Tiên Cổ Cửu Chuyển", icon: "☸️", price: 175, currency: "immortal", light: "Cửu Chuyển Tiên Quang!", desc: "Trọng bảo Cửu Chuyển nắm giữ bí mật Thiên Đạo, giáng Lôi Kiếp Hỗn Độn hủy diệt!" },
-        { type: "gu", id: "chi_ton_tien_thai_gu", guRank: 9, name: "Chí Tôn Tiên Thai Cổ Cửu Chuyển", icon: "☯️", price: 220, currency: "immortal", light: "Vạn Cổ Đệ Nhất Kỳ Quang!", desc: "Đệ Nhất Chí Bảo của U Hồn Ma Tôn & Phương Nguyên! Đại hồi phục Sinh Mệnh và dung hợp vạn đạo!" }
+        { type: "exchange_immortal", id: "immortal_stone", name: "Đổi 1 Tiên Nguyên Thạch", icon: "🌟", price: 2000, currency: "stones", light: "Bảo Quang 3 Trượng", desc: "Dùng 2.000 Nguyên Thạch phàm phẩm tụ hợp đổi 1 viên Tiên Nguyên Thạch." },
+        { type: "item", id: "purple_crystal_relic_gu", name: "Tử Tinh Xá Lợi Cổ (Lô Hàng Tiên Nhân)", icon: "🟣", price: 12, currency: "immortal", light: "Bảo Quang 5 Trượng", desc: "Tăng thẳng 1 tiểu cảnh giới Ngũ Chuyển (Giá: 12 Tiên Nguyên Thạch)." },
+        { type: "item", id: "soul_crystal", name: "Đãng Hồn Thạch Đan (x5)", icon: "🔮", count: 5, price: 3, currency: "immortal", light: "Bảo Quang 4 Trượng", desc: "5 viên Đãng Hồn Thạch từ Hồ Tiên Phúc Địa (Giá: 3 Tiên Nguyên Thạch)." },
+        { type: "gu", id: "hoa_long_gu", guRank: 4, name: "Xích Viêm Hỏa Long Cổ Tứ Chuyển", icon: "🔥", price: 8, currency: "immortal", light: "Bảo Quang 6 Trượng", desc: "Linh cổ Viêm Đạo (Thăng được 1–9 Chuyển), giáng Hỏa Long và mưa thiên hỏa." },
+        { type: "gu", id: "bang_tuyet_phong_gu", guRank: 4, name: "Băng Tinh Tuyết Hoa Cổ Tứ Chuyển", icon: "❄️", price: 8, currency: "immortal", light: "Bảo Quang 6 Trượng", desc: "Linh cổ Băng Đạo (Thăng được 1–9 Chuyển), đóng băng cứng quần địch." },
+        { type: "gu", id: "van_kiem_quy_tong_gu", guRank: 4, name: "Khổ Lực Cổ Tứ Chuyển", icon: "🦣", price: 10, currency: "immortal", light: "Bảo Quang 7 Trượng", desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi đàn Cự Tượng Hư Ảnh." },
+        { type: "gu", id: "ban_son_luc_gu", guRank: 4, name: "Bàn Sơn Lực Cổ Tứ Chuyển", icon: "⛰️", price: 10, currency: "immortal", light: "Bảo Quang 7 Trượng", desc: "Linh cổ Thổ Đạo (Thăng được 1–9 Chuyển), dựng hộ thuẫn sơn nhạc bất hoại." },
+        { type: "gu", id: "thien_thi_vuong_gu", guRank: 4, name: "Thiên Thi Vương Cổ Tứ Chuyển", icon: "🧟", price: 12, currency: "immortal", light: "Bảo Quang 8 Trượng", desc: "Linh cổ Hồn Đạo (Thăng được 1–9 Chuyển), hút 25% máu và triệu hồi Thi Vương." },
+        { type: "gu", id: "thien_dia_hong_lo_gu", guRank: 4, name: "Thiên Địa Hồng Lô Cổ Tứ Chuyển", icon: "🏺", price: 12, currency: "immortal", light: "Bảo Quang 8 Trượng", desc: "Linh cổ Luyện Đạo (Thăng được 1–9 Chuyển), nung chảy đạo ngân địch trong biển lửa." },
+        { type: "gu", id: "thai_co_long_luc_gu", guRank: 5, name: "Thái Cổ Giao Long Lực Cổ Ngũ Chuyển", icon: "🐉", price: 28, currency: "immortal", light: "Bảo Quang 10 Trượng", desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi 3 Thái Cổ Giao Long." },
+        { type: "gu", id: "huyet_hai_thao_thien_gu", guRank: 5, name: "Huyết Hà Đại Trận Cổ Ngũ Chuyển", icon: "🩸", price: 30, currency: "immortal", light: "Bảo Quang 10 Trượng", desc: "Linh cổ Huyết Đạo (Thăng được 1–9 Chuyển), hút 35% máu & gọi Huyết Thú." },
+        { type: "gu", id: "sinh_co_moc_gu", guRank: 5, name: "Thiên Nguyên Bảo Liên Ngũ Chuyển", icon: "🪷", price: 35, currency: "immortal", light: "Bảo Quang 12 Trượng", desc: "Chí bảo Mộc Đạo của Nguyên Liên Tiên Tôn (Thăng được lên 9 Chuyển)." },
+        { type: "gu", id: "dinh_tien_du_gu", guRank: 6, name: "Định Tiên Du Lục Chuyển", icon: "🦋", price: 220, currency: "immortal", light: "Bảo Quang 22 Trượng!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Không Gian Đạo (6–9 Chuyển), dịch chuyển tức thời & xé rách hư không." },
+        { type: "gu", id: "phi_kiem_tien_gu", guRank: 6, name: "Phi Kiếm Tiên Cổ Lục Chuyển", icon: "✨", price: 240, currency: "immortal", light: "Bảo Quang 25 Trượng!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Kiếm Đạo của Kiếm Tiên Bạc Thanh (6–9 Chuyển)!" },
+        { type: "gu", id: "cau_thi_van_tien_gu", guRank: 6, name: "Cẩu Thỉ Vận Tiên Cổ Lục Chuyển", icon: "🎲", price: 260, currency: "immortal", light: "Bảo Quang 24 Trượng!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Vận Đạo của Cự Dương Tiên Tôn (6–9 Chuyển), hộ vệ khí vận!" },
+        { type: "gu", id: "xuan_thu_thien_gu", guRank: 6, name: "Xuân Thu Thiền Lục Chuyển", icon: "🦗", price: 380, currency: "immortal", light: "Hồng Mông Bảo Quang!", desc: "[Tiên Cổ Duy Nhất] Đệ Thất Kỳ Cổ Thời Gian Đạo của Hồng Liên Ma Tôn (6–9 Chuyển)!" },
+        { type: "gu", id: "hoanh_xung_tien_gu", guRank: 7, name: "Hoành Xung Trực Chạm Tiên Cổ Thất Chuyển", icon: "🦏", price: 680, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Lực Đạo (6–9 Chuyển) húc tung mọi trận hình và làm Choáng diện rộng!" },
+        { type: "gu", id: "dang_hon_tien_gu", guRank: 7, name: "Đãng Hồn Tiên Cổ Thất Chuyển", icon: "🔮", price: 750, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Hồn Đạo tinh hoa Đãng Hồn Sơn (6–9 Chuyển), chấn nát hồn phách!" },
+        { type: "gu", id: "lac_phach_tien_gu", guRank: 7, name: "Lạc Phách Tiên Cổ Thất Chuyển", icon: "🌪️", price: 750, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Phong Đạo từ Lạc Phách Cốc (6–9 Chuyển), thổi Lạc Phách Phong!" },
+        { type: "gu", id: "nghich_luu_ho_than_gu", guRank: 7, name: "Nghịch Lưu Hộ Thân Ấn Cổ Thất Chuyển", icon: "🌊", price: 820, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Thủy Đạo (6–9 Chuyển) khoác dòng sông Nghịch Lưu hộ thể & phản chấn!" },
+        { type: "gu", id: "van_nga_tien_gu", guRank: 7, name: "Vạn Ngã Tiên Cổ Thất Chuyển", icon: "👥", price: 850, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ hợp nhất Nô - Lực của Phương Nguyên (6–9 Chuyển)!" },
+        { type: "gu", id: "thai_do_tien_gu", guRank: 8, name: "Thái Độ Tiên Cổ Bát Chuyển", icon: "🎭", price: 2200, currency: "immortal", light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ truyền kỳ trong Nhân Tổ Truyện (6–9 Chuyển), lướt tàn ảnh & dẫn đường đạn!" },
+        { type: "gu", id: "kiep_van_dan_tien_gu", guRank: 8, name: "Kiếp Vận Đàn Tiên Cổ Bát Chuyển", icon: "⛩️", price: 2500, currency: "immortal", light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Chí bảo Trường Sinh Thiên của Cự Dương Tiên Tôn (6–9 Chuyển)!" },
+        { type: "gu", id: "tri_tue_tien_gu", guRank: 8, name: "Trí Tuệ Cổ Bát Chuyển", icon: "🌟", price: 2800, currency: "immortal", light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Thập Đại Kỳ Cổ Trí Đạo (6–9 Chuyển) phá giải áp chế Boss Bát - Cửu Chuyển!" },
+        { type: "gu", id: "ai_tinh_tien_gu", guRank: 9, name: "Ái Tình Tiên Cổ Cửu Chuyển", icon: "💖", price: 8000, currency: "immortal", light: "Cửu Chuyển Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Kỳ Cổ Cửu Chuyển của Linh Duyên Trai: Sát thương nghịch thiên & hút 30% máu!" },
+        { type: "gu", id: "thien_co_tien_gu", guRank: 9, name: "Thiên Cơ Tiên Cổ Cửu Chuyển", icon: "☸️", price: 9500, currency: "immortal", light: "Cửu Chuyển Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Trọng bảo Cửu Chuyển nắm giữ bí mật Thiên Đạo, giáng Lôi Kiếp Hỗn Độn!" },
+        { type: "gu", id: "chi_ton_tien_thai_gu", guRank: 9, name: "Chí Tôn Tiên Thai Cổ Cửu Chuyển", icon: "☯️", price: 12000, currency: "immortal", light: "Vạn Cổ Đệ Nhất Kỳ Quang!", desc: "[Tiên Cổ Duy Nhất] Đệ Nhất Chí Bảo của U Hồn Ma Tôn & Phương Nguyên! Dung hợp vạn đạo vô xung đột!" }
     ];
 
     const CLAN_TREASURY_ITEMS = [
@@ -461,7 +461,23 @@
                 // Modal Tương Tác NPC Cổ Sư trong Ải
                 npcInteractionModal: $("npc-interaction-modal"),
                 npcModalTitle: $("npc-modal-title"),
-                npcModalBody: $("npc-modal-body")
+                npcModalBody: $("npc-modal-body"),
+
+                // Tự động lưu trình duyệt, Cảnh báo Thập Tuyệt Thể, Zoom, Tử Vong & Bạo Tạc Chết Hẳn
+                hubAutoSaveStatus: $("hub-autosave-status"),
+                settingsAutoSaveInfo: $("settings-autosave-info"),
+                btnManualAutoSaveNow: $("btn-manual-autosave-now"),
+                battlePressureWarning: $("battle-pressure-warning"),
+                battlePressureVal: $("battle-pressure-val"),
+                btnZoomOut: $("btn-zoom-out"),
+                btnZoomReset: $("btn-zoom-reset"),
+                btnZoomIn: $("btn-zoom-in"),
+                battleDefeatModal: $("battle-defeat-modal"),
+                battleDefeatSummary: $("battle-defeat-summary"),
+                btnDefeatRespawnHub: $("btn-defeat-respawn-hub"),
+                permadeathModal: $("permadeath-modal"),
+                permadeathSummary: $("permadeath-summary"),
+                btnPermadeathNewLife: $("btn-permadeath-new-life")
             };
         }
 
@@ -516,7 +532,12 @@
                     if (this.game && typeof this.game.loadAnyExistingSave === "function") {
                         const ok = this.game.loadAnyExistingSave();
                         if (!ok) {
-                            alert("Chưa có dữ liệu lưu trữ trên trình duyệt! Bạn có thể dùng nút 'Nhập File Lưu (.json)' hoặc tiến hành Khai Khiếu.");
+                            const sum = this.game.getAutoSaveSummary ? this.game.getAutoSaveSummary() : null;
+                            if (sum && sum.isPermadead) {
+                                alert("💀 Nhân vật trong bản lưu trình duyệt đã BẠO TẠC KHÔNG KHIẾU CHẾT HẲN! Không thể tiếp tục file lưu này, hãy khởi tạo Cổ Sư mới.");
+                            } else {
+                                alert("Chưa có dữ liệu lưu trữ khả dụng trên trình duyệt! Bạn có thể dùng nút 'Nhập File Lưu (.json)' hoặc tiến hành Khai Khiếu.");
+                            }
                         }
                     }
                 });
@@ -776,7 +797,14 @@
                 const wallPct = Math.min(100, (ap.wallProgress / Math.max(1, ap.maxWallProgress)) * 100);
                 d.hubCultivateFill.style.width = `${wallPct}%`;
                 d.hubCultivateText.textContent = `${Math.floor(ap.wallProgress)} / ${ap.maxWallProgress}`;
-                d.hubPressureText.textContent = `${Math.round(ap.wallPressure)}%`;
+                const pVal = Number(ap.wallPressure.toFixed(1));
+                if (ap.aptitude && ap.aptitude.physique) {
+                    d.hubPressureText.textContent = pVal >= 80 ? `🚨 ${pVal.toFixed(1)}% (SẮP BẠO TẠC!)` : `⚠️ ${pVal.toFixed(1)}% (+1%/45s)`;
+                    d.hubPressureText.style.color = pVal >= 80 ? "#ff3b30" : (pVal >= 55 ? "#ff9f43" : "#ffd700");
+                } else {
+                    d.hubPressureText.textContent = `${pVal}%`;
+                    d.hubPressureText.style.color = "";
+                }
 
                 const curEss = Number(ap.currentEssence.toFixed(1));
                 const maxCap = ap.aptitude.maxSeaPercent;
@@ -883,6 +911,7 @@
                 d.btnHubUseRelic.addEventListener("click", () => {
                     const res = this.player.useRelicGu(this.aperture);
                     this.addLog(res.message, res.success ? "cultivation" : "warning");
+                    if (res.success && this.game) this.game.autoSaveNow("use_relic");
                     this.renderApertureTab();
                     this.updateHubTopbar();
                 });
@@ -895,6 +924,7 @@
                     if (res.success) {
                         this.player.recalculateStats();
                         this.player.hp = this.player.maxHp;
+                        if (this.game) this.game.autoSaveNow("breakthrough");
                     }
                     this.renderApertureTab();
                     this.updateHubTopbar();
@@ -914,6 +944,7 @@
                         if (stepRes.completed) {
                             this.player.recalculateStats();
                             this.player.hp = this.player.maxHp;
+                            if (this.game) this.game.autoSaveNow("ascend");
                         }
                     }
                     this.renderApertureTab();
@@ -983,6 +1014,7 @@
                 d.btnExecuteRefine.addEventListener("click", () => {
                     const res = this.guSystem.executeRefinement(this.refinementSlots, this.player, this.aperture);
                     this.addLog(res.message, res.success ? "loot" : "danger");
+                    if (this.game) this.game.autoSaveNow("refine_gu");
                     this.refinementSlots = [null, null, null];
                     this.renderRefinementTab();
                     this.updateHubTopbar();
@@ -1051,6 +1083,15 @@
                 });
             });
 
+            if (d.btnManualAutoSaveNow) {
+                d.btnManualAutoSaveNow.addEventListener("click", () => {
+                    if (this.game && this.game.autoSaveNow("manual")) {
+                        this.addLog("☁️ Đã đồng bộ lưu tiến trình trực tiếp vào trình duyệt thành công!", "system");
+                        this.renderSettingsTab();
+                    }
+                });
+            }
+
             if (d.btnResetSaves) {
                 d.btnResetSaves.addEventListener("click", () => {
                     if (confirm("Ngươi có chắc chắn muốn xóa toàn bộ dữ liệu lưu trữ trong trình duyệt?")) {
@@ -1085,35 +1126,39 @@
             const stages = this.game.getStageCatalog();
             const filtered = stages.filter(st => {
                 if (this.currentMapRankFilter === "all") return true;
-                return String(st.reqRank) === this.currentMapRankFilter;
+                if (this.currentMapRankFilter === "special") return Boolean(st.isSpecialResourceStage);
+                return !st.isSpecialResourceStage && String(st.reqRank) === this.currentMapRankFilter;
             });
 
             d.stageMapsGrid.innerHTML = filtered.map(st => {
                 const unlockStatus = this.game.isStageUnlocked(st.id);
                 const clearCount = this.game.getStageClearCount(st.id);
                 const isFirstClear = clearCount === 0;
-                const statusClass = !unlockStatus.unlocked ? "locked" : (!isFirstClear ? "cleared" : "");
+                const isSpecial = Boolean(st.isSpecialResourceStage);
+                const statusClass = (!unlockStatus.unlocked ? "locked" : (!isFirstClear ? "cleared" : "")) + (isSpecial ? " special-resource-card" : "");
 
-                const repeatFactor = isFirstClear
+                const repeatFactor = (isFirstClear || isSpecial)
                     ? 1.0
                     : (typeof this.game.getStageRepeatFactor === "function"
                         ? this.game.getStageRepeatFactor(st.id)
                         : Math.max(0.08, Number((0.22 / (1 + (clearCount - 1) * 0.15)).toFixed(2))));
 
                 const repeatPct = Math.round(repeatFactor * 100);
-                const expectedStones = isFirstClear
+                const expectedStones = (isFirstClear || isSpecial)
                     ? st.rewardStones
                     : Math.max(1, Math.round(st.rewardStones * repeatFactor));
-                const expectedMerit = isFirstClear
+                const expectedMerit = (isFirstClear || isSpecial)
                     ? st.rewardMerit
                     : Math.max(1, Math.round(st.rewardMerit * repeatFactor));
-                const expectedHumanQiText = isFirstClear
+                const expectedHumanQiText = (isFirstClear || isSpecial)
                     ? `+${st.rewardHumanQi} Nhân Khí`
                     : `+1 Nhân Khí (20% cơ hội)`;
 
-                const rewardNote = isFirstClear
-                    ? "(Vượt lần đầu: 100% thưởng)"
-                    : `(Cày lại lần ${clearCount + 1}: ${repeatPct}% thưởng — Tối thiểu 8%)`;
+                const rewardNote = isSpecial
+                    ? "(⭐ Bí Cảnh Tài Nguyên — Luôn 100% Thưởng)"
+                    : (isFirstClear
+                        ? "(Vượt lần đầu: 100% thưởng)"
+                        : `(Cày lại lần ${clearCount + 1}: ${repeatPct}% thưởng — Tối thiểu 8%)`);
 
                 const rankBadgeLabel = global.GuSystem && global.GuSystem.getRankName
                     ? `${global.GuSystem.getRankName(st.reqRank)}${st.reqRank >= 9 ? " Tôn Giả" : (st.reqRank >= 6 ? " Tiên Cảnh" : "")}`
@@ -1134,6 +1179,43 @@
                     bossCombatNote = `<div><strong>Tuyệt kỹ Boss:</strong> <span style="color:#ffd700">⚡ ${st.bossKillerMove || "Sát Chiêu"}</span> (${st.bossAttackGu || "Cổ Thuật"})</div>`;
                 } else {
                     bossCombatNote = `<div><strong>Loại Boss:</strong> Hung Thú / Hoang Thú Thượng Cổ</div>`;
+                }
+
+                if (isSpecial) {
+                    return `
+                        <div class="stage-map-card ${statusClass}">
+                            <div>
+                                <div class="map-card-header">
+                                    <span class="map-card-title">${st.icon} ${st.name}</span>
+                                    <span class="map-rank-tag">${rankBadgeLabel}</span>
+                                </div>
+                                <p class="sub-text" style="margin: 8px 0;">${st.description}</p>
+                                <div class="map-card-meta">
+                                    <div><strong>Chế độ:</strong> <span style="color:#7ef7c4">🌾 Farm Tự Do — Không có Boss (Rút lui bất cứ lúc nào)</span></div>
+                                    <div><strong>Quái tái sinh:</strong> ${st.mobName} (+5 Tinh Anh) liên tục xuất hiện</div>
+                                    <div><strong>Tài nguyên bản đồ:</strong> <span style="color:#ffd700">30 Mỏ Cổ Tài & Nguyên Mạch (4 lượt / hồi 12s)</span></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="map-card-rewards">
+                                    🎁 <strong>Tài nguyên farm trực tiếp (${st.resourceFocus || "Đa Dạng"}):</strong><br>
+                                    📦 ${st.dropPreview}
+                                </div>
+
+                                <div class="mt-10">
+                                    ${unlockStatus.unlocked
+                                        ? `<button class="btn-accent btn-enter-stage" data-stage-id="${st.id}" style="width:100%;">
+                                               🌾 Vào Bí Cảnh Farm Tự Do (${rankBadgeLabel})
+                                           </button>`
+                                        : `<button class="btn-secondary" disabled style="width:100%;">
+                                               🔒 ${unlockStatus.reason}
+                                           </button>`
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 }
 
                 return `
@@ -1481,6 +1563,7 @@
                 btnUpgradeRank.addEventListener("click", () => {
                     const res = this.guSystem.upgradeGuRank(gu.instanceId, this.player, this.aperture);
                     this.addLog(res.message, res.success ? "loot" : "warning");
+                    if (this.game) this.game.autoSaveNow("upgrade_gu");
                     this.renderGuStorageTab();
                     this.updateHubTopbar();
                 });
@@ -1851,21 +1934,29 @@
                 const finalPrice = isImmortalCurr
                     ? entry.price
                     : Math.max(1, Math.round(entry.price * (1 - discount)));
-                const currencyLabel = isImmortalCurr ? `🌟 ${finalPrice} Tiên Thạch` : `💎 ${finalPrice} Nguyên Thạch`;
+                const priceStr = finalPrice.toLocaleString("vi-VN");
+                const currencyLabel = isImmortalCurr ? `🌟 ${priceStr} Tiên Thạch` : `💎 ${priceStr} Nguyên Thạch`;
                 const lightBadge = entry.light ? `<span class="badge highlight-gold">${entry.light}</span>` : "";
 
+                const isUniqueImmortalOwned =
+                    entry.type === "gu" &&
+                    (entry.guRank || 1) >= 6 &&
+                    typeof this.guSystem.hasImmortalGu === "function" &&
+                    this.guSystem.hasImmortalGu(entry.id);
+
                 return `
-                    <div class="card-box" style="justify-content:space-between;gap:10px;">
+                    <div class="card-box" style="justify-content:space-between;gap:10px;${isUniqueImmortalOwned ? "opacity:0.72;border-color:#3ca67d;" : ""}">
                         <div>
-                            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">
                                 <strong style="color:#e2bf75;font-size:14.5px;">${entry.icon} ${entry.name}</strong>
                                 ${lightBadge}
                             </div>
                             <p class="sub-text mt-5">${entry.desc}</p>
                         </div>
-                        <button class="btn-primary btn-market-buy" data-idx="${idx}" style="width:100%;">
-                            Mua Ngay (${currencyLabel})
-                        </button>
+                        ${isUniqueImmortalOwned
+                            ? `<button class="btn-secondary" disabled style="width:100%;">🔒 Đã Sở Hữu (Tiên Cổ Là Duy Nhất)</button>`
+                            : `<button class="btn-primary btn-market-buy" data-idx="${idx}" style="width:100%;">Mua Ngay (${currencyLabel})</button>`
+                        }
                     </div>
                 `;
             }).join("");
@@ -1876,6 +1967,17 @@
                     const entry = catalog[idx];
                     if (!entry) return;
 
+                    if (
+                        entry.type === "gu" &&
+                        (entry.guRank || 1) >= 6 &&
+                        typeof this.guSystem.hasImmortalGu === "function" &&
+                        this.guSystem.hasImmortalGu(entry.id)
+                    ) {
+                        this.addLog(`🔒 Tiên Cổ là duy nhất trong thiên địa! Ngươi đã sở hữu 【${entry.name}】, không thể mua thêm con thứ hai.`, "warning");
+                        this.renderMarketTab();
+                        return;
+                    }
+
                     const isImmortalCurr = entry.currency === "immortal";
                     const finalPrice = isImmortalCurr
                         ? entry.price
@@ -1883,13 +1985,13 @@
 
                     if (isImmortalCurr) {
                         if (this.player.immortalStones < finalPrice) {
-                            this.addLog(`Không đủ Tiên Nguyên Thạch (Cần 🌟 ${finalPrice})!`, "warning");
+                            this.addLog(`Không đủ Tiên Nguyên Thạch (Cần 🌟 ${finalPrice.toLocaleString("vi-VN")})! Hãy cày Bí Cảnh Tài Nguyên Tiên Cấp.`, "warning");
                             return;
                         }
                         this.player.removeItem("immortal_stone", finalPrice);
                     } else {
                         if (this.player.primevalStones < finalPrice) {
-                            this.addLog(`Không đủ Nguyên Thạch (Cần 💎 ${finalPrice})!`, "warning");
+                            this.addLog(`Không đủ Nguyên Thạch (Cần 💎 ${finalPrice.toLocaleString("vi-VN")})!`, "warning");
                             return;
                         }
                         this.player.primevalStones -= finalPrice;
@@ -1897,7 +1999,7 @@
 
                     if (entry.type === "exchange_immortal") {
                         this.player.addItem("immortal_stone", 1);
-                        this.addLog(`🌟 Đã tụ hợp ${finalPrice} Nguyên Thạch đổi thành công 1 viên Tiên Nguyên Thạch tại Bảo Hoàng Thiên!`, "loot");
+                        this.addLog(`🌟 Đã tụ hợp ${finalPrice.toLocaleString("vi-VN")} Nguyên Thạch đổi thành công 1 viên Tiên Nguyên Thạch tại Bảo Hoàng Thiên!`, "loot");
                     } else if (entry.type === "gu") {
                         const newGu = this.guSystem.addGuToStorage(entry.id, {
                             rank: entry.guRank || 1,
@@ -1905,16 +2007,21 @@
                             refinementProgress: 100,
                             isVital: false
                         });
-                        const fullGuName = global.GuSystem.formatGuNameWithRank
-                            ? global.GuSystem.formatGuNameWithRank(newGu)
-                            : newGu.name;
-                        this.addLog(`⚖️ Giao dịch thành công! Đã mua Cổ Trùng 【${fullGuName}】.`, "loot");
+                        if (!newGu) {
+                            this.addLog(`🔒 Tiên Cổ là duy nhất! Không thể sở hữu 2 con cùng loại.`, "warning");
+                        } else {
+                            const fullGuName = global.GuSystem.formatGuNameWithRank
+                                ? global.GuSystem.formatGuNameWithRank(newGu)
+                                : newGu.name;
+                            this.addLog(`⚖️ Giao dịch thành công! Đã mua Cổ Trùng 【${fullGuName}】.`, "loot");
+                        }
                     } else {
                         const qty = entry.count || 1;
                         this.player.addItem(entry.id, qty);
                         this.addLog(`⚖️ Đã mua ${qty}x [${entry.name}] thành công.`, "loot");
                     }
 
+                    if (this.game) this.game.autoSaveNow("market_buy");
                     this.updateHubTopbar();
                     this.renderMarketTab();
                 });
@@ -2103,6 +2210,36 @@
                     }
                 });
             }
+
+            if (d.btnZoomOut) {
+                d.btnZoomOut.addEventListener("click", () => {
+                    if (this.game) this.game.adjustBattleZoom(-0.15);
+                });
+            }
+            if (d.btnZoomReset) {
+                d.btnZoomReset.addEventListener("click", () => {
+                    if (this.game) this.game.setBattleZoom(1.0, true);
+                });
+            }
+            if (d.btnZoomIn) {
+                d.btnZoomIn.addEventListener("click", () => {
+                    if (this.game) this.game.adjustBattleZoom(0.15);
+                });
+            }
+
+            if (d.btnDefeatRespawnHub) {
+                d.btnDefeatRespawnHub.addEventListener("click", () => {
+                    if (d.battleDefeatModal) d.battleDefeatModal.classList.add("hidden");
+                    if (this.game) this.game.respawnAfterCombatDeath();
+                });
+            }
+
+            if (d.btnPermadeathNewLife) {
+                d.btnPermadeathNewLife.addEventListener("click", () => {
+                    if (d.permadeathModal) d.permadeathModal.classList.add("hidden");
+                    if (this.game) this.game.returnToCharacterCreationAfterPermadeath();
+                });
+            }
         }
 
         _ensureNpcInteractionModal() {
@@ -2288,6 +2425,18 @@
                 d.battleEssenceFill.style.width = "100%";
             }
 
+            if (d.battlePressureWarning && d.battlePressureVal) {
+                const isTenExtremeMortal = !ap.isImmortal && ap.aptitude && ap.aptitude.physique;
+                if (isTenExtremeMortal) {
+                    const pVal = Number(ap.wallPressure.toFixed(1));
+                    d.battlePressureVal.textContent = `${pVal.toFixed(1)}%`;
+                    d.battlePressureWarning.classList.remove("hidden");
+                    d.battlePressureWarning.classList.toggle("critical", pVal >= 80);
+                } else {
+                    d.battlePressureWarning.classList.add("hidden");
+                }
+            }
+
             if (d.battleActiveBuffs) {
                 d.battleActiveBuffs.innerHTML = pl.activeBuffs.map(b =>
                     `<div class="buff-badge">${b.icon} ${b.name} (${Math.ceil(b.duration)}s)</div>`
@@ -2297,7 +2446,11 @@
             if (this.game && this.game.activeStage) {
                 const st = this.game.activeStage;
                 d.battleStageTitle.textContent = `${st.icon} ${st.name}`;
-                if (!st.bossSpawned) {
+                if (st.isSpecialResourceStage || st.noBoss) {
+                    d.battleStageObjective.innerHTML = `<span style="color:#7ef7c4">🌾 Farm Tự Do (Không Boss)</span> | Diệt: <strong>${st.kills || 0}</strong> quái | Khai thác: <strong>${st.harvests || 0}</strong> mỏ — Rút lui bất cứ lúc nào!`;
+                    const cyclePct = st.kills > 0 && st.kills % 10 === 0 ? 100 : ((st.kills % 10) / 10) * 100;
+                    d.battleStageProgressFill.style.width = `${cyclePct}%`;
+                } else if (!st.bossSpawned) {
                     d.battleStageObjective.textContent = `Mục tiêu: Tiêu diệt ${st.kills}/${st.targetKills} ${st.mobName} (Hạ Tinh Anh tính +2) để dẫn dụ Thủ Lĩnh xuất hiện`;
                     const pct = Math.min(100, (st.kills / st.targetKills) * 100);
                     d.battleStageProgressFill.style.width = `${pct}%`;
@@ -2403,6 +2556,85 @@
                 const el = document.getElementById(`key-label-gu-${i}`);
                 if (el) el.textContent = labels[i];
             }
+        }
+
+        updateZoomDisplay(zoomVal) {
+            if (this.dom.btnZoomReset) {
+                this.dom.btnZoomReset.textContent = `${Math.round((zoomVal || 1.0) * 100)}%`;
+            }
+        }
+
+        updateAutoSaveIndicator(timeStr) {
+            if (this.dom.hubAutoSaveStatus) {
+                this.dom.hubAutoSaveStatus.textContent = `Đã lưu ${timeStr}`;
+            }
+            if (this.dom.settingsAutoSaveInfo) {
+                this.dom.settingsAutoSaveInfo.textContent = `Đã tự động lưu trực tiếp trên trình duyệt lúc ${timeStr}. Tiến trình được bảo vệ ngay cả khi bạn quên bấm Lưu.`;
+            }
+        }
+
+        refreshStartScreenContinueButton() {
+            const btn = this.dom.btnLoadExisting;
+            if (!btn || !this.game || typeof this.game.getAutoSaveSummary !== "function") return;
+            const summary = this.game.getAutoSaveSummary();
+            if (!summary) {
+                btn.textContent = "Đọc Lưu Trữ Trình Duyệt";
+                btn.classList.remove("btn-accent");
+                btn.classList.add("btn-secondary");
+            } else if (summary.isPermadead) {
+                btn.textContent = summary.label;
+                btn.classList.remove("btn-accent");
+                btn.classList.add("btn-secondary");
+            } else {
+                btn.textContent = `▶️ Tiếp Tục: ${summary.label}`;
+                btn.classList.remove("btn-secondary");
+                btn.classList.add("btn-accent");
+            }
+        }
+
+        showBattleDefeatModal(stageName, penalty) {
+            const d = this.dom;
+            if (!d.battleDefeatModal || !d.battleDefeatSummary) return;
+
+            const detailsHtml = (penalty && Array.isArray(penalty.details) && penalty.details.length > 0)
+                ? penalty.details.map(line => `<p style="color:#ff9c9c;">• ${line}</p>`).join("")
+                : `<p style="color:#ff9c9c;">• Đạo cơ chấn động, tổn thất một phần tiến độ tu luyện.</p>`;
+
+            d.battleDefeatSummary.innerHTML = `
+                <p>Ngươi đã cạn kiệt Sinh Mệnh (0 HP) khi chiến đấu tại <strong class="highlight-gold">${stageName}</strong>!</p>
+                <div class="mt-10">
+                    <p><strong>⚖️ Hình Phạt Tổn Thất Tu Vi:</strong></p>
+                    ${detailsHtml}
+                    <p class="mt-5">Cảnh giới hiện tại: <strong class="highlight-gold">${penalty ? penalty.newRealmName : this.aperture.getRealmDisplayName()}</strong></p>
+                </div>
+            `;
+            d.battleDefeatModal.classList.remove("hidden");
+        }
+
+        showPermadeathModal(reason) {
+            const d = this.dom;
+            if (!d.permadeathModal || !d.permadeathSummary) return;
+
+            if (d.battleDefeatModal) d.battleDefeatModal.classList.add("hidden");
+            if (d.stageVictoryModal) d.stageVictoryModal.classList.add("hidden");
+            this.closeNpcInteractionModal();
+
+            d.permadeathSummary.innerHTML = `
+                <p><strong style="color:#ff5252;font-size:15px;">💀 ${this.player ? this.player.name : "Cổ Sư"} đã tử vong vĩnh viễn!</strong></p>
+                <p class="mt-5"><strong>Nguyên nhân:</strong> ${reason}</p>
+                <p class="mt-5"><strong>Cảnh giới lúc ngã xuống:</strong> ${this.aperture ? this.aperture.getRealmDisplayName() : "---"}</p>
+            `;
+            d.permadeathModal.classList.remove("hidden");
+        }
+
+        resetCreationScreenToForm() {
+            const d = this.dom;
+            if (d.stepForm) d.stepForm.classList.remove("hidden");
+            if (d.stepRitual) d.stepRitual.classList.add("hidden");
+            if (d.aptitudeResultBox) d.aptitudeResultBox.classList.add("hidden");
+            if (d.btnNextRitual) d.btnNextRitual.classList.remove("hidden");
+            if (d.btnEnterHub) d.btnEnterHub.classList.add("hidden");
+            this.renderCreationSkinPreview();
         }
     }
 

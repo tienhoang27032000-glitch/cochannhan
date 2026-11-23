@@ -2359,6 +2359,11 @@
             const isRefined = options.isRefined !== undefined ? Boolean(options.isRefined) : true;
             const stats = GuSystem.computeStatsForRank(tpl, forcedRank !== undefined ? forcedRank : tpl.defaultRank);
 
+            // Luật chuẩn nguyên tác: TIÊN CỔ LÀ DUY NHẤT (Rank 6–9 không thể sở hữu 2 con cùng loại)
+            if (stats.rank >= 6 && this.hasImmortalGu(tpl.id)) {
+                return null;
+            }
+
             const guInstance = {
                 instanceId: instanceId,
                 id: tpl.id,
@@ -2554,6 +2559,14 @@
 
             const nextRank = gu.rank + 1;
             const isImmortalStep = nextRank >= 6;
+
+            if (isImmortalStep && this.hasImmortalGu(gu.id, gu.instanceId)) {
+                return {
+                    canUpgrade: false,
+                    blockedUnique: true,
+                    reason: `Tiên Cổ là duy nhất! Ngươi đã sở hữu Tiên Cổ 【${gu.name}】, không thể thăng cấp thêm con Tiên Cổ thứ hai cùng loại!`
+                };
+            }
 
             const stoneCostByNextRank = {
                 2: 28,
@@ -2837,6 +2850,17 @@
                 const itemMatch = !recipe.requiredItemId || inputItemIds.includes(recipe.requiredItemId);
 
                 if (guMatch && itemMatch) {
+                    if (recipe.resultRank >= 6) {
+                        const existingImm = this.getImmortalGuByTemplate(recipe.resultGuId);
+                        const consumedExisting = existingImm && inputGuInstances.some(g => g.instanceId === existingImm.instanceId);
+                        if (existingImm && !consumedExisting) {
+                            return {
+                                valid: false,
+                                blockedUnique: true,
+                                reason: `Tiên Cổ là duy nhất! Ngươi đã sở hữu 【${GuSystem.formatGuNameWithRank(existingImm)}】, không thể hợp luyện con thứ hai cùng loại!`
+                            };
+                        }
+                    }
                     const luyenMarks = (player && player.daoMarks["Luyện Đạo"]) || 0;
                     const triMarks = (player && player.daoMarks["Trí Đạo"]) || 0;
                     const vanMarks = (player && player.daoMarks["Vận Đạo"]) || 0;
@@ -3343,6 +3367,24 @@
             return this.ownedGuList.find(g => g.instanceId === instanceId) || null;
         }
 
+        /**
+         * Kiểm tra xem người chơi đã sở hữu Tiên Cổ (Lục Chuyển -> Cửu Chuyển) cùng loại hay chưa.
+         * Chuẩn nguyên tác Cổ Chân Nhân: "Tiên Cổ là duy nhất trong thiên địa!"
+         */
+        hasImmortalGu(templateId, excludeInstanceId = null) {
+            if (!templateId) return false;
+            const resolvedId = LEGACY_GU_ALIASES[templateId] ? LEGACY_GU_ALIASES[templateId].id : templateId;
+            return this.ownedGuList.some(
+                g => g.id === resolvedId && g.rank >= 6 && g.instanceId !== excludeInstanceId
+            );
+        }
+
+        getImmortalGuByTemplate(templateId) {
+            if (!templateId) return null;
+            const resolvedId = LEGACY_GU_ALIASES[templateId] ? LEGACY_GU_ALIASES[templateId].id : templateId;
+            return this.ownedGuList.find(g => g.id === resolvedId && g.rank >= 6) || null;
+        }
+
         hasRefinedGuByTemplate(templateId) {
             const resolvedId = LEGACY_GU_ALIASES[templateId] ? LEGACY_GU_ALIASES[templateId].id : templateId;
             return this.ownedGuList.some(g => g.id === resolvedId && g.isRefined);
@@ -3407,7 +3449,26 @@
         fromSaveData(data) {
             if (!data) return;
             if (Array.isArray(data.ownedGuList)) {
-                this.ownedGuList = data.ownedGuList.map(g => this._syncGuInstanceStats(g));
+                const synced = data.ownedGuList.map(g => this._syncGuInstanceStats(g));
+                // Đảm bảo quy tắc Tiên Cổ là duy nhất khi đọc file lưu cũ
+                const seenImmortal = new Map();
+                const cleaned = [];
+                for (const g of synced) {
+                    if (g && g.rank >= 6) {
+                        const prev = seenImmortal.get(g.id);
+                        if (!prev) {
+                            seenImmortal.set(g.id, g);
+                            cleaned.push(g);
+                        } else if (g.rank > prev.rank) {
+                            const idx = cleaned.indexOf(prev);
+                            if (idx !== -1) cleaned[idx] = g;
+                            seenImmortal.set(g.id, g);
+                        }
+                    } else if (g) {
+                        cleaned.push(g);
+                    }
+                }
+                this.ownedGuList = cleaned;
             }
             if (typeof data.nextInstanceCounter === "number") this.nextInstanceCounter = data.nextInstanceCounter;
             if (Array.isArray(data.equippedGuSlots)) this.equippedGuSlots = data.equippedGuSlots;

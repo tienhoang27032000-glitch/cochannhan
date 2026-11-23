@@ -377,6 +377,86 @@
             gridPattern: "crystal_rings",
             propTypes: ["chaos_monolith", "dragon_pillar", "pink_soul_crystal"],
             stageResources: ["soul_crystal", "hundred_year_ginseng", "primeval_stone", "wild_gu"]
+        },
+
+        // ==================== 6 BÍ CẢNH TÀI NGUYÊN ĐẶC BIỆT (FARM TỰ DO — KHÔNG BOSS) ====================
+        special_spirit_spring: {
+            name: "⭐ Mỏ Nguyên Tuyền Cổ Mạch",
+            weatherId: "spirit_rain",
+            cPrimary: "#0d241b",
+            cSecondary: "#123024",
+            cPath: "#1c4a38",
+            cSpirit: "#25664d",
+            cShallow: "#184f5c",
+            cWall: "#1f3b2e",
+            gridPattern: "crystal_rings",
+            propTypes: ["stone_lotus", "jade_pillar", "bamboo_stalk"],
+            stageResources: ["primeval_stone", "primeval_stone", "bronze_ore", "spirit_herb", "ration_meat"]
+        },
+        special_herb_valley: {
+            name: "⭐ Dược Cốc Ngũ Vực — Vườn Cổ Tài",
+            weatherId: "clear",
+            cPrimary: "#122416",
+            cSecondary: "#19301e",
+            cPath: "#27422a",
+            cSpirit: "#325937",
+            cShallow: "#1c473e",
+            cWall: "#233b25",
+            gridPattern: "bamboo_grove",
+            propTypes: ["moon_flower", "bamboo_stalk", "stone_lotus"],
+            stageResources: ["moon_orchid", "spirit_herb", "wind_essence_crystal", "red_iron_ore", "jade_bone", "beast_blood_core", "hundred_year_ginseng"]
+        },
+        special_relic_tomb: {
+            name: "⭐ Cổ Mộ Xá Lợi — Tàn Phương Bí Điện",
+            weatherId: "fog",
+            cPrimary: "#241e12",
+            cSecondary: "#2e2617",
+            cPath: "#473b24",
+            cSpirit: "#66532f",
+            cShallow: "#3b301c",
+            cWall: "#544427",
+            gridPattern: "imperial_plaza",
+            propTypes: ["golden_brazier", "bone_pillar", "sword_monument"],
+            stageResources: ["relic_chest", "remnant_recipe", "jade_bone", "red_iron_ore", "primeval_stone", "wild_gu"]
+        },
+        special_dang_hun: {
+            name: "⭐ Đãng Hồn Sơn — Đảm Thức Bảo Địa",
+            weatherId: "spirit_rain",
+            cPrimary: "#261024",
+            cSecondary: "#331630",
+            cPath: "#4d2148",
+            cSpirit: "#6e2e67",
+            cShallow: "#87337d",
+            cWall: "#52214c",
+            gridPattern: "crystal_rings",
+            propTypes: ["pink_soul_crystal", "stone_lotus", "moon_flower"],
+            stageResources: ["soul_crystal", "soul_crystal", "human_qi_lotus", "hundred_year_ginseng", "primeval_stone"]
+        },
+        special_immortal_vein: {
+            name: "⭐ Thái Cổ Linh Mạch — Kho Tiên Thạch",
+            weatherId: "clear",
+            cPrimary: "#112233",
+            cSecondary: "#172e45",
+            cPath: "#234566",
+            cSpirit: "#315f8c",
+            cShallow: "#1f5978",
+            cWall: "#2b4d6e",
+            gridPattern: "cloud_rings",
+            propTypes: ["refinement_cauldron", "dragon_pillar", "ice_crystal"],
+            stageResources: ["immortal_stone_vein", "immortal_stone_vein", "soul_crystal", "hundred_year_ginseng", "wild_gu"]
+        },
+        special_chaos_vault: {
+            name: "⭐ Bảo Khố Vô Cực — Thánh Địa Chí Tôn",
+            weatherId: "thunder_storm",
+            cPrimary: "#180d29",
+            cSecondary: "#22123b",
+            cPath: "#381e61",
+            cSpirit: "#532c8f",
+            cShallow: "#120821",
+            cWall: "#4a2780",
+            gridPattern: "imperial_plaza",
+            propTypes: ["chaos_monolith", "dragon_pillar", "golden_brazier"],
+            stageResources: ["supreme_immortal_vein", "supreme_immortal_vein", "soul_crystal", "human_qi_lotus", "wild_gu"]
         }
     };
 
@@ -434,7 +514,12 @@
                 x: 1600,
                 y: 1600,
                 width: 1280,
-                height: 720
+                height: 720,
+                screenWidth: 1280,
+                screenHeight: 720,
+                zoom: 1.0,
+                minZoom: 0.50,
+                maxZoom: 1.80
             };
 
             this.worldTime = {
@@ -504,7 +589,10 @@
             const wIdx = WEATHER_TYPES.findIndex(w => w.id === this.activeTheme.weatherId);
             this.worldTime.weatherIndex = wIdx >= 0 ? wIdx : 0;
 
-            const seed = parseInt(stageId.replace("stage_", ""), 10) || 1;
+            let seed = parseInt(stageId.replace("stage_", ""), 10);
+            if (isNaN(seed)) {
+                seed = Array.from(stageId).reduce((acc, ch) => acc + ch.charCodeAt(0), 0) % 97 + 31;
+            }
             this._buildThemedArenaGrid(seed);
             this._spawnStageResourceNodes(stageObj);
         }
@@ -607,27 +695,38 @@
         _spawnStageResourceNodes(stageObj) {
             this.resourceNodes = [];
             const rank = stageObj.reqRank || 1;
+            const isSpecial = Boolean(stageObj.isSpecialResourceStage);
             const resPool = this.activeTheme.stageResources || ["spirit_herb", "primeval_stone", "wild_gu"];
 
+            const stoneMult = isSpecial ? 2.5 : 1.0;
             const nodeMetaMap = {
-                primeval_stone: { name: "Mạch Nguyên Thạch Lộ Thiên", icon: "💎", color: "#4cd964", min: 4 * rank, max: 8 * rank },
-                spirit_herb: { name: "Bụi Thanh Linh Thảo", icon: "🌿", color: "#5cc995", min: 1, max: 3 },
-                moon_orchid: { name: "Khóm Nguyệt Lan Hoa", icon: "🌸", color: "#e6a8d7", min: 1, max: 3 },
-                bronze_ore: { name: "Mạch Thanh Đồng Khoáng", icon: "🪨", color: "#8aa69b", min: 1, max: 3 },
-                red_iron_ore: { name: "Mạch Xích Thiết Tinh Khoáng", icon: "🧱", color: "#e05252", min: 1, max: 2 },
-                wind_essence_crystal: { name: "Phong Tuyền Tinh Thạch", icon: "🎐", color: "#6ce6b8", min: 1, max: 2 },
-                beast_blood_core: { name: "Huyết Tinh Ngưng Tụ", icon: "🩸", color: "#d93838", min: 1, max: 2 },
-                jade_bone: { name: "Cốt Tủy Bạch Ngọc", icon: "🦴", color: "#dce8f2", min: 1, max: 2 },
-                hundred_year_ginseng: { name: "Bách Niên Khổ Sâm", icon: "🥕", color: "#f7c948", min: 1, max: 2 },
-                soul_crystal: { name: "Đãng Hồn Tinh Thạch", icon: "🔮", color: "#c278ff", min: 1, max: 2 },
+                primeval_stone: { name: "Mạch Nguyên Thạch Lộ Thiên", icon: "💎", color: "#4cd964", itemId: "primeval_stone", min: Math.round(4 * rank * stoneMult), max: Math.round(9 * rank * stoneMult) },
+                spirit_herb: { name: "Bụi Thanh Linh Thảo", icon: "🌿", color: "#5cc995", itemId: "spirit_herb", min: isSpecial ? 2 : 1, max: isSpecial ? 4 : 3 },
+                ration_meat: { name: "Bãi Săn Thịt Thú Rừng", icon: "🍖", color: "#e67e22", itemId: "ration_meat", min: 2, max: 4 },
+                moon_orchid: { name: "Khóm Nguyệt Lan Hoa", icon: "🌸", color: "#e6a8d7", itemId: "moon_orchid", min: isSpecial ? 2 : 1, max: isSpecial ? 4 : 3 },
+                bronze_ore: { name: "Mạch Thanh Đồng Khoáng", icon: "🪨", color: "#8aa69b", itemId: "bronze_ore", min: isSpecial ? 2 : 1, max: isSpecial ? 4 : 3 },
+                red_iron_ore: { name: "Mạch Xích Thiết Tinh Khoáng", icon: "🧱", color: "#e05252", itemId: "red_iron_ore", min: isSpecial ? 2 : 1, max: isSpecial ? 3 : 2 },
+                wind_essence_crystal: { name: "Phong Tuyền Tinh Thạch", icon: "🎐", color: "#6ce6b8", itemId: "wind_essence_crystal", min: isSpecial ? 2 : 1, max: isSpecial ? 3 : 2 },
+                beast_blood_core: { name: "Huyết Tinh Ngưng Tụ", icon: "🩸", color: "#d93838", itemId: "beast_blood_core", min: isSpecial ? 2 : 1, max: isSpecial ? 3 : 2 },
+                jade_bone: { name: "Cốt Tủy Bạch Ngọc", icon: "🦴", color: "#dce8f2", itemId: "jade_bone", min: isSpecial ? 2 : 1, max: isSpecial ? 3 : 2 },
+                hundred_year_ginseng: { name: "Bách Niên Khổ Sâm", icon: "🥕", color: "#f7c948", itemId: "hundred_year_ginseng", min: isSpecial ? 2 : 1, max: isSpecial ? 3 : 2 },
+                soul_crystal: { name: "Đãng Hồn Tinh Thạch", icon: "🔮", color: "#c278ff", itemId: "soul_crystal", min: isSpecial ? 2 : 1, max: isSpecial ? 4 : 2 },
+                remnant_recipe: { name: "Bia Đá Cổ Phương Tàn Quyển", icon: "📜", color: "#f7c948", itemId: "remnant_recipe", min: 1, max: 1 },
+                relic_chest: { name: "Cổ Mộ Xá Lợi Cổ", icon: "⚱️", color: "#ffd700", isRelicChest: true, min: 1, max: 1 },
+                human_qi_lotus: { name: "Nhân Khí Linh Liên", icon: "☯️", color: "#00e5ff", isHumanQiNode: true, min: 6, max: 12 },
+                immortal_stone_vein: { name: "Mạch Tiên Nguyên Thạch Lộ Thiên", icon: "🌟", color: "#ffd700", itemId: "immortal_stone", min: 3, max: 7 },
+                supreme_immortal_vein: { name: "Thánh Mạch Tiên Thạch Chí Tôn", icon: "👑", color: "#00e5ff", itemId: "immortal_stone", min: 14, max: 28 },
                 wild_gu: { name: "Cổ Trùng Hoang Dã Ẩn Nấp", icon: "🪲", color: "#ffd700", isWildGu: true }
             };
 
-            const totalNodes = 18;
+            const totalNodes = isSpecial ? 30 : 18;
+            const nodeCharges = isSpecial ? 4 : 2;
+            const nodeRespawn = isSpecial ? 12 : 40;
+
             for (let i = 0; i < totalNodes; i++) {
                 const key = resPool[i % resPool.length];
                 const meta = nodeMetaMap[key] || nodeMetaMap.primeval_stone;
-                const pt = this.getRandomWalkablePoint(this.arenaCenterX, this.arenaCenterY, 200, this.arenaRadius - 120);
+                const pt = this.getRandomWalkablePoint(this.arenaCenterX, this.arenaCenterY, 160, this.arenaRadius - 100);
 
                 this.resourceNodes.push({
                     id: `stage_node_${i + 1}`,
@@ -638,13 +737,15 @@
                     x: pt.x,
                     y: pt.y,
                     dangerRank: rank,
-                    itemId: meta.isWildGu ? null : key,
+                    itemId: (meta.isWildGu || meta.isRelicChest || meta.isHumanQiNode) ? null : (meta.itemId || key),
                     isWildGu: Boolean(meta.isWildGu),
+                    isRelicChest: Boolean(meta.isRelicChest),
+                    isHumanQiNode: Boolean(meta.isHumanQiNode),
                     minYield: meta.min || 1,
                     maxYield: meta.max || 2,
-                    charges: 2,
-                    maxCharges: 2,
-                    respawnTime: 40,
+                    charges: nodeCharges,
+                    maxCharges: nodeCharges,
+                    respawnTime: nodeRespawn,
                     respawnTimer: 0
                 });
             }
@@ -652,10 +753,10 @@
 
         _initWeatherParticles() {
             this.weatherParticles = [];
-            for (let i = 0; i < 65; i++) {
+            for (let i = 0; i < 95; i++) {
                 this.weatherParticles.push({
-                    x: Math.random() * 1400,
-                    y: Math.random() * 900,
+                    x: Math.random() * 2800,
+                    y: Math.random() * 1800,
                     len: 6 + Math.random() * 10,
                     speedX: -1.5,
                     speedY: 5 + Math.random() * 4
@@ -667,15 +768,51 @@
         // 5. VÒNG LẶP CẬP NHẬT & TỰ ĐỘNG ĐỒNG BỘ CHỦ ĐỀ ẢI HIỆN TẠI
         // =====================================================================
 
+        setZoom(newZoom) {
+            const clamped = Math.max(
+                this.camera.minZoom,
+                Math.min(this.camera.maxZoom, Number(newZoom) || 1.0)
+            );
+            this.camera.zoom = Number(clamped.toFixed(2));
+            if (this.camera.screenWidth && this.camera.screenHeight) {
+                this.camera.width = this.camera.screenWidth / this.camera.zoom;
+                this.camera.height = this.camera.screenHeight / this.camera.zoom;
+            }
+            return this.camera.zoom;
+        }
+
+        adjustZoom(delta) {
+            return this.setZoom(this.camera.zoom + delta);
+        }
+
+        screenToWorld(screenX, screenY) {
+            const z = this.camera.zoom || 1.0;
+            return {
+                x: (screenX / z) + this.camera.x,
+                y: (screenY / z) + this.camera.y
+            };
+        }
+
+        worldToScreen(worldX, worldY) {
+            const z = this.camera.zoom || 1.0;
+            return {
+                x: (worldX - this.camera.x) * z,
+                y: (worldY - this.camera.y) * z
+            };
+        }
+
         update(dt, player, canvasWidth, canvasHeight) {
             const activeStage = global.vanCoTienDoGame && global.vanCoTienDoGame.activeStage;
             if (activeStage && activeStage.id !== this.currentStageId) {
                 this.applyStageTheme(activeStage);
             }
 
+            const z = this.camera.zoom || 1.0;
             if (canvasWidth && canvasHeight) {
-                this.camera.width = canvasWidth;
-                this.camera.height = canvasHeight;
+                this.camera.screenWidth = canvasWidth;
+                this.camera.screenHeight = canvasHeight;
+                this.camera.width = canvasWidth / z;
+                this.camera.height = canvasHeight / z;
             }
             if (player) {
                 const targetX = player.x - this.camera.width / 2;
@@ -684,8 +821,10 @@
                 this.camera.x += (targetX - this.camera.x) * Math.min(1, dt * 8);
                 this.camera.y += (targetY - this.camera.y) * Math.min(1, dt * 8);
 
-                this.camera.x = Math.max(0, Math.min(this.worldWidth - this.camera.width, this.camera.x));
-                this.camera.y = Math.max(0, Math.min(this.worldHeight - this.camera.height, this.camera.y));
+                const maxCamX = Math.max(0, this.worldWidth - this.camera.width);
+                const maxCamY = Math.max(0, this.worldHeight - this.camera.height);
+                this.camera.x = Math.max(0, Math.min(maxCamX, this.camera.x));
+                this.camera.y = Math.max(0, Math.min(maxCamY, this.camera.y));
             }
 
             this.worldTime.hourFloat += dt * 0.08;
@@ -777,9 +916,71 @@
                 if (node.charges <= 0) node.respawnTimer = node.respawnTime;
 
                 if (guSystem && typeof guSystem.attemptCaptureWildGu === "function") {
-                    return guSystem.attemptCaptureWildGu(player, node.dangerRank || 1);
+                    const res = guSystem.attemptCaptureWildGu(player, node.dangerRank || 1);
+                    res.floatingText = "🪲 Bắt Cổ Hoang Dã!";
+                    return res;
                 }
-                return { success: true, message: "Đã bắt được một Cổ Trùng Hoang Dã!" };
+                return { success: true, floatingText: "🪲 Bắt Cổ Hoang Dã!", message: "Đã bắt được một Cổ Trùng Hoang Dã!" };
+            }
+
+            if (node.isRelicChest) {
+                node.charges -= 1;
+                if (node.charges <= 0) node.respawnTimer = node.respawnTime;
+
+                const playerRank = (player && player.aperture) ? player.aperture.rank : 1;
+                const relicByRank = {
+                    1: "bronze_relic_gu",
+                    2: "red_iron_relic_gu",
+                    3: "white_silver_relic_gu",
+                    4: "yellow_gold_relic_gu",
+                    5: "purple_crystal_relic_gu"
+                };
+
+                if (Math.random() <= 0.65) {
+                    const chosenRelicId = relicByRank[Math.min(5, Math.max(1, playerRank))] || "white_silver_relic_gu";
+                    if (player && typeof player.addItem === "function") player.addItem(chosenRelicId, 1);
+                    const rMeta = (global.PlayerManager && global.PlayerManager.ITEM_DATABASE[chosenRelicId]) || { name: "Xá Lợi Cổ", icon: "⚪" };
+                    return {
+                        success: true,
+                        itemId: chosenRelicId,
+                        amount: 1,
+                        floatingText: `${rMeta.icon} +1 ${rMeta.name}!`,
+                        message: `⚱️ Khai quật [${node.name}] nhận được 1x 【${rMeta.name}】!`
+                    };
+                } else {
+                    const stones = 25 + Math.floor(Math.random() * 25);
+                    if (player && typeof player.addItem === "function") {
+                        player.addItem("primeval_stone", stones);
+                        player.addItem("remnant_recipe", 1);
+                    }
+                    return {
+                        success: true,
+                        itemId: "remnant_recipe",
+                        amount: 1,
+                        floatingText: `📜 +1 Tàn Phương & +${stones}💎`,
+                        message: `⚱️ Khai quật [${node.name}] tìm thấy 1x [Cổ Phương Tàn Quyển] và 💎 ${stones} Nguyên Thạch!`
+                    };
+                }
+            }
+
+            if (node.isHumanQiNode) {
+                const qiGain = Math.floor(node.minYield + Math.random() * (node.maxYield - node.minYield + 1));
+                node.charges -= 1;
+                if (node.charges <= 0) node.respawnTimer = node.respawnTime;
+
+                if (player && player.aperture) {
+                    player.aperture.humanQi += qiGain;
+                }
+                const gotSoul = Math.random() <= 0.55;
+                if (gotSoul && player && typeof player.addItem === "function") {
+                    player.addItem("soul_crystal", 1);
+                }
+                return {
+                    success: true,
+                    amount: qiGain,
+                    floatingText: `☯️ +${qiGain} Nhân Khí${gotSoul ? " & +1🔮" : ""}`,
+                    message: `☯️ Hấp thu tinh hoa từ [${node.name}] nhận +${qiGain} Nhân Khí${gotSoul ? " và 1x [Đãng Hồn Thạch Đan]" : ""}!`
+                };
             }
 
             const amount = Math.floor(node.minYield + Math.random() * (node.maxYield - node.minYield + 1));
@@ -792,11 +993,12 @@
                 player.addItem(node.itemId, amount);
             }
 
-            const itemMeta = (global.PlayerManager && global.PlayerManager.ITEM_DATABASE[node.itemId]) || { name: node.name };
+            const itemMeta = (global.PlayerManager && global.PlayerManager.ITEM_DATABASE[node.itemId]) || { name: node.name, icon: node.icon || "📦" };
             return {
                 success: true,
                 itemId: node.itemId,
                 amount: amount,
+                floatingText: `${itemMeta.icon || node.icon} +${amount} ${itemMeta.name}`,
                 message: `Thu thập thành công ${amount}x [${itemMeta.name}] từ ${node.name}!`
             };
         }
@@ -1195,7 +1397,8 @@
         toSaveData() {
             return {
                 worldTime: this.worldTime,
-                currentStageId: this.currentStageId
+                currentStageId: this.currentStageId,
+                cameraZoom: this.camera.zoom
             };
         }
 
@@ -1203,6 +1406,9 @@
             if (!data) return;
             if (data.worldTime) {
                 this.worldTime = { ...this.worldTime, ...data.worldTime };
+            }
+            if (typeof data.cameraZoom === "number") {
+                this.setZoom(data.cameraZoom);
             }
         }
     }

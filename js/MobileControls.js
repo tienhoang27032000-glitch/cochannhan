@@ -427,24 +427,58 @@
             const canvas = document.getElementById("gameCanvas");
             if (!canvas) return;
 
+            const activePointers = new Map();
+            let pinchStartDist = 0;
+            let pinchStartZoom = 1.0;
+
             canvas.addEventListener("pointerdown", (e) => {
-                if (!this.isMobileActive || !this.game || this.game.currentScreen !== "battle") return;
-                if (!this.game.map) return;
+                if (!this.game || this.game.currentScreen !== "battle" || !this.game.map) return;
+                if (this.game.isBattlePaused || this.game.isPermadead) return;
 
-                const wx = e.clientX + this.game.map.camera.x;
-                const wy = e.clientY + this.game.map.camera.y;
+                activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
+                if (activePointers.size === 2) {
+                    const pts = Array.from(activePointers.values());
+                    pinchStartDist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+                    pinchStartZoom = this.game.map.camera.zoom || 1.0;
+                    return;
+                }
+
+                if (!this.isMobileActive) return;
+
+                const worldPt = this.game.map.screenToWorld(e.clientX, e.clientY);
                 this.manualAim = {
                     active: true,
-                    worldX: wx,
-                    worldY: wy,
+                    worldX: worldPt.x,
+                    worldY: worldPt.y,
                     expireAt: performance.now() + 1800
                 };
                 this.game.input.mouseX = e.clientX;
                 this.game.input.mouseY = e.clientY;
-                this.game.input.mouseWorldX = wx;
-                this.game.input.mouseWorldY = wy;
+                this.game.input.mouseWorldX = worldPt.x;
+                this.game.input.mouseWorldY = worldPt.y;
             });
+
+            canvas.addEventListener("pointermove", (e) => {
+                if (!activePointers.has(e.pointerId)) return;
+                activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+                if (activePointers.size === 2 && pinchStartDist > 12 && this.game && this.game.currentScreen === "battle") {
+                    const pts = Array.from(activePointers.values());
+                    const curDist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+                    const scaleFactor = curDist / pinchStartDist;
+                    this.game.setBattleZoom(pinchStartZoom * scaleFactor, true);
+                }
+            });
+
+            const clearPtr = (e) => {
+                activePointers.delete(e.pointerId);
+                if (activePointers.size < 2) {
+                    pinchStartDist = 0;
+                }
+            };
+            canvas.addEventListener("pointerup", clearPtr);
+            canvas.addEventListener("pointercancel", clearPtr);
         }
 
         _resolveMobileAimTarget() {
@@ -481,8 +515,9 @@
             if (!this.game || !this.game.input || !this.game.map) return;
             this.game.input.mouseWorldX = wx;
             this.game.input.mouseWorldY = wy;
-            this.game.input.mouseX = wx - this.game.map.camera.x;
-            this.game.input.mouseY = wy - this.game.map.camera.y;
+            const scr = this.game.map.worldToScreen(wx, wy);
+            this.game.input.mouseX = scr.x;
+            this.game.input.mouseY = scr.y;
         }
 
         _bindBattleActionButtons() {

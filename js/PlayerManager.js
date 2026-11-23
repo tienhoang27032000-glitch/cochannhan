@@ -974,6 +974,10 @@
                 const rankCfg = global.ApertureSystem.MORTAL_RANKS[ap.rank];
                 const subCfg = global.ApertureSystem.MORTAL_SUBSTAGES[ap.subStage];
                 ap.maxWallProgress = Math.round(rankCfg.baseWallReq * subCfg.statMult);
+                if (!ap.aptitude || !ap.aptitude.physique) {
+                    ap.wallPressure = Math.max(8, (ap.wallPressure || 0) - 55);
+                    if (ap.wallPressure < 70) ap._pressureWarned = false;
+                }
                 ap.humanQi += 8 * ap.rank;
                 this.recalculateStats();
                 this.hp = this.maxHp;
@@ -984,6 +988,10 @@
                 };
             } else {
                 ap.wallProgress = ap.maxWallProgress;
+                if (!ap.aptitude || !ap.aptitude.physique) {
+                    ap.wallPressure = Math.max(8, (ap.wallPressure || 0) - 45);
+                    if (ap.wallPressure < 70) ap._pressureWarned = false;
+                }
                 return {
                     success: true,
                     message: `✨ Đã dung hợp [${relicMeta.name}]! Khiếu Bích Tinh Mạc đạt trạng thái viên mãn 100%, sẵn sàng xung kích Đại Cảnh Giới!`

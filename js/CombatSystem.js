@@ -148,6 +148,7 @@
 
         performPhantomDash(towardCursor = false) {
             if (!this.player || this.player.hp <= 0) return false;
+            if (this.game && (this.game.isBattlePaused || this.game.isPermadead)) return false;
             if (this.dashCooldown > 0) return false;
 
             if (this.player.stamina < 12) {
@@ -348,6 +349,7 @@
         activateGuSlot(slotIdx, targetX, targetY) {
             if (!this.guSystem || !this.player || !this.aperture) return false;
             if (this.player.hp <= 0) return false;
+            if (this.game && (this.game.isBattlePaused || this.game.isPermadead)) return false;
 
             const gu = this.guSystem.getEquippedGuAt(slotIdx);
             if (!gu) {
@@ -629,6 +631,7 @@
         activateKillerMoveSlot(kSlotIdx, targetX, targetY) {
             if (!this.guSystem || !this.player || !this.aperture) return false;
             if (this.player.hp <= 0) return false;
+            if (this.game && (this.game.isBattlePaused || this.game.isPermadead)) return false;
 
             const keys = ["Z", "X", "C", "V"];
             const move = this.guSystem.getEquippedKillerMoveAt(kSlotIdx);
@@ -2323,6 +2326,8 @@
 
         _renderComboAndDashUI(ctx) {
             const isMobile = document.body && document.body.classList.contains("mobile-ui");
+            ctx.save();
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
 
             if (this.comboCount >= 2) {
                 const bonusPct = Math.min(30, Math.round(this.comboCount * 1.0));
@@ -2349,7 +2354,7 @@
                 ctx.restore();
             }
 
-            if (isMobile) return;
+            if (isMobile) { ctx.restore(); return; }
 
             ctx.save();
             ctx.fillStyle = "rgba(14, 18, 26, 0.85)";
@@ -2367,6 +2372,7 @@
                 24,
                 252
             );
+            ctx.restore();
             ctx.restore();
         }
     }
