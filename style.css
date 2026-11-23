@@ -18,7 +18,7 @@
 
     /* Màu chữ */
     --text-main: #e6dfd5;
-    --text-muted: #948d81;
+    --text-muted: #b3aa9c;
     --text-gold: #e2bf75;
     --text-danger: #e05252;
     --text-jade: #5cc995;
@@ -1550,4 +1550,182 @@ input[type="text"]:focus, select:focus {
     gap: 6px;
     margin-top: 6px;
     font-size: 11.5px;
+}
+
+/* =========================================================================
+   10. NÂNG CẤP GIAO DIỆN DỄ NHÌN, DỄ THAO TÁC & TIỆN ÍCH V8
+   ========================================================================= */
+.card-box, .stage-map-card, .list-card, .item-card, .recipe-preview-box, .deduction-box, .qol-toolbar, .market-rotation-banner {
+    border-radius: 6px;
+}
+button, input[type="text"], select {
+    border-radius: 4px;
+}
+.sub-text {
+    font-size: 12.5px;
+    line-height: 1.45;
+}
+.action-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.qol-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    background: rgba(16, 22, 31, 0.92);
+    border: 1px solid var(--border-bronze);
+    padding: 10px 12px;
+}
+.qol-search-input {
+    flex: 1.3;
+    min-width: 180px;
+}
+.qol-select {
+    flex: 0.9;
+    min-width: 170px;
+}
+.qol-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--text-main);
+    cursor: pointer;
+    background: rgba(10, 14, 20, 0.85);
+    border: 1px solid var(--border-bronze);
+    padding: 6px 10px;
+    border-radius: 4px;
+    user-select: none;
+}
+.qol-checkbox-label input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: #5cc995;
+    cursor: pointer;
+}
+
+/* Luyện Đạo Các: Thủ pháp & Kho chọn nhanh */
+.refine-controls-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+.refine-slot {
+    border-radius: 6px;
+    transition: all 0.16s ease;
+    font-weight: bold;
+}
+.refine-slot:hover {
+    border-color: var(--border-glow);
+    background: rgba(58, 45, 24, 0.85);
+    transform: translateY(-1px);
+}
+.quick-picker-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-height: 120px;
+    overflow-y: auto;
+    padding: 4px;
+    background: rgba(7, 10, 15, 0.78);
+    border: 1px solid var(--border-dim);
+    border-radius: 4px;
+}
+.picker-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(24, 31, 42, 0.95);
+    border: 1px solid var(--border-bronze);
+    color: var(--text-main);
+    padding: 4px 8px;
+    font-size: 11.5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.picker-chip:hover {
+    border-color: var(--border-gold);
+    color: var(--text-gold);
+    background: rgba(48, 39, 24, 0.9);
+}
+.picker-chip.in-furnace {
+    border-color: #5cc995;
+    background: rgba(24, 72, 54, 0.65);
+    color: #98f5c8;
+}
+
+/* Thanh độ no & Màu phân bậc Chuyển cho Kho Cổ */
+.gu-hunger-mini {
+    width: 100%;
+    height: 4px;
+    background: #05070a;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 2px;
+}
+.gu-hunger-mini-fill {
+    height: 100%;
+    background: #5cc995;
+}
+.gu-hunger-mini-fill.low {
+    background: #ff4d4d;
+}
+.item-card.rank-border-1 { border-color: #2f8c69; }
+.item-card.rank-border-2 { border-color: #c2423a; }
+.item-card.rank-border-3 { border-color: #9ab3bf; }
+.item-card.rank-border-4 { border-color: #d4a62a; }
+.item-card.rank-border-5 { border-color: #9b59b6; }
+.item-card.rank-border-6 { border-color: #4cd964; box-shadow: inset 0 0 8px rgba(76, 217, 100, 0.25); }
+.item-card.rank-border-7 { border-color: #ff3b30; box-shadow: inset 0 0 8px rgba(255, 59, 48, 0.28); }
+.item-card.rank-border-8 { border-color: #99d6ff; box-shadow: inset 0 0 10px rgba(153, 214, 255, 0.30); }
+.item-card.rank-border-9 { border-color: #ffd700; box-shadow: inset 0 0 12px rgba(255, 215, 0, 0.40); }
+
+/* Thông báo nổi (Floating Toast Stack) */
+.toast-stack {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 360px;
+    pointer-events: none;
+}
+.toast-item {
+    background: rgba(14, 19, 28, 0.96);
+    border: 1px solid var(--border-gold);
+    border-left: 4px solid var(--border-gold);
+    color: var(--text-main);
+    padding: 9px 13px;
+    border-radius: 5px;
+    font-size: 12.5px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85);
+    animation: toastSlideIn 0.2s ease-out;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.toast-item.loot { border-left-color: #5cc995; color: #bdf7da; }
+.toast-item.cultivation { border-left-color: #67b7d1; color: #ccf0ff; }
+.toast-item.warning { border-left-color: #f7c948; color: #ffe8a3; }
+.toast-item.danger { border-left-color: #ff4d4d; color: #ffb3b3; }
+.toast-item.fade-out { opacity: 0; transform: translateX(18px); }
+@keyframes toastSlideIn {
+    from { opacity: 0; transform: translateX(22px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 780px) {
+    .action-grid-2, .refine-controls-grid {
+        grid-template-columns: 1fr;
+    }
+    .toast-stack {
+        top: 8px;
+        right: 8px;
+        left: 8px;
+        max-width: none;
+    }
 }

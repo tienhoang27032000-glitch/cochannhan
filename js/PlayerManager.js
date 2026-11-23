@@ -249,7 +249,7 @@
                 { id: "spirit_herb", count: 4 },
                 { id: "red_iron_ore", count: 2 }
             ],
-            desc: "Đệ tử ngoại môn của đại phái. Có nền tảng Kiếm Đạo (+10 Đạo Ngân), 120 Điểm Cống Hiến và 1 Cổ Phương Tàn Quyển."
+            desc: "Đệ tử ngoại môn của đại phái. Có nền tảng Lĩnh Ngộ Kiếm Đạo sâu dày, 120 Điểm Cống Hiến và 1 Cổ Phương Tàn Quyển."
         },
         lone_cultivator: {
             id: "lone_cultivator",
@@ -280,7 +280,7 @@
                 { id: "remnant_recipe", count: 1 },
                 { id: "soul_crystal", count: 1 }
             ],
-            desc: "Tình cờ kế thừa huyết truyền của một cự phách Ma Đạo. Sát lực hung hãn (+15 Đạo Ngân Huyết Đạo) và 1 Tàn Phương."
+            desc: "Tình cờ kế thừa huyết truyền của một cự phách Ma Đạo. Sát lực hung hãn, có nền tảng Lĩnh Ngộ Huyết Đạo và 1 Tàn Phương."
         },
         merchant_heir: {
             id: "merchant_heir",
@@ -883,13 +883,15 @@
             // Buff trong trận chiến
             this.activeBuffs = [];
 
-            // Đạo Ngân & Cảnh giới Lĩnh ngộ 21 Lưu phái
+            // Đạo Ngân (CHỈ CÓ Ở CỔ TIÊN LỤC CHUYỂN+) & Cảnh giới Lĩnh ngộ 21 Lưu phái
             this.mainPath = "Quang Đạo";
             this.daoMarks = {};
             this.pathAttainment = {};
+            this.pathAttainmentExp = {};
             for (const pathName of Object.keys(DAO_PATHS)) {
                 this.daoMarks[pathName] = 0;
                 this.pathAttainment[pathName] = "Phàm Cấp";
+                this.pathAttainmentExp[pathName] = 0;
             }
 
             this.dreamClears = {};
@@ -925,14 +927,15 @@
                 this.addItem(item.id, item.count);
             }
 
+            // Chuẩn nguyên tác: Phàm nhân (1–5 Chuyển) KHÔNG có Đạo Ngân; chỉ có Cảnh Giới Lĩnh Ngộ lưu phái
             if (regCfg.initialDaoMarks) {
                 for (const [p, val] of Object.entries(regCfg.initialDaoMarks)) {
-                    this.addDaoMarks(p, val);
+                    this.addPathAttainmentExp(p, val);
                 }
             }
             if (oriCfg.extraDaoMarks) {
                 for (const [p, val] of Object.entries(oriCfg.extraDaoMarks)) {
-                    this.addDaoMarks(p, val);
+                    this.addPathAttainmentExp(p, val);
                 }
             }
 
@@ -940,7 +943,7 @@
                 const phy = this.aperture.aptitude.physique;
                 this.mainPath = phy.favoredPaths[0];
                 for (const p of phy.favoredPaths) {
-                    this.addDaoMarks(p, 30);
+                    this.addPathAttainmentExp(p, 25);
                 }
                 this.addItem("thach_khieu_gu", 1);
             }
@@ -1070,15 +1073,19 @@
 
             this.mental = Math.max(0, this.mental - dream.mentalCost);
 
-            const triMarks = this.daoMarks["Trí Đạo"] || 0;
-            const honMarks = this.daoMarks["Hồn Đạo"] || 0;
-            const chance = Math.min(0.95, 0.72 + (triMarks + honMarks) * 0.002);
+            const isImmortal = this.isImmortalCultivator();
+            const triScore = isImmortal ? (this.daoMarks["Trí Đạo"] || 0) : (this.pathAttainmentExp["Trí Đạo"] || 0);
+            const honScore = isImmortal ? (this.daoMarks["Hồn Đạo"] || 0) : (this.pathAttainmentExp["Hồn Đạo"] || 0);
+            const chance = Math.min(0.95, 0.72 + (triScore + honScore) * 0.0015);
 
             if (Math.random() <= chance) {
                 this.dreamClears[dream.id] = (this.dreamClears[dream.id] || 0) + 1;
                 const targetPaths = dream.useMainPath ? [this.mainPath] : dream.paths.filter(p => DAO_PATHS[p]);
                 for (const p of targetPaths) {
-                    this.addDaoMarks(p, dream.daoMarksReward);
+                    this.addPathAttainmentExp(p, dream.daoMarksReward);
+                    if (isImmortal) {
+                        this.addDaoMarks(p, dream.daoMarksReward);
+                    }
                 }
                 if (this.aperture) {
                     this.aperture.humanQi += dream.humanQiReward;
@@ -1086,14 +1093,22 @@
 
                 return {
                     success: true,
-                    message: `🌙 Thăm dò [${dream.name}] thành công! Hấp thu chân ý nhận +${dream.daoMarksReward.toLocaleString("vi-VN")} Đạo Ngân (${targetPaths.join(", ")}) và +${dream.humanQiReward} Nhân Khí!`
+                    message: isImmortal
+                        ? `🌙 Thăm dò [${dream.name}] thành công! Hấp thu chân ý nhận +${dream.daoMarksReward.toLocaleString("vi-VN")} Đạo Ngân & Lĩnh Ngộ (${targetPaths.join(", ")}) và +${dream.humanQiReward} Nhân Khí!`
+                        : `🌙 Thăm dò [${dream.name}] thành công! Nâng cao +${dream.daoMarksReward} Lĩnh Ngộ Lưu Phái (${targetPaths.join(", ")}) và +${dream.humanQiReward} Nhân Khí! (Phàm nhân chưa có Đạo Ngân)`
                 };
             } else {
                 const minGain = Math.max(4, Math.floor(dream.daoMarksReward * 0.3));
-                this.addDaoMarks(dream.paths[0], minGain);
+                const firstPath = dream.useMainPath ? this.mainPath : dream.paths[0];
+                this.addPathAttainmentExp(firstPath, minGain);
+                if (isImmortal) {
+                    this.addDaoMarks(firstPath, minGain);
+                }
                 return {
                     success: false,
-                    message: `Mộng cảnh mê hoặc tâm thần khiến ngươi phải rút lui sớm, nhưng vẫn kịp lĩnh ngộ +${minGain} Đạo Ngân ${dream.paths[0]}.`
+                    message: isImmortal
+                        ? `Mộng cảnh mê hoặc tâm thần khiến ngươi phải rút lui sớm, nhưng vẫn kịp lĩnh ngộ +${minGain} Đạo Ngân ${firstPath}.`
+                        : `Mộng cảnh mê hoặc tâm thần khiến ngươi phải rút lui sớm, nhưng vẫn kịp tăng +${minGain} Lĩnh Ngộ ${firstPath}.`
                 };
             }
         }
@@ -1133,12 +1148,13 @@
                 return 2000 + Math.sqrt(v - 2000) * 18;
             };
 
-            const mainMarks = curveMarks(this.daoMarks[this.mainPath] || 0);
-            const lucMarks = curveMarks(this.daoMarks["Lực Đạo"] || 0);
-            const honMarks = curveMarks(this.daoMarks["Hồn Đạo"] || 0);
-            const kimMarks = curveMarks(this.daoMarks["Kim Đạo"] || 0);
-            const thoMarks = curveMarks(this.daoMarks["Thổ Đạo"] || 0);
-            const phongMarks = curveMarks(this.daoMarks["Phong Đạo"] || 0);
+            // Phàm nhân KHÔNG có Đạo Ngân — chỉ Cổ Tiên (Lục Chuyển+) mới nhận tăng phúc từ Đạo Ngân
+            const mainMarks = isImmortal ? curveMarks(this.daoMarks[this.mainPath] || 0) : 0;
+            const lucMarks = isImmortal ? curveMarks(this.daoMarks["Lực Đạo"] || 0) : 0;
+            const honMarks = isImmortal ? curveMarks(this.daoMarks["Hồn Đạo"] || 0) : 0;
+            const kimMarks = isImmortal ? curveMarks(this.daoMarks["Kim Đạo"] || 0) : 0;
+            const thoMarks = isImmortal ? curveMarks(this.daoMarks["Thổ Đạo"] || 0) : 0;
+            const phongMarks = isImmortal ? curveMarks(this.daoMarks["Phong Đạo"] || 0) : 0;
 
             let calcMaxHp = Math.round(this.baseMaxHp * totalRealmMult + lucMarks * 1.8 + thoMarks * 1.4 + mainMarks * 1.0);
             let calcAtk = Math.round(this.baseAtk * totalRealmMult + lucMarks * 0.45 + mainMarks * 0.35);
@@ -1170,8 +1186,80 @@
             this.mental = Math.min(this.mental, this.maxMental);
         }
 
+        isImmortalCultivator() {
+            return Boolean(this.aperture && this.aperture.isImmortal);
+        }
+
+        getEffectiveDaoMarks(pathName) {
+            if (!this.isImmortalCultivator()) return 0;
+            return Math.max(0, this.daoMarks[pathName] || 0);
+        }
+
+        _updatePathAttainmentLabel(pathName) {
+            const score = Math.max(
+                this.pathAttainmentExp[pathName] || 0,
+                this.isImmortalCultivator() ? (this.daoMarks[pathName] || 0) : 0
+            );
+            if (score >= 10000) this.pathAttainment[pathName] = "Vô Thượng Đại Tông Sư";
+            else if (score >= 2000) this.pathAttainment[pathName] = "Đại Tông Sư";
+            else if (score >= 400) this.pathAttainment[pathName] = "Tông Sư";
+            else if (score >= 100) this.pathAttainment[pathName] = "Đại Sư";
+            else if (score >= 25) this.pathAttainment[pathName] = "Chuẩn Đại Sư";
+            else this.pathAttainment[pathName] = "Phàm Cấp";
+        }
+
+        addPathAttainmentExp(pathName, amount = 1) {
+            if (!DAO_PATHS[pathName] || amount <= 0) return false;
+            this.pathAttainmentExp[pathName] = Math.max(0, (this.pathAttainmentExp[pathName] || 0) + amount);
+            this._updatePathAttainmentLabel(pathName);
+
+            if (!this.isImmortalCultivator()) {
+                let highestPath = this.mainPath;
+                let highestVal = this.pathAttainmentExp[highestPath] || 0;
+                for (const [p, val] of Object.entries(this.pathAttainmentExp)) {
+                    if (val > highestVal) {
+                        highestVal = val;
+                        highestPath = p;
+                    }
+                }
+                this.mainPath = highestPath;
+            }
+            return true;
+        }
+
+        grantInitialImmortalDaoMarks() {
+            if (!this.isImmortalCultivator()) return;
+            const regCfg = FIVE_REGIONS[this.region];
+            const oriCfg = FACTION_ORIGINS[this.origin];
+            if (regCfg && regCfg.initialDaoMarks) {
+                for (const [p, val] of Object.entries(regCfg.initialDaoMarks)) {
+                    this.addDaoMarks(p, val * 15);
+                }
+            }
+            if (oriCfg && oriCfg.extraDaoMarks) {
+                for (const [p, val] of Object.entries(oriCfg.extraDaoMarks)) {
+                    this.addDaoMarks(p, val * 15);
+                }
+            }
+            if (this.aperture && this.aperture.aptitude && this.aperture.aptitude.physique) {
+                for (const p of this.aperture.aptitude.physique.favoredPaths) {
+                    this.addDaoMarks(p, 350);
+                }
+            }
+            this.addDaoMarks(this.mainPath, 200);
+        }
+
+        /**
+         * Chuẩn nguyên tác Cổ Chân Nhân: Đạo Ngân CHỈ CÓ Ở CỔ TIÊN (Lục Chuyển trở lên).
+         * Phàm nhân (Nhất -> Ngũ Chuyển) tuyệt đối KHÔNG có Đạo Ngân.
+         */
         addDaoMarks(pathName, amount = 1) {
-            if (!DAO_PATHS[pathName]) return;
+            if (!DAO_PATHS[pathName]) return false;
+            if (!this.isImmortalCultivator()) {
+                this.daoMarks[pathName] = 0;
+                return false;
+            }
+
             this.daoMarks[pathName] = Math.max(0, (this.daoMarks[pathName] || 0) + amount);
 
             let highestPath = this.mainPath;
@@ -1183,19 +1271,13 @@
                 }
             }
             this.mainPath = highestPath;
-
-            const marks = this.daoMarks[pathName];
-            if (marks >= 10000) this.pathAttainment[pathName] = "Vô Thượng Đại Tông Sư";
-            else if (marks >= 2000) this.pathAttainment[pathName] = "Đại Tông Sư";
-            else if (marks >= 400) this.pathAttainment[pathName] = "Tông Sư";
-            else if (marks >= 100) this.pathAttainment[pathName] = "Đại Sư";
-            else if (marks >= 25) this.pathAttainment[pathName] = "Chuẩn Đại Sư";
-            else this.pathAttainment[pathName] = "Phàm Cấp";
-
+            this._updatePathAttainmentLabel(pathName);
             this.recalculateStats();
+            return true;
         }
 
         addDaoMarksFromTribulation(totalMarks, mainRatio = 0.80) {
+            if (!this.isImmortalCultivator()) return false;
             const mainShare = Math.floor(totalMarks * mainRatio);
             const rest = Math.max(0, totalMarks - mainShare);
             this.addDaoMarks(this.mainPath, mainShare);
@@ -1204,10 +1286,11 @@
                 const secondary = (pathInfo && pathInfo.synergyWith && pathInfo.synergyWith[0]) || "Luyện Đạo";
                 this.addDaoMarks(secondary, rest);
             }
+            return true;
         }
 
         calculateDaoAmplification(primaryPath, secondaryPaths = []) {
-            const sameMarks = this.daoMarks[primaryPath] || 0;
+            const sameMarks = this.getEffectiveDaoMarks(primaryPath);
             // Chuẩn nguyên tác: dưới 5.000 ĐN tăng +100% mỗi 1.000 ĐN; trên 5.000 dùng đường cong mượt cho mốc 30 vạn Đạo Ngân
             let amplification = 1.0;
             if (sameMarks <= 5000) {
@@ -1378,7 +1461,9 @@
         takeDamage(rawDamage, sourceName = "Đòn tấn công") {
             let actualDamage = rawDamage;
             if (!sourceName.includes("Khiếu Bích") && !sourceName.includes("Đồng Hóa")) {
-                actualDamage = Math.max(1, rawDamage - this.def * 0.55);
+                // Giáp cơ bản giảm tối đa 80% sát thương (đảm bảo quái đồng cấp / cao cấp không bao giờ bị ép về 1 máu)
+                const minPenetration = Math.max(1, rawDamage * 0.20);
+                actualDamage = Math.max(minPenetration, rawDamage - this.def * 0.55);
             }
 
             for (const buff of this.activeBuffs) {
@@ -1797,6 +1882,7 @@
                 mainPath: this.mainPath,
                 daoMarks: this.daoMarks,
                 pathAttainment: this.pathAttainment,
+                pathAttainmentExp: this.pathAttainmentExp,
                 dreamClears: this.dreamClears,
                 inventory: this.inventory
             };
@@ -1825,8 +1911,27 @@
             this.tradeDiscount = data.tradeDiscount || 0;
             this.mainPath = data.mainPath || "Quang Đạo";
 
-            if (data.daoMarks) this.daoMarks = { ...this.daoMarks, ...data.daoMarks };
+            if (data.pathAttainmentExp) this.pathAttainmentExp = { ...this.pathAttainmentExp, ...data.pathAttainmentExp };
+            if (data.daoMarks) {
+                if (this.isImmortalCultivator()) {
+                    this.daoMarks = { ...this.daoMarks, ...data.daoMarks };
+                } else {
+                    // Phàm nhân không có Đạo Ngân: chuyển thành Lĩnh Ngộ lưu phái nếu là bản lưu cũ
+                    for (const [p, val] of Object.entries(data.daoMarks)) {
+                        if (DAO_PATHS[p]) {
+                            this.daoMarks[p] = 0;
+                            if (!data.pathAttainmentExp && val > 0) {
+                                this.pathAttainmentExp[p] = Math.max(this.pathAttainmentExp[p] || 0, val);
+                            }
+                        }
+                    }
+                }
+            }
             if (data.pathAttainment) this.pathAttainment = { ...this.pathAttainment, ...data.pathAttainment };
+            for (const p of Object.keys(DAO_PATHS)) {
+                if (!this.isImmortalCultivator()) this.daoMarks[p] = 0;
+                this._updatePathAttainmentLabel(p);
+            }
             if (data.dreamClears) this.dreamClears = { ...data.dreamClears };
             if (Array.isArray(data.inventory)) this.inventory = data.inventory;
 

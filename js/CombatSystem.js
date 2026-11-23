@@ -221,7 +221,7 @@
         }
 
         _rollCriticalAndComboDamage(baseDamage) {
-            const vanMarks = (this.player && this.player.daoMarks && this.player.daoMarks["Vận Đạo"]) || 0;
+            const vanMarks = (this.player && typeof this.player.getEffectiveDaoMarks === "function") ? this.player.getEffectiveDaoMarks("Vận Đạo") : 0;
             const critChance = Math.min(0.60, 0.10 + vanMarks * 0.0022 + this.comboCount * 0.006);
             const isCrit = Math.random() < critChance;
 
@@ -380,7 +380,7 @@
             const consumeRes = this.aperture.consumeEssence(gu.essenceCost, gu.rank, gu.path);
             if (!consumeRes.success) return false;
 
-            const timeMarks = (this.player.daoMarks && this.player.daoMarks["Thời Gian Đạo"]) || 0;
+            const timeMarks = (this.player && typeof this.player.getEffectiveDaoMarks === "function") ? this.player.getEffectiveDaoMarks("Thời Gian Đạo") : 0;
             const cdMultiplier = Math.max(0.50, 1 - timeMarks * 0.0015);
             this.guCooldowns[gu.instanceId] = Number((gu.cooldown * cdMultiplier).toFixed(2));
 

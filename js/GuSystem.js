@@ -61,6 +61,22 @@
         ascendable: "Linh Cổ (Có thể thăng 1–9 Chuyển)"
     };
 
+    /**
+     * Cấu hình Luyện Hóa Dã Cổ / Cổ Trùng Chưa Luyện Hóa bằng Nguyên Thạch & Tinh Thần Lực.
+     * Cấp Chuyển càng cao: Nguyên Thạch & Tinh Thần càng tốn, tỷ lệ thành công càng thấp, tiến độ mỗi bước càng ít!
+     */
+    const WILD_REFINE_CONFIG = {
+        1: { stones: 4,    mental: 12, baseSuccess: 0.86, minGain: 45, maxGain: 58 },
+        2: { stones: 14,   mental: 20, baseSuccess: 0.74, minGain: 32, maxGain: 42 },
+        3: { stones: 38,   mental: 30, baseSuccess: 0.62, minGain: 24, maxGain: 32 },
+        4: { stones: 95,   mental: 45, baseSuccess: 0.50, minGain: 18, maxGain: 25 },
+        5: { stones: 240,  mental: 65, baseSuccess: 0.38, minGain: 13, maxGain: 19 },
+        6: { stones: 600,  mental: 90, baseSuccess: 0.28, minGain: 10, maxGain: 15 },
+        7: { stones: 1500, mental: 120, baseSuccess: 0.20, minGain: 8,  maxGain: 12 },
+        8: { stones: 3500, mental: 155, baseSuccess: 0.14, minGain: 6,  maxGain: 9  },
+        9: { stones: 8000, mental: 200, baseSuccess: 0.09, minGain: 4,  maxGain: 7  }
+    };
+
     // =========================================================================
     // 2. CƠ SỞ DỮ LIỆU 62 CỔ TRÙNG CHUẨN NGUYÊN TÁC (GU_DATABASE)
     // =========================================================================
@@ -2082,6 +2098,104 @@
             ingredientsDesc: "Thái Cổ Giao Long Lực Cổ + Nhiếp Hồn Âm Cổ + 1 Tiên Nguyên Thạch + 3200 Nguyên Thạch"
         },
         {
+            id: "recipe_huyet_ha_r5",
+            resultGuId: "huyet_hai_thao_thien_gu",
+            resultRank: 5,
+            resultName: "Huyết Hà Đại Trận Cổ Ngũ Chuyển",
+            requiredGuIds: ["huyet_lo_gu", "huyet_nguyet_gu"],
+            requiredItemId: "beast_blood_core",
+            requiredRealmRank: 4,
+            essenceCost: 50,
+            stoneCost: 950,
+            baseChance: 0.45,
+            unlockedByDefault: false,
+            ingredientsDesc: "Huyết Lô Cổ + Huyết Nguyệt Cổ + Bách Thú Tinh Huyết + 950 Nguyên Thạch"
+        },
+        {
+            id: "recipe_xuan_thu_thien_r6",
+            resultGuId: "xuan_thu_thien_gu",
+            resultRank: 6,
+            resultName: "Xuân Thu Thiền Lục Chuyển",
+            requiredGuIds: ["sinh_co_moc_gu", "tuu_trung_gu"],
+            requiredItemId: "immortal_stone",
+            requiredRealmRank: 5,
+            essenceCost: 60,
+            stoneCost: 2200,
+            baseChance: 0.36,
+            unlockedByDefault: false,
+            ingredientsDesc: "Thiên Nguyên Bảo Liên + Tửu Trùng + 1 Tiên Nguyên Thạch + 2200 Nguyên Thạch"
+        },
+        {
+            id: "recipe_dang_hon_tien_r7",
+            resultGuId: "dang_hon_tien_gu",
+            resultRank: 7,
+            resultName: "Đãng Hồn Tiên Cổ Thất Chuyển",
+            requiredGuIds: ["hon_khieu_gu", "thien_thi_vuong_gu"],
+            requiredItemId: "immortal_stone",
+            requiredRealmRank: 6,
+            essenceCost: 3,
+            stoneCost: 3600,
+            baseChance: 0.35,
+            unlockedByDefault: false,
+            ingredientsDesc: "Nhiếp Hồn Âm Cổ + Thiên Thi Vương Cổ + 1 Tiên Nguyên Thạch + 3600 Nguyên Thạch"
+        },
+        {
+            id: "recipe_tri_tue_tien_r8",
+            resultGuId: "tri_tue_tien_gu",
+            resultRank: 8,
+            resultName: "Trí Tuệ Cổ Bát Chuyển",
+            requiredGuIds: ["tinh_quang_gu", "cam_ly_van_gu"],
+            requiredItemId: "immortal_stone",
+            requiredRealmRank: 7,
+            essenceCost: 4,
+            stoneCost: 6200,
+            baseChance: 0.30,
+            unlockedByDefault: false,
+            ingredientsDesc: "Tinh Quang Cổ + Cẩm Lý Vận Cổ + 1 Tiên Nguyên Thạch + 6200 Nguyên Thạch"
+        },
+        {
+            id: "recipe_kiep_van_dan_r8",
+            resultGuId: "kiep_van_dan_tien_gu",
+            resultRank: 8,
+            resultName: "Kiếp Vận Đàn Tiên Cổ Bát Chuyển",
+            requiredGuIds: ["cau_thi_van_tien_gu", "kim_chung_trao_gu"],
+            requiredItemId: "immortal_stone",
+            requiredRealmRank: 7,
+            essenceCost: 4,
+            stoneCost: 6500,
+            baseChance: 0.30,
+            unlockedByDefault: false,
+            ingredientsDesc: "Cẩu Thỉ Vận Tiên Cổ + Hoàng Kim Chung Cổ + 1 Tiên Nguyên Thạch + 6500 Nguyên Thạch"
+        },
+        {
+            id: "recipe_ai_tinh_tien_r9",
+            resultGuId: "ai_tinh_tien_gu",
+            resultRank: 9,
+            resultName: "Ái Tình Tiên Cổ Cửu Chuyển",
+            requiredGuIds: ["tinh_quang_gu", "sinh_co_moc_gu"],
+            requiredItemId: "immortal_stone",
+            requiredRealmRank: 8,
+            essenceCost: 5,
+            stoneCost: 8500,
+            baseChance: 0.25,
+            unlockedByDefault: false,
+            ingredientsDesc: "Tinh Quang Cổ + Thiên Nguyên Bảo Liên + 1 Tiên Nguyên Thạch + 8500 Nguyên Thạch"
+        },
+        {
+            id: "recipe_thien_co_tien_r9",
+            resultGuId: "thien_co_tien_gu",
+            resultRank: 9,
+            resultName: "Thiên Cơ Tiên Cổ Cửu Chuyển",
+            requiredGuIds: ["tri_tue_tien_gu", "dinh_tien_du_gu"],
+            requiredItemId: "immortal_stone",
+            requiredRealmRank: 8,
+            essenceCost: 5,
+            stoneCost: 9200,
+            baseChance: 0.24,
+            unlockedByDefault: false,
+            ingredientsDesc: "Trí Tuệ Cổ + Định Tiên Du + 1 Tiên Nguyên Thạch + 9200 Nguyên Thạch"
+        },
+        {
             id: "recipe_chi_ton_tien_thai_r9",
             resultGuId: "chi_ton_tien_thai_gu",
             resultRank: 9,
@@ -2089,11 +2203,171 @@
             requiredGuIds: ["thien_dia_hong_lo_gu", "thien_thi_vuong_gu"],
             requiredItemId: "immortal_stone",
             requiredRealmRank: 8,
-            essenceCost: 4,
-            stoneCost: 9000,
-            baseChance: 0.28,
+            essenceCost: 5,
+            stoneCost: 9800,
+            baseChance: 0.24,
             unlockedByDefault: false,
-            ingredientsDesc: "Thiên Địa Hồng Lô Cổ + Thiên Thi Vương Cổ + 1 Tiên Nguyên Thạch + 9000 Nguyên Thạch"
+            ingredientsDesc: "Thiên Địa Hồng Lô Cổ + Thiên Thi Vương Cổ + 1 Tiên Nguyên Thạch + 9800 Nguyên Thạch"
+        }
+    ];
+
+    // =========================================================================
+    // 3B. 4 THỦ PHÁP LUYỆN CỔ, PHỤ TRỢ GIA TRÌ & CÔNG THỨC TINH LUYỆN CỔ TÀI
+    // =========================================================================
+
+    const REFINEMENT_TECHNIQUES = {
+        fire_method: {
+            id: "fire_method",
+            name: "🔥 Hỏa Pháp Luyện Cổ",
+            chanceBonus: 0.06,
+            essenceMult: 0.90,
+            breakRiskMult: 1.0,
+            expMult: 1.0,
+            hpCostPct: 0,
+            mentalCost: 0,
+            desc: "Thủ pháp Chính Đạo căn bản: +6% tỷ lệ thành công, giảm 10% Chân Nguyên tiêu hao."
+        },
+        ice_method: {
+            id: "ice_method",
+            name: "❄️ Băng Pháp Trấn Lô",
+            chanceBonus: 0.02,
+            essenceMult: 1.0,
+            breakRiskMult: 0.45,
+            expMult: 1.15,
+            hpCostPct: 0,
+            mentalCost: 10,
+            desc: "Hàn khí trấn áp phản phệ: +2% tỷ lệ, giảm 55% nguy cơ vỡ mất Cổ nếu thất bại (tốn 10 Tinh Thần)."
+        },
+        blood_method: {
+            id: "blood_method",
+            name: "🩸 Huyết Luyện Bí Pháp",
+            chanceBonus: 0.15,
+            essenceMult: 0.85,
+            breakRiskMult: 1.15,
+            expMult: 1.1,
+            hpCostPct: 0.20,
+            mentalCost: 0,
+            desc: "Thủ pháp Ma Đạo: Hiến tế 20% Sinh Mệnh hiện tại để ép tăng +15% tỷ lệ thành công!"
+        },
+        human_method: {
+            id: "human_method",
+            name: "🌌 Nhân Luyện Thần Niệm",
+            chanceBonus: 0.12,
+            essenceMult: 1.0,
+            breakRiskMult: 0.75,
+            expMult: 2.0,
+            hpCostPct: 0,
+            mentalCost: 30,
+            desc: "Lấy thần niệm Trí Đạo điều khiển hỏa hầu: tốn 30 Tinh Thần, +12% tỷ lệ & x2 kinh nghiệm Luyện Đạo!"
+        }
+    };
+
+    const REFINEMENT_CATALYSTS = {
+        none: { id: "none", name: "Không dùng phụ trợ gia trì", itemId: null, chanceBonus: 0 },
+        spirit_herb: { id: "spirit_herb", name: "🌿 Thanh Linh Thảo (+3% Tỷ lệ)", itemId: "spirit_herb", chanceBonus: 0.03 },
+        hundred_year_ginseng: { id: "hundred_year_ginseng", name: "🥕 Bách Niên Khổ Sâm (+7% Tỷ lệ)", itemId: "hundred_year_ginseng", chanceBonus: 0.07 },
+        soul_crystal: { id: "soul_crystal", name: "🔮 Đãng Hồn Thạch Đan (+12% Tỷ lệ)", itemId: "soul_crystal", chanceBonus: 0.12 }
+    };
+
+    const REFINEMENT_MASTERY_TIERS = [
+        { level: 1, minExp: 0, title: "Luyện Cổ Học Đồ", bonus: 0.00 },
+        { level: 2, minExp: 60, title: "Luyện Cổ Sư Thuần Thục", bonus: 0.03 },
+        { level: 3, minExp: 180, title: "Luyện Cổ Danh Gia", bonus: 0.06 },
+        { level: 4, minExp: 400, title: "Luyện Đạo Đại Sư", bonus: 0.10 },
+        { level: 5, minExp: 850, title: "Luyện Đạo Tông Sư", bonus: 0.14 },
+        { level: 6, minExp: 1800, title: "Luyện Đạo Chuẩn Vô Thượng", bonus: 0.18 }
+    ];
+
+    const MATERIAL_SYNTHESIS_RECIPES = [
+        {
+            id: "syn_red_iron",
+            name: "Xích Thiết Tinh Khoáng",
+            icon: "🧱",
+            resultItemId: "red_iron_ore",
+            resultCount: 1,
+            stoneCost: 15,
+            materials: [{ itemId: "bronze_ore", count: 3 }],
+            desc: "Tinh luyện 3x Thanh Đồng Khoáng thành 1x Xích Thiết Tinh Khoáng."
+        },
+        {
+            id: "syn_beast_blood",
+            name: "Bách Thú Tinh Huyết",
+            icon: "🩸",
+            resultItemId: "beast_blood_core",
+            resultCount: 1,
+            stoneCost: 15,
+            materials: [{ itemId: "ration_meat", count: 3 }],
+            desc: "Chiết xuất tinh huyết từ 3x Thịt Thú Rừng Tươi thành 1x Bách Thú Tinh Huyết."
+        },
+        {
+            id: "syn_ginseng",
+            name: "Bách Niên Khổ Sâm",
+            icon: "🥕",
+            resultItemId: "hundred_year_ginseng",
+            resultCount: 1,
+            stoneCost: 22,
+            materials: [{ itemId: "spirit_herb", count: 3 }],
+            desc: "Cô đặc sinh cơ từ 3x Thanh Linh Thảo thành 1x Bách Niên Khổ Sâm."
+        },
+        {
+            id: "syn_wind_crystal",
+            name: "Phong Tuyền Tinh Thạch",
+            icon: "🎐",
+            resultItemId: "wind_essence_crystal",
+            resultCount: 1,
+            stoneCost: 28,
+            materials: [{ itemId: "moon_orchid", count: 2 }, { itemId: "spirit_herb", count: 2 }],
+            desc: "Ngưng tụ linh khí từ 2x Nguyệt Lan Hoa + 2x Thanh Linh Thảo thành 1x Phong Tuyền Tinh Thạch."
+        },
+        {
+            id: "syn_jade_bone",
+            name: "Bạch Ngọc Cốt Tủy",
+            icon: "🦴",
+            resultItemId: "jade_bone",
+            resultCount: 1,
+            stoneCost: 42,
+            materials: [{ itemId: "red_iron_ore", count: 2 }, { itemId: "beast_blood_core", count: 2 }],
+            desc: "Rèn 2x Xích Thiết Tinh Khoáng + 2x Bách Thú Tinh Huyết thành 1x Bạch Ngọc Cốt Tủy."
+        },
+        {
+            id: "syn_soul_crystal",
+            name: "Đãng Hồn Thạch Đan",
+            icon: "🔮",
+            resultItemId: "soul_crystal",
+            resultCount: 1,
+            stoneCost: 60,
+            materials: [{ itemId: "hundred_year_ginseng", count: 2 }, { itemId: "moon_orchid", count: 2 }],
+            desc: "Chế luyện 2x Bách Niên Khổ Sâm + 2x Nguyệt Lan Hoa thành 1x Đãng Hồn Thạch Đan."
+        },
+        {
+            id: "syn_thach_khieu_gu",
+            name: "Thạch Khiếu Cổ (Cứu Thập Tuyệt)",
+            icon: "🪨",
+            resultItemId: "thach_khieu_gu",
+            resultCount: 1,
+            stoneCost: 140,
+            materials: [{ itemId: "jade_bone", count: 2 }, { itemId: "red_iron_ore", count: 2 }],
+            desc: "[Cổ Cứu Mệnh Thập Tuyệt Thể] Luyện chế 1x Thạch Khiếu Cổ (-50% áp lực Không Khiếu)."
+        },
+        {
+            id: "syn_dinh_nguyen_gu",
+            name: "Định Nguyên Tịnh Khiếu Cổ (Trụ Đạo)",
+            icon: "⏳",
+            resultItemId: "tinh_khieu_dinh_nguyen_gu",
+            resultCount: 1,
+            stoneCost: 220,
+            materials: [{ itemId: "soul_crystal", count: 2 }, { itemId: "wind_essence_crystal", count: 2 }],
+            desc: "[Cổ Cứu Mệnh Thập Tuyệt Thể] Luyện chế 1x Định Nguyên Cổ (-25% & đóng băng áp lực 5 phút)."
+        },
+        {
+            id: "syn_am_duong_gu",
+            name: "Âm Dương Chuyển Thân Cổ (Chuẩn Nguyên Tác)",
+            icon: "☯️",
+            resultItemId: "am_duong_chuyen_than_gu",
+            resultCount: 1,
+            stoneCost: 520,
+            materials: [{ itemId: "soul_crystal", count: 3 }, { itemId: "hundred_year_ginseng", count: 2 }, { itemId: "jade_bone", count: 2 }],
+            desc: "[Chí Bảo Cứu Mệnh Thập Tuyệt Thể] Luyện chế 1x Âm Dương Chuyển Thân Cổ phong ấn 90% Giáp Đẳng an toàn!"
         }
     ];
 
@@ -2213,6 +2487,30 @@
             this.unlockedRecipeIds = REFINEMENT_RECIPES
                 .filter(r => r.unlockedByDefault)
                 .map(r => r.id);
+            this.refinementExp = 0;
+            this.refinementPityStreak = 0;
+        }
+
+        getRefinementMasteryInfo() {
+            const exp = this.refinementExp || 0;
+            let current = REFINEMENT_MASTERY_TIERS[0];
+            let next = REFINEMENT_MASTERY_TIERS[1] || null;
+            for (let i = 0; i < REFINEMENT_MASTERY_TIERS.length; i++) {
+                if (exp >= REFINEMENT_MASTERY_TIERS[i].minExp) {
+                    current = REFINEMENT_MASTERY_TIERS[i];
+                    next = REFINEMENT_MASTERY_TIERS[i + 1] || null;
+                }
+            }
+            const pityBonus = Math.min(0.25, (this.refinementPityStreak || 0) * 0.05);
+            return {
+                level: current.level,
+                title: current.title,
+                exp: exp,
+                nextMinExp: next ? next.minExp : null,
+                masteryBonus: current.bonus,
+                pityStreak: this.refinementPityStreak || 0,
+                pityBonus: pityBonus
+            };
         }
 
         // =====================================================================
@@ -2315,18 +2613,14 @@
                 starterIds.push("hung_luc_gu");
             }
 
-            let nextSlot = 1;
             for (const gId of starterIds) {
                 if (gId === vitalId) continue;
-                const inst = this.addGuToStorage(gId, {
+                this.addGuToStorage(gId, {
                     rank: 1,
-                    isRefined: true,
-                    refinementProgress: 100,
+                    isRefined: false,
+                    refinementProgress: 0,
                     isVital: false
                 });
-                if (inst && nextSlot < 8) {
-                    this.equipGuToSlot(inst.instanceId, nextSlot++);
-                }
             }
 
             if (
@@ -2456,7 +2750,7 @@
             const wildInstance = this.addGuToStorage(chosenTpl.id, {
                 rank: targetRank,
                 isRefined: false,
-                refinementProgress: 15,
+                refinementProgress: 0,
                 isVital: false,
                 hunger: 85
             });
@@ -2468,55 +2762,159 @@
             };
         }
 
-        refineWildGuStep(instanceId, player, aperture) {
+        /**
+         * Tìm tất cả Cổ Trùng ĐÃ LUYỆN HÓA có cấp Chuyển cao hơn Dã Cổ mục tiêu để dùng áp chế khí tức
+         */
+        getEligibleSuppressorGus(wildGu) {
+            if (!wildGu) return [];
+            return this.ownedGuList
+                .filter(g => g.isRefined && g.rank > wildGu.rank && (g.hunger === undefined || g.hunger > 0))
+                .sort((a, b) => (b.rank - a.rank) || (b.power - a.power));
+        }
+
+        /**
+         * Tính chi tiết chi phí Nguyên Thạch, Tinh Thần, tỷ lệ thành công & hiệu quả Áp Chế Khí Tức khi luyện hóa Cổ Trùng
+         */
+        getWildGuRefinementInfo(instanceId, player, aperture, suppressorInstanceId = "auto") {
             const gu = this.getGuByInstanceId(instanceId);
-            if (!gu) return { success: false, message: "Cổ trùng không tồn tại." };
-            if (gu.isRefined) {
-                return { success: false, message: `${GuSystem.formatGuNameWithRank(gu)} đã thuộc quyền điều khiển của ngươi.` };
+            if (!gu) return { valid: false, reason: "Cổ trùng không tồn tại." };
+            if (gu.isRefined) return { valid: false, reason: "Cổ trùng này đã được luyện hóa hoàn toàn." };
+
+            const cfg = WILD_REFINE_CONFIG[gu.rank] || WILD_REFINE_CONFIG[1];
+            const eligibleSuppressors = this.getEligibleSuppressorGus(gu);
+
+            let suppressor = null;
+            if (suppressorInstanceId === "auto") {
+                suppressor = eligibleSuppressors[0] || null;
+            } else if (suppressorInstanceId && suppressorInstanceId !== "none") {
+                suppressor = eligibleSuppressors.find(g => g.instanceId === suppressorInstanceId) || null;
             }
+
+            const rankDiff = suppressor ? Math.max(0, suppressor.rank - gu.rank) : 0;
+            let costMult = 1.0;
+            let gainMult = 1.0;
+            let suppressSuccessBonus = 0;
+            let instantRefine = false;
+            let suppressionLabel = "Không dùng Cổ áp chế";
+
+            if (suppressor && rankDiff >= 3) {
+                costMult = 0.30;
+                gainMult = 10.0;
+                suppressSuccessBonus = 1.0;
+                instantRefine = true;
+                suppressionLabel = `🐉 Tuyệt Đối Áp Chế (+${rankDiff} Chuyển — Luyện Hóa Tức Thì 100%, -70% chi phí!)`;
+            } else if (suppressor && rankDiff === 2) {
+                costMult = 0.50;
+                gainMult = 2.80;
+                suppressSuccessBonus = 0.48;
+                suppressionLabel = `🐉 Áp Chế Cực Mạnh (+2 Chuyển: +48% tỷ lệ, x2.8 tiến độ, -50% chi phí)`;
+            } else if (suppressor && rankDiff === 1) {
+                costMult = 0.70;
+                gainMult = 1.85;
+                suppressSuccessBonus = 0.28;
+                suppressionLabel = `🐉 Áp Chế Khí Tức (+1 Chuyển: +28% tỷ lệ, x1.85 tiến độ, -30% chi phí)`;
+            }
+
+            const stoneCost = Math.max(1, Math.round(cfg.stones * costMult));
+            const mentalCost = Math.max(4, Math.round(cfg.mental * costMult));
+
+            const mastery = this.getRefinementMasteryInfo();
+            const luyenMarks = (player && typeof player.getEffectiveDaoMarks === "function")
+                ? player.getEffectiveDaoMarks("Luyện Đạo")
+                : 0;
+            const playerRank = aperture ? aperture.rank : 1;
+            const realmPenalty = gu.rank > playerRank ? (gu.rank - playerRank) * 0.14 : 0;
+            const realmBonus = playerRank > gu.rank ? Math.min(0.16, (playerRank - gu.rank) * 0.04) : 0;
+
+            let successChance = instantRefine
+                ? 1.0
+                : (cfg.baseSuccess + mastery.masteryBonus + Math.min(0.18, luyenMarks * 0.0005) + (player ? (player.refinementBonus || 0) : 0) + realmBonus + suppressSuccessBonus - realmPenalty);
+            successChance = instantRefine ? 1.0 : Math.max(0.05, Math.min(0.98, Number(successChance.toFixed(2))));
+
+            const realmGainScale = gu.rank > playerRank ? 0.75 : 1.0;
+            const minGain = instantRefine ? 100 : Math.min(100, Math.max(3, Math.round(cfg.minGain * gainMult * realmGainScale)));
+            const maxGain = instantRefine ? 100 : Math.min(100, Math.max(minGain, Math.round(cfg.maxGain * gainMult * realmGainScale)));
+
+            return {
+                valid: true,
+                gu: gu,
+                stoneCost: stoneCost,
+                mentalCost: mentalCost,
+                successChance: successChance,
+                minGain: minGain,
+                maxGain: maxGain,
+                instantRefine: instantRefine,
+                suppressor: suppressor,
+                rankDiff: rankDiff,
+                suppressionLabel: suppressionLabel,
+                eligibleSuppressors: eligibleSuppressors
+            };
+        }
+
+        /**
+         * Luyện Hóa Dã Cổ / Cổ Trùng mới nhận bằng Nguyên Thạch + Tinh Thần Lực
+         * (Có thể dùng Cổ Cấp Chuyển Cao Hơn đã luyện hóa để áp chế khí tức)
+         */
+        refineWildGuStep(instanceId, player, aperture, suppressorInstanceId = "auto") {
+            const info = this.getWildGuRefinementInfo(instanceId, player, aperture, suppressorInstanceId);
+            if (!info.valid) {
+                return { success: false, message: info.reason || "Không thể luyện hóa Cổ Trùng này." };
+            }
+
+            const gu = info.gu;
             if (!aperture || !aperture.isAwakened) {
-                return { success: false, message: "Chưa Khai Khiếu, không có Chân Nguyên!" };
+                return { success: false, message: "Chưa Khai Khiếu, không thể luyện hóa Cổ Trùng!" };
             }
-
-            const essenceReq = 12 * Math.min(5, gu.rank);
-            const mentalReq = 14 * Math.min(6, gu.rank);
-
-            if (!aperture.hasEnoughEssence(essenceReq, gu.rank)) {
+            if (!player || player.primevalStones < info.stoneCost) {
                 return {
                     success: false,
-                    message: `Chân nguyên không đủ để trấn áp ý chí hoang dã của [${GuSystem.formatGuNameWithRank(gu)}]!`
+                    message: `Không đủ Nguyên Thạch để luyện hóa [${GuSystem.formatGuNameWithRank(gu)}]! Cần 💎 ${info.stoneCost.toLocaleString("vi-VN")} Nguyên Thạch (Hiện có: ${player ? player.primevalStones : 0}).`
                 };
             }
-            if (player.mental < mentalReq) {
+            if (player.mental < info.mentalCost) {
                 return {
                     success: false,
-                    message: `Tinh thần lực quá mệt mỏi (${Math.floor(player.mental)}/${mentalReq})! Hãy dùng Thanh Linh Thảo.`
+                    message: `Tinh Thần Lực không đủ (${Math.floor(player.mental)}/${info.mentalCost})! Hãy dùng Thanh Linh Thảo hoặc Đãng Hồn Thạch Đan để hồi phục.`
                 };
             }
 
-            aperture.consumeEssence(essenceReq, gu.rank);
-            player.mental = Math.max(0, player.mental - mentalReq);
+            // Trừ Nguyên Thạch và Tinh Thần Lực
+            player.primevalStones -= info.stoneCost;
+            player.mental = Math.max(0, player.mental - info.mentalCost);
 
-            const luyenMarks = (player.daoMarks && player.daoMarks["Luyện Đạo"]) || 0;
-            let resistChance = 0.24 + (gu.rank - aperture.rank) * 0.20 - (luyenMarks * 0.002) - (player.refinementBonus || 0);
-            resistChance = Math.max(0.05, Math.min(0.75, resistChance));
+            const supName = info.suppressor ? GuSystem.formatGuNameWithRank(info.suppressor) : null;
+            const supPrefix = supName ? `🐉 [Áp Chế bằng ${supName}] ` : "";
 
-            if (Math.random() < resistChance) {
-                gu.refinementProgress = Math.max(10, gu.refinementProgress - 5);
+            // Kiểm tra kháng cự của ý chí hoang dã
+            if (!info.instantRefine && Math.random() > info.successChance) {
+                const setback = info.suppressor ? 0 : Math.min(8, 2 + Math.floor(gu.rank / 2));
+                gu.refinementProgress = Math.max(0, gu.refinementProgress - setback);
+                this.refinementExp = (this.refinementExp || 0) + 2;
                 return {
                     success: false,
-                    message: `[${GuSystem.formatGuNameWithRank(gu)}] chống trả quyết liệt! Tiến độ luyện hóa hiện tại: ${gu.refinementProgress}%.`
+                    message: `${supPrefix}[${GuSystem.formatGuNameWithRank(gu)}] phản kháng dữ dội! Tiêu hao 💎 ${info.stoneCost} Nguyên Thạch & ${info.mentalCost} Tinh Thần.${setback > 0 ? ` Tiến độ lùi -${setback}% còn ${gu.refinementProgress}%` : ` Nhờ khí tức áp chế nên giữ nguyên tiến độ ${gu.refinementProgress}%`}.`
                 };
             }
 
-            const progressGain = Math.round(38 + (aperture.rank - gu.rank) * 14 + luyenMarks * 0.5);
-            gu.refinementProgress = Math.min(100, gu.refinementProgress + Math.max(25, progressGain));
+            const progressGain = info.instantRefine
+                ? 100
+                : Math.floor(info.minGain + Math.random() * (info.maxGain - info.minGain + 1));
+
+            gu.refinementProgress = Math.min(100, (gu.refinementProgress || 0) + progressGain);
+            this.refinementExp = (this.refinementExp || 0) + Math.max(3, gu.rank * 3);
 
             if (gu.refinementProgress >= 100) {
                 gu.isRefined = true;
                 gu.refinementProgress = 100;
-                player.addDaoMarks("Luyện Đạo", 2 * gu.rank);
-                aperture.humanQi += 2;
+
+                const isImmortal = typeof player.isImmortalCultivator === "function" && player.isImmortalCultivator();
+                player.addPathAttainmentExp("Luyện Đạo", 2 * gu.rank);
+                let bonusTag = `+${2 * gu.rank} Lĩnh Ngộ Luyện Đạo`;
+                if (isImmortal) {
+                    player.addDaoMarks("Luyện Đạo", 2 * gu.rank);
+                    bonusTag = `+${2 * gu.rank} Đạo Ngân Luyện Đạo`;
+                }
+                aperture.humanQi += Math.max(1, gu.rank);
 
                 const emptySlot = this.equippedGuSlots.findIndex(s => s === null);
                 if (emptySlot !== -1) {
@@ -2526,13 +2924,15 @@
                 this._recalculateSavedKillerMoves();
                 return {
                     success: true,
-                    message: `Luyện hóa hoàn tất! [${GuSystem.formatGuNameWithRank(gu)}] đã hoàn toàn khuất phục ý chí của ngươi (+${2 * gu.rank} Đạo Ngân Luyện Đạo).`
+                    completed: true,
+                    message: `${supPrefix}✨ Luyện hóa hoàn tất 100%! 【${GuSystem.formatGuNameWithRank(gu)}】 đã hoàn toàn khuất phục (-${info.stoneCost}💎, -${info.mentalCost} Tinh Thần, ${bonusTag}).`
                 };
             }
 
             return {
                 success: true,
-                message: `Chân nguyên thẩm thấu vào [${GuSystem.formatGuNameWithRank(gu)}], tiến độ luyện hóa đạt ${gu.refinementProgress}%!`
+                completed: false,
+                message: `${supPrefix}Thần niệm & Nguyên Thạch thẩm thấu vào [${GuSystem.formatGuNameWithRank(gu)}]: +${progressGain}% (Đạt ${gu.refinementProgress}% | -${info.stoneCost}💎, -${info.mentalCost} Tinh Thần).`
             };
         }
 
@@ -2596,9 +2996,9 @@
                 9: 0.25
             };
 
-            const luyenMarks = (player && player.daoMarks && player.daoMarks["Luyện Đạo"]) || 0;
-            const triMarks = (player && player.daoMarks && player.daoMarks["Trí Đạo"]) || 0;
-            const vanMarks = (player && player.daoMarks && player.daoMarks["Vận Đạo"]) || 0;
+            const luyenMarks = (player && typeof player.getEffectiveDaoMarks === "function") ? player.getEffectiveDaoMarks("Luyện Đạo") : 0;
+            const triMarks = (player && typeof player.getEffectiveDaoMarks === "function") ? player.getEffectiveDaoMarks("Trí Đạo") : 0;
+            const vanMarks = (player && typeof player.getEffectiveDaoMarks === "function") ? player.getEffectiveDaoMarks("Vận Đạo") : 0;
             const bonusChance = (luyenMarks * 0.0018) + (triMarks * 0.001) + (vanMarks * 0.0012) + (player ? player.refinementBonus : 0);
             const finalChance = Math.min(0.95, Number(((baseChanceByNextRank[nextRank] || 0.4) + bonusChance).toFixed(2)));
 
@@ -2670,7 +3070,8 @@
                     aperture.vitalGuName = `${gu.name} (${GuSystem.getRankName(gu.rank)} - ${gu.path})`;
                 }
 
-                player.addDaoMarks("Luyện Đạo", 4 * gu.rank);
+                player.addPathAttainmentExp("Luyện Đạo", 4 * gu.rank);
+                if (player.isImmortalCultivator()) player.addDaoMarks("Luyện Đạo", 4 * gu.rank);
                 if (aperture) aperture.humanQi += 3 * gu.rank;
 
                 this._recalculateSavedKillerMoves();
@@ -2682,10 +3083,11 @@
                 };
             } else {
                 gu.hunger = Math.max(15, gu.hunger - 30);
-                player.addDaoMarks("Luyện Đạo", 2);
+                player.addPathAttainmentExp("Luyện Đạo", 2);
+                if (player.isImmortalCultivator()) player.addDaoMarks("Luyện Đạo", 2);
                 return {
                     success: false,
-                    message: `Thăng Chuyển [${gu.name}] lên ${req.nextRankName} thất bại! Cổ trùng bị chấn thương nhẹ (Độ no giảm còn ${Math.round(gu.hunger)}%), may mắn bảo toàn tính mạng (+2 Đạo Ngân Luyện Đạo).`
+                    message: `Thăng Chuyển [${gu.name}] lên ${req.nextRankName} thất bại! Cổ trùng bị chấn thương nhẹ (Độ no giảm còn ${Math.round(gu.hunger)}%), may mắn bảo toàn tính mạng (${player.isImmortalCultivator() ? "+2 Đạo Ngân Luyện Đạo" : "+2 Lĩnh Ngộ Luyện Đạo"}).`
                 };
             }
         }
@@ -2746,13 +3148,18 @@
             player.removeItem("remnant_recipe", 1);
             const unlocked = lockedRecipes[0];
             this.unlockedRecipeIds.push(unlocked.id);
-            player.addDaoMarks("Trí Đạo", 4);
-            player.addDaoMarks("Luyện Đạo", 3);
+            player.addPathAttainmentExp("Trí Đạo", 4);
+            player.addPathAttainmentExp("Luyện Đạo", 3);
+            const isImm = typeof player.isImmortalCultivator === "function" && player.isImmortalCultivator();
+            if (isImm) {
+                player.addPathAttainmentExp("Trí Đạo", 4); if (typeof player.isImmortalCultivator === "function" && player.isImmortalCultivator()) player.addDaoMarks("Trí Đạo", 4);
+                player.addDaoMarks("Luyện Đạo", 3);
+            }
 
             return {
                 success: true,
                 recipe: unlocked,
-                message: `📜 Giải mã Tàn Quyển thành công! Lĩnh ngộ cổ phương 【${unlocked.resultName}】 (+4 Đạo Ngân Trí Đạo, +3 Đạo Ngân Luyện Đạo)!`
+                message: `📜 Giải mã Tàn Quyển thành công! Lĩnh ngộ cổ phương 【${unlocked.resultName}】 (${isImm ? "+4 ĐN Trí Đạo, +3 ĐN Luyện Đạo" : "+4 Lĩnh Ngộ Trí Đạo, +3 Lĩnh Ngộ Luyện Đạo"})!`
             };
         }
 
@@ -2797,10 +3204,15 @@
             };
         }
 
-        previewRefinement(slots, player, aperture) {
+        previewRefinement(slots, player, aperture, options = {}) {
             const cleanSlots = (slots || []).filter(Boolean);
+            const tech = REFINEMENT_TECHNIQUES[options.techniqueId] || REFINEMENT_TECHNIQUES.fire_method;
+            const cat = REFINEMENT_CATALYSTS[options.catalystId] || REFINEMENT_CATALYSTS.none;
+            const protectGu = Boolean(options.protectGu);
+            const mastery = this.getRefinementMasteryInfo();
+
             if (cleanSlots.length < 2) {
-                return { valid: false, reason: "Hãy chọn một Cổ Phương bên phải hoặc đặt đủ Cổ Trùng & Cổ Tài." };
+                return { valid: false, reason: "Hãy nhấn vào Ô Đỉnh Lò (hoặc chọn 1 Cổ Phương bên phải) để đặt đủ Cổ Trùng & Cổ Tài." };
             }
 
             const inputGuInstances = [];
@@ -2818,11 +3230,42 @@
                 }
             }
 
+            const computeExtras = (baseChance, baseEssence, baseStones, resRank) => {
+                const luyenMarks = (player && typeof player.getEffectiveDaoMarks === "function") ? player.getEffectiveDaoMarks("Luyện Đạo") : 0;
+                const triMarks = (player && typeof player.getEffectiveDaoMarks === "function") ? player.getEffectiveDaoMarks("Trí Đạo") : 0;
+                const vanMarks = (player && typeof player.getEffectiveDaoMarks === "function") ? player.getEffectiveDaoMarks("Vận Đạo") : 0;
+                const daoBonus = (luyenMarks * 0.002) + (triMarks * 0.001) + (vanMarks * 0.0012) + (player ? player.refinementBonus : 0);
+                const catBonus = (cat.itemId && player && player.getItemCount(cat.itemId) > 0) ? cat.chanceBonus : 0;
+                const totalChance = Math.min(0.98, Math.max(0.05, Number((baseChance + daoBonus + tech.chanceBonus + catBonus + mastery.masteryBonus + mastery.pityBonus).toFixed(2))));
+
+                const protectStoneExtra = protectGu ? Math.max(20, Math.round(baseStones * 0.35)) : 0;
+                const protectNeedsSoulCrystal = protectGu && resRank >= 6;
+                const finalEssence = Math.max(1, Number((baseEssence * tech.essenceMult).toFixed(1)));
+                const finalStones = baseStones + protectStoneExtra;
+                const breakRisk = protectGu ? 0 : Math.min(0.85, Number((0.45 * tech.breakRiskMult).toFixed(2)));
+
+                return {
+                    successChance: totalChance,
+                    essenceCost: finalEssence,
+                    stoneCost: finalStones,
+                    protectStoneExtra,
+                    protectNeedsSoulCrystal,
+                    breakRisk,
+                    technique: tech,
+                    catalyst: cat,
+                    protectGu,
+                    mastery
+                };
+            };
+
+            // Chế độ Thăng Chuyển Trực Tiếp: 1 Cổ Trùng + 1 Cổ Tài Thức Ăn của nó
             if (inputGuInstances.length === 1 && inputItemIds.length === 1) {
                 const singleGu = inputGuInstances[0];
                 if (inputItemIds[0] === singleGu.foodItemId && singleGu.rank < singleGu.maxRank) {
                     const upReq = this.getGuUpgradeRequirements(singleGu.instanceId, player);
                     if (upReq.canUpgrade) {
+                        const baseEss = RANK_ESSENCE_COST_BASE[singleGu.rank] || 20;
+                        const ext = computeExtras(upReq.successChance, baseEss, upReq.stoneCost, upReq.nextRank);
                         return {
                             valid: true,
                             isDirectRankUpgrade: true,
@@ -2831,9 +3274,7 @@
                             inputGuInstances: [singleGu],
                             resultName: `${singleGu.name} ${upReq.nextRankName}`,
                             resultRank: upReq.nextRank,
-                            successChance: upReq.successChance,
-                            essenceCost: RANK_ESSENCE_COST_BASE[singleGu.rank] || 20,
-                            stoneCost: upReq.stoneCost
+                            ...ext
                         };
                     }
                 }
@@ -2861,12 +3302,8 @@
                             };
                         }
                     }
-                    const luyenMarks = (player && player.daoMarks["Luyện Đạo"]) || 0;
-                    const triMarks = (player && player.daoMarks["Trí Đạo"]) || 0;
-                    const vanMarks = (player && player.daoMarks["Vận Đạo"]) || 0;
-                    const bonusChance = (luyenMarks * 0.002) + (triMarks * 0.001) + (vanMarks * 0.0012) + (player ? player.refinementBonus : 0);
-                    const finalChance = Math.min(0.95, Number((recipe.baseChance + bonusChance).toFixed(2)));
 
+                    const ext = computeExtras(recipe.baseChance, recipe.essenceCost, recipe.stoneCost, recipe.resultRank);
                     return {
                         valid: true,
                         isDirectRankUpgrade: false,
@@ -2874,9 +3311,7 @@
                         inputGuInstances: inputGuInstances,
                         resultName: recipe.resultName,
                         resultRank: recipe.resultRank,
-                        successChance: finalChance,
-                        essenceCost: recipe.essenceCost,
-                        stoneCost: recipe.stoneCost
+                        ...ext
                     };
                 }
             }
@@ -2887,16 +3322,91 @@
             };
         }
 
-        executeRefinement(slots, player, aperture) {
-            const preview = this.previewRefinement(slots, player, aperture);
+        executeRefinement(slots, player, aperture, options = {}) {
+            const preview = this.previewRefinement(slots, player, aperture, options);
             if (!preview.valid) {
                 return { success: false, message: preview.reason };
             }
 
-            if (preview.isDirectRankUpgrade && preview.targetGuInstance) {
-                return this.upgradeGuRank(preview.targetGuInstance.instanceId, player, aperture);
+            const tech = preview.technique || REFINEMENT_TECHNIQUES.fire_method;
+            const cat = preview.catalyst || REFINEMENT_CATALYSTS.none;
+            const protectGu = Boolean(preview.protectGu);
+
+            if (tech.mentalCost > 0 && player.mental < tech.mentalCost) {
+                return {
+                    success: false,
+                    message: `Tinh Thần Lực không đủ cho [${tech.name}] (Cần ${tech.mentalCost}, hiện có ${Math.floor(player.mental)})!`
+                };
+            }
+            if (tech.hpCostPct > 0 && player.hp <= Math.round(player.maxHp * (tech.hpCostPct + 0.05))) {
+                return {
+                    success: false,
+                    message: `Sinh Mệnh quá thấp để thi triển [${tech.name}] (Cần trên ${Math.round((tech.hpCostPct + 0.05) * 100)}% HP)!`
+                };
+            }
+            if (cat.itemId && player.getItemCount(cat.itemId) <= 0) {
+                return { success: false, message: `Thiếu vật phẩm phụ trợ [${cat.name}] trong hành trang!` };
+            }
+            if (preview.protectNeedsSoulCrystal && player.getItemCount("soul_crystal") <= 0) {
+                return { success: false, message: "Chế độ Bảo Cổ Hộ Lô cho Tiên Cổ yêu cầu thêm 1x [🔮 Đãng Hồn Thạch Đan]!" };
             }
 
+            // Nhánh Thăng Chuyển Trực Tiếp ngay trong Đỉnh Lò (có áp dụng Thủ Pháp + Gia Trì + Bảo Cổ + Pity!)
+            if (preview.isDirectRankUpgrade && preview.targetGuInstance) {
+                const gu = preview.targetGuInstance;
+                const upReq = preview.upgradeReq;
+                if (aperture && aperture.rank < upReq.reqCultivationRank) {
+                    return { success: false, message: `Tu vi chưa đủ! Cần đạt ${GuSystem.getRankName(upReq.reqCultivationRank)} để thăng Chuyển.` };
+                }
+                if (player.primevalStones < preview.stoneCost) {
+                    return { success: false, message: `Không đủ Nguyên Thạch (Cần 💎 ${preview.stoneCost})!` };
+                }
+                if (upReq.immortalStoneCost > 0 && player.immortalStones < upReq.immortalStoneCost) {
+                    return { success: false, message: `Không đủ Tiên Nguyên Thạch (Cần 🌟 ${upReq.immortalStoneCost})!` };
+                }
+                if (player.getItemCount(gu.foodItemId) <= 0) {
+                    return { success: false, message: "Thiếu Cổ Tài thức ăn trong túi đồ!" };
+                }
+
+                player.primevalStones -= preview.stoneCost;
+                if (upReq.immortalStoneCost > 0) player.removeItem("immortal_stone", upReq.immortalStoneCost);
+                player.removeItem(gu.foodItemId, 1);
+                if (cat.itemId) player.removeItem(cat.itemId, 1);
+                if (preview.protectNeedsSoulCrystal) player.removeItem("soul_crystal", 1);
+                if (tech.mentalCost > 0) player.mental = Math.max(0, player.mental - tech.mentalCost);
+                if (tech.hpCostPct > 0) player.hp = Math.max(1, player.hp - Math.round(player.maxHp * tech.hpCostPct));
+
+                const expGain = Math.round((10 + upReq.nextRank * 6) * tech.expMult);
+                this.refinementExp = (this.refinementExp || 0) + expGain;
+
+                if (Math.random() <= preview.successChance) {
+                    gu.rank = upReq.nextRank;
+                    this._syncGuInstanceStats(gu);
+                    gu.hunger = 100;
+                    this.refinementPityStreak = 0;
+                    if (gu.isVital && aperture) {
+                        aperture.vitalGuName = `${gu.name} (${GuSystem.getRankName(gu.rank)} - ${gu.path})`;
+                    }
+                    player.addPathAttainmentExp("Luyện Đạo", 3 * gu.rank);
+                    const isImmUp = typeof player.isImmortalCultivator === "function" && player.isImmortalCultivator();
+                    if (isImmUp) player.addDaoMarks("Luyện Đạo", 3 * gu.rank);
+                    this._recalculateSavedKillerMoves();
+                    return {
+                        success: true,
+                        newGu: gu,
+                        message: `🔥 [${tech.name}] Thăng Chuyển thành công! 【${GuSystem.formatGuNameWithRank(gu)}】 uy lực đạt ${gu.power} (+${expGain} EXP Luyện Cổ${isImmUp ? `, +${3 * gu.rank} ĐN Luyện Đạo` : `, +${3 * gu.rank} Lĩnh Ngộ Luyện Đạo`})!`
+                    };
+                } else {
+                    this.refinementPityStreak = Math.min(5, (this.refinementPityStreak || 0) + 1);
+                    player.addDaoMarks("Luyện Đạo", 2);
+                    return {
+                        success: false,
+                        message: `Thăng Chuyển [${gu.name}] thất bại (tổn hao cổ tài & Nguyên Thạch, Cổ Trùng được bảo toàn). Hỏa hầu tích lũy tăng lên +${this.refinementPityStreak * 5}% cho lần sau!`
+                    };
+                }
+            }
+
+            // Nhánh Hợp Luyện Theo Cổ Phương
             const recipe = preview.recipe;
 
             if (aperture.rank < recipe.requiredRealmRank) {
@@ -2905,31 +3415,30 @@
                     message: `Tu vi chưa đủ! Cần đạt tối thiểu ${GuSystem.getRankName(recipe.requiredRealmRank)} để hợp luyện ${recipe.resultName}.`
                 };
             }
-
-            if (player.primevalStones < recipe.stoneCost) {
+            if (player.primevalStones < preview.stoneCost) {
                 return {
                     success: false,
-                    message: `Không đủ Nguyên Thạch để duy trì hỏa hầu (Cần ${recipe.stoneCost} Nguyên Thạch)!`
+                    message: `Không đủ Nguyên Thạch để duy trì hỏa hầu (Cần ${preview.stoneCost} Nguyên Thạch)!`
                 };
             }
             if (recipe.requiredItemId && player.getItemCount(recipe.requiredItemId) <= 0) {
                 return { success: false, message: "Thiếu cổ tài phụ trợ trong túi đồ!" };
             }
-
-            if (!aperture.hasEnoughEssence(recipe.essenceCost, recipe.requiredRealmRank)) {
-                return {
-                    success: false,
-                    message: `Không đủ Chân Nguyên để khởi lò Hợp Luyện!`
-                };
+            if (!aperture.hasEnoughEssence(preview.essenceCost, recipe.requiredRealmRank)) {
+                return { success: false, message: "Không đủ Chân Nguyên / Tiên Nguyên để khởi lò Hợp Luyện!" };
             }
 
-            aperture.consumeEssence(recipe.essenceCost, recipe.requiredRealmRank);
-            player.primevalStones -= recipe.stoneCost;
-            if (recipe.requiredItemId) {
-                player.removeItem(recipe.requiredItemId, 1);
-            }
+            aperture.consumeEssence(preview.essenceCost, recipe.requiredRealmRank);
+            player.primevalStones -= preview.stoneCost;
+            if (recipe.requiredItemId) player.removeItem(recipe.requiredItemId, 1);
+            if (cat.itemId) player.removeItem(cat.itemId, 1);
+            if (preview.protectNeedsSoulCrystal) player.removeItem("soul_crystal", 1);
+            if (tech.mentalCost > 0) player.mental = Math.max(0, player.mental - tech.mentalCost);
+            if (tech.hpCostPct > 0) player.hp = Math.max(1, player.hp - Math.round(player.maxHp * tech.hpCostPct));
 
             const hasVitalInput = preview.inputGuInstances.some(g => g.isVital);
+            const expGain = Math.round((14 + recipe.resultRank * 9) * tech.expMult);
+            this.refinementExp = (this.refinementExp || 0) + expGain;
 
             if (Math.random() <= preview.successChance) {
                 let inheritedSlot = null;
@@ -2948,6 +3457,8 @@
                     hunger: 100
                 });
 
+                this.refinementPityStreak = 0;
+
                 if (!this.unlockedRecipeIds.includes(recipe.id)) {
                     this.unlockedRecipeIds.push(recipe.id);
                 }
@@ -2961,37 +3472,249 @@
                     this.equipGuToSlot(newGu.instanceId, inheritedSlot);
                 }
 
-                player.addDaoMarks("Luyện Đạo", 4 * recipe.resultRank);
+                player.addPathAttainmentExp("Luyện Đạo", 4 * recipe.resultRank);
+                const isImmRef = typeof player.isImmortalCultivator === "function" && player.isImmortalCultivator();
+                if (isImmRef) player.addDaoMarks("Luyện Đạo", 4 * recipe.resultRank);
                 aperture.humanQi += 3 * recipe.resultRank;
                 this._recalculateSavedKillerMoves();
 
                 return {
                     success: true,
                     newGu: newGu,
-                    message: `🔥 Hợp luyện đại thành! Luyện ra 【${GuSystem.formatGuNameWithRank(newGu)}】 (Uy lực gốc: ${newGu.power}, +${4 * recipe.resultRank} Đạo Ngân Luyện Đạo)!`
+                    message: `🔥 [${tech.name}] Hợp luyện đại thành! Luyện ra 【${GuSystem.formatGuNameWithRank(newGu)}】 (Uy lực: ${newGu.power}, ${isImmRef ? `+${4 * recipe.resultRank} ĐN Luyện Đạo` : `+${4 * recipe.resultRank} Lĩnh Ngộ Luyện Đạo`}, +${expGain} EXP Luyện Cổ)!`
                 };
             } else {
+                this.refinementPityStreak = Math.min(5, (this.refinementPityStreak || 0) + 1);
                 let lostGuNames = [];
-                for (const oldGu of preview.inputGuInstances) {
-                    if (oldGu.isVital) {
-                        oldGu.hunger = 20;
-                    } else if (Math.random() < 0.45) {
-                        lostGuNames.push(GuSystem.formatGuNameWithRank(oldGu));
-                        this.removeGuByInstanceId(oldGu.instanceId);
+                if (!protectGu) {
+                    for (const oldGu of preview.inputGuInstances) {
+                        if (oldGu.isVital) {
+                            oldGu.hunger = Math.max(10, oldGu.hunger - 40);
+                        } else if (Math.random() < preview.breakRisk) {
+                            lostGuNames.push(GuSystem.formatGuNameWithRank(oldGu));
+                            this.removeGuByInstanceId(oldGu.instanceId);
+                        }
                     }
                 }
 
-                player.addDaoMarks("Luyện Đạo", 1);
+                player.addDaoMarks("Luyện Đạo", 2);
                 this._recalculateSavedKillerMoves();
-                const penaltyMsg = lostGuNames.length > 0
-                    ? `Cổ trùng [${lostGuNames.join(", ")}] đã tổn hao trong lúc phản phệ!`
-                    : `May mắn giữ lại được Cổ Trùng nhưng cổ tài và Nguyên Thạch đã tiêu hao hết.`;
+                const penaltyMsg = protectGu
+                    ? "Nhờ chế độ 🛡️ Bảo Cổ Hộ Lô, toàn bộ Cổ Trùng đầu vào đều bình an vô sự!"
+                    : (lostGuNames.length > 0
+                        ? `Cổ trùng [${lostGuNames.join(", ")}] đã tổn hao trong lúc phản phệ!`
+                        : "May mắn giữ lại được Cổ Trùng nhưng cổ tài và Nguyên Thạch đã tiêu hao.");
 
                 return {
                     success: false,
-                    message: `Hợp luyện [${recipe.resultName}] thất bại! ${penaltyMsg}`
+                    message: `Hợp luyện [${recipe.resultName}] thất bại! ${penaltyMsg} (+${expGain} EXP Luyện Cổ, Hỏa hầu tích lũy lần sau: +${this.refinementPityStreak * 5}%)`
                 };
             }
+        }
+
+        // =====================================================================
+        // 8B. TINH LUYỆN CỔ TÀI, PHÂN GIẢI CỔ DƯ & TIỆN ÍCH HÀNG LOẠT (QOL)
+        // =====================================================================
+
+        canCraftRecipe(recipe, player) {
+            if (!recipe || !player) return { ready: false, missing: ["Thiếu dữ liệu"] };
+            const missing = [];
+            const usedIds = new Set();
+            for (const reqGuId of (recipe.requiredGuIds || [])) {
+                const match = this.ownedGuList.find(g => g.id === reqGuId && g.isRefined && !usedIds.has(g.instanceId));
+                if (match) usedIds.add(match.instanceId);
+                else {
+                    const tpl = GU_DATABASE[reqGuId];
+                    missing.push(tpl ? tpl.name : reqGuId);
+                }
+            }
+            if (recipe.requiredItemId && player.getItemCount(recipe.requiredItemId) <= 0) {
+                const meta = global.PlayerManager && global.PlayerManager.ITEM_DATABASE[recipe.requiredItemId];
+                missing.push(meta ? meta.name : recipe.requiredItemId);
+            }
+            return { ready: missing.length === 0, missing };
+        }
+
+        synthesizeMaterial(synId, player) {
+            const syn = MATERIAL_SYNTHESIS_RECIPES.find(s => s.id === synId);
+            if (!syn || !player) return { success: false, message: "Không tìm thấy công thức tinh luyện." };
+
+            if (player.primevalStones < syn.stoneCost) {
+                return { success: false, message: `Không đủ Nguyên Thạch (Cần 💎 ${syn.stoneCost})!` };
+            }
+            for (const req of syn.materials) {
+                if (player.getItemCount(req.itemId) < req.count) {
+                    const meta = global.PlayerManager.ITEM_DATABASE[req.itemId] || { name: req.itemId };
+                    return { success: false, message: `Thiếu cổ tài: Cần ${req.count}x [${meta.name}]!` };
+                }
+            }
+
+            player.primevalStones -= syn.stoneCost;
+            for (const req of syn.materials) {
+                player.removeItem(req.itemId, req.count);
+            }
+            player.addItem(syn.resultItemId, syn.resultCount || 1);
+            this.refinementExp = (this.refinementExp || 0) + 8;
+            player.addPathAttainmentExp("Luyện Đạo", 2);
+            const isImmSyn = typeof player.isImmortalCultivator === "function" && player.isImmortalCultivator();
+            if (isImmSyn) player.addDaoMarks("Luyện Đạo", 2);
+
+            return {
+                success: true,
+                message: `⚗️ Tinh luyện thành công ${syn.resultCount || 1}x 【${syn.icon} ${syn.name}】 (+8 EXP Luyện Cổ${isImmSyn ? ", +2 ĐN Luyện Đạo" : ", +2 Lĩnh Ngộ Luyện Đạo"})!`
+            };
+        }
+
+        salvageGu(instanceId, player) {
+            const gu = this.getGuByInstanceId(instanceId);
+            if (!gu || !player) return { success: false, message: "Không tìm thấy Cổ Trùng để phân giải." };
+            if (gu.isVital) {
+                return { success: false, message: "Không thể phân giải Cổ Bản Mệnh đang trấn thủ Không Khiếu!" };
+            }
+
+            const stonesByRank = { 1: 18, 2: 55, 3: 160, 4: 420, 5: 1100, 6: 2600, 7: 5500, 8: 12000, 9: 30000 };
+            const stoneGain = stonesByRank[gu.rank] || 18;
+            const daoGain = Math.max(2, gu.rank * 3);
+            const expGain = 6 + gu.rank * 5;
+            const foodItemId = gu.foodItemId;
+            const fullName = GuSystem.formatGuNameWithRank(gu);
+
+            this.removeGuByInstanceId(gu.instanceId);
+            player.primevalStones += stoneGain;
+            if (foodItemId && global.PlayerManager.ITEM_DATABASE[foodItemId]) {
+                player.addItem(foodItemId, Math.min(3, Math.max(1, Math.ceil(gu.rank / 2))));
+            }
+            if (gu.rank >= 6) {
+                player.addItem("immortal_stone", gu.rank - 4);
+            }
+            player.addPathAttainmentExp("Luyện Đạo", daoGain);
+            const isImmSal = typeof player.isImmortalCultivator === "function" && player.isImmortalCultivator();
+            if (isImmSal) player.addDaoMarks("Luyện Đạo", daoGain);
+            this.refinementExp = (this.refinementExp || 0) + expGain;
+            this._recalculateSavedKillerMoves();
+
+            const foodMeta = global.PlayerManager.ITEM_DATABASE[foodItemId];
+            return {
+                success: true,
+                message: `♻️ Đã phân giải 【${fullName}】 thu hồi 💎 +${stoneGain} Nguyên Thạch${foodMeta ? `, +${Math.min(3, Math.max(1, Math.ceil(gu.rank / 2)))}x ${foodMeta.name}` : ""}${gu.rank >= 6 ? `, 🌟 +${gu.rank - 4} Tiên Thạch` : ""}, ${isImmSal ? `+${daoGain} ĐN Luyện Đạo` : `+${daoGain} Lĩnh Ngộ Luyện Đạo`} & +${expGain} EXP!`
+            };
+        }
+
+        salvageDuplicateMortalGus(player) {
+            if (!player) return { success: false, message: "Thiếu dữ liệu người chơi." };
+            const bestByTemplate = new Map();
+            for (const g of this.ownedGuList) {
+                if (!g.isRefined || g.rank >= 6) continue;
+                const prev = bestByTemplate.get(g.id);
+                if (!prev || g.rank > prev.rank || (g.rank === prev.rank && (g.isVital || g.equippedSlot !== null))) {
+                    bestByTemplate.set(g.id, g);
+                }
+            }
+
+            const toSalvage = this.ownedGuList.filter(g => {
+                if (!g.isRefined || g.isVital || g.equippedSlot !== null || g.rank >= 6) return false;
+                return bestByTemplate.get(g.id) !== g;
+            });
+
+            if (toSalvage.length === 0) {
+                return { success: false, message: "Không có Phàm Cổ trùng lặp chưa lắp nào để phân giải!" };
+            }
+
+            let totalStones = 0;
+            let count = 0;
+            const stonesByRank = { 1: 18, 2: 55, 3: 160, 4: 420, 5: 1100 };
+            for (const g of toSalvage) {
+                totalStones += stonesByRank[g.rank] || 18;
+                this.salvageGu(g.instanceId, player);
+                count += 1;
+            }
+            return {
+                success: true,
+                message: `♻️ Đã phân giải nhanh ${count} Phàm Cổ trùng lặp dư thừa, thu về tổng cộng 💎 +${totalStones.toLocaleString("vi-VN")} Nguyên Thạch cùng Cổ Tài & EXP Luyện Đạo!`
+            };
+        }
+
+        feedAllHungryGu(player, threshold = 85) {
+            if (!player) return { success: false, message: "Thiếu dữ liệu người chơi." };
+            let fedCount = 0;
+            let missingFoods = new Set();
+
+            for (const gu of this.ownedGuList) {
+                if (gu.hunger >= threshold) continue;
+                if (player.getItemCount(gu.foodItemId) > 0) {
+                    const res = this.feedGu(gu.instanceId, player);
+                    if (res.success) fedCount += 1;
+                } else {
+                    const fMeta = global.PlayerManager.ITEM_DATABASE[gu.foodItemId];
+                    if (fMeta) missingFoods.add(fMeta.name);
+                }
+            }
+
+            if (fedCount === 0) {
+                if (missingFoods.size > 0) {
+                    return {
+                        success: false,
+                        message: `Chưa cho ăn được con nào — Thiếu thức ăn: ${Array.from(missingFoods).slice(0, 4).join(", ")}!`
+                    };
+                }
+                return { success: false, message: "Toàn bộ Cổ Trùng trong kho đều đang no bụng (>= 85%)!" };
+            }
+            const missingNote = missingFoods.size > 0 ? ` (Còn thiếu: ${Array.from(missingFoods).slice(0, 3).join(", ")})` : "";
+            return {
+                success: true,
+                message: `🍖 Đã cho ăn no ${fedCount} Cổ Trùng đang đói chỉ với 1 lần bấm!${missingNote}`
+            };
+        }
+
+        autoEquipBestLoadout(player) {
+            const refined = this.ownedGuList.filter(g => g.isRefined);
+            if (refined.length === 0) {
+                return { success: false, message: "Chưa có Cổ Trùng nào đã luyện hóa để tự động lắp!" };
+            }
+
+            const scoreGu = (g) => {
+                const amp = player ? player.calculateDaoAmplification(g.path, []).multiplier : 1.0;
+                return g.rank * 10000 + Math.round((g.power || 10) * amp);
+            };
+
+            const sorted = [...refined].sort((a, b) => scoreGu(b) - scoreGu(a));
+            const chosen = [];
+            const pickedIds = new Set();
+
+            // Ưu tiên chọn 1 Cổ Phòng Ngự và 1 Cổ Trị Liệu tốt nhất nếu có
+            const bestDef = sorted.find(g => g.type === "defensive");
+            const bestHeal = sorted.find(g => g.castType === "heal");
+            if (bestDef) { chosen.push(bestDef); pickedIds.add(bestDef.instanceId); }
+            if (bestHeal && !pickedIds.has(bestHeal.instanceId)) { chosen.push(bestHeal); pickedIds.add(bestHeal.instanceId); }
+
+            // Điền phần còn lại bằng các Cổ mạnh nhất (ưu tiên đa dạng loại trước)
+            for (const g of sorted) {
+                if (chosen.length >= 8) break;
+                if (pickedIds.has(g.instanceId)) continue;
+                chosen.push(g);
+                pickedIds.add(g.instanceId);
+            }
+
+            // Đưa cổ công kích lên các ô đầu tiên (Ô 1–6), Phòng ngự / Trị liệu về cuối (Ô 7–8)
+            chosen.sort((a, b) => {
+                const aSup = (a.type === "defensive" || a.castType === "heal") ? 1 : 0;
+                const bSup = (b.type === "defensive" || b.castType === "heal") ? 1 : 0;
+                if (aSup !== bSup) return aSup - bSup;
+                return scoreGu(b) - scoreGu(a);
+            });
+
+            this.equippedGuSlots = [null, null, null, null, null, null, null, null];
+            for (const g of this.ownedGuList) g.equippedSlot = null;
+
+            chosen.forEach((g, idx) => {
+                this.equippedGuSlots[idx] = g.instanceId;
+                g.equippedSlot = idx;
+            });
+
+            return {
+                success: true,
+                message: `⚔️ Đã tự động lắp ${chosen.length} Cổ Trùng mạnh nhất vào 8 Ô Xuất Chiến (kèm ưu tiên Phòng Ngự & Trị Liệu)!`
+            };
         }
 
         // =====================================================================
@@ -3442,7 +4165,9 @@
                 equippedGuSlots: this.equippedGuSlots,
                 savedKillerMoves: this.savedKillerMoves,
                 equippedKillerSlots: this.equippedKillerSlots,
-                unlockedRecipeIds: this.unlockedRecipeIds
+                unlockedRecipeIds: this.unlockedRecipeIds,
+                refinementExp: this.refinementExp || 0,
+                refinementPityStreak: this.refinementPityStreak || 0
             };
         }
 
@@ -3475,6 +4200,8 @@
             if (Array.isArray(data.savedKillerMoves)) this.savedKillerMoves = data.savedKillerMoves;
             if (Array.isArray(data.equippedKillerSlots)) this.equippedKillerSlots = data.equippedKillerSlots;
             if (Array.isArray(data.unlockedRecipeIds)) this.unlockedRecipeIds = data.unlockedRecipeIds;
+            this.refinementExp = typeof data.refinementExp === "number" ? data.refinementExp : 0;
+            this.refinementPityStreak = typeof data.refinementPityStreak === "number" ? data.refinementPityStreak : 0;
             this._recalculateSavedKillerMoves();
         }
     }
@@ -3484,6 +4211,11 @@
     GuSystem.LEGACY_GU_ALIASES = LEGACY_GU_ALIASES;
     GuSystem.REFINEMENT_RECIPES = REFINEMENT_RECIPES;
     GuSystem.PRESET_KILLER_MOVES = PRESET_KILLER_MOVES;
+    GuSystem.REFINEMENT_TECHNIQUES = REFINEMENT_TECHNIQUES;
+    GuSystem.REFINEMENT_CATALYSTS = REFINEMENT_CATALYSTS;
+    GuSystem.REFINEMENT_MASTERY_TIERS = REFINEMENT_MASTERY_TIERS;
+    GuSystem.MATERIAL_SYNTHESIS_RECIPES = MATERIAL_SYNTHESIS_RECIPES;
+    GuSystem.WILD_REFINE_CONFIG = WILD_REFINE_CONFIG;
 
     global.GuSystem = GuSystem;
 

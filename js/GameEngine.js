@@ -1271,7 +1271,7 @@
             this.ensureMarketRotation(false);
 
             this.player.initializeNewCharacter(playerName, originKey, regionKey, skinKey);
-            this.player.primevalStones = Math.max(15, Math.round(this.player.primevalStones * 0.55));
+            this.player.primevalStones = Math.max(24, Math.round(this.player.primevalStones * 0.60));
 
             this.guSystem.initializeStartingGu(this.aperture.vitalGuId, originKey);
 
@@ -1460,56 +1460,63 @@
             // Quái thường & Tinh Anh ở Phong Ma Quật giữ nguyên cấp 8 Chuyển (Không bị buff lên 9 Chuyển)
             const entityRank = isVenerableBoss ? 9 : Math.min(8, stageRank);
 
+            // Bảng chỉ số cân bằng chuẩn theo Cảnh Giới 1 -> 9 Chuyển (Khắc phục hoàn toàn lỗi quái Tiên Cảnh đánh 1 máu & quá giấy)
             const hpByRank = {
-                1: 110,
-                2: 310,
-                3: 880,
-                4: 2400,
-                5: 6200,
-                6: 18500,
-                7: 78000,
-                8: 460000,
-                9: 38000000
+                1: 155,
+                2: 450,
+                3: 1180,
+                4: 3250,
+                5: 8900,
+                6: 58000,
+                7: 680000,
+                8: 5600000,
+                9: 52000000
             };
             const atkByRank = {
-                1: 13,
-                2: 30,
-                3: 68,
-                4: 155,
-                5: 340,
-                6: 760,
-                7: 1850,
-                8: 4400,
-                9: 62000
+                1: 24,
+                2: 48,
+                3: 88,
+                4: 158,
+                5: 255,
+                6: 3800,
+                7: 9800,
+                8: 24500,
+                9: 78000
             };
             const defByRank = {
-                1: 6,
+                1: 8,
                 2: 28,
-                3: 78,
-                4: 195,
-                5: 460,
-                6: 1150,
-                7: 2600,
-                8: 6200,
-                9: 68000
+                3: 75,
+                4: 205,
+                5: 520,
+                6: 2800,
+                7: 32000,
+                8: 260000,
+                9: 1500000
             };
 
-            const subOrderOffset = Math.max(0, (stageOrder - 1) % 3);
-            const stageStepMult = 1 + subOrderOffset * 0.14;
+            const isSpecialFarm = Boolean(stage.isSpecialResourceStage);
+            const subOrderOffset = isSpecialFarm ? 0 : Math.max(0, (stageOrder - 1) % 3);
+            // 3 ải trong mỗi Chuyển tăng đều theo Sơ Giai -> Trung/Cao Giai -> Đỉnh Phong
+            const stageStepMult = isSpecialFarm ? 0.90 : (1 + subOrderOffset * 0.22);
 
             let hpMult = 1.0;
             if (isStageBoss) {
-                hpMult = isVenerableBoss ? 7.4 : (entityRank === 8 ? 4.2 : (entityRank === 7 ? 3.5 : 3.0));
+                hpMult = isVenerableBoss ? 7.5 : (entityRank === 8 ? 5.6 : (entityRank >= 6 ? 5.0 : 4.2));
             } else if (isElite) {
-                hpMult = 1.85;
+                hpMult = 2.25;
             }
 
-            const atkMult = isStageBoss ? (isVenerableBoss ? 2.35 : (entityRank >= 7 ? 1.55 : 1.40)) : (isElite ? 1.25 : 1.0);
-            const defMult = isStageBoss ? (isVenerableBoss ? 2.0 : (entityRank >= 7 ? 1.45 : 1.28)) : (isElite ? 1.15 : 1.0);
+            const atkMult = isStageBoss
+                ? (isVenerableBoss ? 2.0 : (entityRank >= 6 ? 1.62 : 1.48))
+                : (isElite ? 1.32 : 1.0);
+            const defMult = isStageBoss
+                ? (isVenerableBoss ? 1.85 : (entityRank >= 6 ? 1.45 : 1.32))
+                : (isElite ? 1.22 : 1.0);
 
-            const baseHp = Math.round((hpByRank[entityRank] || 110) * stageStepMult * hpMult);
-            const baseAtk = Math.round((atkByRank[entityRank] || 13) * stageStepMult * atkMult);
-            const baseDef = Math.round((defByRank[entityRank] || 6) * defMult);
+            const baseHp = Math.round((hpByRank[entityRank] || 155) * stageStepMult * hpMult);
+            const baseAtk = Math.round((atkByRank[entityRank] || 24) * stageStepMult * atkMult);
+            const baseDef = Math.round((defByRank[entityRank] || 8) * stageStepMult * defMult);
 
             const isHumanEntity = isStageBoss
                 ? Boolean(stage.bossIsHuman || customBossConfig)
@@ -1526,7 +1533,9 @@
 
             const initialShield = isVenerableBoss
                 ? Math.round(baseHp * 0.40)
-                : (isStageBoss && entityRank >= 6 ? Math.round(baseHp * 0.15) : 0);
+                : (isStageBoss
+                    ? Math.round(baseHp * (entityRank >= 6 ? 0.25 : (entityRank >= 2 ? 0.16 : 0.10)))
+                    : (isElite && entityRank >= 3 ? Math.round(baseHp * 0.15) : 0));
 
             const entity = {
                 id: `stage_mob_${Date.now()}_${Math.floor(Math.random() * 100000)}`,
@@ -1581,8 +1590,8 @@
                 maxShieldHp: initialShield,
                 atk: baseAtk,
                 def: baseDef,
-                spd: isVenerableBoss ? 182 : (isStageBoss ? (135 + entityRank * 3) : (isElite ? 126 : 116)),
-                aggroRange: isVenerableBoss ? 1100 : (isStageBoss ? 680 : (isElite ? 420 : 340)),
+                spd: isVenerableBoss ? 196 : (isStageBoss ? (142 + entityRank * 6) : (isElite ? (132 + entityRank * 5) : (122 + entityRank * 4))),
+                aggroRange: isVenerableBoss ? 1150 : (isStageBoss ? 760 : (isElite ? 490 : 410)),
                 attackRange: (isStageBoss || isHumanEntity || isElite) ? (340 + entityRank * 18) : 48,
                 rangedGuId: (isStageBoss || isHumanEntity || isElite) ? "phong_nhan_gu" : null,
                 projectileColor: customBossConfig && customBossConfig.projectileColor
@@ -1828,15 +1837,15 @@
                     const pickedTpl = candidates[pickIdx];
                     const added = this.guSystem.addGuToStorage(pickedTpl.id, {
                         rank: stageRank,
-                        isRefined: true,
-                        refinementProgress: 100,
+                        isRefined: false,
+                        refinementProgress: 0,
                         isVital: false
                     });
                     if (added) {
                         const fullGuLabel = global.GuSystem.formatGuNameWithRank
                             ? global.GuSystem.formatGuNameWithRank(added)
                             : `${added.name} ${stageRank} Chuyển`;
-                        obtainedGus.push(`${added.icon} ${fullGuLabel}`);
+                        obtainedGus.push(`${added.icon} ${fullGuLabel} [Chưa Luyện Hóa]`);
                         if (stageRank >= 6) {
                             candidates.splice(pickIdx, 1);
                         }
@@ -1928,18 +1937,27 @@
                 } else {
                     this.guSystem.addGuToStorage(inh.rewardGuId, {
                         rank: targetRank,
-                        isRefined: true,
-                        refinementProgress: 100,
+                        isRefined: false,
+                        refinementProgress: 0,
                         isVital: false
                     });
+                    guRewardNote = "Cổ Trùng truyền thừa (Chưa Luyện Hóa — cần Luyện Hóa tại Kho Cổ)";
                 }
             }
+            const isImm = this.aperture && this.aperture.isImmortal;
+            let daoRewardNote = "";
             if (inh.rewardDaoPath && inh.rewardDaoMarks) {
-                this.player.addDaoMarks(inh.rewardDaoPath, inh.rewardDaoMarks);
+                this.player.addPathAttainmentExp(inh.rewardDaoPath, inh.rewardDaoMarks);
+                if (isImm) {
+                    this.player.addDaoMarks(inh.rewardDaoPath, inh.rewardDaoMarks);
+                    daoRewardNote = ` và +${inh.rewardDaoMarks} Đạo Ngân ${inh.rewardDaoPath}`;
+                } else {
+                    daoRewardNote = ` và +${inh.rewardDaoMarks} Lĩnh Ngộ ${inh.rewardDaoPath} (Phàm nhân chưa có Đạo Ngân)`;
+                }
             }
 
             this.ui.addLog(
-                `🕯️ Đã kế thừa 【${inh.name}】! Nhận ${guRewardNote}, +${stoneGrant} Nguyên Thạch và +${inh.rewardDaoMarks} Đạo Ngân ${inh.rewardDaoPath}!`,
+                `🕯️ Đã kế thừa 【${inh.name}】! Nhận ${guRewardNote}, +${stoneGrant} Nguyên Thạch${daoRewardNote}!`,
                 "cultivation"
             );
             this.autoSaveNow("claim_inheritance");
@@ -2156,8 +2174,6 @@
                 }
             }
 
-            this._tickMarketRotation(dt);
-
             this.autoSaveTimer -= dt;
             if (this.autoSaveTimer <= 0) {
                 this.autoSaveTimer = 8;
@@ -2183,6 +2199,8 @@
                 this._handleBattleDefeat();
                 return;
             }
+
+            this._tickMarketRotation(dt);
 
             this.autoSaveTimer -= dt;
             if (this.autoSaveTimer <= 0) {

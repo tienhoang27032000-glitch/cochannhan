@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="mobile.css">
 </head>
 <body>
+    <!-- Thông báo nổi (Toast) tiện lợi cho cả PC và Mobile -->
+    <div id="toast-notification-stack" class="toast-stack" aria-live="polite"></div>
 
     <!-- Input ẩn dùng chung cho chức năng Nhập File Lưu (.json) -->
     <input type="file" id="save-file-input" accept=".json,application/json" class="hidden">
@@ -78,7 +80,7 @@
                     <label for="faction-origin-select">Chọn Thế Lực & Gia Thế Khởi Đầu:</label>
                     <select id="faction-origin-select">
                         <option value="righteous_clan">Đệ Tử Gia Tộc Chính Đạo (60 Nguyên Thạch, 100 Điểm Cống Hiến, tặng 1 Thanh Đồng Xá Lợi Cổ)</option>
-                        <option value="central_sect">Đệ Tử Môn Phái Trung Châu (50 Nguyên Thạch, có sẵn Cổ Phương Nhị Chuyển, +10 Đạo Ngân Kiếm Đạo)</option>
+                        <option value="central_sect">Đệ Tử Môn Phái Trung Châu (50 Nguyên Thạch, có sẵn Cổ Phương Nhị Chuyển, +Lĩnh Ngộ Kiếm Đạo)</option>
                         <option value="lone_cultivator">Tán Tu Sơn Dã (30 Nguyên Thạch, nhiều cổ tài thức ăn, +15% tỷ lệ bắt Cổ Hoang Dã)</option>
                         <option value="demonic_inheritor">Truyền Nhân Ma Đạo Bí Ẩn (25 Nguyên Thạch, sở hữu Huyết Đạo Cổ Trùng, sát lực cao)</option>
                         <option value="merchant_heir">Thiếu Đông Gia Thương Đội (120 Nguyên Thạch, giảm 15% giá mua hàng tại Thương Hội)</option>
@@ -325,6 +327,14 @@
                         </div>
                     </div>
 
+                    <div class="qol-toolbar">
+                        <button id="btn-quick-enter-highest-stage" class="btn-primary">⚔️ Vào Nhanh Ải Cao Nhất Đã Mở</button>
+                        <label class="qol-checkbox-label">
+                            <input type="checkbox" id="chk-maps-unlocked-only">
+                            <span>Chỉ hiện Bản Đồ đã mở khóa</span>
+                        </label>
+                    </div>
+
                     <div id="stage-maps-grid" class="maps-grid">
                         <!-- Được render động bởi GameEngine / UIManager -->
                     </div>
@@ -351,12 +361,23 @@
                                 <div class="info-row"><span>Trạng thái Khiếu Bích:</span> <strong id="ap-wall-text">Khinh Mạc (Màng Ánh Sáng)</strong></div>
                                 <div class="info-row"><span>Phẩm chất Chân Nguyên:</span> <strong id="ap-essence-name">Thanh Đồng Chân Nguyên</strong></div>
                                 <div class="info-row"><span>Cổ Bản Mệnh trấn khiếu:</span> <strong id="ap-vital-gu-name">Nguyệt Quang Cổ</strong></div>
+                                <div class="info-row"><span>Phụ trợ Vận Công:</span> <strong id="ap-liquor-worm-status" style="color:#948d81;">Chưa có Tửu Trùng (15–22 XP/lần)</strong></div>
                             </div>
 
                             <div class="action-stack mt-15">
-                                <button id="btn-hub-cultivate" class="btn-primary">🧘 Vận Chuyển Chân Nguyên Ôn Dưỡng Khiếu Bích (-16% Chân Nguyên)</button>
-                                <button id="btn-hub-absorb-stone" class="btn-secondary">💎 Hấp Thu 1 Nguyên Thạch Hồi Nhanh Chân Nguyên</button>
-                                <button id="btn-hub-use-relic" class="btn-accent">✨ Sử Dụng Xá Lợi Cổ (Đột Phá Nhanh Tiểu Cảnh Giới)</button>
+                                <div class="action-grid-2">
+                                    <button id="btn-hub-cultivate" class="btn-primary">🧘 Vận Công x1 (15–22 XP)</button>
+                                    <button id="btn-hub-cultivate-x5" class="btn-primary">⚡ Vận Công x5 (Nhanh)</button>
+                                </div>
+                                <button id="btn-hub-auto-meditate" class="btn-accent">🔁 Bế Quan Tự Động: ĐANG TẮT</button>
+                                <div class="action-grid-2">
+                                    <button id="btn-hub-absorb-stone" class="btn-secondary">💎 Hấp Thu 1 Thạch</button>
+                                    <button id="btn-hub-absorb-full" class="btn-secondary">💎 Bơm Đầy Biển Nguyên</button>
+                                </div>
+                                <div class="action-grid-2">
+                                    <button id="btn-hub-use-relic" class="btn-accent">✨ Dùng Xá Lợi Cổ</button>
+                                    <button id="btn-hub-quick-heal" class="btn-secondary">💚 Hồi Đầy HP & Tinh Thần</button>
+                                </div>
                                 <button id="btn-hub-breakthrough" class="btn-primary" disabled>⚡ Xung Kích Đột Phá Cảnh Giới Tiếp Theo</button>
                                 <button id="btn-hub-ascend" class="btn-danger hidden">🌌 Phá Khiếu Thăng Tiên (Tam Khí Hợp Nhất)</button>
                             </div>
@@ -459,6 +480,18 @@
                         <div id="hub-equipped-gu-bar" class="slot-grid-8"></div>
                     </div>
 
+                    <div class="qol-toolbar">
+                        <input type="text" id="gu-search-input" class="qol-search-input" placeholder="🔍 Tìm tên Cổ Trùng hoặc Lưu phái...">
+                        <select id="gu-sort-select" class="qol-select">
+                            <option value="rank_desc">Sắp xếp: Chuyển cao nhất</option>
+                            <option value="power_desc">Sắp xếp: Uy lực cao nhất</option>
+                            <option value="hunger_asc">Sắp xếp: Đói nhất trước</option>
+                            <option value="path_asc">Sắp xếp: Theo Lưu phái</option>
+                        </select>
+                        <button id="btn-gu-feed-all" class="btn-accent">🍖 Cho Ăn Toàn Bộ Cổ Đói</button>
+                        <button id="btn-gu-auto-equip" class="btn-primary">⚔️ Tự Lắp 8 Cổ Mạnh Nhất</button>
+                    </div>
+
                     <div class="split-2 mt-15">
                         <div class="card-box">
                             <h3>Danh Sách Cổ Trùng Đang Sở Hữu</h3>
@@ -478,37 +511,125 @@
                 ========================================================== -->
                 <section id="tab-refinement" class="hub-tab-panel hidden">
                     <div class="panel-header">
-                        <h2>⚗️ Luyện Đạo Các — Hợp Luyện Cổ & Suy Diễn Cổ Phương</h2>
-                        <p class="sub-text">Kết hợp các Cổ Trùng và Cổ Tài theo đúng Bí Phương hoặc đặt 1 Cổ Trùng kèm thức ăn của nó để Thăng Chuyển.</p>
+                        <div>
+                            <h2>⚗️ Luyện Đạo Các — Đỉnh Lò Hợp Luyện, Tinh Luyện & Phân Giải Cổ</h2>
+                            <p class="sub-text">Lựa chọn 4 Thủ Pháp Luyện Cổ (Hỏa/Băng/Huyết/Nhân Luyện), gia trì bảo hộ chống vỡ Cổ, tinh luyện cổ tài & chế tác Cổ Cứu Mệnh Thập Tuyệt Thể.</p>
+                        </div>
+                        <div class="filter-tabs" id="refinement-subtabs">
+                            <button class="tab-btn active" data-rsub="furnace">🔥 Đỉnh Lò Hợp Luyện</button>
+                            <button class="tab-btn" data-rsub="synthesis">⚗️ Tinh Luyện Cổ Tài & Chế Cổ</button>
+                            <button class="tab-btn" data-rsub="salvage">♻️ Phân Giải & Luyện Hóa Hoang Dã</button>
+                        </div>
                     </div>
 
-                    <div class="split-2">
+                    <!-- Thanh Cấp Bậc Luyện Cổ Sư & Hỏa Hầu Tích Lũy -->
+                    <div id="refinement-mastery-banner" class="market-rotation-banner">
+                        <div>
+                            <strong id="refine-mastery-title" style="color:#ffd700;">🔥 Cấp 1: Luyện Cổ Học Đồ (+0% Tỷ lệ)</strong>
+                            <p id="refine-mastery-desc" class="sub-text">Kinh nghiệm Luyện Lô: 0 / 60 EXP | Mỗi lần thất bại tích lũy +5% Hỏa Hầu cho lần tiếp theo (tối đa +25%).</p>
+                        </div>
+                        <div class="market-timer-pill">
+                            <span>Hỏa Hầu Tích Lũy:</span>
+                            <strong id="refine-pity-badge">+0%</strong>
+                        </div>
+                    </div>
+
+                    <!-- PHÂN KHU 1: ĐỈNH LÒ HỢP LUYỆN & THĂNG CHUYỂN -->
+                    <div id="refine-panel-furnace" class="split-2">
                         <div class="card-box">
-                            <h3>Đỉnh Lò Hợp Luyện</h3>
+                            <h3>🔥 Đỉnh Lò Hợp Luyện (Nhấn vào Ô hoặc chọn nhanh bên dưới)</h3>
                             <div class="refinement-slots">
-                                <div class="refine-slot" id="refine-slot-1">Cổ Trùng 1</div>
+                                <div class="refine-slot" id="refine-slot-1" data-rslot="0" title="Nhấn để xóa hoặc chọn Cổ Trùng 1">Cổ Trùng 1</div>
                                 <span class="plus-sign">+</span>
-                                <div class="refine-slot" id="refine-slot-2">Cổ Trùng 2 / Phụ Liệu</div>
+                                <div class="refine-slot" id="refine-slot-2" data-rslot="1" title="Nhấn để xóa hoặc chọn Cổ Trùng 2">Cổ Trùng 2 / Phụ Liệu</div>
                                 <span class="plus-sign">+</span>
-                                <div class="refine-slot" id="refine-slot-3">Cổ Tài Phụ Trợ</div>
+                                <div class="refine-slot" id="refine-slot-3" data-rslot="2" title="Nhấn để xóa hoặc chọn Cổ Tài">Cổ Tài Phụ Trợ</div>
                             </div>
+
+                            <!-- 4 Thủ Pháp Luyện Cổ & Phụ Trợ Gia Trì -->
+                            <div class="refine-controls-grid">
+                                <div class="form-group" style="margin-bottom:6px;">
+                                    <label for="refine-technique-select">Thủ Pháp Luyện Cổ:</label>
+                                    <select id="refine-technique-select">
+                                        <option value="fire_method">🔥 Hỏa Pháp Luyện Cổ (+6% Tỷ lệ, -10% Chân Nguyên)</option>
+                                        <option value="ice_method">❄️ Băng Pháp Trấn Lô (+2% Tỷ lệ, giảm 55% vỡ Cổ, -10 Tinh Thần)</option>
+                                        <option value="blood_method">🩸 Huyết Luyện Bí Pháp (+15% Tỷ lệ, hiến tế 20% HP)</option>
+                                        <option value="human_method">🌌 Nhân Luyện Thần Niệm (+12% Tỷ lệ, x2 EXP, -30 Tinh Thần)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:6px;">
+                                    <label for="refine-catalyst-select">Phụ Trợ Gia Trì (Tùy chọn):</label>
+                                    <select id="refine-catalyst-select">
+                                        <option value="none">Không dùng phụ trợ gia trì</option>
+                                        <option value="spirit_herb">🌿 Thanh Linh Thảo (+3% Tỷ lệ)</option>
+                                        <option value="hundred_year_ginseng">🥕 Bách Niên Khổ Sâm (+7% Tỷ lệ)</option>
+                                        <option value="soul_crystal">🔮 Đãng Hồn Thạch Đan (+12% Tỷ lệ)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p id="refine-technique-desc" class="sub-text" style="margin-bottom:8px;">Thủ pháp Chính Đạo căn bản: +6% tỷ lệ thành công, giảm 10% Chân Nguyên tiêu hao.</p>
+
+                            <label class="qol-checkbox-label" style="margin-bottom:10px;border-color:#3ca67d;">
+                                <input type="checkbox" id="chk-refine-protect-gu">
+                                <span style="color:#7ef7c4;"><strong>🛡️ Bật Bảo Cổ Hộ Lô (100% KHÔNG VỠ CỔ khi thất bại)</strong> — Tốn thêm 35% Nguyên Thạch (Tiên Cổ cần thêm 1x 🔮 Đãng Hồn Thạch)</span>
+                            </label>
 
                             <div id="refinement-recipe-preview" class="recipe-preview-box">
                                 <p>Cổ Phương khớp: <strong>Chưa chọn nguyên liệu</strong></p>
-                                <p>Tỷ lệ thành công: <strong>0%</strong> (Cộng thêm từ Đạo Ngân Luyện Đạo & Trí Đạo)</p>
+                                <p>Tỷ lệ thành công: <strong>0%</strong></p>
                                 <p>Chi phí: <strong>0% Chân Nguyên | 0 Nguyên Thạch</strong></p>
                             </div>
 
                             <div class="action-row">
                                 <button id="btn-execute-refinement" class="btn-primary" disabled>🔥 Khởi Lò Hợp Luyện</button>
-                                <button id="btn-clear-refinement" class="btn-secondary">Bỏ Chọn</button>
-                                <button id="btn-study-remnant-recipe" class="btn-accent">📜 Giải Mã Tàn Phương (Tốn 1 Tàn Quyển)</button>
+                                <button id="btn-clear-refinement" class="btn-secondary">✖ Bỏ Chọn</button>
+                                <button id="btn-study-remnant-recipe" class="btn-accent">📜 Giải Mã Tàn Phương (0)</button>
+                            </div>
+
+                            <!-- Kho Chọn Nhanh Ngay Dưới Lò -->
+                            <div class="mt-15">
+                                <strong style="color:#e2bf75;font-size:13px;">🪲 Nhấn để đặt Cổ Trùng vào Lò (Ô 1–2):</strong>
+                                <div id="refine-quick-picker-gu" class="quick-picker-chips mt-5"></div>
+                            </div>
+                            <div class="mt-10">
+                                <strong style="color:#5cc995;font-size:13px;">📦 Nhấn để đặt Cổ Tài vào Ô 3:</strong>
+                                <div id="refine-quick-picker-items" class="quick-picker-chips mt-5"></div>
                             </div>
                         </div>
 
                         <div class="card-box">
-                            <h3>Bí Phương Hợp Luyện Đã Lĩnh Ngộ (Nhấn để tự động đặt vào lò)</h3>
-                            <ul id="known-recipes-list" class="recipe-list"></ul>
+                            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--border-dim);padding-bottom:8px;margin-bottom:10px;">
+                                <h3 style="border:none;margin:0;padding:0;">📜 Bí Phương Đã Lĩnh Ngộ (Nhấn để đặt tự động)</h3>
+                                <div class="filter-tabs" id="recipe-filter-tabs">
+                                    <button class="tab-btn active" data-recfilter="all">Tất Cả</button>
+                                    <button class="tab-btn" data-recfilter="ready">✅ Đủ Đồ</button>
+                                    <button class="tab-btn" data-recfilter="immortal">🌟 Tiên Cổ</button>
+                                </div>
+                            </div>
+                            <ul id="known-recipes-list" class="recipe-list" style="max-height:520px;"></ul>
+                        </div>
+                    </div>
+
+                    <!-- PHÂN KHU 2: TINH LUYỆN CỔ TÀI & CHẾ TÁC CỔ CỨU MỆNH -->
+                    <div id="refine-panel-synthesis" class="hidden">
+                        <div id="material-synthesis-grid" class="market-container"></div>
+                    </div>
+
+                    <!-- PHÂN KHU 3: PHÂN GIẢI CỔ DƯ & LUYỆN HÓA CỔ HOANG DÃ -->
+                    <div id="refine-panel-salvage" class="split-2 hidden">
+                        <div class="card-box">
+                            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid var(--border-dim);padding-bottom:8px;margin-bottom:10px;">
+                                <h3 style="border:none;margin:0;padding:0;">♻️ Phân Giải Cổ Trùng Dư Thừa</h3>
+                                <button id="btn-salvage-duplicates" class="btn-accent">♻️ Phân Giải Nhanh Cổ Trùng Lặp</button>
+                            </div>
+                            <p class="sub-text" style="margin-bottom:10px;">Phân giải Cổ Trùng không dùng đến (trừ Cổ Bản Mệnh) để thu hồi Nguyên Thạch, Cổ Tài, Đạo Ngân Luyện Đạo và EXP Luyện Lô.</p>
+                            <div id="salvage-gu-list" class="scroll-list"></div>
+                        </div>
+
+                        <div class="card-box">
+                            <h3>🔥 Trấn Áp & Luyện Hóa Cổ Hoang Dã</h3>
+                            <p class="sub-text" style="margin-bottom:10px;">Luyện hóa nhanh toàn bộ Cổ Trùng Hoang Dã thu phục được từ các Bản Đồ mà không cần tìm từng con.</p>
+                            <div id="wild-gu-refine-list" class="scroll-list"></div>
                         </div>
                     </div>
                 </section>
@@ -562,9 +683,10 @@
                 ========================================================== -->
                 <section id="tab-dao-attainment" class="hub-tab-panel hidden">
                     <div class="panel-header">
-                        <h2>🌌 Đạo Ngân & Cảnh Giới Lĩnh Ngộ Lưu Phái</h2>
-                        <p class="sub-text">Mỗi 100 Đạo Ngân cùng lưu phái tăng +10% uy lực cổ thuật. Cảnh giới đạt Tông Sư có thể lấy pháp tự nhiên, Đại Tông Sư mô phỏng lưu phái khác.</p>
+                        <h2>🌌 Đạo Ngân (Cổ Tiên) & Cảnh Giới Lĩnh Ngộ Lưu Phái</h2>
+                        <p class="sub-text">Chuẩn nguyên tác: Đạo Ngân chỉ xuất hiện ở Cổ Tiên (Lục Chuyển trở lên), Phàm Nhân không có Đạo Ngân — chỉ có Cảnh Giới Lĩnh Ngộ lưu phái.</p>
                     </div>
+                    <div id="dao-marks-realm-banner" class="recipe-preview-box" style="margin-bottom:0;"></div>
 
                     <div class="split-2">
                         <div class="card-box">
@@ -585,8 +707,16 @@
                 ========================================================== -->
                 <section id="tab-inventory" class="hub-tab-panel hidden">
                     <div class="panel-header">
-                        <h2>🎒 Hành Trang & Kho Chứa Cổ Tài</h2>
-                        <p class="sub-text">Quản lý Xá Lợi Cổ, Cổ Phương Tàn Quyển, thảo dược trị thương và nguyên liệu cho Cổ Trùng ăn.</p>
+                        <div>
+                            <h2>🎒 Hành Trang & Kho Chứa Cổ Tài</h2>
+                            <p class="sub-text">Quản lý Xá Lợi Cổ, Cổ Cứu Mệnh Thập Tuyệt, Tàn Quyển, thảo dược trị thương và nguyên liệu nuôi Cổ.</p>
+                        </div>
+                        <div class="filter-tabs" id="inventory-filter-tabs">
+                            <button class="tab-btn active" data-ifilter="all">Tất Cả</button>
+                            <button class="tab-btn" data-ifilter="special">✨ Xá Lợi & Cứu Mệnh</button>
+                            <button class="tab-btn" data-ifilter="consumable">🌿 Hồi Phục</button>
+                            <button class="tab-btn" data-ifilter="material">🪨 Cổ Tài & Khoáng</button>
+                        </div>
                     </div>
 
                     <div class="split-2">
@@ -624,9 +754,15 @@
                             <strong style="color:#ffd700;">⏳ Đợt Hàng Hiện Tại (<span id="market-cycle-num">#1</span>) — Làm mới mỗi 5 phút</strong>
                             <p class="sub-text">Cổ Trùng càng hiếm, bậc càng cao và càng mạnh (OP) thì tỷ lệ xuất hiện mỗi đợt càng thấp — hãy canh đợt hàng về!</p>
                         </div>
-                        <div class="market-timer-pill">
-                            <span>Làm mới sau:</span>
-                            <strong id="market-reset-countdown">05:00</strong>
+                        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                            <label class="qol-checkbox-label">
+                                <input type="checkbox" id="chk-market-instock-only">
+                                <span>Chỉ hiện hàng đang có</span>
+                            </label>
+                            <div class="market-timer-pill">
+                                <span>Làm mới sau:</span>
+                                <strong id="market-reset-countdown">05:00</strong>
+                            </div>
                         </div>
                     </div>
 

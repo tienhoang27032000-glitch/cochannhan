@@ -26,9 +26,9 @@
             title: "Dã Thú Nhất Chuyển",
             icon: "🐺",
             rank: 1,
-            hp: 95,
-            atk: 14,
-            def: 4,
+            hp: 155,
+            atk: 24,
+            def: 8,
             spd: 122,
             aggroRange: 280,
             attackRange: 42,
@@ -46,9 +46,9 @@
             title: "Dã Thú Nhất Chuyển",
             icon: "🐗",
             rank: 1,
-            hp: 155,
-            atk: 18,
-            def: 10,
+            hp: 220,
+            atk: 28,
+            def: 12,
             spd: 105,
             aggroRange: 260,
             attackRange: 44,
@@ -67,9 +67,9 @@
             title: "Dị Thú Nhị Chuyển",
             icon: "🦅",
             rank: 2,
-            hp: 240,
-            atk: 28,
-            def: 12,
+            hp: 460,
+            atk: 48,
+            def: 28,
             spd: 148,
             aggroRange: 340,
             attackRange: 250,
@@ -88,9 +88,9 @@
             title: "Bách Thú Vương (Nhị Chuyển)",
             icon: "⚡",
             rank: 2,
-            hp: 460,
-            atk: 42,
-            def: 22,
+            hp: 1650,
+            atk: 72,
+            def: 38,
             spd: 136,
             aggroRange: 380,
             attackRange: 270,
@@ -111,9 +111,9 @@
             title: "Bách Thú Vương (Nhị Chuyển)",
             icon: "🦇",
             rank: 2,
-            hp: 420,
-            atk: 46,
-            def: 18,
+            hp: 1580,
+            atk: 78,
+            def: 34,
             spd: 148,
             aggroRange: 380,
             attackRange: 260,
@@ -134,9 +134,9 @@
             title: "Thiên Thú Vương (Tam Chuyển)",
             icon: "🐍",
             rank: 3,
-            hp: 1150,
-            atk: 82,
-            def: 45,
+            hp: 4800,
+            atk: 132,
+            def: 95,
             spd: 130,
             aggroRange: 420,
             attackRange: 300,
@@ -158,9 +158,9 @@
             title: "Vạn Thú Vương (Tứ Chuyển)",
             icon: "🦣",
             rank: 4,
-            hp: 3200,
-            atk: 175,
-            def: 110,
+            hp: 13500,
+            atk: 235,
+            def: 260,
             spd: 118,
             aggroRange: 450,
             attackRange: 330,
@@ -182,9 +182,9 @@
             title: "Thượng Cổ Hoang Thú (Lục Chuyển+)",
             icon: "🐉",
             rank: 6,
-            hp: 28000,
-            atk: 650,
-            def: 420,
+            hp: 290000,
+            atk: 6150,
+            def: 4050,
             spd: 152,
             aggroRange: 520,
             attackRange: 380,
@@ -268,10 +268,10 @@
             y: 2180,
             homeX: 2160,
             homeY: 2180,
-            hp: 320,
-            maxHp: 320,
-            atk: 35,
-            def: 16,
+            hp: 950,
+            maxHp: 950,
+            atk: 62,
+            def: 35,
             spd: 120,
             primevalStones: 85,
             relation: 25,
@@ -298,10 +298,10 @@
             y: 2120,
             homeX: 2520,
             homeY: 2120,
-            hp: 680,
-            maxHp: 680,
-            atk: 72,
-            def: 35,
+            hp: 2600,
+            maxHp: 2600,
+            atk: 115,
+            def: 85,
             spd: 112,
             primevalStones: 340,
             relation: 15,
@@ -329,10 +329,10 @@
             y: 2550,
             homeX: 2650,
             homeY: 2550,
-            hp: 380,
-            maxHp: 380,
-            atk: 38,
-            def: 20,
+            hp: 1050,
+            maxHp: 1050,
+            atk: 60,
+            def: 38,
             spd: 118,
             primevalStones: 620,
             relation: 30,
@@ -362,10 +362,10 @@
             y: 2620,
             homeX: 2150,
             homeY: 2620,
-            hp: 820,
-            maxHp: 820,
-            atk: 98,
-            def: 42,
+            hp: 3400,
+            maxHp: 3400,
+            atk: 138,
+            def: 98,
             spd: 140,
             primevalStones: 380,
             relation: 5,
@@ -392,10 +392,10 @@
             y: 2260,
             homeX: 2720,
             homeY: 2260,
-            hp: 1450,
-            maxHp: 1450,
-            atk: 145,
-            def: 65,
+            hp: 8200,
+            maxHp: 8200,
+            atk: 225,
+            def: 240,
             spd: 132,
             primevalStones: 520,
             relation: -10,
@@ -679,10 +679,27 @@
          *  - KHÔNG BAO GIỜ tính theo % Máu tối đa của người chơi.
          *  - Có ngưỡng sát thương tối đa cố định (Hard Damage Cap) để không bao giờ sốc chết nhân vật nhiều máu.
          */
+        /**
+         * Áp Chế Cảnh Giới từ phía Quái/Boss lên Người Chơi ("Nhất chuyển chi cách, như cách thiên địa!"):
+         *  - Nếu quái có Chuyển số cao hơn người chơi: tăng +30% sát thương mỗi bậc chênh lệch
+         *  - Nếu quái Tiên Cảnh (6–9 Chuyển) đánh Phàm Nhân (1–5 Chuyển): nhân x2.2 sát thương
+         */
+        _getEnemyRealmPressureMult(attacker, player) {
+            if (!attacker || !player || !player.aperture) return 1.0;
+            const eRank = attacker.rank || 1;
+            const pRank = player.aperture.rank || 1;
+            if (eRank <= pRank) return 1.0;
+            const diff = eRank - pRank;
+            let mult = 1 + diff * 0.30;
+            if (eRank >= 6 && pRank <= 5) mult *= 2.2;
+            return mult;
+        }
+
         _computeBossEffectiveDamage(boss, player, scaleMult = 1.0, isKillerMove = false) {
             const isVen = Boolean(boss.isVenerable);
             const enrageMult = boss.enraged ? 1.25 : 1.0;
-            const rawDmg = Math.round((boss.atk || 100) * scaleMult * enrageMult);
+            const realmPressure = this._getEnemyRealmPressureMult(boss, player);
+            const rawDmg = Math.round((boss.atk || 100) * scaleMult * enrageMult * realmPressure);
 
             if (isVen) {
                 const maxCap = isKillerMove
@@ -696,7 +713,14 @@
 
         _updateHumanCultivatorAI(boss, dt, player, mapManager, combatSystem) {
             const isVen = Boolean(boss.isVenerable);
-            const cdSpeedMult = (isVen && boss.enraged) ? 1.45 : 1.0;
+            // Thủ Lĩnh & Tinh Anh tự kích hoạt Cuồng Bạo Đạo Cơ khi máu xuống dưới 35%
+            if ((boss.isStageBoss || boss.isElite) && !boss.enraged && boss.hp > 0 && boss.hp <= boss.maxHp * 0.35) {
+                boss.enraged = true;
+                if (combatSystem) {
+                    combatSystem.spawnFloatingText(boss.x, boss.y - 42, "🔥 CUỒNG BẠO ĐẠO CƠ (+25% SÁT LỰC)!", "#ff4d4d");
+                }
+            }
+            const cdSpeedMult = boss.enraged ? (isVen ? 1.45 : 1.28) : 1.0;
 
             if (boss.attackCooldown > 0) boss.attackCooldown -= dt * cdSpeedMult;
             if (boss.guSkillCooldown > 0) boss.guSkillCooldown -= dt * cdSpeedMult;
@@ -812,7 +836,7 @@
 
             // F. Phát động SÁT CHIÊU
             if (boss.isStageBoss && (boss.killerMoveCooldown || 0) <= 0 && distToPlayer <= 680) {
-                boss.killerMoveCooldown = isVen ? 4.5 : Math.max(6.5, 11.5 - boss.rank * 0.5);
+                boss.killerMoveCooldown = isVen ? 4.2 : Math.max(5.5, 9.5 - boss.rank * 0.45);
 
                 let kmName = boss.killerMoveName || "Tiên Đạo Sát Chiêu";
                 let kmIndex = 0;
@@ -863,7 +887,7 @@
 
             // H. Thúc giục Cổ Trùng Công Kích (Đã khóa ngưỡng sát thương tối đa)
             if (distToPlayer <= (boss.attackRange || 480) && (boss.attackCooldown || 0) <= 0 && combatSystem) {
-                boss.attackCooldown = isVen ? 1.15 : (boss.isStageBoss ? 1.55 : 2.1);
+                boss.attackCooldown = isVen ? 1.00 : (boss.isStageBoss ? 1.25 : 1.65);
 
                 let guAttackName = boss.attackGuName || `${boss.name} Cổ Thuật`;
                 if (Array.isArray(boss.guLoadout) && boss.guLoadout.length > 0) {
@@ -1029,16 +1053,26 @@
                 beast.aiState = "patrol";
             }
 
+            if ((beast.isBoss || beast.isElite) && !beast.enraged && beast.hp > 0 && beast.hp <= beast.maxHp * 0.35) {
+                beast.enraged = true;
+                if (combatSystem) {
+                    combatSystem.spawnFloatingText(beast.x, beast.y - 34, "🔥 THÚ VƯƠNG CUỒNG BẠO (+25% SÁT LỰC)!", "#ff4d4d");
+                }
+            }
+            const enrageMult = beast.enraged ? 1.25 : 1.0;
+            const beastSpd = effectiveSpd * (beast.enraged ? 1.20 : 1.0);
+            const realmPressure = this._getEnemyRealmPressureMult(beast, player);
+
             if (beast.aiState === "retreat" && player) {
                 const fleeAngle = Math.atan2(beast.y - player.y, beast.x - player.x);
-                this._moveEntity(beast, Math.cos(fleeAngle) * effectiveSpd * 0.9, Math.sin(fleeAngle) * effectiveSpd * 0.9, dt, mapManager);
-                beast.hp = Math.min(beast.maxHp, beast.hp + 2.5 * dt);
+                this._moveEntity(beast, Math.cos(fleeAngle) * beastSpd * 0.9, Math.sin(fleeAngle) * beastSpd * 0.9, dt, mapManager);
+                beast.hp = Math.min(beast.maxHp, beast.hp + Math.max(3, beast.maxHp * 0.025) * dt);
             } else if (beast.aiState === "chase" && player) {
                 const angleToPlayer = Math.atan2(player.y - beast.y, player.x - beast.x);
 
-                if ((beast.isElite || beast.isBoss) && (beast.dashSkillCooldown || 0) <= 0 && distToPlayer < 320 && distToPlayer > 70) {
-                    beast.dashSkillCooldown = beast.isBoss ? 5.5 : 7.5;
-                    const leapDist = 110;
+                if ((beast.isElite || beast.isBoss) && (beast.dashSkillCooldown || 0) <= 0 && distToPlayer < 380 && distToPlayer > 65) {
+                    beast.dashSkillCooldown = beast.isBoss ? 4.5 : 6.5;
+                    const leapDist = 135;
                     const nx = beast.x + Math.cos(angleToPlayer) * leapDist;
                     const ny = beast.y + Math.sin(angleToPlayer) * leapDist;
                     if (!mapManager || mapManager.isWalkable(nx, ny, beast.radius)) {
@@ -1047,50 +1081,51 @@
                     }
                     if (combatSystem) {
                         combatSystem.spawnFloatingText(beast.x, beast.y - 24, `💥 Thú Vương Phác Kích!`, "#ff9f43");
-                        if (beast.isBoss) {
-                            combatSystem.spawnAoEEffect({
-                                owner: "enemy",
-                                name: `${beast.name} Giẫm Đạp`,
-                                x: beast.x,
-                                y: beast.y,
-                                radius: 85 + beast.rank * 10,
-                                damage: Math.round(beast.atk * 1.25),
-                                color: beast.color || "#ff5733",
-                                duration: 0.4
-                            });
-                        }
+                        combatSystem.spawnAoEEffect({
+                            owner: "enemy",
+                            name: `${beast.name} Giẫm Đạp`,
+                            skillRank: beast.rank,
+                            x: beast.x,
+                            y: beast.y,
+                            radius: (beast.isBoss ? 105 : 75) + beast.rank * 12,
+                            damage: Math.round(beast.atk * (beast.isBoss ? 1.50 : 1.25) * enrageMult * realmPressure),
+                            color: beast.color || "#ff5733",
+                            duration: 0.42
+                        });
                     }
                 }
 
                 const flankOffset = ((parseInt(beast.id.replace(/\D/g, ""), 10) || 1) % 2 === 0 ? 1 : -1) * 0.24;
                 if (distToPlayer > beast.attackRange * 0.85) {
                     const moveAngle = distToPlayer > 140 ? angleToPlayer + flankOffset : angleToPlayer;
-                    this._moveEntity(beast, Math.cos(moveAngle) * effectiveSpd, Math.sin(moveAngle) * effectiveSpd, dt, mapManager);
+                    this._moveEntity(beast, Math.cos(moveAngle) * beastSpd, Math.sin(moveAngle) * beastSpd, dt, mapManager);
                 }
 
                 if (distToPlayer <= beast.attackRange && beast.attackCooldown <= 0) {
-                    beast.attackCooldown = beast.rangedGuId ? 1.9 : 1.4;
+                    beast.attackCooldown = (beast.rangedGuId ? 1.50 : 1.12) / (beast.enraged ? 1.25 : 1.0);
+                    const finalBeastDmg = Math.round(beast.atk * enrageMult * realmPressure);
 
                     if (beast.rangedGuId && combatSystem) {
-                        const burst = beast.isBoss ? 3 : (beast.isElite ? 2 : 1);
+                        const burst = beast.isBoss ? Math.min(5, 2 + Math.floor(beast.rank / 2)) : (beast.isElite ? 2 : 1);
                         for (let b = 0; b < burst; b++) {
                             const off = burst === 1 ? 0 : (b - (burst - 1) / 2) * 0.20;
                             combatSystem.spawnProjectile({
                                 owner: "enemy",
                                 attackerRef: beast,
                                 name: beast.name,
+                                skillRank: beast.rank,
                                 x: beast.x,
                                 y: beast.y,
                                 angle: angleToPlayer + off,
-                                speed: 370 + beast.rank * 18,
-                                maxRange: beast.attackRange + 60,
-                                radius: 16,
-                                damage: beast.atk,
+                                speed: 400 + beast.rank * 22,
+                                maxRange: beast.attackRange + 85,
+                                radius: 16 + Math.min(6, beast.rank),
+                                damage: finalBeastDmg,
                                 color: beast.projectileColor
                             });
                         }
                     } else if (player) {
-                        const dmgRes = player.takeDamage(beast.atk, beast.name);
+                        const dmgRes = player.takeDamage(finalBeastDmg, beast.name);
                         if (combatSystem && !dmgRes.dodged) {
                             combatSystem.spawnFloatingText(player.x, player.y - 18, `-${dmgRes.damageTaken}`, "#ff4d4d");
                         }
@@ -1301,7 +1336,7 @@
             if (!target || target.isDead) return 0;
 
             // Tính sát thương thực tế sau khi trừ giáp (KHÔNG còn bất kỳ giới hạn sát thương tối đa nào trên Tôn Giả)
-            let actualDamage = Math.max(1, Math.round(rawDamage - (target.def || 0) * 0.60));
+            let actualDamage = Math.max(1, Math.round(rawDamage - (target.def || 0) * 0.65));
 
             // Nếu cả 2 vị Tôn Giả cùng trên sân, Liên Thủ Kết Giới chỉ giảm 30% sát thương chứ không khóa trần sát thương
             if (Boolean(target.isVenerable)) {
@@ -1372,7 +1407,7 @@
                             const captured = this.guSystem.addGuToStorage(drop.wildGuId, {
                                 rank: drop.wildRank || target.rank || 1,
                                 isRefined: false,
-                                refinementProgress: 20,
+                                refinementProgress: 0,
                                 isVital: false
                             });
                             if (captured) {
@@ -1406,7 +1441,7 @@
                     const capturedGu = this.guSystem.addGuToStorage(target.equippedGu, {
                         rank: target.equippedGuRank || target.rank || 1,
                         isRefined: false,
-                        refinementProgress: 35,
+                        refinementProgress: 0,
                         isVital: false
                     });
                     if (capturedGu) {
@@ -1475,16 +1510,19 @@
             if (entry.guId && guSystem) {
                 const newGu = guSystem.addGuToStorage(entry.guId, {
                     rank: entry.guRank || 1,
-                    isRefined: true,
-                    refinementProgress: 100,
+                    isRefined: false,
+                    refinementProgress: 0,
                     isVital: false
                 });
+                if (!newGu) {
+                    return { success: false, message: "Tiên Cổ là duy nhất! Ngươi đã sở hữu con Tiên Cổ này rồi." };
+                }
                 const fullGuName = global.GuSystem.formatGuNameWithRank
                     ? global.GuSystem.formatGuNameWithRank(newGu)
                     : newGu.name;
                 return {
                     success: true,
-                    message: `Giao dịch thành công! Đã mua Cổ Trùng [${fullGuName}] với giá 💎 ${finalPrice} Nguyên Thạch.`
+                    message: `Giao dịch thành công! Đã mua [${fullGuName}] (Chưa luyện hóa) với giá 💎 ${finalPrice}. Hãy dùng Nguyên Thạch & Tinh Thần để Luyện Hóa tại Kho Cổ!`
                 };
             } else if (entry.itemId) {
                 player.addItem(entry.itemId, 1);

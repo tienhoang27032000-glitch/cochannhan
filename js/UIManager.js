@@ -262,9 +262,20 @@
 
             this.activeHubTab = "tab-maps";
             this.currentMapRankFilter = "all";
+            this.mapsUnlockedOnly = false;
             this.currentGuFilter = "all";
+            this.guSearchQuery = "";
+            this.guSortBy = "rank_desc";
+            this.currentRefinementSubtab = "furnace";
+            this.currentRecipeFilter = "all";
+            this.refineTechniqueId = "fire_method";
+            this.refineCatalystId = "none";
+            this.refineProtectGu = false;
+            this.currentInventoryFilter = "all";
             this.currentMarketTab = "caravan";
+            this.marketInStockOnly = false;
             this.selectedGuInstanceId = null;
+            this.selectedSuppressorGuId = "auto";
             this.selectedInventoryItemId = null;
             this.refinementSlots = [null, null, null];
             this.keybindMode = "hybrid";
@@ -500,7 +511,42 @@
                 btnRefineNaturalDao: $("btn-refine-natural-dao"),
                 marketCycleNum: $("market-cycle-num"),
                 marketResetCountdown: $("market-reset-countdown"),
-                treasuryResetCountdown: $("treasury-reset-countdown")
+                treasuryResetCountdown: $("treasury-reset-countdown"),
+
+                // V8 QoL & Rich Refinement Elements
+                toastStack: $("toast-notification-stack"),
+                btnQuickEnterHighest: $("btn-quick-enter-highest-stage"),
+                chkMapsUnlockedOnly: $("chk-maps-unlocked-only"),
+                btnHubCultivateX5: $("btn-hub-cultivate-x5"),
+                btnHubAutoMeditate: $("btn-hub-auto-meditate"),
+                btnHubAbsorbFull: $("btn-hub-absorb-full"),
+                btnHubQuickHeal: $("btn-hub-quick-heal"),
+                guSearchInput: $("gu-search-input"),
+                guSortSelect: $("gu-sort-select"),
+                btnGuFeedAll: $("btn-gu-feed-all"),
+                btnGuAutoEquip: $("btn-gu-auto-equip"),
+                refinementSubtabs: $("refinement-subtabs"),
+                refineMasteryTitle: $("refine-mastery-title"),
+                refineMasteryDesc: $("refine-mastery-desc"),
+                refinePityBadge: $("refine-pity-badge"),
+                refinePanelFurnace: $("refine-panel-furnace"),
+                refinePanelSynthesis: $("refine-panel-synthesis"),
+                refinePanelSalvage: $("refine-panel-salvage"),
+                refineTechniqueSelect: $("refine-technique-select"),
+                refineTechniqueDesc: $("refine-technique-desc"),
+                refineCatalystSelect: $("refine-catalyst-select"),
+                chkRefineProtectGu: $("chk-refine-protect-gu"),
+                refineQuickPickerGu: $("refine-quick-picker-gu"),
+                refineQuickPickerItems: $("refine-quick-picker-items"),
+                recipeFilterTabs: $("recipe-filter-tabs"),
+                materialSynthesisGrid: $("material-synthesis-grid"),
+                salvageGuList: $("salvage-gu-list"),
+                btnSalvageDuplicates: $("btn-salvage-duplicates"),
+                wildGuRefineList: $("wild-gu-refine-list"),
+                inventoryFilterTabs: $("inventory-filter-tabs"),
+                chkMarketInStockOnly: $("chk-market-instock-only"),
+                apLiquorWormStatus: $("ap-liquor-worm-status"),
+                daoMarksRealmBanner: $("dao-marks-realm-banner")
             };
         }
 
@@ -776,17 +822,43 @@
         // 6. CẬP NHẬT TOPBAR ĐẠI BẢN DOANH & NHẬT KÝ
         // =====================================================================
 
-        addLog(message, category = "system") {
-            if (!this.dom.worldLog) return;
-            const entry = document.createElement("div");
-            entry.className = `log-entry ${category}`;
-            entry.textContent = message;
-
-            this.dom.worldLog.appendChild(entry);
-            while (this.dom.worldLog.children.length > 70) {
-                this.dom.worldLog.removeChild(this.dom.worldLog.firstChild);
+        showToast(message, category = "system") {
+            const stack = this.dom.toastStack;
+            if (!stack || !message) return;
+            const toast = document.createElement("div");
+            toast.className = `toast-item ${category}`;
+            toast.textContent = message.length > 140 ? message.slice(0, 137) + "..." : message;
+            stack.appendChild(toast);
+            while (stack.children.length > 3) {
+                stack.removeChild(stack.firstChild);
             }
-            this.dom.worldLog.scrollTop = this.dom.worldLog.scrollHeight;
+            setTimeout(() => {
+                toast.classList.add("fade-out");
+                setTimeout(() => {
+                    if (toast.parentNode) toast.parentNode.removeChild(toast);
+                }, 260);
+            }, 3000);
+        }
+
+        addLog(message, category = "system") {
+            if (this.dom.worldLog) {
+                const entry = document.createElement("div");
+                entry.className = `log-entry ${category}`;
+                entry.textContent = message;
+
+                this.dom.worldLog.appendChild(entry);
+                while (this.dom.worldLog.children.length > 70) {
+                    this.dom.worldLog.removeChild(this.dom.worldLog.firstChild);
+                }
+                this.dom.worldLog.scrollTop = this.dom.worldLog.scrollHeight;
+            }
+            if (
+                this.game &&
+                this.game.currentScreen === "hub" &&
+                (category === "loot" || category === "cultivation" || category === "warning" || category === "danger")
+            ) {
+                this.showToast(message, category);
+            }
         }
 
         updateHUD() {
@@ -891,7 +963,7 @@
         _bindHubFeatureEvents() {
             const d = this.dom;
 
-            // --- TAB 1: Bộ lọc Cảnh Giới Bản Đồ (1 -> 9 Chuyển) ---
+            // --- TAB 1: Bộ lọc Cảnh Giới Bản Đồ & Nút Vào Nhanh ---
             if (d.mapRankFilter) {
                 const btns = d.mapRankFilter.querySelectorAll(".tab-btn");
                 btns.forEach(btn => {
@@ -901,6 +973,25 @@
                         this.currentMapRankFilter = btn.getAttribute("data-mfilter") || "all";
                         this.renderMapsTab();
                     });
+                });
+            }
+            if (d.chkMapsUnlockedOnly) {
+                d.chkMapsUnlockedOnly.addEventListener("change", () => {
+                    this.mapsUnlockedOnly = Boolean(d.chkMapsUnlockedOnly.checked);
+                    this.renderMapsTab();
+                });
+            }
+            if (d.btnQuickEnterHighest) {
+                d.btnQuickEnterHighest.addEventListener("click", () => {
+                    if (!this.game) return;
+                    const mainStages = this.game.getStageCatalog()
+                        .filter(s => !s.isSpecialResourceStage && this.game.isStageUnlocked(s.id).unlocked);
+                    if (mainStages.length === 0) {
+                        this.addLog("Chưa có Bản Đồ chính nào được mở khóa!", "warning");
+                        return;
+                    }
+                    const highest = mainStages[mainStages.length - 1];
+                    this.game.enterStageBattle(highest.id);
                 });
             }
 
@@ -921,13 +1012,99 @@
                 d.btnHubCultivate.addEventListener("click", () => {
                     const res = this.aperture.cultivateStep(5.0, 1.0);
                     if (res.success) {
+                        const tag = res.hasLiquorWorm ? "🍶 [Tửu Trùng Phụ Trợ] " : "🧘 ";
                         this.addLog(
-                            `🧘 Ngươi vận chuyển Chân Nguyên cọ rửa Khiếu Bích, tiến độ ôn dưỡng đạt ${Math.floor(res.wallProgress)}/${res.maxWallProgress}.`,
+                            `${tag}Vận chuyển Chân Nguyên cọ rửa Khiếu Bích (+${Math.round(res.rawGain || res.gainedXp)} XP), tiến độ đạt ${Math.floor(res.wallProgress)}/${res.maxWallProgress}.`,
                             "cultivation"
                         );
                     } else if (res.reason) {
                         this.addLog(res.reason, "warning");
                     }
+                    this.renderApertureTab();
+                    this.updateHubTopbar();
+                });
+            }
+
+            if (d.btnHubCultivateX5) {
+                d.btnHubCultivateX5.addEventListener("click", () => {
+                    let count = 0;
+                    let totalXp = 0;
+                    let usedLiquor = false;
+                    let lastRes = null;
+                    for (let i = 0; i < 5; i++) {
+                        const res = this.aperture.cultivateStep(5.0, 1.0);
+                        lastRes = res;
+                        if (!res.success) break;
+                        count += 1;
+                        totalXp += Math.round(res.rawGain || res.gainedXp || 0);
+                        if (res.hasLiquorWorm) usedLiquor = true;
+                        if (res.canBreakthrough) break;
+                    }
+                    if (count > 0) {
+                        this.addLog(
+                            `⚡ Đã vận công liên tiếp ${count} lần (+${totalXp} XP${usedLiquor ? " — có 🍶 Tửu Trùng phụ trợ" : ""})! Khiếu Bích đạt ${Math.floor(this.aperture.wallProgress)}/${this.aperture.maxWallProgress}.`,
+                            "cultivation"
+                        );
+                    } else if (lastRes && lastRes.reason) {
+                        this.addLog(lastRes.reason, "warning");
+                    }
+                    this.renderApertureTab();
+                    this.updateHubTopbar();
+                });
+            }
+
+            if (d.btnHubAutoMeditate) {
+                d.btnHubAutoMeditate.addEventListener("click", () => {
+                    if (this.aperture.isImmortal) {
+                        this.addLog("Cổ Tiên tu luyện bằng Độ Tai Kiếp trong Tiên Khiếu!", "warning");
+                        return;
+                    }
+                    this.aperture.isMeditating = !this.aperture.isMeditating;
+                    this.addLog(
+                        this.aperture.isMeditating
+                            ? "🔁 Đã BẬT Bế Quan Tự Động — Không Khiếu sẽ tự động hồi phục (x1.5) và cọ rửa Khiếu Bích liên tục!"
+                            : "⏹️ Đã TẮT Bế Quan Tự Động.",
+                        "cultivation"
+                    );
+                    this.renderApertureTab();
+                });
+            }
+
+            if (d.btnHubAbsorbFull) {
+                d.btnHubAbsorbFull.addEventListener("click", () => {
+                    if (!this.aperture || typeof this.aperture.absorbPrimevalStonesToFull !== "function") return;
+                    const res = this.aperture.absorbPrimevalStonesToFull(this.player);
+                    this.addLog(res.message, res.success ? "cultivation" : "warning");
+                    this.renderApertureTab();
+                    this.updateHubTopbar();
+                });
+            }
+
+            if (d.btnHubQuickHeal) {
+                d.btnHubQuickHeal.addEventListener("click", () => {
+                    if (!this.player) return;
+                    const needHp = this.player.hp < this.player.maxHp - 1;
+                    const needMental = this.player.mental < this.player.maxMental - 1;
+                    if (!needHp && !needMental) {
+                        this.addLog("💚 Sinh Mệnh và Tinh Thần Lực đều đã ở trạng thái viên mãn!", "system");
+                        return;
+                    }
+                    const healOrder = needMental ? ["spirit_herb", "hundred_year_ginseng", "soul_crystal", "ration_meat"] : ["spirit_herb", "ration_meat", "hundred_year_ginseng"];
+                    let usedAny = false;
+                    for (let tries = 0; tries < 10; tries++) {
+                        if (this.player.hp >= this.player.maxHp - 1 && this.player.mental >= this.player.maxMental - 1) break;
+                        const pick = healOrder.find(id => this.player.getItemCount(id) > 0);
+                        if (!pick) break;
+                        const r = this.player.useItem(pick);
+                        if (r.success) usedAny = true;
+                        else break;
+                    }
+                    this.addLog(
+                        usedAny
+                            ? `💚 Đã dùng thảo dược hồi phục nhanh: HP ${Math.ceil(this.player.hp)}/${this.player.maxHp}, Tinh Thần ${Math.floor(this.player.mental)}/${this.player.maxMental}.`
+                            : "Không còn thảo dược / thực phẩm hồi phục trong hành trang!",
+                        usedAny ? "cultivation" : "warning"
+                    );
                     this.renderApertureTab();
                     this.updateHubTopbar();
                 });
@@ -1007,26 +1184,6 @@
                 });
             }
 
-            if (d.btnCollectApertureYield) {
-                if (!ap.isImmortal) {
-                    d.btnCollectApertureYield.disabled = true;
-                    d.btnCollectApertureYield.textContent = "🔒 Thu Hoạch Tiên Khiếu (Cần Thăng Tiên)";
-                } else {
-                    const yRem = typeof ap.getApertureYieldCooldownRemaining === "function"
-                        ? ap.getApertureYieldCooldownRemaining()
-                        : 0;
-                    if (yRem > 0) {
-                        const mm = Math.floor(yRem / 60);
-                        const ss = String(yRem % 60).padStart(2, "0");
-                        d.btnCollectApertureYield.disabled = true;
-                        d.btnCollectApertureYield.textContent = `⏳ Tái Sinh Sản Vật (${mm}:${ss})`;
-                    } else {
-                        d.btnCollectApertureYield.disabled = false;
-                        d.btnCollectApertureYield.textContent = "🌱 Thu Hoạch Sản Vật Tiên Khiếu (Hồi 3 phút)";
-                    }
-                }
-            }
-
             if (d.btnTriggerTribulation) {
                 d.btnTriggerTribulation.addEventListener("click", () => {
                     if (!this.aperture.isImmortal) {
@@ -1093,7 +1250,7 @@
                 });
             }
 
-            // --- TAB 3: Bộ lọc Kho Cổ ---
+            // --- TAB 3: Bộ lọc, Tìm kiếm, Sắp xếp & Tiện ích Kho Cổ ---
             if (d.guFilterTabs) {
                 const tabs = d.guFilterTabs.querySelectorAll(".tab-btn");
                 tabs.forEach(tab => {
@@ -1105,18 +1262,101 @@
                     });
                 });
             }
+            if (d.guSearchInput) {
+                d.guSearchInput.addEventListener("input", () => {
+                    this.guSearchQuery = (d.guSearchInput.value || "").trim().toLowerCase();
+                    this.renderGuStorageTab();
+                });
+            }
+            if (d.guSortSelect) {
+                d.guSortSelect.addEventListener("change", () => {
+                    this.guSortBy = d.guSortSelect.value || "rank_desc";
+                    this.renderGuStorageTab();
+                });
+            }
+            if (d.btnGuFeedAll) {
+                d.btnGuFeedAll.addEventListener("click", () => {
+                    if (!this.guSystem || typeof this.guSystem.feedAllHungryGu !== "function") return;
+                    const res = this.guSystem.feedAllHungryGu(this.player, 85);
+                    this.addLog(res.message, res.success ? "cultivation" : "warning");
+                    this.renderGuStorageTab();
+                    this.updateHubTopbar();
+                });
+            }
+            if (d.btnGuAutoEquip) {
+                d.btnGuAutoEquip.addEventListener("click", () => {
+                    if (!this.guSystem || typeof this.guSystem.autoEquipBestLoadout !== "function") return;
+                    const res = this.guSystem.autoEquipBestLoadout(this.player);
+                    this.addLog(res.message, res.success ? "loot" : "warning");
+                    if (res.success && this.game) this.game.autoSaveNow("auto_equip");
+                    this.renderGuStorageTab();
+                });
+            }
 
-            // --- TAB 4: Luyện Đạo Các & Giải Mã Tàn Phương ---
+            // --- TAB 4: Luyện Đạo Các Phong Phú (3 Phân khu + 4 Thủ Pháp + Gia Trì + Bảo Cổ) ---
+            if (d.refinementSubtabs) {
+                const rBtns = d.refinementSubtabs.querySelectorAll(".tab-btn");
+                rBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        rBtns.forEach(b => b.classList.remove("active"));
+                        btn.classList.add("active");
+                        this.currentRefinementSubtab = btn.getAttribute("data-rsub") || "furnace";
+                        this.renderRefinementTab();
+                    });
+                });
+            }
+            if (d.recipeFilterTabs) {
+                const rfBtns = d.recipeFilterTabs.querySelectorAll(".tab-btn");
+                rfBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        rfBtns.forEach(b => b.classList.remove("active"));
+                        btn.classList.add("active");
+                        this.currentRecipeFilter = btn.getAttribute("data-recfilter") || "all";
+                        this.renderRefinementTab();
+                    });
+                });
+            }
+            [d.refineSlot1, d.refineSlot2, d.refineSlot3].forEach((slotEl, idx) => {
+                if (!slotEl) return;
+                slotEl.addEventListener("click", () => {
+                    if (this.refinementSlots[idx] !== null) {
+                        this.refinementSlots[idx] = null;
+                        this.renderRefinementTab();
+                    }
+                });
+            });
+            if (d.refineTechniqueSelect) {
+                d.refineTechniqueSelect.addEventListener("change", () => {
+                    this.refineTechniqueId = d.refineTechniqueSelect.value || "fire_method";
+                    this.renderRefinementTab();
+                });
+            }
+            if (d.refineCatalystSelect) {
+                d.refineCatalystSelect.addEventListener("change", () => {
+                    this.refineCatalystId = d.refineCatalystSelect.value || "none";
+                    this.renderRefinementTab();
+                });
+            }
+            if (d.chkRefineProtectGu) {
+                d.chkRefineProtectGu.addEventListener("change", () => {
+                    this.refineProtectGu = Boolean(d.chkRefineProtectGu.checked);
+                    this.renderRefinementTab();
+                });
+            }
             if (d.btnClearRefine) {
                 d.btnClearRefine.addEventListener("click", () => {
                     this.refinementSlots = [null, null, null];
                     this.renderRefinementTab();
                 });
             }
-
             if (d.btnExecuteRefine) {
                 d.btnExecuteRefine.addEventListener("click", () => {
-                    const res = this.guSystem.executeRefinement(this.refinementSlots, this.player, this.aperture);
+                    const opts = {
+                        techniqueId: this.refineTechniqueId,
+                        catalystId: this.refineCatalystId,
+                        protectGu: this.refineProtectGu
+                    };
+                    const res = this.guSystem.executeRefinement(this.refinementSlots, this.player, this.aperture, opts);
                     this.addLog(res.message, res.success ? "loot" : "danger");
                     if (this.game) this.game.autoSaveNow("refine_gu");
                     this.refinementSlots = [null, null, null];
@@ -1124,13 +1364,35 @@
                     this.updateHubTopbar();
                 });
             }
-
             if (d.btnStudyRemnant) {
                 d.btnStudyRemnant.addEventListener("click", () => {
                     const res = this.guSystem.studyRemnantRecipe(this.player);
                     this.addLog(res.message, res.success ? "cultivation" : "warning");
                     this.renderRefinementTab();
                     this.updateHubTopbar();
+                });
+            }
+            if (d.btnSalvageDuplicates) {
+                d.btnSalvageDuplicates.addEventListener("click", () => {
+                    if (!this.guSystem || typeof this.guSystem.salvageDuplicateMortalGus !== "function") return;
+                    const res = this.guSystem.salvageDuplicateMortalGus(this.player);
+                    this.addLog(res.message, res.success ? "loot" : "warning");
+                    if (res.success && this.game) this.game.autoSaveNow("salvage_dups");
+                    this.renderRefinementTab();
+                    this.updateHubTopbar();
+                });
+            }
+
+            // --- TAB 7: Bộ lọc Hành Trang ---
+            if (d.inventoryFilterTabs) {
+                const iBtns = d.inventoryFilterTabs.querySelectorAll(".tab-btn");
+                iBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        iBtns.forEach(b => b.classList.remove("active"));
+                        btn.classList.add("active");
+                        this.currentInventoryFilter = btn.getAttribute("data-ifilter") || "all";
+                        this.renderInventoryTab();
+                    });
                 });
             }
 
@@ -1164,6 +1426,12 @@
                         this.currentMarketTab = btn.getAttribute("data-market") || "caravan";
                         this.renderMarketTab();
                     });
+                });
+            }
+            if (d.chkMarketInStockOnly) {
+                d.chkMarketInStockOnly.addEventListener("change", () => {
+                    this.marketInStockOnly = Boolean(d.chkMarketInStockOnly.checked);
+                    this.renderMarketTab();
                 });
             }
 
@@ -1229,6 +1497,7 @@
 
             const stages = this.game.getStageCatalog();
             const filtered = stages.filter(st => {
+                if (this.mapsUnlockedOnly && !this.game.isStageUnlocked(st.id).unlocked) return false;
                 if (this.currentMapRankFilter === "all") return true;
                 if (this.currentMapRankFilter === "special") return Boolean(st.isSpecialResourceStage);
                 return !st.isSpecialResourceStage && String(st.reqRank) === this.currentMapRankFilter;
@@ -1414,6 +1683,61 @@
 
             d.apEssenceName.textContent = ap.getEssenceQualityName();
             d.apVitalGuName.textContent = ap.vitalGuName || "Chưa có";
+            const hasLiquor = typeof ap.hasLiquorWormAssist === "function" && ap.hasLiquorWormAssist();
+            if (d.apLiquorWormStatus) {
+                if (ap.isImmortal) {
+                    d.apLiquorWormStatus.textContent = "Đã thành Cổ Tiên (Tu bằng Độ Tai Kiếp)";
+                    d.apLiquorWormStatus.style.color = "#67b7d1";
+                } else if (hasLiquor) {
+                    d.apLiquorWormStatus.textContent = "🍶 Tửu Trùng Đang Phụ Trợ (50–70 XP / lần!)";
+                    d.apLiquorWormStatus.style.color = "#5cc995";
+                } else {
+                    d.apLiquorWormStatus.textContent = "Chưa có Tửu Trùng đã luyện hóa (15–22 XP / lần)";
+                    d.apLiquorWormStatus.style.color = "#b3aa9c";
+                }
+            }
+            if (d.btnHubCultivate) {
+                d.btnHubCultivate.textContent = hasLiquor
+                    ? "🧘 Vận Công x1 (🍶 50–70 XP | -16% CN)"
+                    : "🧘 Vận Công x1 (15–22 XP | -16% CN)";
+            }
+            if (d.btnHubCultivateX5) {
+                d.btnHubCultivateX5.textContent = hasLiquor
+                    ? "⚡ Vận Công x5 (🍶 250–350 XP)"
+                    : "⚡ Vận Công x5 (75–110 XP)";
+            }
+
+            if (d.btnHubAutoMeditate) {
+                if (ap.isImmortal) {
+                    d.btnHubAutoMeditate.disabled = true;
+                    d.btnHubAutoMeditate.textContent = "🔁 Bế Quan Tự Động (Chỉ Phàm Cảnh)";
+                } else {
+                    d.btnHubAutoMeditate.disabled = false;
+                    d.btnHubAutoMeditate.textContent = ap.isMeditating
+                        ? "⏹️ Đang Bế Quan Tự Động (Bấm để Dừng)"
+                        : "🔁 Bế Quan Tự Động: ĐANG TẮT";
+                }
+            }
+
+            if (d.btnCollectApertureYield) {
+                if (!ap.isImmortal) {
+                    d.btnCollectApertureYield.disabled = true;
+                    d.btnCollectApertureYield.textContent = "🔒 Thu Hoạch Tiên Khiếu (Cần Thăng Tiên)";
+                } else {
+                    const yRem = typeof ap.getApertureYieldCooldownRemaining === "function"
+                        ? ap.getApertureYieldCooldownRemaining()
+                        : 0;
+                    if (yRem > 0) {
+                        const mm = Math.floor(yRem / 60);
+                        const ss = String(yRem % 60).padStart(2, "0");
+                        d.btnCollectApertureYield.disabled = true;
+                        d.btnCollectApertureYield.textContent = `⏳ Tái Sinh Sản Vật (${mm}:${ss})`;
+                    } else {
+                        d.btnCollectApertureYield.disabled = false;
+                        d.btnCollectApertureYield.textContent = "🌱 Thu Hoạch Sản Vật Tiên Khiếu (Hồi 3 phút)";
+                    }
+                }
+            }
 
             if (d.btnTriggerTribulation) {
                 if (!ap.isImmortal) {
@@ -1656,20 +1980,41 @@
                 }).join("");
             }
 
-            const list = this.guSystem.getFilteredGuList(this.currentGuFilter);
+            let list = [...this.guSystem.getFilteredGuList(this.currentGuFilter)];
+            if (this.guSearchQuery) {
+                const q = this.guSearchQuery;
+                list = list.filter(g =>
+                    (g.name || "").toLowerCase().includes(q) ||
+                    (g.path || "").toLowerCase().includes(q)
+                );
+            }
+            if (this.guSortBy === "rank_desc") {
+                list.sort((a, b) => (b.rank - a.rank) || (b.power - a.power));
+            } else if (this.guSortBy === "power_desc") {
+                list.sort((a, b) => (b.power - a.power) || (b.rank - a.rank));
+            } else if (this.guSortBy === "hunger_asc") {
+                list.sort((a, b) => (a.hunger - b.hunger));
+            } else if (this.guSortBy === "path_asc") {
+                list.sort((a, b) => (a.path || "").localeCompare(b.path || "") || (b.rank - a.rank));
+            }
+
             if (list.length === 0) {
-                d.guStorageGrid.innerHTML = `<p class="empty-hint" style="grid-column:1/-1;">Chưa có Cổ Trùng nào trong phân loại này.</p>`;
+                d.guStorageGrid.innerHTML = `<p class="empty-hint" style="grid-column:1/-1;">Không tìm thấy Cổ Trùng phù hợp.</p>`;
             } else {
                 d.guStorageGrid.innerHTML = list.map(gu => {
                     const isSel = gu.instanceId === this.selectedGuInstanceId;
                     const vitalStar = gu.isVital ? "★" : "";
                     const rankName = G.getRankName ? G.getRankName(gu.rank) : `${gu.rank} Chuyển`;
                     const statusTag = !gu.isRefined ? "[Hoang Dã]" : (gu.equippedSlot !== null ? `[Ô ${gu.equippedSlot + 1}]` : "");
+                    const hungerPct = Math.max(0, Math.min(100, Math.round(gu.hunger || 0)));
                     return `
-                        <div class="item-card ${isSel ? "selected" : ""}" data-gu-inst="${gu.instanceId}">
+                        <div class="item-card rank-border-${gu.rank} ${isSel ? "selected" : ""}" data-gu-inst="${gu.instanceId}">
                             <div class="icon">${gu.icon}</div>
                             <div class="name">${vitalStar}${gu.name}</div>
                             <div class="rank-tag">${rankName} ${statusTag}</div>
+                            <div class="gu-hunger-mini" title="Độ no: ${hungerPct}%">
+                                <div class="gu-hunger-mini-fill ${hungerPct < 30 ? "low" : ""}" style="width:${hungerPct}%;"></div>
+                            </div>
                         </div>
                     `;
                 }).join("");
@@ -1701,6 +2046,43 @@
             const upReq = this.guSystem.getGuUpgradeRequirements
                 ? this.guSystem.getGuUpgradeRequirements(gu.instanceId, this.player)
                 : { canUpgrade: false, reason: "Không hỗ trợ" };
+
+            let wildRefineBoxHtml = "";
+            if (!gu.isRefined && typeof this.guSystem.getWildGuRefinementInfo === "function") {
+                const wInfo = this.guSystem.getWildGuRefinementInfo(gu.instanceId, this.player, this.aperture, this.selectedSuppressorGuId);
+                if (wInfo.valid) {
+                    const eligible = wInfo.eligibleSuppressors || [];
+                    const supOptions = [
+                        `<option value="auto" ${this.selectedSuppressorGuId === "auto" ? "selected" : ""}>🤖 Tự chọn Cổ chuyển cao nhất (${eligible[0] ? G.formatGuNameWithRank(eligible[0]) : "Chưa có"})</option>`,
+                        `<option value="none" ${this.selectedSuppressorGuId === "none" ? "selected" : ""}>✖ Không dùng Cổ áp chế</option>`,
+                        ...eligible.map(sg =>
+                            `<option value="${sg.instanceId}" ${this.selectedSuppressorGuId === sg.instanceId ? "selected" : ""}>🐉 ${sg.icon} ${G.formatGuNameWithRank(sg)} (+${sg.rank - gu.rank} Chuyển)</option>`
+                        )
+                    ].join("");
+
+                    const pctBar = Math.max(0, Math.min(100, Math.round(gu.refinementProgress || 0)));
+                    const btnText = wInfo.instantRefine
+                        ? `⚡ Áp Chế Luyện Hóa Tức Thì 100% (-${wInfo.stoneCost}💎, -${wInfo.mentalCost} Tinh Thần)`
+                        : `🔥 Luyện Hóa Dã Cổ (-${wInfo.stoneCost.toLocaleString("vi-VN")}💎, -${wInfo.mentalCost} Tinh Thần)`;
+
+                    wildRefineBoxHtml = `
+                        <div class="recipe-preview-box mt-10" style="border-color:#ff9f43;margin-bottom:4px;">
+                            <p><strong style="color:#ffd700;">🔥 Luyện Hóa Dã Cổ (Bằng Nguyên Thạch & Tinh Thần):</strong></p>
+                            <div class="progress-track mt-5" style="height:10px;">
+                                <div class="progress-fill cultivation-fill" style="width:${pctBar}%;"></div>
+                            </div>
+                            <p class="mt-5">Tiến độ: <strong>${pctBar}% / 100%</strong> | Tỷ lệ thành công: <strong style="color:#5cc995">${Math.round(wInfo.successChance * 100)}%</strong> | Tiến độ/lần: <strong>+${wInfo.minGain}%–${wInfo.maxGain}%</strong></p>
+                            <p>Chi phí mỗi lần: <strong>💎 ${wInfo.stoneCost.toLocaleString("vi-VN")} Nguyên Thạch</strong> (Có: ${this.player.primevalStones}) & <strong>🧠 ${wInfo.mentalCost} Tinh Thần</strong> (Có: ${Math.floor(this.player.mental)})</p>
+                            <div class="form-group mt-5" style="margin-bottom:6px;">
+                                <label for="wild-gu-suppressor-select" style="font-size:12px;">🐉 Chọn Cổ Cấp Chuyển Cao Hơn Áp Chế Khí Tức:</label>
+                                <select id="wild-gu-suppressor-select">${supOptions}</select>
+                            </div>
+                            <p class="sub-text" style="color:${wInfo.suppressor ? "#7ef7c4" : "#b3aa9c"};">${wInfo.suppressionLabel}</p>
+                            <button id="btn-refine-wild-gu" class="btn-primary mt-5" style="width:100%;">${btnText}</button>
+                        </div>
+                    `;
+                }
+            }
 
             let upgradeBoxHtml = "";
             if (gu.isRefined) {
@@ -1751,15 +2133,17 @@
                     <div class="info-row"><span>Đặc tính ghép Sát Chiêu:</span> <strong style="color:#5cc995">${traitDesc}</strong></div>
                 </div>
 
+                ${wildRefineBoxHtml}
                 ${upgradeBoxHtml}
 
                 <div class="action-row mt-10">
-                    ${!gu.isRefined
-                        ? `<button id="btn-refine-wild-gu" class="btn-primary">🔥 Luyện Hóa Cổ Hoang Dã</button>`
-                        : `<button id="btn-set-vital-gu" class="btn-secondary" ${gu.isVital ? "disabled" : ""}>☯ Đặt Làm Cổ Bản Mệnh</button>`
+                    ${gu.isRefined
+                        ? `<button id="btn-set-vital-gu" class="btn-secondary" ${gu.isVital ? "disabled" : ""}>☯ Đặt Làm Cổ Bản Mệnh</button>`
+                        : ""
                     }
                     <button id="btn-feed-gu" class="btn-accent">🍖 Cho Cổ Ăn (${foodMeta.name})</button>
                     <button id="btn-send-gu-to-refine" class="btn-secondary">⚗️ Đưa Sang Lò Hợp Luyện</button>
+                    ${!gu.isVital ? `<button id="btn-salvage-this-gu" class="btn-danger">♻️ Phân Giải Cổ</button>` : ""}
                 </div>
                 ${equipBtns}
             `;
@@ -1775,11 +2159,20 @@
                 });
             }
 
+            const supSelect = document.getElementById("wild-gu-suppressor-select");
+            if (supSelect) {
+                supSelect.addEventListener("change", () => {
+                    this.selectedSuppressorGuId = supSelect.value || "auto";
+                    this.renderGuStorageTab();
+                });
+            }
+
             const btnRefineWild = document.getElementById("btn-refine-wild-gu");
             if (btnRefineWild) {
                 btnRefineWild.addEventListener("click", () => {
-                    const res = this.guSystem.refineWildGuStep(gu.instanceId, this.player, this.aperture);
-                    this.addLog(res.message, res.success ? "cultivation" : "warning");
+                    const res = this.guSystem.refineWildGuStep(gu.instanceId, this.player, this.aperture, this.selectedSuppressorGuId);
+                    this.addLog(res.message, res.success ? (res.completed ? "loot" : "cultivation") : "warning");
+                    if (res.completed && this.game) this.game.autoSaveNow("refine_wild_gu");
                     this.renderGuStorageTab();
                     this.updateHubTopbar();
                 });
@@ -1816,6 +2209,22 @@
                 });
             }
 
+            const btnSalvageThis = document.getElementById("btn-salvage-this-gu");
+            if (btnSalvageThis) {
+                btnSalvageThis.addEventListener("click", () => {
+                    if (!this.guSystem || typeof this.guSystem.salvageGu !== "function") return;
+                    if (!confirm(`Xác nhận phân giải 【${fullGuName}】 lấy Nguyên Thạch & Cổ Tài?`)) return;
+                    const res = this.guSystem.salvageGu(gu.instanceId, this.player);
+                    this.addLog(res.message, res.success ? "loot" : "warning");
+                    if (res.success) {
+                        this.selectedGuInstanceId = null;
+                        if (this.game) this.game.autoSaveNow("salvage_gu");
+                    }
+                    this.renderGuStorageTab();
+                    this.updateHubTopbar();
+                });
+            }
+
             d.guDetailBox.querySelectorAll(".btn-equip-gu-slot").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const slotIdx = parseInt(btn.getAttribute("data-slot"), 10);
@@ -1833,38 +2242,94 @@
             if (!this.guSystem || !this.player) return;
             const d = this.dom;
             const G = global.GuSystem;
-            const slotEls = [d.refineSlot1, d.refineSlot2, d.refineSlot3];
 
+            // 1. Cập nhật Banner Cấp Bậc Luyện Cổ Sư & Hỏa Hầu Tích Lũy
+            if (typeof this.guSystem.getRefinementMasteryInfo === "function") {
+                const m = this.guSystem.getRefinementMasteryInfo();
+                if (d.refineMasteryTitle) {
+                    d.refineMasteryTitle.textContent = `🔥 Cấp ${m.level}: ${m.title} (+${Math.round(m.masteryBonus * 100)}% Tỷ lệ thành công)`;
+                }
+                if (d.refineMasteryDesc) {
+                    const nextStr = m.nextMinExp ? `${m.exp} / ${m.nextMinExp} EXP` : `${m.exp} EXP (Đỉnh Phong)`;
+                    const isImmMastery = this.aperture && this.aperture.isImmortal;
+                    const daoText = isImmMastery
+                        ? `Đạo Ngân Luyện Đạo: ${Math.floor(this.player.getEffectiveDaoMarks("Luyện Đạo"))}`
+                        : `Cảnh giới Luyện Đạo: ${this.player.pathAttainment["Luyện Đạo"] || "Phàm Cấp"} (Phàm nhân chưa có Đạo Ngân)`;
+                    d.refineMasteryDesc.textContent = `Kinh nghiệm Luyện Lô: ${nextStr} | ${daoText} | Mỗi lần thất bại cộng +5% Hỏa Hầu (tối đa +25%).`;
+                }
+                if (d.refinePityBadge) {
+                    d.refinePityBadge.textContent = `+${Math.round(m.pityBonus * 100)}%`;
+                }
+            }
+
+            // 2. Chuyển đổi hiển thị giữa 3 phân khu Luyện Đạo Các
+            const sub = this.currentRefinementSubtab || "furnace";
+            if (d.refinePanelFurnace) d.refinePanelFurnace.classList.toggle("hidden", sub !== "furnace");
+            if (d.refinePanelSynthesis) d.refinePanelSynthesis.classList.toggle("hidden", sub !== "synthesis");
+            if (d.refinePanelSalvage) d.refinePanelSalvage.classList.toggle("hidden", sub !== "salvage");
+
+            if (sub === "synthesis") {
+                this._renderMaterialSynthesisPanel();
+                return;
+            }
+            if (sub === "salvage") {
+                this._renderSalvageAndWildPanel();
+                return;
+            }
+
+            // 3. Phân khu ĐỈNH LÒ HỢP LUYỆN
+            const slotEls = [d.refineSlot1, d.refineSlot2, d.refineSlot3];
             slotEls.forEach((el, idx) => {
+                if (!el) return;
                 const val = this.refinementSlots[idx];
                 if (!val) {
                     el.classList.remove("filled");
-                    el.textContent = idx === 2 ? "Cổ Tài Phụ Trợ" : `Cổ Trùng ${idx + 1}`;
+                    el.textContent = idx === 2 ? "Cổ Tài Phụ Trợ (Ô 3)" : `Cổ Trùng ${idx + 1} (Ô ${idx + 1})`;
                 } else {
                     el.classList.add("filled");
                     const gu = this.guSystem.getGuByInstanceId(val);
                     if (gu) {
                         const fullName = G.formatGuNameWithRank ? G.formatGuNameWithRank(gu) : gu.name;
-                        el.innerHTML = `<div>${gu.icon} ${fullName}</div>`;
+                        el.innerHTML = `<div>${gu.icon} ${fullName}<br><small style="color:#ff9c9c;">(Nhấn để gỡ)</small></div>`;
                     } else {
                         const itemMeta = global.PlayerManager.ITEM_DATABASE[val];
-                        el.innerHTML = `<div>${itemMeta ? itemMeta.icon + " " + itemMeta.name : val}</div>`;
+                        el.innerHTML = `<div>${itemMeta ? itemMeta.icon + " " + itemMeta.name : val}<br><small style="color:#ff9c9c;">(Nhấn để gỡ)</small></div>`;
                     }
                 }
             });
 
-            const preview = this.guSystem.previewRefinement(this.refinementSlots, this.player, this.aperture);
+            if (d.refineTechniqueSelect) d.refineTechniqueSelect.value = this.refineTechniqueId;
+            if (d.refineCatalystSelect) d.refineCatalystSelect.value = this.refineCatalystId;
+            if (d.chkRefineProtectGu) d.chkRefineProtectGu.checked = Boolean(this.refineProtectGu);
+
+            const techMap = G.REFINEMENT_TECHNIQUES || {};
+            const curTech = techMap[this.refineTechniqueId] || techMap.fire_method;
+            if (d.refineTechniqueDesc && curTech) {
+                d.refineTechniqueDesc.textContent = curTech.desc;
+            }
+
+            const opts = {
+                techniqueId: this.refineTechniqueId,
+                catalystId: this.refineCatalystId,
+                protectGu: this.refineProtectGu
+            };
+            const preview = this.guSystem.previewRefinement(this.refinementSlots, this.player, this.aperture, opts);
             if (preview.valid) {
+                const riskPct = Math.round((preview.breakRisk || 0) * 100);
+                const protectStr = preview.protectGu
+                    ? `<span style="color:#5cc995">🛡️ Đang Bảo Cổ (0% vỡ Cổ${preview.protectNeedsSoulCrystal ? ", tốn 1x 🔮 Đãng Hồn Thạch" : ""})</span>`
+                    : `<span style="color:#ff9f43">Rủi ro vỡ Cổ phụ nếu trượt: ${riskPct}%</span>`;
                 d.refinePreview.innerHTML = `
                     <p>Thành phẩm: <strong class="highlight-gold">${preview.resultName}</strong></p>
-                    <p>Tỷ lệ thành công: <strong>${Math.round(preview.successChance * 100)}%</strong> (Đã cộng Đạo Ngân Luyện/Trí/Vận Đạo)</p>
-                    <p>Chi phí: <strong>${preview.essenceCost}% Chân Nguyên | 💎 ${preview.stoneCost} Nguyên Thạch</strong></p>
+                    <p>Tỷ lệ thành công: <strong style="color:#5cc995;font-size:15px;">${Math.round(preview.successChance * 100)}%</strong> (Gồm Thủ Pháp, Đạo Ngân, Luyện Cổ Sư & Hỏa Hầu)</p>
+                    <p>Chi phí: <strong>${preview.essenceCost}${preview.resultRank >= 6 ? " Tiên Nguyên" : "% Chân Nguyên"} | 💎 ${preview.stoneCost.toLocaleString("vi-VN")} Nguyên Thạch</strong></p>
+                    <p>${protectStr}</p>
                 `;
                 d.btnExecuteRefine.disabled = false;
             } else {
                 d.refinePreview.innerHTML = `
-                    <p>Cổ Phương khớp: <strong>${preview.reason}</strong></p>
-                    <p>Tỷ lệ thành công: <strong>0%</strong></p>
+                    <p>Trạng thái Đỉnh Lò: <strong>${preview.reason}</strong></p>
+                    <p>Mẹo: Đặt <strong>1 Cổ Trùng + Thức ăn của nó</strong> để Thăng Chuyển trực tiếp, hoặc bấm 1 Bí Phương bên phải!</p>
                 `;
                 d.btnExecuteRefine.disabled = true;
             }
@@ -1874,27 +2339,229 @@
                 d.btnStudyRemnant.textContent = `📜 Giải Mã Tàn Phương (Đang có: ${remnantCount})`;
             }
 
-            const recipes = this.guSystem.getKnownRecipes();
-            d.knownRecipesList.innerHTML = recipes.map(r => `
-                <li data-recipe-id="${r.id}">
-                    📜 <strong>${r.resultName}</strong><br>
-                    <span class="sub-text">Nguyên liệu: ${r.ingredientsDesc} | Tỷ lệ cơ sở: ${Math.round(r.baseChance * 100)}%</span>
-                </li>
-            `).join("");
+            // Kho Chọn Nhanh Cổ Trùng (Ô 1 & Ô 2)
+            if (d.refineQuickPickerGu) {
+                const refinedList = this.guSystem.getRefinedGuList();
+                if (refinedList.length === 0) {
+                    d.refineQuickPickerGu.innerHTML = `<span class="sub-text">Chưa có Cổ Trùng đã luyện hóa.</span>`;
+                } else {
+                    d.refineQuickPickerGu.innerHTML = refinedList.map(g => {
+                        const inFurnace = this.refinementSlots.includes(g.instanceId);
+                        const label = G.formatGuNameWithRank ? G.formatGuNameWithRank(g) : g.name;
+                        return `<button class="picker-chip ${inFurnace ? "in-furnace" : ""}" data-pick-gu="${g.instanceId}">${g.icon} ${label}</button>`;
+                    }).join("");
 
-            d.knownRecipesList.querySelectorAll("li").forEach(li => {
-                li.addEventListener("click", () => {
-                    const recipeId = li.getAttribute("data-recipe-id");
-                    const fillRes = this.guSystem.autoFillRecipeSlots(recipeId, this.player);
-                    if (fillRes.success) {
-                        this.refinementSlots = fillRes.slots;
-                        this.addLog(fillRes.message, "system");
-                        this.renderRefinementTab();
-                    } else {
-                        this.addLog(fillRes.message, "warning");
-                    }
+                    d.refineQuickPickerGu.querySelectorAll("[data-pick-gu]").forEach(chip => {
+                        chip.addEventListener("click", () => {
+                            const instId = chip.getAttribute("data-pick-gu");
+                            const existingIdx = this.refinementSlots.indexOf(instId);
+                            if (existingIdx !== -1) {
+                                this.refinementSlots[existingIdx] = null;
+                            } else if (!this.refinementSlots[0]) {
+                                this.refinementSlots[0] = instId;
+                            } else if (!this.refinementSlots[1]) {
+                                this.refinementSlots[1] = instId;
+                            } else {
+                                this.refinementSlots[1] = instId;
+                            }
+                            this.renderRefinementTab();
+                        });
+                    });
+                }
+            }
+
+            // Kho Chọn Nhanh Cổ Tài (Ô 3)
+            if (d.refineQuickPickerItems) {
+                const matItems = (this.player.inventory || []).filter(slot => {
+                    const meta = global.PlayerManager.ITEM_DATABASE[slot.id];
+                    return meta && slot.count > 0 && meta.category !== "relic_gu" && meta.category !== "recipe_scroll" && meta.category !== "physique_gu";
+                });
+                if (matItems.length === 0) {
+                    d.refineQuickPickerItems.innerHTML = `<span class="sub-text">Chưa có Cổ Tài trong hành trang.</span>`;
+                } else {
+                    d.refineQuickPickerItems.innerHTML = matItems.map(slot => {
+                        const meta = global.PlayerManager.ITEM_DATABASE[slot.id];
+                        const inSlot3 = this.refinementSlots[2] === slot.id;
+                        return `<button class="picker-chip ${inSlot3 ? "in-furnace" : ""}" data-pick-item="${slot.id}">${meta.icon} ${meta.name} (x${slot.count})</button>`;
+                    }).join("");
+
+                    d.refineQuickPickerItems.querySelectorAll("[data-pick-item]").forEach(chip => {
+                        chip.addEventListener("click", () => {
+                            const itemId = chip.getAttribute("data-pick-item");
+                            this.refinementSlots[2] = (this.refinementSlots[2] === itemId) ? null : itemId;
+                            this.renderRefinementTab();
+                        });
+                    });
+                }
+            }
+
+            // Danh sách Bí Phương Đã Lĩnh Ngộ kèm lọc & trạng thái Đủ Đồ / Thiếu Đồ
+            let recipes = this.guSystem.getKnownRecipes().map(r => {
+                const check = typeof this.guSystem.canCraftRecipe === "function"
+                    ? this.guSystem.canCraftRecipe(r, this.player)
+                    : { ready: false, missing: [] };
+                return { recipe: r, ready: check.ready, missing: check.missing };
+            });
+
+            if (this.currentRecipeFilter === "ready") {
+                recipes = recipes.filter(x => x.ready);
+            } else if (this.currentRecipeFilter === "immortal") {
+                recipes = recipes.filter(x => x.recipe.resultRank >= 6);
+            }
+            recipes.sort((a, b) => (b.ready ? 1 : 0) - (a.ready ? 1 : 0));
+
+            if (recipes.length === 0) {
+                d.knownRecipesList.innerHTML = `<li style="cursor:default;"><span class="sub-text">Chưa có Bí Phương nào khớp bộ lọc này.</span></li>`;
+            } else {
+                d.knownRecipesList.innerHTML = recipes.map(({ recipe: r, ready, missing }) => `
+                    <li data-recipe-id="${r.id}" style="${ready ? "border-color:#3ca67d;background:rgba(20,54,42,0.45);" : ""}">
+                        <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
+                            <strong>📜 ${r.resultName}</strong>
+                            <span class="badge" style="color:${ready ? "#7ef7c4" : "#ff9f43"}">${ready ? "✅ Đủ Nguyên Liệu" : "Thiếu Đồ"}</span>
+                        </div>
+                        <span class="sub-text">Nguyên liệu: ${r.ingredientsDesc} | Gốc: ${Math.round(r.baseChance * 100)}%</span>
+                        ${!ready && missing.length ? `<br><span style="font-size:11px;color:#ff9c9c;">Thiếu: ${missing.join(", ")}</span>` : ""}
+                    </li>
+                `).join("");
+
+                d.knownRecipesList.querySelectorAll("li[data-recipe-id]").forEach(li => {
+                    li.addEventListener("click", () => {
+                        const recipeId = li.getAttribute("data-recipe-id");
+                        const fillRes = this.guSystem.autoFillRecipeSlots(recipeId, this.player);
+                        if (fillRes.success) {
+                            this.refinementSlots = fillRes.slots;
+                            this.addLog(fillRes.message, "system");
+                            this.renderRefinementTab();
+                        } else {
+                            this.addLog(fillRes.message, "warning");
+                        }
+                    });
+                });
+            }
+        }
+
+        _renderMaterialSynthesisPanel() {
+            const d = this.dom;
+            if (!d.materialSynthesisGrid || !this.player || !global.GuSystem) return;
+            const list = global.GuSystem.MATERIAL_SYNTHESIS_RECIPES || [];
+
+            d.materialSynthesisGrid.innerHTML = list.map(syn => {
+                let canMake = this.player.primevalStones >= syn.stoneCost;
+                const matsHtml = syn.materials.map(m => {
+                    const meta = global.PlayerManager.ITEM_DATABASE[m.itemId] || { name: m.itemId, icon: "📦" };
+                    const owned = this.player.getItemCount(m.itemId);
+                    if (owned < m.count) canMake = false;
+                    return `<span style="color:${owned >= m.count ? "#7ef7c4" : "#ff9c9c"}">${meta.icon} ${meta.name}: ${owned}/${m.count}</span>`;
+                }).join("<br>");
+
+                return `
+                    <div class="card-box" style="justify-content:space-between;gap:10px;${canMake ? "border-color:#3ca67d;" : ""}">
+                        <div>
+                            <strong style="color:#e2bf75;font-size:14.5px;">${syn.icon} ${syn.name}</strong>
+                            <p class="sub-text mt-5">${syn.desc}</p>
+                            <div class="recipe-preview-box mt-10" style="margin-bottom:0;font-size:12px;">
+                                ${matsHtml}
+                                <span style="color:${this.player.primevalStones >= syn.stoneCost ? "#ffd700" : "#ff9c9c"}">💎 Nguyên Thạch: ${this.player.primevalStones}/${syn.stoneCost}</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary btn-do-synthesize" data-syn-id="${syn.id}" ${canMake ? "" : "disabled"} style="width:100%;">
+                            ${canMake ? "⚗️ Tinh Luyện Ngay" : "Thiếu Nguyên Liệu"}
+                        </button>
+                    </div>
+                `;
+            }).join("");
+
+            d.materialSynthesisGrid.querySelectorAll(".btn-do-synthesize").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const synId = btn.getAttribute("data-syn-id");
+                    const res = this.guSystem.synthesizeMaterial(synId, this.player);
+                    this.addLog(res.message, res.success ? "loot" : "warning");
+                    if (res.success && this.game) this.game.autoSaveNow("synthesize");
+                    this.renderRefinementTab();
+                    this.updateHubTopbar();
                 });
             });
+        }
+
+        _renderSalvageAndWildPanel() {
+            const d = this.dom;
+            const G = global.GuSystem;
+            if (!this.guSystem || !this.player) return;
+
+            if (d.salvageGuList) {
+                const salvageable = this.guSystem.ownedGuList
+                    .filter(g => !g.isVital)
+                    .sort((a, b) => a.rank - b.rank);
+                if (salvageable.length === 0) {
+                    d.salvageGuList.innerHTML = `<p class="empty-hint">Không có Cổ Trùng phụ nào có thể phân giải.</p>`;
+                } else {
+                    d.salvageGuList.innerHTML = salvageable.map(g => {
+                        const label = G.formatGuNameWithRank ? G.formatGuNameWithRank(g) : g.name;
+                        const eqTag = g.equippedSlot !== null ? `<span class="badge" style="color:#ffd700">Đang ở Ô ${g.equippedSlot + 1}</span>` : "";
+                        return `
+                            <div class="list-card" style="flex-direction:row;justify-content:space-between;align-items:center;gap:8px;">
+                                <div>
+                                    <strong>${g.icon} ${label}</strong> ${eqTag}
+                                    <div class="sub-text">${g.path} | Uy lực: ${g.power} | ${g.isRefined ? "Đã luyện hóa" : "Hoang dã"}</div>
+                                </div>
+                                <button class="btn-mini btn-danger btn-salvage-one" data-gu-inst="${g.instanceId}">♻️ Phân Giải</button>
+                            </div>
+                        `;
+                    }).join("");
+
+                    d.salvageGuList.querySelectorAll(".btn-salvage-one").forEach(btn => {
+                        btn.addEventListener("click", () => {
+                            const instId = btn.getAttribute("data-gu-inst");
+                            const res = this.guSystem.salvageGu(instId, this.player);
+                            this.addLog(res.message, res.success ? "loot" : "warning");
+                            if (res.success && this.game) this.game.autoSaveNow("salvage_one");
+                            this.renderRefinementTab();
+                            this.updateHubTopbar();
+                        });
+                    });
+                }
+            }
+
+            if (d.wildGuRefineList) {
+                const wilds = this.guSystem.ownedGuList.filter(g => !g.isRefined);
+                if (wilds.length === 0) {
+                    d.wildGuRefineList.innerHTML = `<p class="empty-hint">Toàn bộ Cổ Trùng trong kho đều đã được luyện hóa 100%!</p>`;
+                } else {
+                    d.wildGuRefineList.innerHTML = wilds.map(g => {
+                        const label = G.formatGuNameWithRank ? G.formatGuNameWithRank(g) : g.name;
+                        const wInfo = this.guSystem.getWildGuRefinementInfo(g.instanceId, this.player, this.aperture, "auto");
+                        const supText = wInfo.suppressor
+                            ? `<span style="color:#7ef7c4">🐉 Tự áp chế bằng ${G.formatGuNameWithRank(wInfo.suppressor)} (+${wInfo.rankDiff}C)</span>`
+                            : `<span class="sub-text">Không có Cổ chuyển cao hơn áp chế</span>`;
+                        const btnLabel = wInfo.instantRefine
+                            ? `⚡ Áp Chế 100% (-${wInfo.stoneCost}💎, -${wInfo.mentalCost}🧠)`
+                            : `🔥 Luyện Hóa (-${wInfo.stoneCost}💎, -${wInfo.mentalCost}🧠)`;
+                        return `
+                            <div class="list-card" style="gap:6px;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+                                    <div>
+                                        <strong>${g.icon} ${label}</strong>
+                                        <div class="sub-text">Tiến độ: <strong style="color:#ffd700">${g.refinementProgress || 0}%</strong> | Tỷ lệ: <strong style="color:#5cc995">${Math.round(wInfo.successChance * 100)}%</strong></div>
+                                        <div style="font-size:11.5px;">${supText}</div>
+                                    </div>
+                                    <button class="btn-mini btn-primary btn-refine-wild-quick" data-gu-inst="${g.instanceId}">${btnLabel}</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join("");
+
+                    d.wildGuRefineList.querySelectorAll(".btn-refine-wild-quick").forEach(btn => {
+                        btn.addEventListener("click", () => {
+                            const instId = btn.getAttribute("data-gu-inst");
+                            const res = this.guSystem.refineWildGuStep(instId, this.player, this.aperture, "auto");
+                            this.addLog(res.message, res.success ? (res.completed ? "loot" : "cultivation") : "warning");
+                            if (res.completed && this.game) this.game.autoSaveNow("refine_wild_gu");
+                            this.renderRefinementTab();
+                            this.updateHubTopbar();
+                        });
+                    });
+                }
+            }
         }
 
         // ---------------------------------------------------------------------
@@ -2004,21 +2671,42 @@
             const d = this.dom;
             const pl = this.player;
             const paths = global.PlayerManager.DAO_PATHS;
+            const isImmortal = Boolean(this.aperture && this.aperture.isImmortal);
 
-            const daoLordPath = (this.aperture && this.aperture.rank >= 9) ? this.aperture.daoLordPath : null;
+            if (d.daoMarksRealmBanner) {
+                if (!isImmortal) {
+                    d.daoMarksRealmBanner.style.borderColor = "#ff9f43";
+                    d.daoMarksRealmBanner.innerHTML = `
+                        <p><strong style="color:#ffd700;">🔒 PHÀM NHÂN CHƯA CÓ ĐẠO NGÂN (Hiện tại: ${this.aperture ? this.aperture.getRealmDisplayName() : "Phàm Cảnh"})</strong></p>
+                        <p class="sub-text">Theo đúng nguyên tác Cổ Chân Nhân, Đạo Ngân chỉ tồn tại trên thân thể <strong>Cổ Tiên (Lục Chuyển trở lên)</strong>. Ở Phàm Cảnh, ngươi vẫn có thể thăm dò Mộng Cảnh để nâng cao <strong>Cảnh Giới Lĩnh Ngộ Lưu Phái</strong> (giảm xung đột Sát Chiêu) và tích lũy <strong>Nhân Khí</strong> chuẩn bị Thăng Tiên!</p>
+                    `;
+                } else {
+                    d.daoMarksRealmBanner.style.borderColor = "#3ca67d";
+                    d.daoMarksRealmBanner.innerHTML = `
+                        <p><strong style="color:#7ef7c4;">✨ ĐẠO NGÂN CỔ TIÊN ĐÃ KHAI MỞ (${this.aperture.getRealmDisplayName()})</strong></p>
+                        <p class="sub-text">Đạo Ngân khắc ấn trên Tiên Thể trực tiếp khuếch đại uy lực Cổ Trùng, Sát Chiêu và chỉ số chiến đấu. Tích lũy <strong>300.000 Đạo Ngân</strong> lưu phái chính tại Á Tiên Tôn là điều kiện cốt lõi để Chứng Đạo Thành Tôn!</p>
+                    `;
+                }
+            }
+
+            const daoLordPath = (isImmortal && this.aperture.rank >= 9) ? this.aperture.daoLordPath : null;
             d.daoMarksList.innerHTML = Object.keys(paths).map(pathName => {
                 const meta = paths[pathName];
-                const marks = Math.floor(pl.daoMarks[pathName] || 0);
+                const marks = isImmortal ? Math.floor(pl.getEffectiveDaoMarks(pathName)) : 0;
                 const attain = pl.pathAttainment[pathName] || "Phàm Cấp";
+                const attainExp = Math.floor((pl.pathAttainmentExp && pl.pathAttainmentExp[pathName]) || 0);
                 const amp = pl.calculateDaoAmplification(pathName, []);
                 const isMain = pathName === pl.mainPath;
                 const isLord = daoLordPath === pathName;
                 const tag = isLord ? " 👑 ĐẠO CHỦ" : (isMain ? " ★ Chính" : "");
-                const mainGoalNote = isMain && (!this.aperture || this.aperture.rank < 9) ? ` / 300.000` : "";
+                const mainGoalNote = isMain && isImmortal && this.aperture.rank < 9 ? ` / 300.000` : "";
+                const rightInfo = isImmortal
+                    ? `${marks.toLocaleString("vi-VN")}${mainGoalNote} ĐN (x${amp.multiplier} | ${attain})`
+                    : `0 ĐN (Phàm nhân) | ${attain} (${attainExp}đ)`;
                 return `
                     <div class="dao-mark-card" style="${isLord ? "border-color:#ffd700;background:rgba(55,40,12,0.5);" : (isMain ? "border-color:#67b7d1;" : "")}" title="${meta.desc}">
                         <span>${meta.icon} <strong>${pathName}${tag}</strong></span>
-                        <span style="color:${meta.color}">${marks.toLocaleString("vi-VN")}${mainGoalNote} ĐN (x${amp.multiplier} | ${attain})</span>
+                        <span style="color:${isImmortal ? meta.color : "#b3aa9c"}">${rightInfo}</span>
                     </div>
                 `;
             }).join("");
@@ -2026,6 +2714,9 @@
             const dreams = global.PlayerManager.DREAM_REALMS || [];
             d.dreamRealmList.innerHTML = dreams.map(dr => {
                 const cleared = (pl.dreamClears && pl.dreamClears[dr.id]) || 0;
+                const rewardLabel = isImmortal
+                    ? `+${dr.daoMarksReward.toLocaleString("vi-VN")} Đạo Ngân & Lĩnh Ngộ (${dr.useMainPath ? pl.mainPath : dr.paths.join(", ")}) & +${dr.humanQiReward} Nhân Khí`
+                    : `+${dr.daoMarksReward} Lĩnh Ngộ Lưu Phái (${dr.useMainPath ? pl.mainPath : dr.paths.join(", ")}) & +${dr.humanQiReward} Nhân Khí`;
                 return `
                     <div class="list-card">
                         <div class="list-card-header">
@@ -2033,9 +2724,9 @@
                             <span>Đã thăm dò: ${cleared} lần</span>
                         </div>
                         <p class="sub-text">${dr.desc}</p>
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;gap:8px;">
                             <span style="font-size:12px;color:#5cc995;">
-                                Thưởng: +${dr.daoMarksReward} Đạo Ngân (${dr.paths.join(", ")}) & +${dr.humanQiReward} Nhân Khí
+                                Thưởng: ${rewardLabel}
                             </span>
                             <button class="btn-mini btn-explore-dream" data-dream-id="${dr.id}">
                                 Thăm Dò (-${dr.mentalCost} Tinh Thần)
@@ -2062,7 +2753,22 @@
         renderInventoryTab() {
             if (!this.player) return;
             const d = this.dom;
-            const items = this.player.inventory;
+            let items = [...(this.player.inventory || [])];
+            if (this.currentInventoryFilter !== "all") {
+                items = items.filter(slot => {
+                    const meta = global.PlayerManager.ITEM_DATABASE[slot.id] || {};
+                    if (this.currentInventoryFilter === "special") {
+                        return meta.category === "relic_gu" || meta.category === "physique_gu" || meta.category === "recipe_scroll" || meta.category === "immortal_material";
+                    }
+                    if (this.currentInventoryFilter === "consumable") {
+                        return Boolean(meta.hpRestore || meta.mentalRestore || meta.staminaRestore);
+                    }
+                    if (this.currentInventoryFilter === "material") {
+                        return meta.category === "ore" || meta.category === "material" || meta.category === "herb" || meta.category === "food";
+                    }
+                    return true;
+                });
+            }
 
             if (items.length === 0) {
                 d.inventoryGrid.innerHTML = `<p class="empty-hint" style="grid-column:1/-1;">Hành trang trống rỗng.</p>`;
@@ -2100,7 +2806,8 @@
                     <p>Giá bán lại cho Thương Hội: <strong>💎 ${sellValue} Nguyên Thạch / cái</strong></p>
                     <div class="action-row mt-10">
                         <button id="btn-use-inv-item" class="btn-primary">✨ Sử Dụng Vật Phẩm</button>
-                        <button id="btn-sell-inv-item" class="btn-secondary">💰 Bán 1 Cái (+${sellValue} Nguyên Thạch)</button>
+                        <button id="btn-sell-inv-item" class="btn-secondary">💰 Bán 1 (+${sellValue}💎)</button>
+                        ${selCount >= 5 ? `<button id="btn-sell-inv-item-5" class="btn-secondary">💰 Bán 5 (+${sellValue * 5}💎)</button>` : ""}
                         <button id="btn-send-item-to-refine" class="btn-accent">⚗️ Đưa Vào Lò Hợp Luyện</button>
                     </div>
                 `;
@@ -2120,6 +2827,18 @@
                         this.updateHubTopbar();
                     }
                 });
+
+                const btnSell5 = document.getElementById("btn-sell-inv-item-5");
+                if (btnSell5) {
+                    btnSell5.addEventListener("click", () => {
+                        if (this.player.removeItem(this.selectedInventoryItemId, 5)) {
+                            this.player.primevalStones += sellValue * 5;
+                            this.addLog(`Đã bán 5x [${selMeta.name}] thu về 💎 ${sellValue * 5} Nguyên Thạch.`, "loot");
+                            this.renderInventoryTab();
+                            this.updateHubTopbar();
+                        }
+                    });
+                }
 
                 document.getElementById("btn-send-item-to-refine").addEventListener("click", () => {
                     this.refinementSlots[2] = this.selectedInventoryItemId;
@@ -2163,7 +2882,13 @@
                 return a.idx - b.idx;
             });
 
-            d.marketContent.innerHTML = enriched.map(({ entry, idx, stockKey, stock, isUniqueImmortalOwned }) => {
+            const displayedMarket = this.marketInStockOnly
+                ? enriched.filter(x => x.entry.unlimited || (x.stock > 0 && !x.isUniqueImmortalOwned))
+                : enriched;
+
+            d.marketContent.innerHTML = displayedMarket.length === 0
+                ? `<p class="empty-hint" style="grid-column:1/-1;">Đợt hàng này chưa có mặt hàng nào khả dụng. Hãy chờ đồng hồ đếm ngược làm mới!</p>`
+                : displayedMarket.map(({ entry, idx, stockKey, stock, isUniqueImmortalOwned }) => {
                 const isImmortalCurr = entry.currency === "immortal";
                 const finalPrice = isImmortalCurr
                     ? entry.price
@@ -2192,7 +2917,16 @@
                 } else if (!inStock) {
                     btnHtml = `<button class="btn-secondary" disabled style="width:100%;">⏳ Chưa Có Hàng — Chờ Đợt Sau (${currencyLabel})</button>`;
                 } else {
-                    btnHtml = `<button class="btn-primary btn-market-buy" data-idx="${idx}" data-stock-key="${stockKey}" style="width:100%;">Mua Ngay (${currencyLabel})</button>`;
+                    const canBuy5 = entry.type === "item" && !isImmortalCurr && (isUnlimited || stock >= 5);
+                    if (canBuy5) {
+                        const price5Str = (finalPrice * 5).toLocaleString("vi-VN");
+                        btnHtml = `<div class="action-grid-2">
+                            <button class="btn-primary btn-market-buy" data-idx="${idx}" data-stock-key="${stockKey}" data-buy-qty="1">Mua 1 (${currencyLabel})</button>
+                            <button class="btn-accent btn-market-buy" data-idx="${idx}" data-stock-key="${stockKey}" data-buy-qty="5">Mua x5 (💎 ${price5Str})</button>
+                        </div>`;
+                    } else {
+                        btnHtml = `<button class="btn-primary btn-market-buy" data-idx="${idx}" data-stock-key="${stockKey}" data-buy-qty="1" style="width:100%;">Mua Ngay (${currencyLabel})</button>`;
+                    }
                 }
 
                 const extraCardClass = (!inStock && !isUniqueImmortalOwned) ? "market-card-out-of-stock" : "";
@@ -2220,6 +2954,7 @@
                 btn.addEventListener("click", () => {
                     const idx = parseInt(btn.getAttribute("data-idx"), 10);
                     const stockKey = btn.getAttribute("data-stock-key");
+                    const buyQty = Math.max(1, parseInt(btn.getAttribute("data-buy-qty") || "1", 10));
                     const entry = catalog[idx];
                     if (!entry) return;
 
@@ -2235,16 +2970,17 @@
                     }
 
                     const curStock = this.game.getMarketItemStock(marketKey, stockKey);
-                    if (!entry.unlimited && curStock <= 0) {
-                        this.addLog(`⏳ 【${entry.name}】 hiện chưa có hàng hoặc đã bán hết trong đợt này! Hãy đợi đợt hàng mới sau 5 phút.`, "warning");
+                    if (!entry.unlimited && curStock < buyQty) {
+                        this.addLog(`⏳ 【${entry.name}】 hiện không đủ tồn kho trong đợt này (Còn: ${curStock})! Hãy đợi đợt hàng mới sau 5 phút.`, "warning");
                         this.renderMarketTab();
                         return;
                     }
 
                     const isImmortalCurr = entry.currency === "immortal";
-                    const finalPrice = isImmortalCurr
+                    const unitPrice = isImmortalCurr
                         ? entry.price
                         : Math.max(1, Math.round(entry.price * (1 - discount)));
+                    const finalPrice = unitPrice * buyQty;
 
                     if (isImmortalCurr) {
                         if (this.player.immortalStones < finalPrice) {
@@ -2261,7 +2997,7 @@
                     }
 
                     if (!entry.unlimited) {
-                        this.game.consumeMarketItemStock(marketKey, stockKey, 1);
+                        this.game.consumeMarketItemStock(marketKey, stockKey, buyQty);
                     }
 
                     if (entry.type === "exchange_immortal") {
@@ -2270,8 +3006,8 @@
                     } else if (entry.type === "gu") {
                         const newGu = this.guSystem.addGuToStorage(entry.id, {
                             rank: entry.guRank || 1,
-                            isRefined: true,
-                            refinementProgress: 100,
+                            isRefined: false,
+                            refinementProgress: 0,
                             isVital: false
                         });
                         if (!newGu) {
@@ -2280,10 +3016,10 @@
                             const fullGuName = global.GuSystem.formatGuNameWithRank
                                 ? global.GuSystem.formatGuNameWithRank(newGu)
                                 : newGu.name;
-                            this.addLog(`⚖️ Giao dịch thành công! Đã mua Cổ Trùng 【${fullGuName}】.`, "loot");
+                            this.addLog(`⚖️ Đã mua 【${fullGuName}】 (Chưa Luyện Hóa)! Hãy vào Kho Cổ dùng Nguyên Thạch & Tinh Thần để Luyện Hóa.`, "loot");
                         }
                     } else {
-                        const qty = entry.count || 1;
+                        const qty = (entry.count || 1) * buyQty;
                         this.player.addItem(entry.id, qty);
                         this.addLog(`⚖️ Đã mua ${qty}x [${entry.name}] thành công.`, "loot");
                     }
@@ -2368,14 +3104,14 @@
                     if (item.type === "gu") {
                         this.guSystem.addGuToStorage(item.id, {
                             rank: item.guRank || 1,
-                            isRefined: true,
-                            refinementProgress: 100
+                            isRefined: false,
+                            refinementProgress: 0
                         });
+                        this.addLog(`🏛️ Đã dùng ${item.meritCost.toLocaleString("vi-VN")} Điểm Cống Hiến đổi lấy [${item.name}] (Chưa Luyện Hóa — cần Luyện Hóa tại Kho Cổ)!`, "loot");
                     } else {
                         this.player.addItem(item.id, 1);
+                        this.addLog(`🏛️ Đã dùng ${item.meritCost.toLocaleString("vi-VN")} Điểm Cống Hiến đổi lấy [${item.name}] từ Gia Tộc Khố Phòng!`, "loot");
                     }
-
-                    this.addLog(`🏛️ Đã dùng ${item.meritCost.toLocaleString("vi-VN")} Điểm Cống Hiến đổi lấy [${item.name}] từ Gia Tộc Khố Phòng!`, "loot");
                     if (this.game) this.game.autoSaveNow("treasury_redeem");
                     this.updateHubTopbar();
                     this.renderFactionTab();

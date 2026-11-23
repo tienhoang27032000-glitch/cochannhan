@@ -260,7 +260,7 @@
             colorPrimary: "#6e7d85",
             colorSecondary: "#e1eef5",
             densityMultiplier: 64,
-            baseWallReq: 65000
+            baseWallReq: 18000
         },
         4: {
             rank: 4,
@@ -271,7 +271,7 @@
             colorPrimary: "#8f6812",
             colorSecondary: "#f7c948",
             densityMultiplier: 512,
-            baseWallReq: 18000
+            baseWallReq: 65000
         },
         5: {
             rank: 5,
@@ -883,11 +883,51 @@
             };
         }
 
+        /**
+         * Hấp thu tự động vừa đủ số Nguyên Thạch để bơm đầy Biển Nguyên
+         */
+        absorbPrimevalStonesToFull(player) {
+            if (!this.isAwakened) {
+                return { success: false, message: "Chưa Khai Khiếu, không thể hấp thu Nguyên Thạch!" };
+            }
+            if (this.isImmortal) {
+                return { success: false, message: "Cổ Tiên dùng Tiên Nguyên Thạch hoặc chờ Phúc Địa sinh Tiên Nguyên!" };
+            }
+            if (!player || player.primevalStones <= 0) {
+                return { success: false, message: "Không còn Nguyên Thạch trong hành trang!" };
+            }
+            const maxCap = this.aptitude.maxSeaPercent;
+            const deficit = maxCap - this.currentEssence;
+            if (deficit <= 0.1) {
+                return { success: false, message: `Biển Nguyên đã đầy ở mức giới hạn (${maxCap}%)!` };
+            }
+
+            const restoreByRank = { 1: 12, 2: 7.5, 3: 4.5, 4: 2.5, 5: 1.4 };
+            const perStone = restoreByRank[this.rank] || 1.4;
+            const needed = Math.ceil(deficit / perStone);
+            const actualUse = Math.min(player.primevalStones, Math.max(1, needed));
+
+            const res = this.absorbPrimevalStone(actualUse);
+            if (res.success) {
+                player.primevalStones -= actualUse;
+                res.stonesUsed = actualUse;
+            }
+            return res;
+        }
+
         // =====================================================================
         // 6. ÔN DƯỠNG KHIẾU BÍCH & ĐỘT PHÁ CẢNH GIỚI PHÀM CẢNH (CHẬM & CHẮC)
         // =====================================================================
 
-        cultivateStep(dt = 1.0, externalBonus = 1.0) {
+        hasLiquorWormAssist() {
+            const guSys = (this.game && this.game.guSystem) || (global.vanCoTienDoGame && global.vanCoTienDoGame.guSystem);
+            if (!guSys || !Array.isArray(guSys.ownedGuList)) return false;
+            return guSys.ownedGuList.some(
+                g => g.id === "tuu_trung_gu" && g.isRefined && (g.hunger === undefined || g.hunger > 0)
+            );
+        }
+
+        cultivateStep(dt = 5.0, externalBonus = 1.0) {
             if (!this.isAwakened) return { success: false };
 
             if (this.isImmortal) {
@@ -908,8 +948,21 @@
 
             this.currentEssence = Math.max(0, Number((this.currentEssence - essenceNeeded).toFixed(1)));
 
-            // Giảm tốc độ tăng tiến độ Khiếu Bích mỗi lần vận công để tu luyện không còn quá nhanh
-            const gain = 0.55 * this.aptitude.cultivateMult * externalBonus * dt;
+            const hasLiquorWorm = this.hasLiquorWormAssist();
+            let gain = 0;
+
+            if (dt >= 4.5) {
+                // Mỗi lần vận công thủ công: 15–22 XP (nếu có Tửu Trùng phụ trợ: 50–70 XP)
+                gain = hasLiquorWorm
+                    ? Math.floor(50 + Math.random() * 21)
+                    : Math.floor(15 + Math.random() * 8);
+            } else {
+                // Bế quan tự động (theo nhịp thời gian thực: tương đương 1 lần vận công mỗi 5 giây)
+                const perCycleAvg = hasLiquorWorm ? 60 : 18.5;
+                gain = Number(((perCycleAvg / 5) * dt).toFixed(2));
+            }
+
+            const before = this.wallProgress;
             this.wallProgress = Math.min(this.maxWallProgress, Number((this.wallProgress + gain).toFixed(1)));
             if (!this.aptitude.physique) {
                 this.wallPressure = Math.min(100, this.wallPressure + 0.65 * dt);
@@ -917,6 +970,9 @@
 
             return {
                 success: true,
+                gainedXp: Number((this.wallProgress - before).toFixed(1)),
+                rawGain: gain,
+                hasLiquorWorm: hasLiquorWorm,
                 wallProgress: this.wallProgress,
                 maxWallProgress: this.maxWallProgress,
                 canBreakthrough: this.wallProgress >= this.maxWallProgress
@@ -1413,8 +1469,13 @@
                 const successMsg = `🎉 [Đắc Đạo Thành Tiên] Tam Khí nổ tung khai thiên lập địa, hóa thành 【${this.immortalAperture.gradeName} (${this.immortalAperture.spaceAcres} mẫu)】! Chúc mừng đạo hữu chính thức tấn thăng 【${this.getRealmDisplayName()}】, sở hữu Lục Đề Tiên Nguyên!`;
                 st.logs.push(successMsg);
 
-                if (player && typeof player.addDaoMarksFromTribulation === "function") {
-                    player.addDaoMarksFromTribulation(100);
+                if (player) {
+                    if (typeof player.grantInitialImmortalDaoMarks === "function") {
+                        player.grantInitialImmortalDaoMarks();
+                    }
+                    if (typeof player.addDaoMarksFromTribulation === "function") {
+                        player.addDaoMarksFromTribulation(120);
+                    }
                 }
 
                 return {
@@ -1919,41 +1980,93 @@
             if (!ctx) return;
             const w = ctx.canvas.width;
             const h = ctx.canvas.height;
-            const step = this.ritualState.currentStep;
-            const t = this.ritualState.animTick;
+            const step = this.ritualState.currentStep || 1;
+            const t = this.ritualState.animTick || 0;
+            const cx = w / 2;
+            const cy = h / 2;
 
-            const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 10, w / 2, h / 2, w * 0.7);
-            bgGrad.addColorStop(0, "#122230");
+            const bgGrad = ctx.createRadialGradient(cx, cy, 12, cx, cy, w * 0.72);
+            bgGrad.addColorStop(0, step >= 4 ? "#162d38" : "#112233");
             bgGrad.addColorStop(1, "#05070a");
             ctx.fillStyle = bgGrad;
             ctx.fillRect(0, 0, w, h);
 
             if (step <= 3) {
-                ctx.fillStyle = "rgba(56, 201, 146, 0.14)";
-                ctx.fillRect(0, h * 0.58, w, h * 0.42);
+                // Dòng suối ngầm Tinh Hà Điện & ánh sáng Hy Vọng Cổ
+                const riverGrad = ctx.createLinearGradient(0, h * 0.55, 0, h);
+                riverGrad.addColorStop(0, "rgba(56, 201, 146, 0.28)");
+                riverGrad.addColorStop(1, "rgba(12, 46, 56, 0.75)");
+                ctx.fillStyle = riverGrad;
+                ctx.fillRect(0, h * 0.56, w, h * 0.44);
 
+                // Sóng nước lấp lánh
+                ctx.strokeStyle = "rgba(126, 247, 240, 0.25)";
+                ctx.lineWidth = 1.5;
+                for (let row = 0; row < 3; row++) {
+                    ctx.beginPath();
+                    const baseY = h * (0.64 + row * 0.12);
+                    for (let x = 0; x <= w; x += 14) {
+                        const y = baseY + Math.sin(x * 0.04 + t * 2.5 + row) * 3;
+                        if (x === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+
+                // Bóng người đứng trong dòng suối (khi bước 2-3 tiến vào giữa dòng)
+                const personY = step === 1 ? h * 0.42 : h * 0.52;
+                ctx.save();
+                ctx.fillStyle = "rgba(226, 191, 117, 0.22)";
+                ctx.beginPath();
+                ctx.arc(cx, personY + 8, 22 + Math.sin(t * 3) * 3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = "#18202c";
+                ctx.fillRect(cx - 9, personY - 4, 18, 30);
+                ctx.fillStyle = "#e0be77";
+                ctx.fillRect(cx - 9, personY + 7, 18, 3);
+                ctx.fillStyle = "#edd2b5";
+                ctx.beginPath();
+                ctx.arc(cx, personY - 12, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                // Đàn Hy Vọng Cổ bay lượn (Bước 3 hội tụ thẳng vào đan điền!)
                 for (const p of this.ritualState.particles) {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if (p.y < 10) p.y = h - 10;
-                    if (p.x < 0) p.x = w;
-                    if (p.x > w) p.x = 0;
+                    if (step === 3) {
+                        const dx = cx - p.x;
+                        const dy = (personY + 8) - p.y;
+                        p.x += dx * 0.025 + p.vx;
+                        p.y += dy * 0.025 + p.vy * 0.4;
+                        if (Math.hypot(dx, dy) < 8) {
+                            p.x = Math.random() * w;
+                            p.y = h - 8;
+                        }
+                    } else {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        if (p.y < 10) p.y = h - 10;
+                        if (p.x < 0) p.x = w;
+                        if (p.x > w) p.x = 0;
+                    }
 
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(224, 190, 119, ${p.alpha})`;
+                    ctx.fillStyle = `rgba(255, 223, 128, ${p.alpha})`;
                     ctx.fill();
                 }
-
-                ctx.fillStyle = "#e0be77";
-                ctx.fillRect(w / 2 - 8, h * 0.45, 16, 28);
-                ctx.beginPath();
-                ctx.arc(w / 2, h * 0.45 - 8, 8, 0, Math.PI * 2);
-                ctx.fill();
             } else {
-                const cx = w / 2;
-                const cy = h / 2;
                 const radius = 72;
+
+                // Vòng hào quang phá vỡ hư không
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius + 12 + Math.sin(t * 4) * 3, 0, Math.PI * 2);
+                ctx.strokeStyle = this.ritualState.rolledAptitude?.physique
+                    ? "rgba(255, 82, 82, 0.45)"
+                    : "rgba(56, 201, 146, 0.38)";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.restore();
 
                 ctx.save();
                 ctx.beginPath();
@@ -1966,16 +2079,36 @@
                 const targetPct = this.ritualState.rolledAptitude
                     ? this.ritualState.rolledAptitude.maxSeaPercent / 100
                     : 0.5;
-                const seaHeight = radius * 2 * targetPct;
+                const fillRatio = step === 4 ? targetPct * 0.35 : (step === 5 ? targetPct * 0.72 : targetPct);
+                const seaHeight = radius * 2 * fillRatio;
                 const seaTopY = cy + radius - seaHeight;
 
-                const waveOffset = Math.sin(t * 3) * 4;
                 const seaGrad = ctx.createLinearGradient(0, seaTopY, 0, cy + radius);
                 seaGrad.addColorStop(0, "#38c992");
                 seaGrad.addColorStop(1, "#0d3b2a");
 
                 ctx.fillStyle = seaGrad;
-                ctx.fillRect(cx - radius, seaTopY + waveOffset, radius * 2, seaHeight + 10);
+                ctx.beginPath();
+                ctx.moveTo(cx - radius, cy + radius);
+                for (let x = -radius; x <= radius; x += 8) {
+                    const yWave = seaTopY + Math.sin(x * 0.06 + t * 3.2) * 3.5;
+                    ctx.lineTo(cx + x, yWave);
+                }
+                ctx.lineTo(cx + radius, cy + radius);
+                ctx.closePath();
+                ctx.fill();
+
+                // Hào quang Cổ Bản Mệnh ở bước 6-7
+                if (step >= 6) {
+                    const orbY = cy - 16 + Math.sin(t * 3) * 4;
+                    ctx.beginPath();
+                    ctx.arc(cx, orbY, 10, 0, Math.PI * 2);
+                    ctx.fillStyle = "#ffd700";
+                    ctx.fill();
+                    ctx.strokeStyle = "#ffffff";
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                }
                 ctx.restore();
 
                 ctx.beginPath();
@@ -1983,6 +2116,17 @@
                 ctx.lineWidth = 4;
                 ctx.strokeStyle = this.ritualState.rolledAptitude?.physique ? "#ff5c5c" : "#e3c178";
                 ctx.stroke();
+
+                if (step >= 6 && this.ritualState.rolledAptitude) {
+                    ctx.fillStyle = "#ffd700";
+                    ctx.font = "bold 12px Georgia";
+                    ctx.textAlign = "center";
+                    ctx.fillText(
+                        `${this.ritualState.rolledAptitude.maxSeaPercent}% Biển Nguyên`,
+                        cx,
+                        cy + radius + 16
+                    );
+                }
             }
         }
 
