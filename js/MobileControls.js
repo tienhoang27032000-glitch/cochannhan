@@ -611,7 +611,7 @@
 
                 btn.classList.remove("empty-slot");
                 iconEl.textContent = gu.icon;
-                const calc = ap.calculateEssenceCost(gu.essenceCost, gu.rank);
+                const calc = ap.calculateEssenceCost(gu.essenceCost, gu.rank, gu.path);
                 costEl.textContent = calc.isImmortalCost ? `${calc.cost}T` : `${calc.cost}%`;
 
                 const cdRem = combat.getGuCooldownRemaining(gu.instanceId);
@@ -619,7 +619,7 @@
                 cdOverlay.style.height = `${cdPct}%`;
                 cdText.textContent = cdRem > 0.05 ? cdRem.toFixed(1) : "";
 
-                const enough = ap.hasEnoughEssence(gu.essenceCost, gu.rank);
+                const enough = ap.hasEnoughEssence(gu.essenceCost, gu.rank, gu.path);
                 noEssEl.classList.toggle("hidden", enough);
             });
 

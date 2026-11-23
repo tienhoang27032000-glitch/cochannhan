@@ -15,6 +15,8 @@
     // =========================================================================
 
     const MIN_ASCENSION_HUMAN_QI = 120;
+    const VENERABLE_REQ_DAO_MARKS = 300000;
+    const VENERABLE_REQ_MYRIAD_TRIBULATIONS = 3;
 
     const APTITUDE_TIERS = {
         D: {
@@ -187,7 +189,7 @@
             wallName: "Khinh Mạc (Màng Ánh Sáng)",
             statMult: 1.0,
             wallHpMax: 100,
-            immortalTribulationsReq: 4
+            immortalTribulationsReq: 8
         },
         {
             index: 1,
@@ -195,7 +197,7 @@
             wallName: "Thủy Mạc (Màng Nước)",
             statMult: 1.40,
             wallHpMax: 180,
-            immortalTribulationsReq: 6
+            immortalTribulationsReq: 12
         },
         {
             index: 2,
@@ -203,7 +205,7 @@
             wallName: "Thạch Mạc (Màng Đá)",
             statMult: 1.90,
             wallHpMax: 300,
-            immortalTribulationsReq: 9
+            immortalTribulationsReq: 16
         },
         {
             index: 3,
@@ -211,7 +213,15 @@
             wallName: "Tinh Mạc (Màng Kết Tinh)",
             statMult: 2.60,
             wallHpMax: 450,
-            immortalTribulationsReq: 12
+            immortalTribulationsReq: 20
+        },
+        {
+            index: 4,
+            name: "Á Tiên Tôn",
+            wallName: "Thái Cổ Động Thiên Cực Hạn",
+            statMult: 3.40,
+            wallHpMax: 700,
+            immortalTribulationsReq: 3
         }
     ];
 
@@ -438,6 +448,13 @@
             this.wallIntegrity = 100;
             this.hasExploded = false;
             this._pressureWarned = false;
+            this.tenExtremeSealed = false;
+            this.pressureFreezeTimer = 0;
+
+            // Tiến trình Thăng Tôn (Á Tiên Tôn -> Cửu Chuyển) & Đạo Chủ
+            this.daoBlockadeBroken = false;
+            this.daoLordPath = null;
+            this.naturalDaoMarksRefined = 0;
 
             this.isMeditating = false;
             this.vitalGuId = null;
@@ -459,9 +476,9 @@
                 spaceAcres: 0,
                 timeRatio: 16,
                 internalDays: 0,
-                calamityCountdownDays: 300,
+                calamityCountdownDays: 600,
                 subStageTribulationsPassed: 0,
-                subStageTribulationsRequired: 4,
+                subStageTribulationsRequired: 8,
                 earthlyCalamitiesPassed: 0,
                 heavenlyTribulationsPassed: 0,
                 grandTribulationsPassed: 0,
@@ -683,36 +700,46 @@
                 }
 
                 if (this.aptitude.physique && !this.hasExploded) {
-                    // Thập Tuyệt Thể ở Phàm Cảnh: tăng đúng 1% mỗi 45 giây, chỉ reset về 0% khi tăng 1 Đại Cảnh Giới
-                    const pRate = 1 / 45;
-                    this.wallPressure = Math.min(100, this.wallPressure + pRate * dt);
-
-                    const uiRef = this.ui || (global.vanCoTienDoGame && global.vanCoTienDoGame.ui);
-                    if (this.wallPressure >= 80 && !this._pressureWarned) {
-                        this._pressureWarned = true;
-                        if (uiRef && typeof uiRef.addLog === "function") {
-                            uiRef.addLog(
-                                "🚨 [CẢNH BÁO SINH TỬ - THẬP TUYỆT THỂ] Áp lực Không Khiếu đã vượt 80%! Hãy nhanh chóng đột phá lên Đại Cảnh Giới tiếp theo (hoặc Thăng Tiên) để reset về 0% trước khi đạt 100% (Bạo tạc chết hẳn)!",
-                                "danger"
-                            );
-                        }
-                    } else if (this.wallPressure < 70) {
+                    if (this.tenExtremeSealed) {
+                        // Đã dùng Âm Dương Chuyển Thân Cổ phong ấn xuống Giáp Đẳng (90%): an toàn tuyệt đối
+                        this.wallPressure = 0;
                         this._pressureWarned = false;
-                    }
+                    } else if (this.pressureFreezeTimer > 0) {
+                        // Đang được Định Nguyên Tịnh Khiếu Cổ đóng băng áp lực
+                        this.pressureFreezeTimer = Math.max(0, this.pressureFreezeTimer - dt);
+                    } else {
+                        // Thập Tuyệt Thể ở Phàm Cảnh: tăng đúng 1% mỗi 45 giây, chỉ reset về 0% khi tăng 1 Đại Cảnh Giới
+                        const pRate = 1 / 45;
+                        this.wallPressure = Math.min(100, this.wallPressure + pRate * dt);
 
-                    if (this.wallPressure >= 100) {
-                        this.hasExploded = true;
-                        const gameRef = this.game || global.vanCoTienDoGame;
-                        if (gameRef && typeof gameRef.triggerPermadeath === "function") {
-                            gameRef.triggerPermadeath(
-                                `Áp lực 【${this.aptitude.physique.name}】 chạm ngưỡng 100% ở Phàm Cảnh (${this.getRealmDisplayName()}) — Không Khiếu nứt toác, tự bạo thành tro bụi!`
-                            );
+                        const uiRef = this.ui || (global.vanCoTienDoGame && global.vanCoTienDoGame.ui);
+                        if (this.wallPressure >= 80 && !this._pressureWarned) {
+                            this._pressureWarned = true;
+                            if (uiRef && typeof uiRef.addLog === "function") {
+                                uiRef.addLog(
+                                    "🚨 [CẢNH BÁO SINH TỬ - THẬP TUYỆT THỂ] Áp lực Không Khiếu đã vượt 80%! Hãy nhanh chóng đột phá Đại Cảnh Giới hoặc dùng Âm Dương Chuyển Thân Cổ / Thạch Khiếu Cổ trước khi đạt 100% (Bạo tạc chết hẳn)!",
+                                    "danger"
+                                );
+                            }
+                        } else if (this.wallPressure < 70) {
+                            this._pressureWarned = false;
                         }
-                        return;
+
+                        if (this.wallPressure >= 100) {
+                            this.hasExploded = true;
+                            const gameRef = this.game || global.vanCoTienDoGame;
+                            if (gameRef && typeof gameRef.triggerPermadeath === "function") {
+                                gameRef.triggerPermadeath(
+                                    `Áp lực 【${this.aptitude.physique.name}】 chạm ngưỡng 100% ở Phàm Cảnh (${this.getRealmDisplayName()}) — Không Khiếu nứt toác, tự bạo thành tro bụi!`
+                                );
+                            }
+                            return;
+                        }
                     }
                 }
             } else if (this.immortalAperture.active) {
-                const internalDaysDelta = (dt / 18) * this.immortalAperture.timeRatio;
+                // Tiên Cảnh tu luyện đầm & dài hơi hơn chuẩn nguyên tác
+                const internalDaysDelta = (dt / 36) * this.immortalAperture.timeRatio;
                 this.immortalAperture.internalDays += internalDaysDelta;
                 this.immortalAperture.calamityCountdownDays = Math.max(
                     0,
@@ -720,11 +747,11 @@
                 );
 
                 const gradeConfig = BLESSED_LAND_GRADES[this.immortalAperture.gradeId] || BLESSED_LAND_GRADES.MEDIUM;
-                const beadRatePerDay = gradeConfig.essenceBeadPerYear / 365;
+                const beadRatePerDay = (gradeConfig.essenceBeadPerYear * 0.65) / 365;
                 this.immortalEssence[this.rank] += beadRatePerDay * internalDaysDelta;
 
                 if (this.immortalAperture.calamityCountdownDays <= 0) {
-                    this.immortalAperture.calamityCountdownDays = 300;
+                    this.immortalAperture.calamityCountdownDays = 600;
                     const calamityRes = this._triggerApertureCalamity(player, false);
                     const uiRef = this.ui || (global.vanCoTienDoGame && global.vanCoTienDoGame.ui);
 
@@ -742,13 +769,17 @@
         // 5. CƠ CHẾ TIÊU HAO, QUY ĐỔI & HỒI PHỤC CHÂN NGUYÊN (ĐÃ SIẾT CHẶT)
         // =====================================================================
 
-        calculateEssenceCost(baseCost, guRank = 1) {
+        calculateEssenceCost(baseCost, guRank = 1, guPath = null) {
             if (this.isImmortal) {
                 if (guRank <= 5) {
                     return { canUse: true, isImmortalCost: true, rank: this.rank, cost: 0.01 };
                 }
                 const rankDiff = guRank - this.rank;
-                const beadCost = baseCost * Math.pow(100, Math.max(0, rankDiff)) * (rankDiff < 0 ? Math.pow(0.01, -rankDiff) : 1);
+                let beadCost = baseCost * Math.pow(100, Math.max(0, rankDiff)) * (rankDiff < 0 ? Math.pow(0.01, -rankDiff) : 1);
+                // Quyền năng Đạo Chủ Cửu Chuyển: giảm 30% tiêu hao Tiên Nguyên khi thúc giục Cổ cùng lưu phái Đạo Chủ
+                if (this.rank >= 9 && this.daoLordPath && guPath && guPath === this.daoLordPath) {
+                    beadCost *= 0.70;
+                }
                 return { canUse: true, isImmortalCost: true, rank: this.rank, cost: Number(Math.max(0.01, beadCost).toFixed(4)) };
             }
 
@@ -775,9 +806,9 @@
             };
         }
 
-        hasEnoughEssence(baseCost, guRank = 1) {
+        hasEnoughEssence(baseCost, guRank = 1, guPath = null) {
             if (!this.isAwakened) return false;
-            const calc = this.calculateEssenceCost(baseCost, guRank);
+            const calc = this.calculateEssenceCost(baseCost, guRank, guPath);
             if (calc.canUse === false) return false;
 
             if (calc.isImmortalCost) {
@@ -786,8 +817,8 @@
             return this.currentEssence >= calc.cost && this.currentEssence > 0;
         }
 
-        consumeEssence(baseCost, guRank = 1) {
-            if (!this.hasEnoughEssence(baseCost, guRank)) {
+        consumeEssence(baseCost, guRank = 1, guPath = null) {
+            if (!this.hasEnoughEssence(baseCost, guRank, guPath)) {
                 return {
                     success: false,
                     reason: this.currentEssence <= 0
@@ -796,7 +827,7 @@
                 };
             }
 
-            const calc = this.calculateEssenceCost(baseCost, guRank);
+            const calc = this.calculateEssenceCost(baseCost, guRank, guPath);
 
             if (calc.isImmortalCost) {
                 this.immortalEssence[this.rank] = Math.max(0, this.immortalEssence[this.rank] - calc.cost);
@@ -983,6 +1014,267 @@
         // 7. PHÁ KHIẾU THĂNG TIÊN & ĐỘ TAI KIẾP CỔ TIÊN (ĐỒNG BỘ CORE & UI)
         // =====================================================================
 
+        // =====================================================================
+        // 6B. CỔ TRÙNG CỨU MỆNH THẬP TUYỆT THỂ (CHUẨN NGUYÊN TÁC)
+        // =====================================================================
+
+        /**
+         * ☯ Âm Dương Chuyển Thân Cổ (Chuẩn nguyên tác Bạch Ngưng Băng):
+         *  - Lần 1: Chuyển đổi Âm Dương nhục thân -> Phong ấn Thập Tuyệt Thể xuống Giáp Đẳng (90% Biển Nguyên),
+         *    reset áp lực về 0% và NGỪNG HOÀN TOÀN tích tụ áp lực bạo tạc!
+         *  - Lần 2: Đảo ngược Âm Dương -> Giải phong ấn, khôi phục 100% Thập Tuyệt Thể để chuẩn bị Phá Khiếu kết Siêu Cấp Phúc Địa!
+         */
+        applyYinYangRotationGu() {
+            if (!this.isAwakened) {
+                return { success: false, message: "Ngươi chưa Khai Khiếu, không thể thúc giục Âm Dương Chuyển Thân Cổ!" };
+            }
+            if (this.isImmortal) {
+                return { success: false, message: "Ngươi đã thành tựu Tiên Khiếu, không còn chịu áp lực bạo tạc của Thập Tuyệt Thể ở Phàm Cảnh!" };
+            }
+            if (!this.aptitude || !this.aptitude.physique) {
+                this.wallPressure = 5;
+                return {
+                    success: true,
+                    message: "☯ Âm Dương Chuyển Thân Cổ phát quang chuyển đổi âm dương nhục thân! Áp lực Không Khiếu đã ổn định về 5%."
+                };
+            }
+
+            if (!this.tenExtremeSealed) {
+                this.tenExtremeSealed = true;
+                this.aptitude.maxSeaPercent = 90;
+                this.currentEssence = Math.min(90, this.currentEssence);
+                this.wallPressure = 0;
+                this.pressureFreezeTimer = 0;
+                this._pressureWarned = false;
+                return {
+                    success: true,
+                    sealed: true,
+                    message: `☯ Âm Dương Chuyển Thân Cổ linh quang đại phóng! Âm dương đảo lộn giúp 【${this.aptitude.physique.name}】 tạm thời hạ xuống 90% Biển Nguyên (Giáp Đẳng Đỉnh Phong) — Áp lực Không Khiếu reset về 0% và NGỪNG TÍCH TỤ HOÀN TOÀN! (Dùng thêm 1 con nữa khi muốn khôi phục 100% Thập Tuyệt Thể để Thăng Tiên).`
+                };
+            } else {
+                this.tenExtremeSealed = false;
+                this.aptitude.maxSeaPercent = 100;
+                this.currentEssence = 100;
+                this.wallPressure = 0;
+                this._pressureWarned = false;
+                return {
+                    success: true,
+                    sealed: false,
+                    message: `☯ Âm Dương Chuyển Thân Cổ tái chuyển hóa! Phong ấn được giải trừ, 【${this.aptitude.physique.name}】 khôi phục 100% Biển Nguyên viên mãn (Áp lực khởi động lại từ 0%)!`
+                };
+            }
+        }
+
+        /**
+         * 🪨 Thạch Khiếu Cổ: Gia cố Khiếu Bích, xả ngay -50% áp lực mà vẫn giữ nguyên 100% Thập Tuyệt Thể
+         */
+        applyStoneApertureGu() {
+            if (!this.isAwakened || this.isImmortal) {
+                return { success: false, message: "Thạch Khiếu Cổ chỉ dùng để ổn định Phàm Khiếu (Nhất -> Ngũ Chuyển)!" };
+            }
+            const before = Number(this.wallPressure.toFixed(1));
+            this.wallPressure = Math.max(0, Number((this.wallPressure - 50).toFixed(1)));
+            if (this.wallPressure < 70) this._pressureWarned = false;
+            return {
+                success: true,
+                message: `🪨 Thạch Khiếu Cổ hóa thạch gia cố Khiếu Bích! Áp lực Không Khiếu giảm mạnh từ ${before}% xuống còn ${this.wallPressure}% (vẫn giữ nguyên tư chất hiện tại).`
+            };
+        }
+
+        /**
+         * ⏳ Định Nguyên Tịnh Khiếu Cổ (Trụ Đạo): Giảm -25% áp lực & đóng băng hoàn toàn tốc độ tăng áp lực trong 300 giây (5 phút)
+         */
+        applyFreezePressureGu() {
+            if (!this.isAwakened || this.isImmortal) {
+                return { success: false, message: "Định Nguyên Tịnh Khiếu Cổ chỉ có tác dụng lên Phàm Khiếu!" };
+            }
+            const before = Number(this.wallPressure.toFixed(1));
+            this.wallPressure = Math.max(0, Number((this.wallPressure - 25).toFixed(1)));
+            this.pressureFreezeTimer = Math.max(this.pressureFreezeTimer || 0, 300);
+            if (this.wallPressure < 70) this._pressureWarned = false;
+            return {
+                success: true,
+                message: `⏳ Định Nguyên Tịnh Khiếu Cổ kích hoạt Trụ Đạo đạo ngân! Áp lực giảm từ ${before}% xuống ${this.wallPressure}% và ĐÓNG BĂNG hoàn toàn trong 300 giây (5 phút)!`
+            };
+        }
+
+        isPseudoVenerable() {
+            return Boolean(this.isImmortal && this.rank === 8 && this.subStage === 4);
+        }
+
+        /**
+         * Kiểm tra 3 Điều Kiện Thành Tôn chuẩn nguyên tác (từ Á Tiên Tôn -> Cửu Chuyển Tôn Giả):
+         *  1. Tích lũy >= 300.000 (30 vạn) Đạo Ngân trong lưu phái chính.
+         *  2. Đã Đột Phá Phong Tỏa Thiên Đạo (cần vượt Ải 24 phá Túc Mệnh Cổ + Xung kích Phong Tỏa).
+         *  3. Đã Độ Qua >= 3 lần Vạn Kiếp.
+         */
+        getVenerableReadiness(player, game) {
+            const mainPath = (player && player.mainPath) ? player.mainPath : "Lực Đạo";
+            const mainMarks = (player && player.daoMarks && player.daoMarks[mainPath]) ? Math.floor(player.daoMarks[mainPath]) : 0;
+            const myriadPassed = (this.immortalAperture && this.immortalAperture.myriadTribulationsPassed) ? this.immortalAperture.myriadTribulationsPassed : 0;
+            const fateDestroyed = game && typeof game.getStageClearCount === "function"
+                ? game.getStageClearCount("stage_24") > 0
+                : false;
+
+            const isPseudo = this.isPseudoVenerable();
+            const hasDaoMarks = mainMarks >= VENERABLE_REQ_DAO_MARKS;
+            const hasBlockade = Boolean(this.daoBlockadeBroken);
+            const hasMyriad = myriadPassed >= VENERABLE_REQ_MYRIAD_TRIBULATIONS;
+
+            return {
+                isPseudoVenerable: isPseudo,
+                isAlreadyVenerable: this.isImmortal && this.rank >= 9,
+                mainPath: mainPath,
+                mainMarks: mainMarks,
+                reqMarks: VENERABLE_REQ_DAO_MARKS,
+                hasDaoMarks: hasDaoMarks,
+                fateDestroyed: fateDestroyed,
+                hasBlockade: hasBlockade,
+                myriadPassed: myriadPassed,
+                reqMyriad: VENERABLE_REQ_MYRIAD_TRIBULATIONS,
+                hasMyriad: hasMyriad,
+                canBreakBlockade: isPseudo && !hasBlockade && fateDestroyed,
+                canAscendVenerable: isPseudo && hasDaoMarks && hasBlockade && hasMyriad
+            };
+        }
+
+        /**
+         * Xung kích Đột Phá Phong Tỏa Thiên Đạo (Điều kiện bắt buộc để Thành Tôn)
+         */
+        attemptBreakDaoBlockade(player, game) {
+            if (!this.isPseudoVenerable()) {
+                return { success: false, message: "Chỉ cường giả đạt cảnh giới 【Á Tiên Tôn】 mới đủ tư cách xung kích Phong Tỏa Thiên Đạo!" };
+            }
+            if (this.daoBlockadeBroken) {
+                return { success: false, message: "Ngươi đã đột phá Phong Tỏa Thiên Đạo rồi!" };
+            }
+            const fateDestroyed = game && typeof game.getStageClearCount === "function"
+                ? game.getStageClearCount("stage_24") > 0
+                : false;
+            if (!fateDestroyed) {
+                return {
+                    success: false,
+                    message: "Túc Mệnh Cổ tại Thiên Đình vẫn còn tồn tại! Hãy vượt qua 【Ải 24: Thiên Đình Trung Châu — Túc Mệnh Đại Chiến】 để phá hủy Túc Mệnh Cổ trước khi đột phá Phong Tỏa Thiên Đạo!"
+                };
+            }
+
+            const essenceReq = 60;
+            const qiReq = 250;
+            const mentalReq = 160;
+            const curEss = this.immortalEssence[8] || 0;
+
+            if (curEss < essenceReq) {
+                return { success: false, message: `Không đủ Bạch Lệ Tiên Nguyên (Cần ${essenceReq} viên, hiện có ${curEss.toFixed(1)} viên)!` };
+            }
+            if (this.humanQi < qiReq) {
+                return { success: false, message: `Nhân Khí chưa đủ hùng hậu để phá vỡ xiềng xích Thiên Đạo (Cần ${qiReq}, hiện có ${Math.floor(this.humanQi)})!` };
+            }
+            if (player && player.mental < mentalReq) {
+                return { success: false, message: `Tinh Thần Lực không đủ (${Math.floor(player.mental)}/${mentalReq})!` };
+            }
+            if (player && player.hp < Math.round(player.maxHp * 0.65)) {
+                return { success: false, message: "Sinh Mệnh phải đạt trên 65% mới chịu nổi phản phệ của Thiên Đạo!" };
+            }
+
+            this.immortalEssence[8] = Math.max(0, curEss - essenceReq);
+            this.humanQi = Math.max(0, this.humanQi - qiReq);
+            if (player) {
+                player.mental = Math.max(0, player.mental - mentalReq);
+                player.hp = Math.max(1, player.hp - Math.round(player.maxHp * 0.55));
+            }
+
+            this.daoBlockadeBroken = true;
+            return {
+                success: true,
+                message: "🌌 OANH!! Đạo ngân bản mệnh va chạm trực diện với ý chí trời đất — NGƯƠI ĐÃ ĐỘT PHÁ THÀNH CÔNG PHONG TỎA THIÊN ĐẠO! Con đường chứng đạo Cửu Chuyển Tôn Giả đã mở toang!"
+            };
+        }
+
+        /**
+         * Chính thức Chứng Đạo Thành Tôn (Á Tiên Tôn -> Cửu Chuyển Tôn Giả & Đạo Chủ Lưu Phái)
+         */
+        attemptAscendToVenerable(player, game) {
+            const check = this.getVenerableReadiness(player, game);
+            if (check.isAlreadyVenerable) {
+                return { success: false, message: "Ngươi đã là Cửu Chuyển Tôn Giả đứng trên đỉnh thiên địa!" };
+            }
+            if (!check.isPseudoVenerable) {
+                return { success: false, message: "Cần đột phá lên cảnh giới 【Á Tiên Tôn】 trước khi chứng đạo Thành Tôn!" };
+            }
+            if (!check.hasDaoMarks) {
+                return {
+                    success: false,
+                    message: `Chưa đủ 30 Vạn Đạo Ngân! Lưu phái 【${check.mainPath}】 hiện mới đạt ${check.mainMarks.toLocaleString("vi-VN")} / 300.000 Đạo Ngân.`
+                };
+            }
+            if (!check.hasBlockade) {
+                return {
+                    success: false,
+                    message: "Chưa Đột Phá Phong Tỏa Thiên Đạo! Hãy hoàn thành Ải 24 (phá Túc Mệnh Cổ) rồi bấm nút 'Xung Kích Đột Phá Phong Tỏa Thiên Đạo'."
+                };
+            }
+            if (!check.hasMyriad) {
+                return {
+                    success: false,
+                    message: `Chưa vượt qua đủ 3 lần Vạn Kiếp! Hiện mới độ qua ${check.myriadPassed} / 3 lần Vạn Kiếp.`
+                };
+            }
+
+            this.rank = 9;
+            this.subStage = 0;
+            this.daoLordPath = check.mainPath;
+            this.naturalDaoMarksRefined = 50000;
+            this.immortalAperture.gradeName = "Chí Tôn Tiên Khiếu Động Thiên";
+            this.immortalAperture.spaceAcres += 25000;
+            this.immortalAperture.subStageTribulationsPassed = 0;
+            this.immortalAperture.subStageTribulationsRequired = this.getManualTribulationRequirements().tribulationsNeededForNextStage;
+            this.wallProgress = 0;
+            this.maxWallProgress = this.immortalAperture.subStageTribulationsRequired;
+            this.immortalEssence[9] = Math.max(15, (this.immortalEssence[9] || 0) + 15);
+
+            if (player && typeof player.recalculateStats === "function") {
+                player.recalculateStats();
+                player.hp = player.maxHp;
+                player.mental = player.maxMental;
+            }
+
+            return {
+                success: true,
+                daoLordPath: this.daoLordPath,
+                message: `👑 [CHỨNG ĐẠO THÀNH TÔN — ĐỘC BÁ VẠN CỔ] Ngũ Vực chấn động, Lưỡng Thiên rung chuyển! Ngươi chính thức tấn thăng 【Cửu Chuyển Tôn Giả】, trở thành 【${this.daoLordPath} ĐẠO CHỦ】 (khởi đầu luyện hóa 50.000 Đạo Ngân tự nhiên, +15 viên Hoàng Hạnh Tiên Nguyên, giảm 30% tiêu hao Tiên Nguyên & khuếch đại cực hạn toàn bộ cổ thuật ${this.daoLordPath})!`
+            };
+        }
+
+        /**
+         * Quyền Năng Đạo Chủ (chỉ sau khi thành Tôn): Luyện hóa Đạo Ngân Tự Nhiên của lưu phái mình theo
+         */
+        refineNaturalDaoMarks(player) {
+            if (!this.isImmortal || this.rank < 9 || !this.daoLordPath) {
+                return { success: false, message: "Chỉ Cửu Chuyển Tôn Giả đã trở thành Đạo Chủ mới có thể Luyện Hóa Đạo Ngân Tự Nhiên!" };
+            }
+            const essCost = 8;
+            const mentalCost = 50;
+            const curEss = this.immortalEssence[9] || 0;
+            if (curEss < essCost) {
+                return { success: false, message: `Cần ${essCost} viên Hoàng Hạnh Tiên Nguyên để luyện hóa Đạo Ngân Tự Nhiên (Hiện có: ${curEss.toFixed(1)} viên)!` };
+            }
+            if (player && player.mental < mentalCost) {
+                return { success: false, message: `Cần ${mentalCost} Tinh Thần Lực để dẫn động Đạo Ngân Thiên Địa!` };
+            }
+
+            this.immortalEssence[9] = Math.max(0, curEss - essCost);
+            if (player) {
+                player.mental = Math.max(0, player.mental - mentalCost);
+                player.addDaoMarks(this.daoLordPath, 15000);
+            }
+            this.naturalDaoMarksRefined = (this.naturalDaoMarksRefined || 0) + 25000;
+
+            return {
+                success: true,
+                message: `👑 [Quyền Năng ${this.daoLordPath} Đạo Chủ] Ngươi luyện hóa thêm +25.000 Đạo Ngân Tự Nhiên (Tổng: ${this.naturalDaoMarksRefined.toLocaleString("vi-VN")}) và +15.000 Đạo Ngân bản thân! Uy áp ${this.daoLordPath} bao trùm Ngũ Vực!`
+            };
+        }
+
         /**
          * Kiểm tra đồng bộ toàn bộ điều kiện Phá Khiếu Thăng Tiên cho cả Core Logic và UIManager
          */
@@ -1137,17 +1429,19 @@
         }
 
         _completeImmortalApertureFormation() {
+            const isTrueTenExtremeUnsealed = Boolean(this.aptitude.physique && !this.tenExtremeSealed);
             this.isImmortal = true;
             this.rank = 6;
             this.subStage = 0; // Lục Chuyển Sơ Giai
             this.wallPressure = 0;
             this.hasExploded = false;
             this._pressureWarned = false;
+            this.pressureFreezeTimer = 0;
 
             let gradeKey = "MEDIUM";
             const totalQi = this.ascensionState.heavenQi + this.ascensionState.earthQi + this.ascensionState.humanQiCommitted;
 
-            if (this.aptitude.physique || totalQi >= 580 || this.humanQi >= 220) {
+            if (isTrueTenExtremeUnsealed || totalQi >= 580 || this.humanQi >= 220) {
                 gradeKey = "SUPER";
             } else if (totalQi >= 420 || this.humanQi >= 165) {
                 gradeKey = "LARGE";
@@ -1177,7 +1471,7 @@
                 spaceAcres: acres,
                 timeRatio: cfg.timeRatio,
                 internalDays: 1,
-                calamityCountdownDays: 300,
+                calamityCountdownDays: 600,
                 subStageTribulationsPassed: 0,
                 subStageTribulationsRequired: firstReq,
                 earthlyCalamitiesPassed: 1,
@@ -1227,20 +1521,42 @@
         }
 
         /**
-         * Chi phí và số lần Độ Tai Kiếp cần thiết ở từng tiểu cảnh giới Cổ Tiên (Đã nâng cao)
+         * Chi phí và số lần Độ Tai Kiếp cần thiết ở từng tiểu cảnh giới Cổ Tiên (Lâu hơn & chuẩn nguyên tác)
          */
         getManualTribulationRequirements() {
+            // Riêng Á Tiên Tôn (Bát Chuyển Cực Hạn): Độ Vạn Kiếp (Myriad Tribulation)
+            if (this.isPseudoVenerable()) {
+                return {
+                    isMyriadTribulation: true,
+                    tribulationName: "Vạn Kiếp (Myriad Tribulation)",
+                    essenceCost: 45,
+                    humanQiCost: 180,
+                    mentalCost: 145,
+                    hpDamagePct: 0.62,
+                    tribulationsNeededForNextStage: VENERABLE_REQ_MYRIAD_TRIBULATIONS
+                };
+            }
+
             const rankOffset = Math.max(0, this.rank - 6);
             const subReq = MORTAL_SUBSTAGES[this.subStage]
                 ? MORTAL_SUBSTAGES[this.subStage].immortalTribulationsReq
-                : 4;
+                : 8;
+
+            const nameByRank = {
+                6: this.subStage < 2 ? "Địa Tai" : "Thiên Kiếp",
+                7: this.subStage < 2 ? "Thiên Kiếp" : "Hạo Kiếp",
+                8: "Hạo Kiếp",
+                9: "Hỗn Độn Kiếp"
+            };
 
             return {
-                essenceCost: 6 + rankOffset * 5 + this.subStage * 3,
-                humanQiCost: 30 + rankOffset * 18 + this.subStage * 10,
-                mentalCost: 45 + rankOffset * 12,
-                hpDamagePct: 0.42,
-                tribulationsNeededForNextStage: subReq + rankOffset * 2
+                isMyriadTribulation: false,
+                tribulationName: nameByRank[this.rank] || "Tai Kiếp",
+                essenceCost: 10 + rankOffset * 8 + this.subStage * 4,
+                humanQiCost: 45 + rankOffset * 28 + this.subStage * 14,
+                mentalCost: 60 + rankOffset * 18 + this.subStage * 6,
+                hpDamagePct: 0.48,
+                tribulationsNeededForNextStage: subReq + rankOffset * 4
             };
         }
 
@@ -1256,9 +1572,31 @@
                 };
             }
 
+            const isPseudo = this.isPseudoVenerable();
             const req = this.getManualTribulationRequirements();
             const currentEssenceBeads = this.immortalEssence[this.rank] || 0;
             const essenceName = IMMORTAL_RANKS[this.rank].essenceName;
+
+            // Tai kiếp tự nhiên mỗi 600 ngày ở Á Tiên Tôn chỉ là Hạo Kiếp bổ trợ Đạo Ngân, KHÔNG thay thế Vạn Kiếp chủ động
+            if (!isManual && isPseudo) {
+                this.immortalAperture.calamityCountdownDays = 600;
+                this.immortalAperture.grandTribulationsPassed = (this.immortalAperture.grandTribulationsPassed || 0) + 1;
+                const naturalDaoGain = 12000;
+                this.immortalAperture.spaceAcres += 350;
+                if (player) {
+                    player.hp = Math.max(1, player.hp - Math.round(player.maxHp * 0.18));
+                    if (typeof player.addDaoMarksFromTribulation === "function") {
+                        player.addDaoMarksFromTribulation(naturalDaoGain, 0.85);
+                    }
+                }
+                return {
+                    success: true,
+                    isManual: false,
+                    didAdvance: false,
+                    newRealmName: this.getRealmDisplayName(),
+                    message: `🌩️ [Hạo Kiếp Định Kỳ 600 Ngày — Á Tiên Tôn] Động Thiên vượt qua 1 đợt Hạo Kiếp tự nhiên (+350 mẫu, +${naturalDaoGain.toLocaleString("vi-VN")} Đạo Ngân)! Hãy chủ động Độ Vạn Kiếp (3 lần) để chuẩn bị Thành Tôn.`
+                };
+            }
 
             if (isManual) {
                 if (currentEssenceBeads < req.essenceCost) {
@@ -1271,7 +1609,7 @@
                 if (this.humanQi < req.humanQiCost) {
                     return {
                         success: false,
-                        message: `Nhân Khí không đủ để cưỡng ép dẫn động Thiên Kiếp (Cần ${req.humanQiCost} Nhân Khí, hiện có: ${Math.floor(this.humanQi)})! Hãy vượt các Bản Đồ Lịch Luyện hoặc thăm dò Mộng Cảnh.`
+                        message: `Nhân Khí không đủ để dẫn động ${req.tribulationName} (Cần ${req.humanQiCost} Nhân Khí, hiện có: ${Math.floor(this.humanQi)})! Hãy vượt các Bản Đồ hoặc thăm dò Mộng Cảnh.`
                     };
                 }
 
@@ -1279,14 +1617,14 @@
                     if (player.mental < req.mentalCost) {
                         return {
                             success: false,
-                            message: `Tinh Thần Lực quá suy yếu (${Math.floor(player.mental)}/${req.mentalCost})! Độ kiếp lúc này sẽ tan hồn phách. Hãy dùng Đãng Hồn Thạch Đan hoặc Thanh Linh Thảo.`
+                            message: `Tinh Thần Lực quá suy yếu (${Math.floor(player.mental)}/${req.mentalCost})! Độ ${req.tribulationName} lúc này sẽ tan hồn phách.`
                         };
                     }
                     const minHpNeeded = Math.round(player.maxHp * (req.hpDamagePct + 0.08));
                     if (player.hp < minHpNeeded) {
                         return {
                             success: false,
-                            message: `Sinh Mệnh quá thấp (${Math.ceil(player.hp)}/${minHpNeeded})! Không đủ sức chống đỡ Lôi Kiếp oanh kích.`
+                            message: `Sinh Mệnh quá thấp (${Math.ceil(player.hp)}/${minHpNeeded})! Không đủ sức chống đỡ ${req.tribulationName} oanh kích.`
                         };
                     }
                 }
@@ -1299,24 +1637,69 @@
                     player.hp = Math.max(1, player.hp - tribDamage);
                 }
             } else if (player) {
-                // Tai Kiếp tự nhiên mỗi 300 ngày nội bộ cũng gây chấn động Tiên Khiếu và tiêu hao nhẹ Sinh Mệnh
-                const naturalDamage = Math.round(player.maxHp * 0.15);
+                const naturalDamage = Math.round(player.maxHp * 0.16);
                 player.hp = Math.max(1, player.hp - naturalDamage);
             }
 
-            this.immortalAperture.calamityCountdownDays = 300;
+            this.immortalAperture.calamityCountdownDays = 600;
+
+            // --- NHÁNH RIÊNG CHO Á TIÊN TÔN: ĐỘ VẠN KIẾP (MYRIAD TRIBULATION) ---
+            if (isPseudo && isManual) {
+                this.immortalAperture.myriadTribulationsPassed = (this.immortalAperture.myriadTribulationsPassed || 0) + 1;
+                this.immortalAperture.grandTribulationsPassed = (this.immortalAperture.grandTribulationsPassed || 0) + 1;
+                const acreGain = 1200;
+                const daoMarkGain = 55000;
+                this.immortalAperture.spaceAcres += acreGain;
+
+                if (player && typeof player.addDaoMarksFromTribulation === "function") {
+                    player.addDaoMarksFromTribulation(daoMarkGain, 0.85);
+                }
+
+                const mCount = this.immortalAperture.myriadTribulationsPassed;
+                this.wallProgress = Math.min(VENERABLE_REQ_MYRIAD_TRIBULATIONS, mCount);
+                this.maxWallProgress = VENERABLE_REQ_MYRIAD_TRIBULATIONS;
+
+                if (player && typeof player.recalculateStats === "function") {
+                    player.recalculateStats();
+                }
+
+                const readyNote = mCount >= VENERABLE_REQ_MYRIAD_TRIBULATIONS
+                    ? "🎉 ĐÃ HOÀN THÀNH ĐỦ 3 LẦN VẠN KIẾP! Hãy kiểm tra 30 Vạn Đạo Ngân & Đột Phá Phong Tỏa Thiên Đạo để chính thức Thành Tôn!"
+                    : `Tiến độ Vạn Kiếp Thành Tôn: ${mCount}/${VENERABLE_REQ_MYRIAD_TRIBULATIONS} lần.`;
+
+                return {
+                    success: true,
+                    isManual: true,
+                    isMyriad: true,
+                    didAdvance: mCount === VENERABLE_REQ_MYRIAD_TRIBULATIONS,
+                    newRealmName: this.getRealmDisplayName(),
+                    message: `🌩️ [ĐỘ VẠN KIẾP THÀNH CÔNG — LẦN ${mCount}] Ngươi vượt qua Vạn Kiếp hủy thiên diệt địa (+${acreGain} mẫu Động Thiên, +${daoMarkGain.toLocaleString("vi-VN")} Đạo Ngân)! ${readyNote}`
+                };
+            }
+
+            // --- NHÁNH LỤC / THẤT / BÁT CHUYỂN (SƠ -> ĐỈNH PHONG) & CỬU CHUYỂN ---
             this.immortalAperture.earthlyCalamitiesPassed += 1;
             this.immortalAperture.heavenlyTribulationsPassed += 1;
+            if (this.rank >= 8) {
+                this.immortalAperture.grandTribulationsPassed = (this.immortalAperture.grandTribulationsPassed || 0) + 1;
+            }
 
             this.immortalAperture.subStageTribulationsRequired = req.tribulationsNeededForNextStage;
             this.immortalAperture.subStageTribulationsPassed = (this.immortalAperture.subStageTribulationsPassed || 0) + 1;
 
-            const acreGain = 90 * (this.rank - 5);
-            const daoMarkGain = 18 * (this.rank - 5);
+            // Mức tăng Đạo Ngân chuẩn nguyên tác hướng tới 30 vạn Đạo Ngân ở Á Tiên Tôn
+            const daoGainByRank = {
+                6: 650,
+                7: 2800,
+                8: 9000,
+                9: 25000
+            };
+            const acreGain = 110 * (this.rank - 5);
+            const daoMarkGain = daoGainByRank[this.rank] || 650;
             this.immortalAperture.spaceAcres += acreGain;
 
             if (player && typeof player.addDaoMarksFromTribulation === "function") {
-                player.addDaoMarksFromTribulation(daoMarkGain);
+                player.addDaoMarksFromTribulation(daoMarkGain, 0.80);
             }
 
             let breakthroughMsg = "";
@@ -1328,33 +1711,44 @@
 
                 if (this.subStage < 3) {
                     this.subStage += 1;
-                    this.immortalEssence[this.rank] += 2;
-                    breakthroughMsg = `🎉 Đạo cơ viên mãn, tu vi đột phá lên 【${this.getRealmDisplayName()}】 (+2 viên ${IMMORTAL_RANKS[this.rank].essenceName})!`;
-                } else if (this.rank < 9) {
+                    this.immortalEssence[this.rank] += 3;
+                    breakthroughMsg = `🎉 Đạo cơ viên mãn, tu vi đột phá lên 【${this.getRealmDisplayName()}】 (+3 viên ${IMMORTAL_RANKS[this.rank].essenceName})!`;
+                } else if (this.rank === 8 && this.subStage === 3) {
+                    // Bát Chuyển Đỉnh Phong -> Đột phá lên Á TIÊN TÔN (KHÔNG nhảy thẳng lên Cửu Chuyển!)
+                    this.subStage = 4;
+                    this.immortalAperture.gradeName = "Thái Cổ Động Thiên (Á Tiên Tôn)";
+                    this.immortalEssence[8] = (this.immortalEssence[8] || 0) + 15;
+                    breakthroughMsg = `🌟 Đột phá giới hạn Bát Chuyển Đỉnh Phong, bước vào cảnh giới 【Á TIÊN TÔN】! Để chứng đạo Cửu Chuyển Tôn Giả & trở thành Đạo Chủ, ngươi cần: (1) Tích lũy 300.000 Đạo Ngân lưu phái chính, (2) Đột phá Phong Tỏa Thiên Đạo, (3) Độ qua 3 lần Vạn Kiếp!`;
+                } else if (this.rank < 8) {
                     this.rank += 1;
                     this.subStage = 0;
-                    this.immortalEssence[this.rank] = Math.max(6, (this.immortalEssence[this.rank] || 0) + 6);
+                    this.immortalEssence[this.rank] = Math.max(8, (this.immortalEssence[this.rank] || 0) + 8);
                     if (this.rank === 8) {
                         this.immortalAperture.gradeName = "Thái Cổ Động Thiên";
-                    } else if (this.rank === 9) {
-                        this.immortalAperture.gradeName = "Chí Tôn Tiên Khiếu Động Thiên";
                     }
-                    breakthroughMsg = `🌟 Vượt qua Hạo Kiếp sinh tử, chính thức bước vào đại cảnh giới mới 【${this.getRealmDisplayName()}】, sở hữu ${IMMORTAL_RANKS[this.rank].essenceName}!`;
+                    breakthroughMsg = `🌟 Vượt qua Đại Kiếp sinh tử, chính thức bước vào đại cảnh giới mới 【${this.getRealmDisplayName()}】, sở hữu ${IMMORTAL_RANKS[this.rank].essenceName}!`;
                 }
 
                 const nextReq = this.getManualTribulationRequirements().tribulationsNeededForNextStage;
                 this.immortalAperture.subStageTribulationsRequired = nextReq;
             }
 
-            this.wallProgress = this.immortalAperture.subStageTribulationsPassed;
-            this.maxWallProgress = this.immortalAperture.subStageTribulationsRequired;
+            if (this.isPseudoVenerable()) {
+                this.wallProgress = Math.min(VENERABLE_REQ_MYRIAD_TRIBULATIONS, this.immortalAperture.myriadTribulationsPassed || 0);
+                this.maxWallProgress = VENERABLE_REQ_MYRIAD_TRIBULATIONS;
+            } else {
+                this.wallProgress = this.immortalAperture.subStageTribulationsPassed;
+                this.maxWallProgress = this.immortalAperture.subStageTribulationsRequired;
+            }
 
             if (player && typeof player.recalculateStats === "function") {
                 player.recalculateStats();
             }
 
-            const progressStr = `(${this.immortalAperture.subStageTribulationsPassed}/${this.immortalAperture.subStageTribulationsRequired} Tai Kiếp để lên tiểu cảnh giới kế tiếp)`;
-            const prefixLabel = isManual ? "⚡ [Chủ Động Độ Kiếp]" : "🌩️ [Tai Kiếp Định Kỳ 300 Ngày]";
+            const progressStr = this.isPseudoVenerable()
+                ? `(Vạn Kiếp: ${this.immortalAperture.myriadTribulationsPassed || 0}/${VENERABLE_REQ_MYRIAD_TRIBULATIONS})`
+                : `(${this.immortalAperture.subStageTribulationsPassed}/${this.immortalAperture.subStageTribulationsRequired} ${req.tribulationName} để lên tiểu cảnh giới kế tiếp)`;
+            const prefixLabel = isManual ? `⚡ [Chủ Động Độ ${req.tribulationName}]` : `🌩️ [${req.tribulationName} Định Kỳ 600 Ngày]`;
 
             return {
                 success: true,
@@ -1362,8 +1756,8 @@
                 didAdvance: didAdvance,
                 newRealmName: this.getRealmDisplayName(),
                 message: didAdvance
-                    ? `${prefixLabel} Độ Tai Kiếp thành công (+${acreGain} mẫu Tiên Khiếu, +${daoMarkGain} Đạo Ngân)! ${breakthroughMsg}`
-                    : `${prefixLabel} Tiên Khiếu vừa vượt qua 1 đợt Tai Kiếp (+${acreGain} mẫu Tiên Khiếu, +${daoMarkGain} Đạo Ngân)! Tiến độ tu vi: 【${this.getRealmDisplayName()}】 ${progressStr}.`
+                    ? `${prefixLabel} Thành công (+${acreGain} mẫu Tiên Khiếu, +${daoMarkGain.toLocaleString("vi-VN")} Đạo Ngân)! ${breakthroughMsg}`
+                    : `${prefixLabel} Vượt qua 1 đợt ${req.tribulationName} (+${acreGain} mẫu Tiên Khiếu, +${daoMarkGain.toLocaleString("vi-VN")} Đạo Ngân)! Tiến độ tu vi: 【${this.getRealmDisplayName()}】 ${progressStr}.`
             };
         }
 
@@ -1396,16 +1790,16 @@
                 this.humanQi = Math.max(0, Number((this.humanQi - qiLoss).toFixed(1)));
                 if (qiLoss > 0) details.push(`Tán mất -${qiLoss} Nhân Khí.`);
             } else {
-                const passed = this.immortalAperture.subStageTribulationsPassed || 0;
-                if (passed > 0) {
-                    this.immortalAperture.subStageTribulationsPassed = Math.max(0, passed - 1);
+                if (!this.isPseudoVenerable() && (this.immortalAperture.subStageTribulationsPassed || 0) > 0) {
+                    this.immortalAperture.subStageTribulationsPassed = Math.max(0, this.immortalAperture.subStageTribulationsPassed - 1);
                     this.wallProgress = this.immortalAperture.subStageTribulationsPassed;
                     details.push(`Tiên Khiếu chấn động, tổn thất -1 tiến độ Độ Tai Kiếp (còn ${this.wallProgress}/${this.maxWallProgress}).`);
                 } else if (player && player.mainPath) {
-                    const lostMarks = Math.min(player.daoMarks[player.mainPath] || 0, 20);
+                    const baseMarkLoss = this.rank >= 8 ? 1500 : (this.rank === 7 ? 450 : 120);
+                    const lostMarks = Math.min(player.daoMarks[player.mainPath] || 0, baseMarkLoss);
                     if (lostMarks > 0) {
                         player.addDaoMarks(player.mainPath, -lostMarks);
-                        details.push(`Tổn thất -${lostMarks} Đạo Ngân ${player.mainPath}.`);
+                        details.push(`Tổn thất -${lostMarks.toLocaleString("vi-VN")} Đạo Ngân ${player.mainPath}.`);
                     }
                 }
 
@@ -1441,11 +1835,16 @@
 
         getRealmDisplayName() {
             if (!this.isAwakened) return "Phàm Nhân (Chưa Khai Khiếu)";
+            if (this.isPseudoVenerable()) {
+                return "Á Tiên Tôn (Bát Chuyển Cực Hạn)";
+            }
+
             const sName = MORTAL_SUBSTAGES[this.subStage] ? MORTAL_SUBSTAGES[this.subStage].name : "Sơ Giai";
 
             if (this.isImmortal) {
                 const rankCfg = IMMORTAL_RANKS[this.rank] || IMMORTAL_RANKS[6];
-                return `${rankCfg.name} ${sName} (${rankCfg.titleSuffix})`;
+                const daoLordTag = (this.rank >= 9 && this.daoLordPath) ? ` — 👑 ${this.daoLordPath} Đạo Chủ` : "";
+                return `${rankCfg.name} ${sName} (${rankCfg.titleSuffix})${daoLordTag}`;
             }
 
             const rName = MORTAL_RANKS[this.rank] ? MORTAL_RANKS[this.rank].name : "Nhất Chuyển";
@@ -1692,11 +2091,12 @@
 
             ctx.fillStyle = "#5cc995";
             ctx.font = "11px Georgia";
-            ctx.fillText(
-                `Tiến độ Tiểu Cảnh Giới: ${passed}/${req} Tai Kiếp | Tổng đã độ: ${ap.heavenlyTribulationsPassed} Kiếp`,
-                22,
-                48
-            );
+            const subLineText = this.isPseudoVenerable()
+                ? `Vạn Kiếp Thành Tôn: ${ap.myriadTribulationsPassed || 0}/3 | Phong Tỏa Thiên Đạo: ${this.daoBlockadeBroken ? "Đã Phá" : "Chưa Phá"}`
+                : (this.rank >= 9 && this.daoLordPath
+                    ? `👑 Đạo Chủ ${this.daoLordPath} | Đạo Ngân Tự Nhiên: ${(this.naturalDaoMarksRefined || 0).toLocaleString("vi-VN")}`
+                    : `Tiến độ Tiểu Cảnh Giới: ${passed}/${req} Tai Kiếp | Tổng đã độ: ${ap.heavenlyTribulationsPassed} Kiếp`);
+            ctx.fillText(subLineText, 22, 48);
         }
 
         // =====================================================================
@@ -1716,6 +2116,11 @@
                 wallPressure: this.wallPressure,
                 wallIntegrity: this.wallIntegrity,
                 hasExploded: this.hasExploded,
+                tenExtremeSealed: this.tenExtremeSealed,
+                pressureFreezeTimer: this.pressureFreezeTimer,
+                daoBlockadeBroken: this.daoBlockadeBroken,
+                daoLordPath: this.daoLordPath,
+                naturalDaoMarksRefined: this.naturalDaoMarksRefined,
                 vitalGuId: this.vitalGuId,
                 vitalGuName: this.vitalGuName,
                 humanQi: this.humanQi,
@@ -1731,7 +2136,7 @@
             this.isImmortal = Boolean(data.isImmortal);
             if (data.aptitude) this.aptitude = { ...this.aptitude, ...data.aptitude };
             if (typeof data.rank === "number") this.rank = data.rank;
-            if (typeof data.subStage === "number") this.subStage = Math.min(3, Math.max(0, data.subStage));
+            if (typeof data.subStage === "number") { const maxSub = (this.isImmortal && this.rank === 8) ? 4 : 3; this.subStage = Math.min(maxSub, Math.max(0, data.subStage)); }
             if (typeof data.currentEssence === "number") this.currentEssence = data.currentEssence;
             if (typeof data.wallProgress === "number") this.wallProgress = data.wallProgress;
 
@@ -1747,6 +2152,11 @@
             if (typeof data.wallPressure === "number") this.wallPressure = data.wallPressure;
             if (typeof data.wallIntegrity === "number") this.wallIntegrity = data.wallIntegrity;
             this.hasExploded = Boolean(data.hasExploded);
+            this.tenExtremeSealed = Boolean(data.tenExtremeSealed);
+            this.pressureFreezeTimer = typeof data.pressureFreezeTimer === "number" ? Math.max(0, data.pressureFreezeTimer) : 0;
+            this.daoBlockadeBroken = Boolean(data.daoBlockadeBroken);
+            this.daoLordPath = data.daoLordPath || (this.isImmortal && this.rank >= 9 ? "Trí Đạo" : null);
+            this.naturalDaoMarksRefined = typeof data.naturalDaoMarksRefined === "number" ? data.naturalDaoMarksRefined : (this.isImmortal && this.rank >= 9 ? 50000 : 0);
             if (data.vitalGuId) this.vitalGuId = data.vitalGuId;
             if (data.vitalGuName) this.vitalGuName = data.vitalGuName;
             if (typeof data.humanQi === "number") this.humanQi = data.humanQi;
@@ -1766,6 +2176,8 @@
     }
 
     ApertureSystem.MIN_ASCENSION_HUMAN_QI = MIN_ASCENSION_HUMAN_QI;
+    ApertureSystem.VENERABLE_REQ_DAO_MARKS = VENERABLE_REQ_DAO_MARKS;
+    ApertureSystem.VENERABLE_REQ_MYRIAD_TRIBULATIONS = VENERABLE_REQ_MYRIAD_TRIBULATIONS;
     ApertureSystem.APTITUDE_TIERS = APTITUDE_TIERS;
     ApertureSystem.TEN_EXTREME_PHYSIQUES = TEN_EXTREME_PHYSIQUES;
     ApertureSystem.MORTAL_SUBSTAGES = MORTAL_SUBSTAGES;

@@ -372,12 +372,12 @@
 
             if (this.getGuCooldownRemaining(gu.instanceId) > 0) return false;
 
-            if (!this.aperture.hasEnoughEssence(gu.essenceCost, gu.rank)) {
+            if (!this.aperture.hasEnoughEssence(gu.essenceCost, gu.rank, gu.path)) {
                 this.spawnFloatingText(this.player.x, this.player.y - 24, "Thiếu Chân Nguyên!", "#ff6b6b");
                 return false;
             }
 
-            const consumeRes = this.aperture.consumeEssence(gu.essenceCost, gu.rank);
+            const consumeRes = this.aperture.consumeEssence(gu.essenceCost, gu.rank, gu.path);
             if (!consumeRes.success) return false;
 
             const timeMarks = (this.player.daoMarks && this.player.daoMarks["Thời Gian Đạo"]) || 0;
@@ -657,12 +657,12 @@
             if (this.getKillerMoveCooldownRemaining(move.id) > 0) return false;
 
             const moveRank = move.moveRank || (move.isImmortal ? 6 : 1);
-            if (!this.aperture.hasEnoughEssence(move.essenceCost, moveRank)) {
+            if (!this.aperture.hasEnoughEssence(move.essenceCost, moveRank, move.path)) {
                 this.spawnFloatingText(this.player.x, this.player.y - 24, "Không Đủ Chân Nguyên!", "#ff6b6b");
                 return false;
             }
 
-            this.aperture.consumeEssence(move.essenceCost, moveRank);
+            this.aperture.consumeEssence(move.essenceCost, moveRank, move.path);
             this.killerCooldowns[move.id] = move.cooldown || 5.5;
 
             for (const reqId of move.requiredGuIds) {

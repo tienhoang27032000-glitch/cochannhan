@@ -71,11 +71,11 @@
             rewardStones: 9,
             rewardMerit: 7,
             rewardHumanQi: 3,
-            dropPreview: "Thanh Đồng Khoáng (45%), Cổ Phương Tàn Quyển (12%), Thanh Đồng Xá Lợi Cổ (3%)",
+            dropPreview: "Thanh Đồng Khoáng (45%), Cổ Phương Tàn Quyển (12%), Thanh Đồng Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "bronze_ore", count: 1, chance: 0.45 },
                 { itemId: "remnant_recipe", count: 1, chance: 0.12 },
-                { itemId: "bronze_relic_gu", count: 1, chance: 0.03 }
+                { itemId: "bronze_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Hang đá ngầm nơi Ma Đạo Hoa Tửu Hành Giả từng lưu lại di chỉ Tửu Trùng."
         },
@@ -105,11 +105,11 @@
             rewardStones: 13,
             rewardMerit: 10,
             rewardHumanQi: 4,
-            dropPreview: "Bách Thú Tinh Huyết (45%), Cổ Phương Tàn Quyển (14%), Thanh Đồng Xá Lợi Cổ (4%)",
+            dropPreview: "Bách Thú Tinh Huyết (45%), Cổ Phương Tàn Quyển (14%), Thanh Đồng Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "beast_blood_core", count: 1, chance: 0.45 },
                 { itemId: "remnant_recipe", count: 1, chance: 0.14 },
-                { itemId: "bronze_relic_gu", count: 1, chance: 0.04 }
+                { itemId: "bronze_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Hồ máu bí mật sâu dưới lòng đất sơn trại. Thủ lĩnh Huyết Thi Cổ Sư biết thúc giục Huyết Nguyệt Cổ và Huyết Đạo Sát Chiêu."
         },
@@ -170,11 +170,11 @@
             rewardStones: 24,
             rewardMerit: 18,
             rewardHumanQi: 6,
-            dropPreview: "Bạch Ngọc Cốt Tủy (50%), Cổ Phương Tàn Quyển (14%), Xích Thiết Xá Lợi Cổ (3%)",
+            dropPreview: "Bạch Ngọc Cốt Tủy (50%), Cổ Phương Tàn Quyển (14%), Xích Thiết Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "jade_bone", count: 1, chance: 0.50 },
                 { itemId: "remnant_recipe", count: 1, chance: 0.14 },
-                { itemId: "red_iron_relic_gu", count: 1, chance: 0.03 }
+                { itemId: "red_iron_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Ngọn núi toàn xương trắng dựng đứng nơi Hôi Cốt Tài Tuấn để lại truyền thừa Lao Toàn Cốt Thương Cổ và Bạch Ngọc Cổ."
         },
@@ -200,11 +200,11 @@
             rewardStones: 30,
             rewardMerit: 22,
             rewardHumanQi: 7,
-            dropPreview: "Xích Thiết Tinh Khoáng (50%), Bách Niên Khổ Sâm (28%), Xích Thiết Xá Lợi Cổ (4%)",
+            dropPreview: "Xích Thiết Tinh Khoáng (50%), Bách Niên Khổ Sâm (28%), Xích Thiết Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "red_iron_ore", count: 1, chance: 0.50 },
                 { itemId: "hundred_year_ginseng", count: 1, chance: 0.28 },
-                { itemId: "red_iron_relic_gu", count: 1, chance: 0.04 }
+                { itemId: "red_iron_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Đầm lầy chướng khí trên đường hành trình từ Bạch Cốt Sơn tiến về Thương Gia Thành."
         },
@@ -236,11 +236,11 @@
             rewardStones: 42,
             rewardMerit: 30,
             rewardHumanQi: 8,
-            dropPreview: "Bách Niên Khổ Sâm (42%), Cổ Phương Tàn Quyển (15%), Bạch Ngân Xá Lợi Cổ (3%)",
+            dropPreview: "Bách Niên Khổ Sâm (42%), Cổ Phương Tàn Quyển (15%), Bạch Ngân Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "hundred_year_ginseng", count: 1, chance: 0.42 },
                 { itemId: "remnant_recipe", count: 1, chance: 0.15 },
-                { itemId: "white_silver_relic_gu", count: 1, chance: 0.03 }
+                { itemId: "white_silver_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Đấu Vũ Trường nội thành Thương Gia! Các đối thủ đều là Cổ Sư Tam Chuyển tinh thông phối hợp Cổ Trùng và Sát Chiêu."
         },
@@ -270,11 +270,11 @@
             rewardStones: 52,
             rewardMerit: 38,
             rewardHumanQi: 9,
-            dropPreview: "Bách Thú Tinh Huyết (50%), Đãng Hồn Thạch Đan (25%), Bạch Ngân Xá Lợi Cổ (4%)",
+            dropPreview: "Bách Thú Tinh Huyết (50%), Đãng Hồn Thạch Đan (25%), Bạch Ngân Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "beast_blood_core", count: 1, chance: 0.50 },
                 { itemId: "soul_crystal", count: 1, chance: 0.25 },
-                { itemId: "white_silver_relic_gu", count: 1, chance: 0.04 }
+                { itemId: "white_silver_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Ba ngọn núi hiểm trở nơi Chính Ma lưỡng đạo tụ tập chờ đợi Tam Vương Truyền Thừa mở cửa."
         },
@@ -300,10 +300,10 @@
             rewardStones: 62,
             rewardMerit: 45,
             rewardHumanQi: 10,
-            dropPreview: "Đãng Hồn Thạch Đan (30%), Bạch Ngân Xá Lợi Cổ (5%)",
+            dropPreview: "Đãng Hồn Thạch Đan (30%), Bạch Ngân Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "soul_crystal", count: 1, chance: 0.30 },
-                { itemId: "white_silver_relic_gu", count: 1, chance: 0.05 }
+                { itemId: "white_silver_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Rừng nguyên sinh rậm rạp của Nam Cương, nơi hàng chục bầy thú cùng Thiên Thú Vương hoành hành khắp bản đồ."
         },
@@ -335,11 +335,11 @@
             rewardStones: 85,
             rewardMerit: 60,
             rewardHumanQi: 12,
-            dropPreview: "Đãng Hồn Thạch Đan (42%), Cổ Phương Tàn Quyển (18%), Hoàng Kim Xá Lợi Cổ (3%)",
+            dropPreview: "Đãng Hồn Thạch Đan (42%), Cổ Phương Tàn Quyển (18%), Hoàng Kim Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "soul_crystal", count: 1, chance: 0.42 },
                 { itemId: "remnant_recipe", count: 1, chance: 0.18 },
-                { itemId: "yellow_gold_relic_gu", count: 1, chance: 0.03 }
+                { itemId: "yellow_gold_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Đỉnh Tam Vương Sơn nơi Phương Nguyên đại chiến quần hùng Tứ Chuyển và đoạt lấy Định Tiên Du ngay trước mắt Thiết Mộ Bạch!"
         },
@@ -369,10 +369,10 @@
             rewardStones: 105,
             rewardMerit: 72,
             rewardHumanQi: 14,
-            dropPreview: "Xích Thiết Tinh Khoáng (55%), Hoàng Kim Xá Lợi Cổ (4%)",
+            dropPreview: "Xích Thiết Tinh Khoáng (55%), Hoàng Kim Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "red_iron_ore", count: 2, chance: 0.55 },
-                { itemId: "yellow_gold_relic_gu", count: 1, chance: 0.04 }
+                { itemId: "yellow_gold_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Sa mạc rực lửa của Tây Mạc nơi các tộc trưởng Tứ Chuyển tranh giành ốc đảo linh tuyền."
         },
@@ -402,11 +402,11 @@
             rewardStones: 130,
             rewardMerit: 88,
             rewardHumanQi: 16,
-            dropPreview: "Đãng Hồn Thạch Đan (48%), Cổ Phương Tàn Quyển (20%), Hoàng Kim Xá Lợi Cổ (5%)",
+            dropPreview: "Đãng Hồn Thạch Đan (48%), Cổ Phương Tàn Quyển (20%), Hoàng Kim Xá Lợi Cổ (1%)",
             drops: [
                 { itemId: "soul_crystal", count: 1, chance: 0.48 },
                 { itemId: "remnant_recipe", count: 1, chance: 0.20 },
-                { itemId: "yellow_gold_relic_gu", count: 1, chance: 0.05 }
+                { itemId: "yellow_gold_relic_gu", count: 1, chance: 0.01 }
             ],
             description: "Chân núi Thiên Thê Sơn tại Trung Châu, nơi tinh anh Thập Đại Cổ Phái tề tựu tranh đoạt tư cách leo núi truyền thừa."
         },
@@ -438,9 +438,9 @@
             rewardStones: 175,
             rewardMerit: 115,
             rewardHumanQi: 20,
-            dropPreview: "Tử Tinh Xá Lợi Cổ (3%), Đãng Hồn Thạch Đan (50%)",
+            dropPreview: "Tử Tinh Xá Lợi Cổ (1%), Đãng Hồn Thạch Đan (50%)",
             drops: [
-                { itemId: "purple_crystal_relic_gu", count: 1, chance: 0.03 },
+                { itemId: "purple_crystal_relic_gu", count: 1, chance: 0.01 },
                 { itemId: "soul_crystal", count: 1, chance: 0.50 }
             ],
             description: "Thảo nguyên Bắc Nguyên rộng lớn, nơi Lang Vương Thường Sơn Âm thống lĩnh vạn lang đối đầu đại quân Lưu Gia."
@@ -471,9 +471,9 @@
             rewardStones: 225,
             rewardMerit: 145,
             rewardHumanQi: 24,
-            dropPreview: "Tử Tinh Xá Lợi Cổ (4%), Tiên Nguyên Thạch (12%), Đãng Hồn Thạch Đan (55%)",
+            dropPreview: "Tử Tinh Xá Lợi Cổ (1%), Tiên Nguyên Thạch (12%), Đãng Hồn Thạch Đan (55%)",
             drops: [
-                { itemId: "purple_crystal_relic_gu", count: 1, chance: 0.04 },
+                { itemId: "purple_crystal_relic_gu", count: 1, chance: 0.01 },
                 { itemId: "immortal_stone", count: 1, chance: 0.12 },
                 { itemId: "soul_crystal", count: 1, chance: 0.55 }
             ],
@@ -505,9 +505,9 @@
             rewardStones: 290,
             rewardMerit: 185,
             rewardHumanQi: 30,
-            dropPreview: "Tử Tinh Xá Lợi Cổ (6%), Tiên Nguyên Thạch (25%), Đãng Hồn Thạch Đan (65%)",
+            dropPreview: "Tử Tinh Xá Lợi Cổ (1%), Tiên Nguyên Thạch (25%), Đãng Hồn Thạch Đan (65%)",
             drops: [
-                { itemId: "purple_crystal_relic_gu", count: 1, chance: 0.06 },
+                { itemId: "purple_crystal_relic_gu", count: 1, chance: 0.01 },
                 { itemId: "immortal_stone", count: 1, chance: 0.25 },
                 { itemId: "soul_crystal", count: 1, chance: 0.65 }
             ],
@@ -899,7 +899,7 @@
             description: "[Cửu Chuyển Tôn Giả Chiến] Giữa Vô Cực Hỗn Độn Đại Trận tại Tầng Chín Phong Ma Quật, Tinh Tú Tiên Tôn và Cự Dương Tiên Tôn liên thủ vây sát ngươi bằng 12 Tiên Cổ Cửu Chuyển, 10 Sát Chiêu Cửu Chuyển, Khóa Sát Thương Vạn Pháp Bất Xâm và Niết Bàn Trọng Sinh!"
         },
 
-        // ==================== 6 MÀN CHƠI ĐẶC BIỆT KIẾM TÀI NGUYÊN (FARM TỰ DO — KHÔNG CÓ BOSS) ====================
+        // ==================== 6 MÀN CHƠI ĐẶC BIỆT KIẾM TÀI NGUYÊN (FARM TỰ DO — ĐÃ CÂN BẰNG TÀI NGUYÊN) ====================
         {
             id: "special_spirit_spring",
             order: 101,
@@ -922,16 +922,16 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 3,
-            mobHumanQiReward: 1,
+            mobMeritReward: 1,
+            mobHumanQiReward: 0,
             mobDrops: [
-                { itemId: "primeval_stone", chance: 1.0, min: 7, max: 14 },
-                { itemId: "bronze_ore", chance: 0.55, min: 1, max: 2 },
-                { itemId: "spirit_herb", chance: 0.45, min: 1, max: 2 },
-                { itemId: "ration_meat", chance: 0.50, min: 1, max: 2 }
+                { itemId: "primeval_stone", chance: 0.65, min: 2, max: 5 },
+                { itemId: "bronze_ore", chance: 0.25, min: 1, max: 1 },
+                { itemId: "spirit_herb", chance: 0.22, min: 1, max: 1 },
+                { itemId: "ration_meat", chance: 0.25, min: 1, max: 1 }
             ],
-            dropPreview: "Quái rơi 7–14💎 Nguyên Thạch (Tinh Anh x2), Thanh Đồng Khoáng, Thanh Linh Thảo + 30 Mạch Nguyên Tuyền khai thác hồi nhanh 12s",
-            description: "[Farm Tự Do — Không Có Boss] Vào săn Thạch Linh Thủ Mỏ tái sinh liên tục và khai thác 30 Mạch Nguyên Thạch / Khoáng Thạch rồi rút lui bất cứ lúc nào!"
+            dropPreview: "Quái rơi 2–5💎 Nguyên Thạch, Thanh Đồng Khoáng (25%), Thanh Linh Thảo (22%) + 18 Mạch Nguyên Tuyền (2 lượt / hồi 35s)",
+            description: "[Farm Tự Do — Không Có Boss] Mỏ Nguyên Tuyền khai thác ổn định, không có Boss — thích hợp cày dần Nguyên Thạch & khoáng thạch nuôi Cổ."
         },
         {
             id: "special_herb_valley",
@@ -955,25 +955,25 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 4,
-            mobHumanQiReward: 1,
+            mobMeritReward: 1,
+            mobHumanQiReward: 0,
             mobDrops: [
-                { itemId: "primeval_stone", chance: 0.90, min: 10, max: 18 },
-                { itemId: "moon_orchid", chance: 0.55, min: 1, max: 2 },
-                { itemId: "wind_essence_crystal", chance: 0.48, min: 1, max: 2 },
-                { itemId: "red_iron_ore", chance: 0.48, min: 1, max: 2 },
-                { itemId: "beast_blood_core", chance: 0.48, min: 1, max: 2 },
-                { itemId: "jade_bone", chance: 0.35, min: 1, max: 2 }
+                { itemId: "primeval_stone", chance: 0.55, min: 3, max: 7 },
+                { itemId: "moon_orchid", chance: 0.26, min: 1, max: 1 },
+                { itemId: "wind_essence_crystal", chance: 0.22, min: 1, max: 1 },
+                { itemId: "red_iron_ore", chance: 0.22, min: 1, max: 1 },
+                { itemId: "beast_blood_core", chance: 0.22, min: 1, max: 1 },
+                { itemId: "jade_bone", chance: 0.16, min: 1, max: 1 }
             ],
-            dropPreview: "Nguyệt Lan Hoa, Phong Tuyền Tinh Thạch, Xích Thiết Tinh Khoáng, Bách Thú Tinh Huyết, Bạch Ngọc Cốt Tủy + 30 Bụi Cổ Tài hồi nhanh",
-            description: "[Farm Tự Do — Không Có Boss] Vườn cổ tài dồi dào bậc nhất Ngũ Vực — thoải mái thu hái và săn Linh Thú kiếm thức ăn nuôi & hợp luyện mọi Cổ Trùng!"
+            dropPreview: "Nguyệt Lan Hoa, Phong Tuyền Tinh Thạch, Xích Thiết Tinh Khoáng, Bách Thú Tinh Huyết, Bạch Ngọc Cốt Tủy + 18 Bụi Cổ Tài",
+            description: "[Farm Tự Do — Không Có Boss] Vườn dược thảo cổ tài giúp thu hái thức ăn nuôi Cổ Trùng và phụ liệu hợp luyện."
         },
         {
             id: "special_relic_tomb",
             order: 103,
             isSpecialResourceStage: true,
             noBoss: true,
-            resourceFocus: "⚪ Xá Lợi Cổ & Tàn Phương",
+            resourceFocus: "⚪ Tàn Phương & Cơ Duyên Xá Lợi (1%)",
             name: "⭐ Bí Cảnh: Cổ Mộ Xá Lợi — Tàn Phương Bí Điện",
             icon: "🏛️",
             regionName: "Bí Cảnh Tài Nguyên (3 Chuyển+)",
@@ -990,17 +990,17 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 8,
-            mobHumanQiReward: 2,
+            mobMeritReward: 2,
+            mobHumanQiReward: 1,
             mobDrops: [
-                { itemId: "primeval_stone", chance: 0.95, min: 18, max: 32 },
-                { itemId: "remnant_recipe", chance: 0.32, min: 1, max: 1 },
-                { itemId: "red_iron_relic_gu", chance: 0.14, min: 1, max: 1 },
-                { itemId: "white_silver_relic_gu", chance: 0.10, min: 1, max: 1 },
-                { itemId: "yellow_gold_relic_gu", chance: 0.05, min: 1, max: 1 }
+                { itemId: "primeval_stone", chance: 0.60, min: 5, max: 11 },
+                { itemId: "remnant_recipe", chance: 0.10, min: 1, max: 1 },
+                { itemId: "red_iron_relic_gu", chance: 0.01, min: 1, max: 1 },
+                { itemId: "white_silver_relic_gu", chance: 0.01, min: 1, max: 1 },
+                { itemId: "yellow_gold_relic_gu", chance: 0.01, min: 1, max: 1 }
             ],
-            dropPreview: "Cổ Mộ Xá Lợi Cổ (⚱️) & Bia Đá Tàn Phương (📜) rải khắp bản đồ + Quái rơi Xá Lợi Cổ, Tàn Phương & Điểm Cống Hiến",
-            description: "[Farm Tự Do — Không Có Boss] Cổ mộ chất đầy Xá Lợi Cổ & Tàn Phương — nguồn tiếp tế sinh tử giúp Thập Tuyệt Thể bứt tốc đột phá!"
+            dropPreview: "Cổ Mộ Xá Lợi (1% ra Xá Lợi Cổ) & Bia Đá Tàn Phương + Quái rơi Nguyên Thạch, Tàn Phương (10%), Xá Lợi Cổ (1%)",
+            description: "[Farm Tự Do — Không Có Boss] Cổ mộ lưu giữ tàn phương cổ xưa và cơ duyên cực hiếm (1%) tìm thấy Xá Lợi Cổ."
         },
         {
             id: "special_dang_hun",
@@ -1024,16 +1024,16 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 12,
-            mobHumanQiReward: 4,
+            mobMeritReward: 3,
+            mobHumanQiReward: 1,
             mobDrops: [
-                { itemId: "primeval_stone", chance: 0.95, min: 28, max: 48 },
-                { itemId: "soul_crystal", chance: 0.65, min: 1, max: 2 },
-                { itemId: "hundred_year_ginseng", chance: 0.50, min: 1, max: 2 },
-                { itemId: "purple_crystal_relic_gu", chance: 0.06, min: 1, max: 1 }
+                { itemId: "primeval_stone", chance: 0.60, min: 8, max: 16 },
+                { itemId: "soul_crystal", chance: 0.28, min: 1, max: 1 },
+                { itemId: "hundred_year_ginseng", chance: 0.22, min: 1, max: 1 },
+                { itemId: "purple_crystal_relic_gu", chance: 0.01, min: 1, max: 1 }
             ],
-            dropPreview: "Mỏ Đãng Hồn Tinh Thạch (🔮), Nhân Khí Linh Liên (☯️ +6~12 Nhân Khí) + Quái rơi Đãng Hồn Thạch, Khổ Sâm, Tử Tinh Xá Lợi Cổ",
-            description: "[Farm Tự Do — Không Có Boss] Thánh địa Hồn Đạo để thu gom Đãng Hồn Thạch Đan và tích lũy nhanh Nhân Khí thăm dò Mộng Cảnh & Thăng Tiên!"
+            dropPreview: "Mỏ Đãng Hồn Tinh Thạch (1–2🔮), Nhân Khí Linh Liên (+2~4 Nhân Khí) + Quái rơi Đãng Hồn Thạch (28%), Tử Tinh Xá Lợi Cổ (1%)",
+            description: "[Farm Tự Do — Không Có Boss] Thánh địa Hồn Đạo để thu thập Đãng Hồn Thạch Đan và tích lũy dần Nhân Khí."
         },
         {
             id: "special_immortal_vein",
@@ -1057,15 +1057,15 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 25,
-            mobHumanQiReward: 5,
+            mobMeritReward: 6,
+            mobHumanQiReward: 1,
             mobDrops: [
-                { itemId: "immortal_stone", chance: 0.85, min: 2, max: 5 },
-                { itemId: "primeval_stone", chance: 1.0, min: 120, max: 220 },
-                { itemId: "soul_crystal", chance: 0.60, min: 1, max: 3 }
+                { itemId: "immortal_stone", chance: 0.35, min: 1, max: 2 },
+                { itemId: "primeval_stone", chance: 0.65, min: 30, max: 65 },
+                { itemId: "soul_crystal", chance: 0.28, min: 1, max: 1 }
             ],
-            dropPreview: "Mạch Tiên Thạch Lộ Thiên (🌟 +3~7/lần) + Quái rơi 2–5🌟 Tiên Thạch (Tinh Anh 5–12🌟) & Đãng Hồn Thạch",
-            description: "[Farm Tự Do — Không Có Boss] Linh mạch Tiên Nguyên Thạch dồi dào dành cho Cổ Tiên Lục Chuyển+ vào đào mỏ và săn Hoang Thú gom Tiên Thạch!"
+            dropPreview: "Mạch Tiên Thạch Lộ Thiên (+1~2🌟/lần) + Quái rơi 1–2🌟 Tiên Thạch (35%) & Đãng Hồn Thạch (28%)",
+            description: "[Farm Tự Do — Không Có Boss] Linh mạch Tiên Nguyên Thạch cho Cổ Tiên Lục Chuyển+ vào đào mỏ và săn Hoang Thú."
         },
         {
             id: "special_chaos_vault",
@@ -1089,15 +1089,15 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 60,
-            mobHumanQiReward: 10,
+            mobMeritReward: 14,
+            mobHumanQiReward: 2,
             mobDrops: [
-                { itemId: "immortal_stone", chance: 0.95, min: 10, max: 22 },
-                { itemId: "primeval_stone", chance: 1.0, min: 350, max: 600 },
-                { itemId: "soul_crystal", chance: 0.75, min: 2, max: 4 }
+                { itemId: "immortal_stone", chance: 0.50, min: 2, max: 4 },
+                { itemId: "primeval_stone", chance: 0.70, min: 80, max: 160 },
+                { itemId: "soul_crystal", chance: 0.35, min: 1, max: 2 }
             ],
-            dropPreview: "Thánh Mạch Tiên Thạch (👑 +14~28🌟/lần) + Quái rơi 10–22🌟 Tiên Thạch (Tinh Anh 22–45🌟) & Nhân Khí Linh Liên",
-            description: "[Farm Tự Do — Không Có Boss] Kho báu Tiên Nguyên Thạch khổng lồ cho Bát - Cửu Chuyển Cổ Tiên farm tự do chuẩn bị mua Tiên Cổ trên Bảo Hoàng Thiên!"
+            dropPreview: "Thánh Mạch Tiên Thạch (+3~7🌟/lần) + Quái rơi 2–4🌟 Tiên Thạch (50%) & Nhân Khí Linh Liên",
+            description: "[Farm Tự Do — Không Có Boss] Kho báu Tiên Nguyên Thạch dành cho Bát Chuyển / Á Tiên Tôn kiên trì tích lũy tài lực."
         }
     ];
 
@@ -1271,8 +1271,14 @@
                 `🎉 Khai Khiếu hoàn tất! Đạo hiệu: ${this.player.name} [${this.player.getRegionName()} - ${this.player.getFactionOriginName()}], Tư chất: ${this.aperture.aptitude.gradeName} (${this.aperture.aptitude.maxSeaPercent}% Biển Nguyên).`,
                 "cultivation"
             );
+            if (this.aperture.aptitude && this.aperture.aptitude.physique) {
+                this.ui.addLog(
+                    "☯️ [THẬP TUYỆT THỂ CỨU MỆNH] Áp lực Không Khiếu tăng +1%/45s và chỉ reset khi tăng Đại Cảnh Giới. Ngươi được tặng sẵn 1x 🪨 Thạch Khiếu Cổ (-50% áp lực) và có thể mua ☯️ Âm Dương Chuyển Thân Cổ (Phòng Đấu Giá / Gia Tộc Khố Phòng) để phong ấn xuống 90% Giáp Đẳng sống an toàn chuẩn nguyên tác!",
+                    "warning"
+                );
+            }
             this.ui.addLog(
-                "💡 Lưu ý tu luyện: Mọi Cổ Trùng hiện đều có thể Thăng Chuyển trực tiếp (1 -> 9 Chuyển). Ở Ải 25 (Phong Ma Quật Cửu Chuyển), bạn sẽ phải độc chiến cùng lúc 2 vị Tôn Giả Cửu Chuyển bất tử!",
+                "💡 Lưu ý tu luyện: Hoàn thành mỗi Bản Đồ chính thưởng 0–2 Cổ Trùng ngẫu nhiên đúng bậc Chuyển (Xá Lợi Cổ rơi 1%). Để lên Cửu Chuyển Tôn Giả, cần lên Á Tiên Tôn rồi đạt đủ 30 Vạn Đạo Ngân + Đột Phá Phong Tỏa Thiên Đạo + Độ 3 Vạn Kiếp!",
                 "system"
             );
 
@@ -1372,9 +1378,9 @@
             this._handleResize();
             this.ui.showScreen("battle");
             if (st.isSpecialResourceStage || st.noBoss) {
-                this.reinforcementTimer = 6;
+                this.reinforcementTimer = 14;
                 this.ui.addLog(
-                    `🌾 Đã tiến vào Bí Cảnh Tài Nguyên 【${st.name}】! Không có Boss — hãy tự do farm Quái, Tinh Anh và 30 Mỏ Cổ Tài tái sinh nhanh, sau đó bấm 'Rút Lui Về Đại Bản Doanh' bất cứ lúc nào để mang toàn bộ tài nguyên về!`,
+                    `🌾 Đã tiến vào Bí Cảnh Tài Nguyên 【${st.name}】! Không có Boss — hãy tự do farm Quái, Tinh Anh và 18 Mỏ Cổ Tài, sau đó bấm 'Rút Lui Về Đại Bản Doanh' bất cứ lúc nào!`,
                     "loot"
                 );
             } else {
@@ -1410,7 +1416,7 @@
             });
 
             // 1. Sinh Quái thường phân bố ngẫu nhiên khắp vùng chiến trường mở rộng
-            const totalNormalMobs = stage.isSpecialResourceStage ? 16 : (stage.targetKills + 8);
+            const totalNormalMobs = stage.isSpecialResourceStage ? 10 : (stage.targetKills + 8);
             for (let i = 0; i < totalNormalMobs; i++) {
                 const pt = this.map
                     ? this.map.getRandomWalkablePoint(stage.arenaCenterX, stage.arenaCenterY, 220, 1250)
@@ -1420,7 +1426,7 @@
             }
 
             // 2. Sinh Quái Tinh Anh (Elite)
-            const eliteCount = stage.isSpecialResourceStage ? 5 : 4;
+            const eliteCount = stage.isSpecialResourceStage ? 2 : 4;
             for (let e = 0; e < eliteCount; e++) {
                 const pt = this.map
                     ? this.map.getRandomWalkablePoint(stage.arenaCenterX, stage.arenaCenterY, 350, 1180)
@@ -1575,12 +1581,15 @@
                     ? customBossConfig.projectileColor
                     : (isStageBoss ? "#ff4d4d" : (isElite ? "#c278ff" : "#e0be77")),
                 drops: (stage.isSpecialResourceStage && Array.isArray(stage.mobDrops))
-                    ? stage.mobDrops.map(d => ({
-                        itemId: d.itemId,
-                        chance: Math.min(1.0, isElite ? d.chance * 1.75 : d.chance),
-                        min: isElite ? Math.max(1, Math.round((d.min || 1) * 2)) : (d.min || 1),
-                        max: isElite ? Math.max(1, Math.round((d.max || 1) * 2.2)) : (d.max || 1)
-                    }))
+                    ? stage.mobDrops.map(d => {
+                        const isRelic = String(d.itemId || "").endsWith("_relic_gu");
+                        return {
+                            itemId: d.itemId,
+                            chance: isRelic ? 0.01 : Math.min(0.95, isElite ? d.chance * 1.35 : d.chance),
+                            min: isRelic ? 1 : (isElite ? Math.max(1, Math.round((d.min || 1) * 1.5)) : (d.min || 1)),
+                            max: isRelic ? 1 : (isElite ? Math.max(1, Math.round((d.max || 1) * 1.6)) : (d.max || 1))
+                        };
+                    })
                     : [
                         {
                             itemId: "primeval_stone",
@@ -1768,11 +1777,56 @@
             const obtainedItems = [];
             if (Array.isArray(st.drops)) {
                 for (const d of st.drops) {
-                    const effectiveChance = (isFirstClear || st.isSpecialResourceStage) ? d.chance : d.chance * 0.35;
+                    const isRelic = String(d.itemId || "").endsWith("_relic_gu");
+                    // Tỷ lệ nhận được Xá Lợi Cổ luôn chuẩn xác 1% (0.01)
+                    const effectiveChance = isRelic
+                        ? 0.01
+                        : ((isFirstClear || st.isSpecialResourceStage) ? d.chance : d.chance * 0.35);
                     if (Math.random() <= effectiveChance) {
                         this.player.addItem(d.itemId, d.count || 1);
                         const meta = global.PlayerManager.ITEM_DATABASE[d.itemId] || { name: d.itemId, icon: "📦" };
                         obtainedItems.push(`${d.count || 1}x ${meta.icon} ${meta.name}`);
+                    }
+                }
+            }
+
+            // Thưởng 0–2 Cổ Trùng ngẫu nhiên theo đúng số Chuyển của Bản Đồ (tuân thủ luật Tiên Cổ là duy nhất!)
+            const stageRank = st.reqRank || 1;
+            const guDropCount = Math.floor(Math.random() * 3); // 0, 1 hoặc 2 con
+            const obtainedGus = [];
+            if (guDropCount > 0 && global.GuSystem && global.GuSystem.GU_DATABASE) {
+                let candidates = Object.values(global.GuSystem.GU_DATABASE).filter(
+                    tpl => tpl.minRank <= stageRank && tpl.maxRank >= stageRank
+                );
+                if (stageRank >= 6) {
+                    candidates = candidates.filter(tpl => !this.guSystem.hasImmortalGu(tpl.id));
+                }
+
+                for (let g = 0; g < guDropCount; g++) {
+                    if (candidates.length === 0) {
+                        if (stageRank >= 6) {
+                            const compStones = 2 * (stageRank - 5);
+                            this.player.addItem("immortal_stone", compStones);
+                            obtainedGus.push(`🌟 +${compStones} Tiên Thạch (đã đủ Tiên Cổ ${stageRank} Chuyển)`);
+                        }
+                        break;
+                    }
+                    const pickIdx = Math.floor(Math.random() * candidates.length);
+                    const pickedTpl = candidates[pickIdx];
+                    const added = this.guSystem.addGuToStorage(pickedTpl.id, {
+                        rank: stageRank,
+                        isRefined: true,
+                        refinementProgress: 100,
+                        isVital: false
+                    });
+                    if (added) {
+                        const fullGuLabel = global.GuSystem.formatGuNameWithRank
+                            ? global.GuSystem.formatGuNameWithRank(added)
+                            : `${added.name} ${stageRank} Chuyển`;
+                        obtainedGus.push(`${added.icon} ${fullGuLabel}`);
+                        if (stageRank >= 6) {
+                            candidates.splice(pickIdx, 1);
+                        }
                     }
                 }
             }
@@ -1785,18 +1839,23 @@
                     ? `<span style="color:#ffd700">[Thưởng Vượt Ải Lần Đầu 100%]</span>`
                     : `<span class="sub-text">[Thưởng Cày Lại Lần ${prevClears + 1} (${Math.round(repeatFactor * 100)}%)]</span>`);
 
+            const guRewardText = obtainedGus.length > 0
+                ? obtainedGus.join(", ")
+                : `0 con (Chưa gặp duyên Cổ Trùng ${stageRank} Chuyển lần này)`;
+
             const summaryHtml = `
                 <p>Chúc mừng đạo hữu đã đánh bại <strong>${st.bossName}</strong> tại <strong>${st.name}</strong>! ${clearTypeLabel}</p>
                 <div class="info-list mt-10">
                     <div class="info-row"><span>💎 Nguyên Thạch thu được:</span> <strong class="highlight-gold">+${actualStones}</strong></div>
                     <div class="info-row"><span>🏅 Điểm Cống Hiến Thế Lực:</span> <strong class="highlight-gold">+${actualMerit}</strong></div>
                     <div class="info-row"><span>☯ Nhân Khí tích lũy:</span> <strong class="highlight-gold">+${actualHumanQi}</strong></div>
-                    <div class="info-row"><span>🎁 Chiến lợi phẩm rơi ra:</span> <strong style="color:#5cc995">${obtainedItems.length ? obtainedItems.join(", ") : "Không rơi thêm bảo vật hiếm"}</strong></div>
+                    <div class="info-row"><span>🪲 Cổ Trùng ngẫu nhiên (${stageRank} Chuyển, 0–2 con):</span> <strong style="color:#ffd700">${guRewardText}</strong></div>
+                    <div class="info-row"><span>🎁 Vật phẩm rơi ra (Xá Lợi Cổ 1%):</span> <strong style="color:#5cc995">${obtainedItems.length ? obtainedItems.join(", ") : "Không rơi thêm bảo vật hiếm"}</strong></div>
                 </div>
             `;
 
             this.ui.addLog(
-                `🏆 Vượt ải 【${st.name}】 (${isFirstClear ? "Lần đầu" : "Cày lại"}): +${actualStones} Nguyên Thạch, +${actualMerit} Cống Hiến, +${actualHumanQi} Nhân Khí.`,
+                `🏆 Vượt ải 【${st.name}】 (${isFirstClear ? "Lần đầu" : "Cày lại"}): +${actualStones} Nguyên Thạch, +${actualMerit} Cống Hiến, +${actualHumanQi} Nhân Khí | Cổ Trùng (${guDropCount}/2): ${guRewardText}.`,
                 "loot"
             );
 
@@ -2123,10 +2182,10 @@
                 const isSpecialFarm = Boolean(this.activeStage.isSpecialResourceStage || this.activeStage.noBoss);
                 this.reinforcementTimer -= dt;
                 if (this.reinforcementTimer <= 0) {
-                    this.reinforcementTimer = isSpecialFarm ? 6 : 14;
+                    this.reinforcementTimer = 14;
                     const livingMobs = (this.enemies.beasts || []).filter(b => !b.isDead && !b.isStageBoss).length;
-                    const minMobs = isSpecialFarm ? 14 : 10;
-                    const spawnBatch = isSpecialFarm ? 4 : 3;
+                    const minMobs = isSpecialFarm ? 8 : 10;
+                    const spawnBatch = isSpecialFarm ? 2 : 3;
                     if (livingMobs < minMobs) {
                         for (let i = 0; i < spawnBatch; i++) {
                             const pt = this.map.getRandomWalkablePoint(

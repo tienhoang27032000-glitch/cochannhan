@@ -38,10 +38,13 @@
         { type: "gu", id: "hac_thach_gu", guRank: 2, name: "Hắc Thạch Cổ Nhị Chuyển", icon: "☄️", price: 135, currency: "stones", desc: "Phàm cổ Thổ Đạo (1–5 Chuyển) giáng cự thạch đập nát đội hình địch." },
         { type: "gu", id: "xoay_nuoc_gu", guRank: 2, name: "Xoáy Nước Cổ Nhị Chuyển", icon: "🌀", price: 140, currency: "stones", desc: "Phàm cổ Thủy Đạo (1–5 Chuyển) tạo xoáy nước cuốn hút và làm chậm quần địch." },
         { type: "gu", id: "loi_khieu_gu", guRank: 2, name: "Lôi Khiếu Cổ Nhị Chuyển", icon: "🌩️", price: 145, currency: "stones", desc: "Phàm cổ Âm Đạo (1–5 Chuyển) phát tiếng gầm sấm sét làm tê liệt xung quanh." },
-        { type: "gu", id: "doc_hat_gu", guRank: 2, name: "Độc Hạt Cổ Nhị Chuyển", icon: "🦂", price: 138, currency: "stones", desc: "Phàm cổ Độc Đạo Tây Mạc (1–5 Chuyển) bắn nọc bọ cạp kịch độc." }
+        { type: "gu", id: "doc_hat_gu", guRank: 2, name: "Độc Hạt Cổ Nhị Chuyển", icon: "🦂", price: 138, currency: "stones", desc: "Phàm cổ Độc Đạo Tây Mạc (1–5 Chuyển) bắn nọc bọ cạp kịch độc." },
+        { type: "item", id: "thach_khieu_gu", name: "Thạch Khiếu Cổ (Cứu Thập Tuyệt Thể)", icon: "🪨", price: 95, currency: "stones", desc: "Gia cố Khiếu Bích: Xả ngay -50% áp lực Không Khiếu cho Thập Tuyệt Thể mà vẫn giữ nguyên 100% Biển Nguyên!" },
+        { type: "item", id: "tinh_khieu_dinh_nguyen_gu", name: "Định Nguyên Tịnh Khiếu Cổ (Trụ Đạo)", icon: "⏳", price: 140, currency: "stones", desc: "Xả ngay -25% áp lực và ĐÓNG BĂNG hoàn toàn tốc độ tăng áp lực Thập Tuyệt Thể trong 5 phút (300 giây)!" }
     ];
 
     const AUCTION_HOUSE_ITEMS = [
+        { type: "item", id: "am_duong_chuyen_than_gu", name: "Âm Dương Chuyển Thân Cổ (Tứ Chuyển — Cứu Thập Tuyệt Thể)", icon: "☯️", price: 280, currency: "stones", desc: "[Chuẩn Nguyên Tác Bạch Ngưng Băng] Phong ấn Thập Tuyệt Thể xuống 90% Giáp Đẳng, reset áp lực về 0% & NGỪNG HOÀN TOÀN bạo tạc! Dùng lần 2 để khôi phục 100% Thập Tuyệt Thể trước khi Thăng Tiên." },
         { type: "item", id: "bronze_relic_gu", name: "Thanh Đồng Xá Lợi Cổ", icon: "🟢", price: 260, currency: "stones", desc: "Bảo vật Nhất Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
         { type: "item", id: "red_iron_relic_gu", name: "Xích Thiết Xá Lợi Cổ", icon: "🔴", price: 680, currency: "stones", desc: "Bảo vật Nhị Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
         { type: "item", id: "white_silver_relic_gu", name: "Bạch Ngân Xá Lợi Cổ", icon: "⚪", price: 1850, currency: "stones", desc: "Chí bảo Tam Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
@@ -94,6 +97,8 @@
     ];
 
     const CLAN_TREASURY_ITEMS = [
+        { type: "item", id: "thach_khieu_gu", name: "Thạch Khiếu Cổ (-50% Áp Lực Thập Tuyệt)", icon: "🪨", meritCost: 70, desc: "Hóa thạch gia cố Khiếu Bích, xả ngay -50% áp lực Không Khiếu cho Thập Tuyệt Thể." },
+        { type: "item", id: "am_duong_chuyen_than_gu", name: "Âm Dương Chuyển Thân Cổ (Phong Ấn Thập Tuyệt)", icon: "☯️", meritCost: 180, desc: "Đổi âm dương nhục thân: Hạ Thập Tuyệt Thể xuống 90% Giáp Đẳng để ngừng hoàn toàn nguy cơ tự bạo (dùng lại để hồi 100%)." },
         { type: "item", id: "remnant_recipe", name: "Cổ Phương Tàn Quyển", icon: "📜", meritCost: 75, desc: "Bí tịch lưu trữ trong Gia Tộc Các, dùng giải mã Cổ Phương Hợp Luyện mới." },
         { type: "gu", id: "tuu_trung_gu", guRank: 1, name: "Tửu Trùng Nhất Chuyển", icon: "🍶", meritCost: 110, desc: "Phàm cổ tinh luyện chân nguyên và giảm tiêu hao Sát Chiêu." },
         { type: "item", id: "bronze_relic_gu", name: "Thanh Đồng Xá Lợi Cổ", icon: "🟢", meritCost: 160, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Nhất Chuyển." },
@@ -477,7 +482,22 @@
                 btnDefeatRespawnHub: $("btn-defeat-respawn-hub"),
                 permadeathModal: $("permadeath-modal"),
                 permadeathSummary: $("permadeath-summary"),
-                btnPermadeathNewLife: $("btn-permadeath-new-life")
+                btnPermadeathNewLife: $("btn-permadeath-new-life"),
+
+                // Hộp Cứu Mệnh Thập Tuyệt Thể, Chứng Đạo Thành Tôn & Đạo Chủ
+                tenExtremeSurvivalBox: $("ten-extreme-survival-box"),
+                tenExtremeStatusLine: $("ten-extreme-status-line"),
+                btnUseYinYangGu: $("btn-use-yinyang-gu"),
+                btnUseStoneApGu: $("btn-use-stone-ap-gu"),
+                btnUseFreezeApGu: $("btn-use-freeze-ap-gu"),
+                venerableAscensionBox: $("venerable-ascension-box"),
+                venerableChecklist: $("venerable-checklist"),
+                btnBreakDaoBlockade: $("btn-break-dao-blockade"),
+                btnAscendVenerable: $("btn-ascend-venerable"),
+                daoLordPanelBox: $("dao-lord-panel-box"),
+                daoLordTitle: $("dao-lord-title"),
+                daoLordStats: $("dao-lord-stats"),
+                btnRefineNaturalDao: $("btn-refine-natural-dao")
             };
         }
 
@@ -799,8 +819,16 @@
                 d.hubCultivateText.textContent = `${Math.floor(ap.wallProgress)} / ${ap.maxWallProgress}`;
                 const pVal = Number(ap.wallPressure.toFixed(1));
                 if (ap.aptitude && ap.aptitude.physique) {
-                    d.hubPressureText.textContent = pVal >= 80 ? `🚨 ${pVal.toFixed(1)}% (SẮP BẠO TẠC!)` : `⚠️ ${pVal.toFixed(1)}% (+1%/45s)`;
-                    d.hubPressureText.style.color = pVal >= 80 ? "#ff3b30" : (pVal >= 55 ? "#ff9f43" : "#ffd700");
+                    if (ap.tenExtremeSealed) {
+                        d.hubPressureText.textContent = "☯️ 0% (Đã Phong Ấn Âm Dương 90%)";
+                        d.hubPressureText.style.color = "#5cc995";
+                    } else if ((ap.pressureFreezeTimer || 0) > 0) {
+                        d.hubPressureText.textContent = `⏳ ${pVal.toFixed(1)}% (Đóng băng ${Math.ceil(ap.pressureFreezeTimer)}s)`;
+                        d.hubPressureText.style.color = "#67b7d1";
+                    } else {
+                        d.hubPressureText.textContent = pVal >= 80 ? `🚨 ${pVal.toFixed(1)}% (SẮP BẠO TẠC!)` : `⚠️ ${pVal.toFixed(1)}% (+1%/45s)`;
+                        d.hubPressureText.style.color = pVal >= 80 ? "#ff3b30" : (pVal >= 55 ? "#ff9f43" : "#ffd700");
+                    }
                 } else {
                     d.hubPressureText.textContent = `${pVal}%`;
                     d.hubPressureText.style.color = "";
@@ -815,14 +843,27 @@
                 d.hubEssenceFill.className = `progress-fill ${ap.getEssenceCssClass()}`;
                 d.hubEssenceFill.style.width = `${curEss}%`;
             } else {
-                const passed = ap.immortalAperture.subStageTribulationsPassed || 0;
-                const req = ap.immortalAperture.subStageTribulationsRequired ||
-                    (ap.getManualTribulationRequirements ? ap.getManualTribulationRequirements().tribulationsNeededForNextStage : 2);
-                const tribPct = Math.min(100, (passed / Math.max(1, req)) * 100);
+                const isPseudo = typeof ap.isPseudoVenerable === "function" && ap.isPseudoVenerable();
+                if (isPseudo) {
+                    const mPassed = ap.immortalAperture.myriadTribulationsPassed || 0;
+                    const tribPct = Math.min(100, (mPassed / 3) * 100);
+                    d.hubCultivateFill.style.width = `${tribPct}%`;
+                    d.hubCultivateText.textContent = `Vạn Kiếp: ${mPassed} / 3 | Đạo Ngân: ${Math.floor(pl.daoMarks[pl.mainPath] || 0).toLocaleString("vi-VN")}/300.000`;
+                    d.hubPressureText.textContent = ap.daoBlockadeBroken ? "✅ Đã Phá Phong Tỏa Thiên Đạo" : "🔒 Chưa Phá Phong Tỏa Thiên Đạo";
+                    d.hubPressureText.style.color = ap.daoBlockadeBroken ? "#5cc995" : "#ff9f43";
+                } else {
+                    const passed = ap.immortalAperture.subStageTribulationsPassed || 0;
+                    const req = ap.immortalAperture.subStageTribulationsRequired ||
+                        (ap.getManualTribulationRequirements ? ap.getManualTribulationRequirements().tribulationsNeededForNextStage : 8);
+                    const tribPct = Math.min(100, (passed / Math.max(1, req)) * 100);
 
-                d.hubCultivateFill.style.width = `${tribPct}%`;
-                d.hubCultivateText.textContent = `${passed} / ${req} Tai Kiếp (Tổng: ${ap.immortalAperture.heavenlyTribulationsPassed})`;
-                d.hubPressureText.textContent = `Kiếp tự nhiên: ${Math.ceil(ap.immortalAperture.calamityCountdownDays)} ngày`;
+                    d.hubCultivateFill.style.width = `${tribPct}%`;
+                    d.hubCultivateText.textContent = `${passed} / ${req} Tai Kiếp (Tổng: ${ap.immortalAperture.heavenlyTribulationsPassed})`;
+                    d.hubPressureText.textContent = ap.daoLordPath
+                        ? `👑 Đạo Chủ ${ap.daoLordPath}`
+                        : `Kiếp tự nhiên: ${Math.ceil(ap.immortalAperture.calamityCountdownDays)} ngày`;
+                    d.hubPressureText.style.color = ap.daoLordPath ? "#ffd700" : "";
+                }
 
                 d.hubEssenceTitle.textContent = ap.getEssenceQualityName();
                 d.hubEssenceText.textContent = `${(ap.immortalEssence[ap.rank] || 0).toFixed(1)} viên`;
@@ -983,7 +1024,56 @@
                         this.addLog(res ? res.message : "Chưa đủ điều kiện dẫn động Tai Kiếp!", "warning");
                     } else {
                         this.addLog(res.message, res.didAdvance ? "loot" : "cultivation");
+                        if (this.game) this.game.autoSaveNow("tribulation");
                     }
+                    this.renderApertureTab();
+                    this.updateHubTopbar();
+                });
+            }
+
+            const bindPhysiqueItemBtn = (btnEl, itemId) => {
+                if (!btnEl) return;
+                btnEl.addEventListener("click", () => {
+                    if (!this.player) return;
+                    const res = this.player.useItem(itemId);
+                    this.addLog(res.message, res.success ? "cultivation" : "warning");
+                    if (res.success && this.game) this.game.autoSaveNow("use_physique_gu");
+                    this.renderApertureTab();
+                    this.updateHubTopbar();
+                });
+            };
+            bindPhysiqueItemBtn(d.btnUseYinYangGu, "am_duong_chuyen_than_gu");
+            bindPhysiqueItemBtn(d.btnUseStoneApGu, "thach_khieu_gu");
+            bindPhysiqueItemBtn(d.btnUseFreezeApGu, "tinh_khieu_dinh_nguyen_gu");
+
+            if (d.btnBreakDaoBlockade) {
+                d.btnBreakDaoBlockade.addEventListener("click", () => {
+                    if (!this.aperture || typeof this.aperture.attemptBreakDaoBlockade !== "function") return;
+                    const res = this.aperture.attemptBreakDaoBlockade(this.player, this.game);
+                    this.addLog(res.message, res.success ? "loot" : "warning");
+                    if (res.success && this.game) this.game.autoSaveNow("break_dao_blockade");
+                    this.renderApertureTab();
+                    this.updateHubTopbar();
+                });
+            }
+
+            if (d.btnAscendVenerable) {
+                d.btnAscendVenerable.addEventListener("click", () => {
+                    if (!this.aperture || typeof this.aperture.attemptAscendToVenerable !== "function") return;
+                    const res = this.aperture.attemptAscendToVenerable(this.player, this.game);
+                    this.addLog(res.message, res.success ? "loot" : "warning");
+                    if (res.success && this.game) this.game.autoSaveNow("ascend_venerable");
+                    this.renderApertureTab();
+                    this.updateHubTopbar();
+                });
+            }
+
+            if (d.btnRefineNaturalDao) {
+                d.btnRefineNaturalDao.addEventListener("click", () => {
+                    if (!this.aperture || typeof this.aperture.refineNaturalDaoMarks !== "function") return;
+                    const res = this.aperture.refineNaturalDaoMarks(this.player);
+                    this.addLog(res.message, res.success ? "cultivation" : "warning");
+                    if (res.success && this.game) this.game.autoSaveNow("refine_natural_dao");
                     this.renderApertureTab();
                     this.updateHubTopbar();
                 });
@@ -1192,8 +1282,8 @@
                                 <p class="sub-text" style="margin: 8px 0;">${st.description}</p>
                                 <div class="map-card-meta">
                                     <div><strong>Chế độ:</strong> <span style="color:#7ef7c4">🌾 Farm Tự Do — Không có Boss (Rút lui bất cứ lúc nào)</span></div>
-                                    <div><strong>Quái tái sinh:</strong> ${st.mobName} (+5 Tinh Anh) liên tục xuất hiện</div>
-                                    <div><strong>Tài nguyên bản đồ:</strong> <span style="color:#ffd700">30 Mỏ Cổ Tài & Nguyên Mạch (4 lượt / hồi 12s)</span></div>
+                                    <div><strong>Quái tái sinh:</strong> ${st.mobName} (+2 Tinh Anh) tái sinh mỗi 14s</div>
+                                    <div><strong>Tài nguyên bản đồ:</strong> <span style="color:#ffd700">18 Mỏ Cổ Tài & Nguyên Mạch (2 lượt / hồi 35s)</span></div>
                                 </div>
                             </div>
 
@@ -1238,7 +1328,8 @@
                             <div class="map-card-rewards">
                                 🎁 <strong>Chiến lợi phẩm ${rewardNote}:</strong><br>
                                 💎 +${expectedStones} Nguyên Thạch | 🏅 +${expectedMerit} Cống Hiến | ☯ ${expectedHumanQiText}<br>
-                                📦 Rơi: ${st.dropPreview}${!isFirstClear ? " <em>(Cày lại: 35% tỷ lệ rơi)</em>" : ""}
+                                🪲 Thưởng qua ải: <strong>0–2 Cổ Trùng ngẫu nhiên (${st.reqRank} Chuyển)</strong><br>
+                                📦 Rơi: ${st.dropPreview}${!isFirstClear ? " <em>(Cày lại: 35% tỷ lệ rơi; Xá Lợi Cổ cố định 1%)</em>" : ""}
                             </div>
 
                             <div class="mt-10">
@@ -1317,12 +1408,113 @@
                 } else if (ap.rank === 9 && ap.subStage === 3) {
                     d.btnTriggerTribulation.disabled = true;
                     d.btnTriggerTribulation.textContent = "👑 Đã Đạt Cửu Chuyển Đỉnh Phong";
+                } else if (typeof ap.isPseudoVenerable === "function" && ap.isPseudoVenerable()) {
+                    const req = ap.getManualTribulationRequirements();
+                    const mPassed = ap.immortalAperture.myriadTribulationsPassed || 0;
+                    d.btnTriggerTribulation.disabled = false;
+                    d.btnTriggerTribulation.textContent = `🌩️ Độ Vạn Kiếp [${mPassed}/3] (+55.000 ĐN | -${req.essenceCost} Tiên Nguyên, -${req.humanQiCost} Nhân Khí, -${req.mentalCost} Tinh Thần)`;
                 } else {
                     const req = ap.getManualTribulationRequirements();
                     const passed = ap.immortalAperture.subStageTribulationsPassed || 0;
                     const totalNeed = ap.immortalAperture.subStageTribulationsRequired || req.tribulationsNeededForNextStage;
                     d.btnTriggerTribulation.disabled = false;
-                    d.btnTriggerTribulation.textContent = `⚡ Độ Tai Kiếp [${passed}/${totalNeed}] (-${req.essenceCost} Tiên Nguyên, -${req.humanQiCost} Nhân Khí, -${req.mentalCost} Tinh Thần)`;
+                    d.btnTriggerTribulation.textContent = `⚡ Độ ${req.tribulationName || "Tai Kiếp"} [${passed}/${totalNeed}] (-${req.essenceCost} Tiên Nguyên, -${req.humanQiCost} Nhân Khí, -${req.mentalCost} Tinh Thần)`;
+                }
+            }
+
+            // Hiển thị Hộp Cứu Mệnh Thập Tuyệt Thể ở Phàm Cảnh
+            if (d.tenExtremeSurvivalBox) {
+                const showTenBox = !ap.isImmortal && ap.aptitude && ap.aptitude.physique;
+                d.tenExtremeSurvivalBox.classList.toggle("hidden", !showTenBox);
+                if (showTenBox) {
+                    const cYinYang = pl.getItemCount("am_duong_chuyen_than_gu");
+                    const cStone = pl.getItemCount("thach_khieu_gu");
+                    const cFreeze = pl.getItemCount("tinh_khieu_dinh_nguyen_gu");
+
+                    if (d.tenExtremeStatusLine) {
+                        if (ap.tenExtremeSealed) {
+                            d.tenExtremeStatusLine.innerHTML = `<span style="color:#5cc995">☯️ Đã Phong Ấn Âm Dương (90% Giáp Đẳng) — An toàn tuyệt đối, không tăng áp lực! Dùng thêm 1 Âm Dương Chuyển Thân Cổ khi muốn khôi phục 100% Thập Tuyệt Thể.</span>`;
+                        } else if ((ap.pressureFreezeTimer || 0) > 0) {
+                            d.tenExtremeStatusLine.innerHTML = `<span style="color:#67b7d1">⏳ Đang Đóng Băng Áp Lực (còn ${Math.ceil(ap.pressureFreezeTimer)}s) — Hiện tại: ${ap.wallPressure.toFixed(1)}%.</span>`;
+                        } else {
+                            d.tenExtremeStatusLine.innerHTML = `<span style="color:#ff9f43">⚠️ Đang kích hoạt 100% Thập Tuyệt Thể — Áp lực hiện tại: <strong>${ap.wallPressure.toFixed(1)}%</strong> (+1%/45s, chỉ reset khi lên Đại Cảnh Giới). Mua cổ cứu mệnh tại Thương Đội / Đấu Giá / Khố Phòng!</span>`;
+                        }
+                    }
+                    if (d.btnUseYinYangGu) {
+                        d.btnUseYinYangGu.textContent = ap.tenExtremeSealed
+                            ? `☯️ Dùng Âm Dương Chuyển Thân Cổ (Giải Phong Ấn 100% | Có: ${cYinYang})`
+                            : `☯️ Dùng Âm Dương Chuyển Thân Cổ (Phong Ấn 90% An Toàn | Có: ${cYinYang})`;
+                        d.btnUseYinYangGu.disabled = cYinYang <= 0;
+                    }
+                    if (d.btnUseStoneApGu) {
+                        d.btnUseStoneApGu.textContent = `🪨 Dùng Thạch Khiếu Cổ (-50% Áp Lực | Có: ${cStone})`;
+                        d.btnUseStoneApGu.disabled = cStone <= 0;
+                    }
+                    if (d.btnUseFreezeApGu) {
+                        d.btnUseFreezeApGu.textContent = `⏳ Dùng Định Nguyên Cổ (-25% & Đóng Băng 5 Phút | Có: ${cFreeze})`;
+                        d.btnUseFreezeApGu.disabled = cFreeze <= 0;
+                    }
+                }
+            }
+
+            // Hiển thị Hộp Chứng Đạo Thành Tôn (Á Tiên Tôn -> Cửu Chuyển)
+            if (d.venerableAscensionBox && typeof ap.getVenerableReadiness === "function") {
+                const vCheck = ap.getVenerableReadiness(pl, this.game);
+                d.venerableAscensionBox.classList.toggle("hidden", !vCheck.isPseudoVenerable);
+
+                if (vCheck.isPseudoVenerable && d.venerableChecklist) {
+                    const okIcon = (b) => b ? "✅" : "❌";
+                    d.venerableChecklist.innerHTML = `
+                        <div class="info-list">
+                            <div class="info-row">
+                                <span>${okIcon(vCheck.hasDaoMarks)} 1. Tích lũy 30 Vạn Đạo Ngân (${vCheck.mainPath}):</span>
+                                <strong style="color:${vCheck.hasDaoMarks ? "#5cc995" : "#ffd700"}">${vCheck.mainMarks.toLocaleString("vi-VN")} / 300.000</strong>
+                            </div>
+                            <div class="info-row">
+                                <span>${okIcon(vCheck.hasBlockade)} 2. Đột phá Phong Tỏa Thiên Đạo ${vCheck.fateDestroyed ? "(Đã phá Túc Mệnh Ải 24)" : "(Cần vượt Ải 24 trước)"}:</span>
+                                <strong style="color:${vCheck.hasBlockade ? "#5cc995" : "#ff9f43"}">${vCheck.hasBlockade ? "Đã Đột Phá" : "Chưa Đột Phá"}</strong>
+                            </div>
+                            <div class="info-row">
+                                <span>${okIcon(vCheck.hasMyriad)} 3. Độ qua 3 lần Vạn Kiếp:</span>
+                                <strong style="color:${vCheck.hasMyriad ? "#5cc995" : "#ffd700"}">${vCheck.myriadPassed} / 3 lần</strong>
+                            </div>
+                        </div>
+                    `;
+                    if (d.btnBreakDaoBlockade) {
+                        d.btnBreakDaoBlockade.disabled = vCheck.hasBlockade || !vCheck.fateDestroyed;
+                        d.btnBreakDaoBlockade.textContent = vCheck.hasBlockade
+                            ? "✅ Đã Đột Phá Phong Tỏa Thiên Đạo"
+                            : (vCheck.fateDestroyed
+                                ? "⚡ Xung Kích Đột Phá Phong Tỏa Thiên Đạo (-60 Tiên Nguyên Bát Chuyển, -250 Nhân Khí)"
+                                : "🔒 Phá Hủy Túc Mệnh Cổ (Vượt Ải 24) Để Mở Xung Kích Phong Tỏa");
+                    }
+                    if (d.btnAscendVenerable) {
+                        d.btnAscendVenerable.disabled = !vCheck.canAscendVenerable;
+                        d.btnAscendVenerable.textContent = vCheck.canAscendVenerable
+                            ? `👑 CHỨNG ĐẠO THÀNH TÔN — TRỞ THÀNH 【${vCheck.mainPath.toUpperCase()} ĐẠO CHỦ】!`
+                            : "🔒 Hoàn Thành Đủ 3 Điều Kiện Trên Để Thành Tôn Cửu Chuyển";
+                    }
+                }
+            }
+
+            // Hiển thị Hộp Quyền Năng Đạo Chủ (Cửu Chuyển Tôn Giả)
+            if (d.daoLordPanelBox) {
+                const isDaoLord = ap.isImmortal && ap.rank >= 9 && ap.daoLordPath;
+                d.daoLordPanelBox.classList.toggle("hidden", !isDaoLord);
+                if (isDaoLord) {
+                    const natMarks = ap.naturalDaoMarksRefined || 0;
+                    const ownMarks = Math.floor(pl.daoMarks[ap.daoLordPath] || 0);
+                    const amp = pl.calculateDaoAmplification(ap.daoLordPath, []);
+                    if (d.daoLordTitle) {
+                        d.daoLordTitle.textContent = `👑 ${ap.daoLordPath.toUpperCase()} ĐẠO CHỦ — CHÍ TÔN CỬU CHUYỂN`;
+                    }
+                    if (d.daoLordStats) {
+                        d.daoLordStats.innerHTML = `
+                            Đạo Ngân bản thân (${ap.daoLordPath}): <strong class="highlight-gold">${ownMarks.toLocaleString("vi-VN")}</strong> |
+                            Đạo Ngân Tự Nhiên đã luyện hóa: <strong style="color:#5cc995">${natMarks.toLocaleString("vi-VN")}</strong><br>
+                            Quyền năng Đạo Chủ: Tổng khuếch đại chiêu thức ${ap.daoLordPath} đạt <strong style="color:#00e5ff">x${amp.multiplier}</strong> & <strong>giảm 30% tiêu hao Hoàng Hạnh Tiên Nguyên</strong>!
+                        `;
+                    }
                 }
             }
 
@@ -1799,15 +1991,20 @@
             const pl = this.player;
             const paths = global.PlayerManager.DAO_PATHS;
 
+            const daoLordPath = (this.aperture && this.aperture.rank >= 9) ? this.aperture.daoLordPath : null;
             d.daoMarksList.innerHTML = Object.keys(paths).map(pathName => {
                 const meta = paths[pathName];
-                const marks = pl.daoMarks[pathName] || 0;
+                const marks = Math.floor(pl.daoMarks[pathName] || 0);
                 const attain = pl.pathAttainment[pathName] || "Phàm Cấp";
-                const bonusPct = Math.round((marks / 800) * 100);
+                const amp = pl.calculateDaoAmplification(pathName, []);
+                const isMain = pathName === pl.mainPath;
+                const isLord = daoLordPath === pathName;
+                const tag = isLord ? " 👑 ĐẠO CHỦ" : (isMain ? " ★ Chính" : "");
+                const mainGoalNote = isMain && (!this.aperture || this.aperture.rank < 9) ? ` / 300.000` : "";
                 return `
-                    <div class="dao-mark-card" title="${meta.desc}">
-                        <span>${meta.icon} <strong>${pathName}</strong></span>
-                        <span style="color:${meta.color}">${marks} Đạo Ngân (+${bonusPct}% Uy lực | ${attain})</span>
+                    <div class="dao-mark-card" style="${isLord ? "border-color:#ffd700;background:rgba(55,40,12,0.5);" : (isMain ? "border-color:#67b7d1;" : "")}" title="${meta.desc}">
+                        <span>${meta.icon} <strong>${pathName}${tag}</strong></span>
+                        <span style="color:${meta.color}">${marks.toLocaleString("vi-VN")}${mainGoalNote} ĐN (x${amp.multiplier} | ${attain})</span>
                     </div>
                 `;
             }).join("");
@@ -2426,12 +2623,13 @@
             }
 
             if (d.battlePressureWarning && d.battlePressureVal) {
-                const isTenExtremeMortal = !ap.isImmortal && ap.aptitude && ap.aptitude.physique;
-                if (isTenExtremeMortal) {
+                const isTenExtremeActive = !ap.isImmortal && ap.aptitude && ap.aptitude.physique && !ap.tenExtremeSealed;
+                if (isTenExtremeActive) {
                     const pVal = Number(ap.wallPressure.toFixed(1));
-                    d.battlePressureVal.textContent = `${pVal.toFixed(1)}%`;
+                    const freezeSuffix = (ap.pressureFreezeTimer || 0) > 0 ? ` ⏳${Math.ceil(ap.pressureFreezeTimer)}s` : "";
+                    d.battlePressureVal.textContent = `${pVal.toFixed(1)}%${freezeSuffix}`;
                     d.battlePressureWarning.classList.remove("hidden");
-                    d.battlePressureWarning.classList.toggle("critical", pVal >= 80);
+                    d.battlePressureWarning.classList.toggle("critical", pVal >= 80 && (ap.pressureFreezeTimer || 0) <= 0);
                 } else {
                     d.battlePressureWarning.classList.add("hidden");
                 }
@@ -2495,14 +2693,14 @@
                 }
 
                 iconEl.textContent = gu.icon;
-                const costCalc = this.aperture.calculateEssenceCost(gu.essenceCost, gu.rank);
+                const costCalc = this.aperture.calculateEssenceCost(gu.essenceCost, gu.rank, gu.path);
                 costEl.textContent = costCalc.isImmortalCost ? `${costCalc.cost}T` : `${costCalc.cost}%`;
 
                 const cdRem = this.combat ? this.combat.getGuCooldownRemaining(gu.instanceId) : 0;
                 const cdPct = gu.cooldown > 0 ? Math.min(100, (cdRem / gu.cooldown) * 100) : 0;
                 cdOverlay.style.height = `${cdPct}%`;
 
-                const enough = this.aperture.hasEnoughEssence(gu.essenceCost, gu.rank);
+                const enough = this.aperture.hasEnoughEssence(gu.essenceCost, gu.rank, gu.path);
                 noEssenceEl.classList.toggle("hidden", enough);
             });
 

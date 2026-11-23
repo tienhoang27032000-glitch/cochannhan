@@ -360,6 +360,17 @@
                                 <button id="btn-hub-breakthrough" class="btn-primary" disabled>⚡ Xung Kích Đột Phá Cảnh Giới Tiếp Theo</button>
                                 <button id="btn-hub-ascend" class="btn-danger hidden">🌌 Phá Khiếu Thăng Tiên (Tam Khí Hợp Nhất)</button>
                             </div>
+
+                            <!-- Hộp Cứu Mệnh Thập Tuyệt Thể (Chỉ hiện với Thập Tuyệt Thể ở Phàm Cảnh) -->
+                            <div id="ten-extreme-survival-box" class="recipe-preview-box hidden mt-15" style="border-color:#ff9f43;">
+                                <p><strong style="color:#ffd700;">☯️ Cứu Mệnh Thập Tuyệt Thể (Chuẩn Nguyên Tác)</strong></p>
+                                <p id="ten-extreme-status-line" class="sub-text">Trạng thái: Đang chịu áp lực +1%/45s (chỉ reset khi tăng Đại Cảnh Giới).</p>
+                                <div class="action-stack mt-5">
+                                    <button id="btn-use-yinyang-gu" class="btn-accent">☯️ Dùng Âm Dương Chuyển Thân Cổ (Có: 0)</button>
+                                    <button id="btn-use-stone-ap-gu" class="btn-secondary">🪨 Dùng Thạch Khiếu Cổ (-50% Áp Lực | Có: 0)</button>
+                                    <button id="btn-use-freeze-ap-gu" class="btn-secondary">⏳ Dùng Định Nguyên Cổ (Đóng Băng 5 Phút | Có: 0)</button>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Cột Phải: Đổi Skin Nhân Vật, Chỉ Số Chiến Đấu & Quản lý Tiên Khiếu -->
@@ -399,6 +410,25 @@
                             <div id="immortal-aperture-controls" class="action-row mt-10">
                                 <button id="btn-collect-aperture-yield" class="btn-secondary">Thu Hoạch Sản Vật Tiên Khiếu</button>
                                 <button id="btn-trigger-tribulation" class="btn-danger">Chủ Động Độ Tai Kiếp</button>
+                            </div>
+
+                            <!-- Hộp Điều Kiện Chứng Đạo Thành Tôn (Chỉ hiện khi đạt Á Tiên Tôn) -->
+                            <div id="venerable-ascension-box" class="recipe-preview-box hidden mt-15 venerable-box">
+                                <p><strong style="color:#00e5ff;font-size:14px;">👑 CON ĐƯỜNG CHỨNG ĐẠO THÀNH TÔN (Á TIÊN TÔN → CỬU CHUYỂN)</strong></p>
+                                <div id="venerable-checklist" class="mt-5"></div>
+                                <div class="action-stack mt-10">
+                                    <button id="btn-break-dao-blockade" class="btn-accent">⚡ Xung Kích Đột Phá Phong Tỏa Thiên Đạo</button>
+                                    <button id="btn-ascend-venerable" class="btn-primary" disabled>👑 Chính Thức Thành Tôn — Trở Thành Đạo Chủ Cửu Chuyển</button>
+                                </div>
+                            </div>
+
+                            <!-- Hộp Quyền Năng Đạo Chủ (Hiện sau khi Thành Tôn Cửu Chuyển) -->
+                            <div id="dao-lord-panel-box" class="recipe-preview-box hidden mt-15 dao-lord-box">
+                                <p><strong id="dao-lord-title" style="color:#ffd700;font-size:14.5px;">👑 ĐẠO CHỦ THIÊN ĐỊA</strong></p>
+                                <p id="dao-lord-stats" class="sub-text mt-5"></p>
+                                <button id="btn-refine-natural-dao" class="btn-primary mt-10" style="width:100%;">
+                                    🌌 Luyện Hóa Đạo Ngân Tự Nhiên (-8 Hoàng Hạnh Tiên Nguyên, -50 Tinh Thần)
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -1498,3 +1498,14 @@ input[type="text"]:focus, select:focus {
     color: #ffd700 !important;
     text-align: center;
 }
+
+.venerable-box {
+    border-color: #00e5ff !important;
+    background: linear-gradient(180deg, rgba(16, 26, 48, 0.94) 0%, rgba(10, 12, 22, 0.96) 100%) !important;
+    box-shadow: 0 0 16px rgba(0, 229, 255, 0.18);
+}
+.dao-lord-box {
+    border-color: #ffd700 !important;
+    background: linear-gradient(180deg, rgba(46, 34, 12, 0.94) 0%, rgba(18, 14, 8, 0.96) 100%) !important;
+    box-shadow: 0 0 18px rgba(255, 215, 0, 0.24);
+}

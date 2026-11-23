@@ -682,6 +682,33 @@
             value: 60,
             mentalRestore: 85,
             desc: "Mảnh đá rơi ra từ Đãng Hồn Sơn. Khôi phục tới 85 Tinh Thần Lực để thăm dò Mộng Cảnh và hợp luyện cổ Tứ Chuyển."
+        },
+        am_duong_chuyen_than_gu: {
+            id: "am_duong_chuyen_than_gu",
+            name: "Âm Dương Chuyển Thân Cổ",
+            icon: "☯️",
+            category: "physique_gu",
+            rarity: "epic",
+            value: 280,
+            desc: "[Chuẩn Nguyên Tác — Cứu Mệnh Thập Tuyệt Thể] Chuyển đổi Âm Dương nhục thân: Phong ấn Thập Tuyệt Thể xuống Giáp Đẳng (90% Biển Nguyên), reset áp lực về 0% & NGỪNG HOÀN TOÀN bạo tạc! Dùng thêm 1 con nữa khi muốn giải phong ấn khôi phục 100% Thập Tuyệt Thể để Thăng Tiên."
+        },
+        thach_khieu_gu: {
+            id: "thach_khieu_gu",
+            name: "Thạch Khiếu Cổ",
+            icon: "🪨",
+            category: "physique_gu",
+            rarity: "rare",
+            value: 95,
+            desc: "[Cứu Mệnh Thập Tuyệt Thể] Gia cố Khiếu Bích bằng thạch mạch: Xả ngay -50% áp lực Không Khiếu mà vẫn giữ nguyên 100% Biển Nguyên Thập Tuyệt Thể!"
+        },
+        tinh_khieu_dinh_nguyen_gu: {
+            id: "tinh_khieu_dinh_nguyen_gu",
+            name: "Định Nguyên Tịnh Khiếu Cổ",
+            icon: "⏳",
+            category: "physique_gu",
+            rarity: "rare",
+            value: 140,
+            desc: "[Trụ Đạo — Cứu Mệnh Thập Tuyệt Thể] Xả ngay -25% áp lực và ĐÓNG BĂNG hoàn toàn tốc độ tăng áp lực Không Khiếu trong 300 giây (5 phút)!"
         }
     };
 
@@ -759,6 +786,28 @@
             daoMarksReward: 120,
             humanQiReward: 60,
             desc: "Sát tính ngập trời nơi Sinh Tử Môn! Kẻ tâm chí yếu ớt sẽ bị thương tổn hồn phách, kẻ vượt qua sẽ đắc đạo Tông Sư."
+        },
+        {
+            id: "dream_tien_canh_cuong_man",
+            name: "Tiên Mộng: Cuồng Man Ma Tôn Đạo Ý",
+            paths: ["Lực Đạo", "Biến Hóa", "Huyết Đạo", "Kiếm Đạo"],
+            reqRank: 6,
+            mentalCost: 110,
+            daoMarksReward: 950,
+            humanQiReward: 85,
+            useMainPath: true,
+            desc: "[Lục Chuyển+] Chân ý Cuồng Man lưu lại nơi Bắc Nguyên, trực tiếp bồi đắp Đạo Ngân cho lưu phái chính của ngươi!"
+        },
+        {
+            id: "dream_vo_cuc_hon_don",
+            name: "Tôn Giả Mộng: Vô Cực Thiên Địa Chân Ý",
+            paths: ["Trí Đạo", "Luyện Đạo"],
+            reqRank: 8,
+            mentalCost: 150,
+            daoMarksReward: 6500,
+            humanQiReward: 130,
+            useMainPath: true,
+            desc: "[Bát Chuyển / Á Tiên Tôn] Mộng cảnh Tôn Giả tại Phong Ma Quật, giúp tích lũy lượng lớn Đạo Ngân lưu phái chính hướng tới mốc 30 Vạn Đạo Ngân Thành Tôn!"
         }
     ];
 
@@ -893,6 +942,7 @@
                 for (const p of phy.favoredPaths) {
                     this.addDaoMarks(p, 30);
                 }
+                this.addItem("thach_khieu_gu", 1);
             }
 
             this.recalculateStats();
@@ -1026,7 +1076,8 @@
 
             if (Math.random() <= chance) {
                 this.dreamClears[dream.id] = (this.dreamClears[dream.id] || 0) + 1;
-                for (const p of dream.paths) {
+                const targetPaths = dream.useMainPath ? [this.mainPath] : dream.paths.filter(p => DAO_PATHS[p]);
+                for (const p of targetPaths) {
                     this.addDaoMarks(p, dream.daoMarksReward);
                 }
                 if (this.aperture) {
@@ -1035,7 +1086,7 @@
 
                 return {
                     success: true,
-                    message: `🌙 Thăm dò [${dream.name}] thành công! Hấp thu chân ý nhận +${dream.daoMarksReward} Đạo Ngân (${dream.paths.join(", ")}) và +${dream.humanQiReward} Nhân Khí!`
+                    message: `🌙 Thăm dò [${dream.name}] thành công! Hấp thu chân ý nhận +${dream.daoMarksReward.toLocaleString("vi-VN")} Đạo Ngân (${targetPaths.join(", ")}) và +${dream.humanQiReward} Nhân Khí!`
                 };
             } else {
                 const minGain = Math.max(4, Math.floor(dream.daoMarksReward * 0.3));
@@ -1055,29 +1106,46 @@
             let rank = 1;
             let subStage = 0;
             let isImmortal = false;
+            let isPseudo = false;
+            let isDaoLord = false;
 
             if (this.aperture && this.aperture.isAwakened) {
                 rank = this.aperture.rank;
                 subStage = this.aperture.subStage;
                 isImmortal = this.aperture.isImmortal;
+                isPseudo = typeof this.aperture.isPseudoVenerable === "function" && this.aperture.isPseudoVenerable();
+                isDaoLord = Boolean(isImmortal && rank >= 9 && this.aperture.daoLordPath);
             }
 
             const rankMult = isImmortal ? Math.pow(2.5, rank - 1) : Math.pow(1.52, rank - 1);
-            const subMult = isImmortal ? 1.0 : (1 + subStage * 0.18);
+            let subMult = 1 + subStage * 0.18;
+            if (isImmortal) {
+                if (isPseudo) subMult = 1.68;
+                else if (rank >= 9) subMult = 1.35 + subStage * 0.22 + (isDaoLord ? 0.25 : 0);
+                else subMult = 1.0 + subStage * 0.12;
+            }
             const totalRealmMult = rankMult * subMult;
 
-            const lucMarks = this.daoMarks["Lực Đạo"] || 0;
-            const honMarks = this.daoMarks["Hồn Đạo"] || 0;
-            const kimMarks = this.daoMarks["Kim Đạo"] || 0;
-            const thoMarks = this.daoMarks["Thổ Đạo"] || 0;
-            const phongMarks = this.daoMarks["Phong Đạo"] || 0;
+            // Đường cong Đạo Ngân mềm mượt (tránh vỡ số khi tích lũy 300.000 Đạo Ngân)
+            const curveMarks = (m) => {
+                const v = Math.max(0, m || 0);
+                if (v <= 2000) return v;
+                return 2000 + Math.sqrt(v - 2000) * 18;
+            };
 
-            let calcMaxHp = Math.round(this.baseMaxHp * totalRealmMult + lucMarks * 2.0 + thoMarks * 1.6);
-            let calcAtk = Math.round(this.baseAtk * totalRealmMult + lucMarks * 0.5);
-            let calcDef = Math.round(this.baseDef * totalRealmMult + (kimMarks + thoMarks) * 0.4);
-            let calcSpd = Math.round(this.baseSpd + (rank - 1) * 8 + Math.min(90, phongMarks * 0.3));
+            const mainMarks = curveMarks(this.daoMarks[this.mainPath] || 0);
+            const lucMarks = curveMarks(this.daoMarks["Lực Đạo"] || 0);
+            const honMarks = curveMarks(this.daoMarks["Hồn Đạo"] || 0);
+            const kimMarks = curveMarks(this.daoMarks["Kim Đạo"] || 0);
+            const thoMarks = curveMarks(this.daoMarks["Thổ Đạo"] || 0);
+            const phongMarks = curveMarks(this.daoMarks["Phong Đạo"] || 0);
+
+            let calcMaxHp = Math.round(this.baseMaxHp * totalRealmMult + lucMarks * 1.8 + thoMarks * 1.4 + mainMarks * 1.0);
+            let calcAtk = Math.round(this.baseAtk * totalRealmMult + lucMarks * 0.45 + mainMarks * 0.35);
+            let calcDef = Math.round(this.baseDef * totalRealmMult + (kimMarks + thoMarks) * 0.35 + mainMarks * 0.20);
+            let calcSpd = Math.round(this.baseSpd + (rank - 1) * 8 + (isPseudo ? 16 : 0) + Math.min(95, phongMarks * 0.12));
             let calcVision = Math.round(this.baseVision + (rank - 1) * 20);
-            let calcMaxMental = Math.round(this.baseMaxMental * (1 + (rank - 1) * 0.35) + honMarks * 1.8);
+            let calcMaxMental = Math.round(this.baseMaxMental * (1 + (rank - 1) * 0.38) + honMarks * 0.35 + mainMarks * 0.08);
 
             for (const buff of this.activeBuffs) {
                 if (!buff.statMods) continue;
@@ -1117,33 +1185,42 @@
             this.mainPath = highestPath;
 
             const marks = this.daoMarks[pathName];
-            if (marks >= 1800) this.pathAttainment[pathName] = "Vô Thượng Đại Tông Sư";
-            else if (marks >= 650) this.pathAttainment[pathName] = "Đại Tông Sư";
-            else if (marks >= 220) this.pathAttainment[pathName] = "Tông Sư";
-            else if (marks >= 75) this.pathAttainment[pathName] = "Đại Sư";
+            if (marks >= 10000) this.pathAttainment[pathName] = "Vô Thượng Đại Tông Sư";
+            else if (marks >= 2000) this.pathAttainment[pathName] = "Đại Tông Sư";
+            else if (marks >= 400) this.pathAttainment[pathName] = "Tông Sư";
+            else if (marks >= 100) this.pathAttainment[pathName] = "Đại Sư";
             else if (marks >= 25) this.pathAttainment[pathName] = "Chuẩn Đại Sư";
             else this.pathAttainment[pathName] = "Phàm Cấp";
 
             this.recalculateStats();
         }
 
-        addDaoMarksFromTribulation(totalMarks) {
-            const half = Math.floor(totalMarks * 0.65);
-            const rest = totalMarks - half;
-            this.addDaoMarks(this.mainPath, half);
-            const pathInfo = DAO_PATHS[this.mainPath];
-            const secondary = (pathInfo && pathInfo.synergyWith && pathInfo.synergyWith[0]) || "Luyện Đạo";
-            this.addDaoMarks(secondary, rest);
+        addDaoMarksFromTribulation(totalMarks, mainRatio = 0.80) {
+            const mainShare = Math.floor(totalMarks * mainRatio);
+            const rest = Math.max(0, totalMarks - mainShare);
+            this.addDaoMarks(this.mainPath, mainShare);
+            if (rest > 0) {
+                const pathInfo = DAO_PATHS[this.mainPath];
+                const secondary = (pathInfo && pathInfo.synergyWith && pathInfo.synergyWith[0]) || "Luyện Đạo";
+                this.addDaoMarks(secondary, rest);
+            }
         }
 
         calculateDaoAmplification(primaryPath, secondaryPaths = []) {
             const sameMarks = this.daoMarks[primaryPath] || 0;
-            let amplification = 1.0 + (sameMarks / 800);
+            // Chuẩn nguyên tác: dưới 5.000 ĐN tăng +100% mỗi 1.000 ĐN; trên 5.000 dùng đường cong mượt cho mốc 30 vạn Đạo Ngân
+            let amplification = 1.0;
+            if (sameMarks <= 5000) {
+                amplification += sameMarks / 1000;
+            } else {
+                amplification += 5.0 + Math.sqrt((sameMarks - 5000) / 1500);
+            }
 
             if (
                 this.aperture &&
                 this.aperture.aptitude &&
                 this.aperture.aptitude.physique &&
+                !this.aperture.tenExtremeSealed &&
                 this.aperture.aptitude.physique.favoredPaths.includes(primaryPath)
             ) {
                 amplification += this.aperture.aptitude.physique.guPowerBonus;
@@ -1165,12 +1242,20 @@
                 }
             }
 
-            const finalMultiplier = Math.max(0.45, Number((amplification - conflictPenalty).toFixed(2)));
+            // Hào quang Đạo Chủ Cửu Chuyển: khuếch đại toàn bộ cổ thuật lưu phái mình làm Đạo Chủ
+            let daoLordBonusMult = 1.0;
+            if (this.aperture && this.aperture.rank >= 9 && this.aperture.daoLordPath === primaryPath) {
+                const refinedNat = this.aperture.naturalDaoMarksRefined || 0;
+                daoLordBonusMult = 1.35 + Math.min(0.65, refinedNat / 500000);
+            }
+
+            const finalMultiplier = Math.max(0.45, Number(((amplification - conflictPenalty) * daoLordBonusMult).toFixed(2)));
             return {
                 multiplier: finalMultiplier,
                 sameMarks: sameMarks,
                 conflictPenalty: Number(conflictPenalty.toFixed(2)),
-                hasConflict: conflictPenalty > 0.12
+                hasConflict: conflictPenalty > 0.12,
+                isDaoLordPath: daoLordBonusMult > 1.0
             };
         }
 
@@ -1382,6 +1467,25 @@
                     };
                 }
                 return this.useRelicGu(this.aperture);
+            }
+
+            if (meta.category === "physique_gu") {
+                if (!this.aperture) {
+                    return { success: false, message: "Chưa có dữ liệu Không Khiếu!" };
+                }
+                let res = { success: false, message: "Không thể sử dụng Cổ Trùng này." };
+                if (itemId === "am_duong_chuyen_than_gu" && typeof this.aperture.applyYinYangRotationGu === "function") {
+                    res = this.aperture.applyYinYangRotationGu();
+                } else if (itemId === "thach_khieu_gu" && typeof this.aperture.applyStoneApertureGu === "function") {
+                    res = this.aperture.applyStoneApertureGu();
+                } else if (itemId === "tinh_khieu_dinh_nguyen_gu" && typeof this.aperture.applyFreezePressureGu === "function") {
+                    res = this.aperture.applyFreezePressureGu();
+                }
+                if (res.success) {
+                    this.removeItem(itemId, 1);
+                    this.recalculateStats();
+                }
+                return res;
             }
 
             if (itemId === "immortal_stone") {
