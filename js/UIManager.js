@@ -15,102 +15,102 @@
     // =========================================================================
 
     const CARAVAN_SHOP_ITEMS = [
-        { type: "item", id: "ration_meat", name: "Thịt Thú Rừng Tươi", icon: "🍖", price: 5, currency: "stones", desc: "Thức ăn nuôi & thăng Chuyển Hắc Thỉ Cổ, Bạch Thỉ Cổ, Ám Tiêu Cổ, Lang Yên Cổ và hồi 25 HP." },
-        { type: "item", id: "spirit_herb", name: "Thanh Linh Thảo", icon: "🌿", price: 8, currency: "stones", desc: "Hồi 40 HP, 20 Tinh Thần. Phụ liệu nuôi & thăng Chuyển Xuân Quang Cổ, Thủy Tiễn Cổ, Thủy Tráo Cổ, Xoáy Nước Cổ." },
-        { type: "item", id: "moon_orchid", name: "Nguyệt Lan Hoa", icon: "🌸", price: 12, currency: "stones", desc: "Phụ liệu nuôi & thăng Chuyển Nguyệt Quang Cổ, Hàn Sương Cổ, Tinh Quang Cổ, Băng Tinh Tuyết Hoa Cổ." },
-        { type: "item", id: "bronze_ore", name: "Thanh Đồng Thạch Khoáng", icon: "🪨", price: 10, currency: "stones", desc: "Phụ liệu nuôi & thăng Chuyển Đồng Bì Cổ, Kim Châm Cổ, Thạch Bì Cổ, Hắc Thạch Cổ, Điện Nhãn Cổ." },
-        { type: "item", id: "wind_essence_crystal", name: "Phong Tuyền Tinh Thạch", icon: "🎐", price: 26, currency: "stones", desc: "Cổ tài nuôi & thăng Chuyển Phong Nhận Cổ, Thanh Phong Luân Cổ." },
-        { type: "item", id: "red_iron_ore", name: "Xích Thiết Tinh Khoáng", icon: "🧱", price: 28, currency: "stones", desc: "Phụ liệu thăng Chuyển Xích Diễm Cổ, Kiếm Ảnh Cổ, Lôi Khiếu Cổ, Bàn Sơn Lực Cổ, Thiên Địa Hồng Lô Cổ." },
-        { type: "item", id: "beast_blood_core", name: "Bách Thú Tinh Huyết", icon: "🩸", price: 25, currency: "stones", desc: "Phụ liệu thăng Chuyển Huyết Nguyệt Cổ, Huyết Lô Cổ, Độc Hạt Cổ, Thú Lực Tinh Hồn Cổ." },
-        { type: "item", id: "jade_bone", name: "Bạch Ngọc Cốt Tủy", icon: "🦴", price: 38, currency: "stones", desc: "Phụ liệu thăng Chuyển Lao Toàn Cốt Thương Cổ và Bạch Ngọc Cổ." },
-        { type: "gu", id: "phong_nhan_gu", guRank: 1, name: "Phong Nhận Cổ Nhất Chuyển", icon: "🍃", price: 48, currency: "stones", desc: "Phàm cổ Phong Đạo (Giới hạn 1–5 Chuyển). Sát chiêu tạo lốc xoáy cuốn hút." },
-        { type: "gu", id: "thiet_bi_gu", guRank: 1, name: "Đồng Bì Cổ Nhất Chuyển", icon: "🛡️", price: 48, currency: "stones", desc: "Phàm cổ phòng ngự Kim Đạo (Giới hạn 1–5 Chuyển) tạo hộ thuẫn hấp thụ sát thương." },
-        { type: "gu", id: "kim_cham_gu", guRank: 1, name: "Kim Châm Cổ Nhất Chuyển", icon: "🪡", price: 50, currency: "stones", desc: "Phàm cổ Kim Đạo (1–5 Chuyển) phóng mưa kim châm tốc độ cao nảy liên hoàn." },
-        { type: "gu", id: "thach_bi_gu", guRank: 1, name: "Thạch Bì Cổ Nhất Chuyển", icon: "🪨", price: 46, currency: "stones", desc: "Phàm cổ phòng ngự Thổ Đạo (1–5 Chuyển) hóa thạch làn da chống chịu đòn đánh." },
-        { type: "gu", id: "thuy_tien_gu", guRank: 1, name: "Thủy Tiễn Cổ Nhất Chuyển", icon: "💧", price: 48, currency: "stones", desc: "Phàm cổ Thủy Đạo (1–5 Chuyển) bắn tên nước áp lực cao xuyên thấu." },
-        { type: "gu", id: "am_tieu_gu", guRank: 1, name: "Ám Tiêu Cổ Nhất Chuyển", icon: "🗡️", price: 50, currency: "stones", desc: "Phàm cổ Ám Đạo (1–5 Chuyển) phóng phi tiêu bóng tối tốc độ cực nhanh." },
-        { type: "gu", id: "lang_yen_gu", guRank: 1, name: "Lang Yên Cổ Nhất Chuyển", icon: "🐺", price: 54, currency: "stones", desc: "Phàm cổ Nô Đạo (1–5 Chuyển) vừa hồi phục sinh mệnh vừa triệu hồi Chiến Thú." },
-        { type: "gu", id: "bach_thi_gu", guRank: 1, name: "Bạch Thỉ Cổ Nhất Chuyển", icon: "🐖", price: 58, currency: "stones", desc: "Phàm cổ Lực Đạo (1–5 Chuyển). Kết hợp với Hắc Thỉ Cổ để luyện Toàn Lực Dĩ Phó Cổ." },
-        { type: "gu", id: "dien_nhan_gu", guRank: 1, name: "Điện Nhãn Cổ Nhất Chuyển", icon: "⚡", price: 56, currency: "stones", desc: "Phàm cổ Lôi Đạo (1–5 Chuyển). Phụ trợ Sát Chiêu phóng hồ quang điện liên hoàn." },
-        { type: "gu", id: "hu_doc_gu", guRank: 1, name: "Hủ Độc Thảo Cổ Nhất Chuyển", icon: "☠️", price: 54, currency: "stones", desc: "Phàm cổ Độc Đạo (1–5 Chuyển) phát tán chướng khí ăn mòn và phá 25% giáp." },
-        { type: "gu", id: "hoi_xuong_gu", guRank: 1, name: "Xuân Quang Cổ Nhất Chuyển", icon: "💚", price: 55, currency: "stones", desc: "Phàm cổ trị liệu Mộc Đạo (1–5 Chuyển) khôi phục Sinh Mệnh." },
-        { type: "gu", id: "trinh_sat_gu", guRank: 1, name: "Địa Thính Nhục Nhĩ Thảo Nhất Chuyển", icon: "👁️", price: 45, currency: "stones", desc: "Phàm cổ Âm Đạo (1–5 Chuyển) giúp đạn Sát Chiêu tự động truy kích (Homing)." },
-        { type: "gu", id: "hac_thach_gu", guRank: 2, name: "Hắc Thạch Cổ Nhị Chuyển", icon: "☄️", price: 135, currency: "stones", desc: "Phàm cổ Thổ Đạo (1–5 Chuyển) giáng cự thạch đập nát đội hình địch." },
-        { type: "gu", id: "xoay_nuoc_gu", guRank: 2, name: "Xoáy Nước Cổ Nhị Chuyển", icon: "🌀", price: 140, currency: "stones", desc: "Phàm cổ Thủy Đạo (1–5 Chuyển) tạo xoáy nước cuốn hút và làm chậm quần địch." },
-        { type: "gu", id: "loi_khieu_gu", guRank: 2, name: "Lôi Khiếu Cổ Nhị Chuyển", icon: "🌩️", price: 145, currency: "stones", desc: "Phàm cổ Âm Đạo (1–5 Chuyển) phát tiếng gầm sấm sét làm tê liệt xung quanh." },
-        { type: "gu", id: "doc_hat_gu", guRank: 2, name: "Độc Hạt Cổ Nhị Chuyển", icon: "🦂", price: 138, currency: "stones", desc: "Phàm cổ Độc Đạo Tây Mạc (1–5 Chuyển) bắn nọc bọ cạp kịch độc." },
-        { type: "item", id: "thach_khieu_gu", name: "Thạch Khiếu Cổ (Cứu Thập Tuyệt Thể)", icon: "🪨", price: 95, currency: "stones", desc: "Gia cố Khiếu Bích: Xả ngay -50% áp lực Không Khiếu cho Thập Tuyệt Thể mà vẫn giữ nguyên 100% Biển Nguyên!" },
-        { type: "item", id: "tinh_khieu_dinh_nguyen_gu", name: "Định Nguyên Tịnh Khiếu Cổ (Trụ Đạo)", icon: "⏳", price: 140, currency: "stones", desc: "Xả ngay -25% áp lực và ĐÓNG BĂNG hoàn toàn tốc độ tăng áp lực Thập Tuyệt Thể trong 5 phút (300 giây)!" }
+        { type: "item", id: "ration_meat", name: "Thịt Thú Rừng Tươi", icon: "🍖", price: 8, currency: "stones", spawnChance: 1.0, minStock: 8, maxStock: 16, desc: "Thức ăn nuôi & thăng Chuyển Hắc Thỉ Cổ, Bạch Thỉ Cổ, Ám Tiêu Cổ, Lang Yên Cổ và hồi 25 HP." },
+        { type: "item", id: "spirit_herb", name: "Thanh Linh Thảo", icon: "🌿", price: 12, currency: "stones", spawnChance: 1.0, minStock: 6, maxStock: 12, desc: "Hồi 40 HP, 20 Tinh Thần. Phụ liệu nuôi & thăng Chuyển Xuân Quang Cổ, Thủy Tiễn Cổ, Thủy Tráo Cổ, Xoáy Nước Cổ." },
+        { type: "item", id: "moon_orchid", name: "Nguyệt Lan Hoa", icon: "🌸", price: 18, currency: "stones", spawnChance: 0.90, minStock: 4, maxStock: 8, desc: "Phụ liệu nuôi & thăng Chuyển Nguyệt Quang Cổ, Hàn Sương Cổ, Tinh Quang Cổ, Băng Tinh Tuyết Hoa Cổ." },
+        { type: "item", id: "bronze_ore", name: "Thanh Đồng Thạch Khoáng", icon: "🪨", price: 16, currency: "stones", spawnChance: 0.90, minStock: 4, maxStock: 8, desc: "Phụ liệu nuôi & thăng Chuyển Đồng Bì Cổ, Kim Châm Cổ, Thạch Bì Cổ, Hắc Thạch Cổ, Điện Nhãn Cổ." },
+        { type: "item", id: "wind_essence_crystal", name: "Phong Tuyền Tinh Thạch", icon: "🎐", price: 42, currency: "stones", spawnChance: 0.65, minStock: 2, maxStock: 4, desc: "Cổ tài nuôi & thăng Chuyển Phong Nhận Cổ, Thanh Phong Luân Cổ." },
+        { type: "item", id: "red_iron_ore", name: "Xích Thiết Tinh Khoáng", icon: "🧱", price: 45, currency: "stones", spawnChance: 0.65, minStock: 2, maxStock: 4, desc: "Phụ liệu thăng Chuyển Xích Diễm Cổ, Kiếm Ảnh Cổ, Lôi Khiếu Cổ, Bàn Sơn Lực Cổ, Thiên Địa Hồng Lô Cổ." },
+        { type: "item", id: "beast_blood_core", name: "Bách Thú Tinh Huyết", icon: "🩸", price: 42, currency: "stones", spawnChance: 0.65, minStock: 2, maxStock: 4, desc: "Phụ liệu thăng Chuyển Huyết Nguyệt Cổ, Huyết Lô Cổ, Độc Hạt Cổ, Thú Lực Tinh Hồn Cổ." },
+        { type: "item", id: "jade_bone", name: "Bạch Ngọc Cốt Tủy", icon: "🦴", price: 68, currency: "stones", spawnChance: 0.50, minStock: 1, maxStock: 3, desc: "Phụ liệu thăng Chuyển Lao Toàn Cốt Thương Cổ và Bạch Ngọc Cổ." },
+        { type: "gu", id: "phong_nhan_gu", guRank: 1, name: "Phong Nhận Cổ Nhất Chuyển", icon: "🍃", price: 190, currency: "stones", spawnChance: 0.55, minStock: 1, maxStock: 2, desc: "Phàm cổ Phong Đạo (Giới hạn 1–5 Chuyển). Sát chiêu tạo lốc xoáy cuốn hút." },
+        { type: "gu", id: "thiet_bi_gu", guRank: 1, name: "Đồng Bì Cổ Nhất Chuyển", icon: "🛡️", price: 190, currency: "stones", spawnChance: 0.55, minStock: 1, maxStock: 2, desc: "Phàm cổ phòng ngự Kim Đạo (Giới hạn 1–5 Chuyển) tạo hộ thuẫn hấp thụ sát thương." },
+        { type: "gu", id: "kim_cham_gu", guRank: 1, name: "Kim Châm Cổ Nhất Chuyển", icon: "🪡", price: 210, currency: "stones", spawnChance: 0.50, minStock: 1, maxStock: 1, desc: "Phàm cổ Kim Đạo (1–5 Chuyển) phóng mưa kim châm tốc độ cao nảy liên hoàn." },
+        { type: "gu", id: "thach_bi_gu", guRank: 1, name: "Thạch Bì Cổ Nhất Chuyển", icon: "🪨", price: 185, currency: "stones", spawnChance: 0.55, minStock: 1, maxStock: 2, desc: "Phàm cổ phòng ngự Thổ Đạo (1–5 Chuyển) hóa thạch làn da chống chịu đòn đánh." },
+        { type: "gu", id: "thuy_tien_gu", guRank: 1, name: "Thủy Tiễn Cổ Nhất Chuyển", icon: "💧", price: 195, currency: "stones", spawnChance: 0.55, minStock: 1, maxStock: 2, desc: "Phàm cổ Thủy Đạo (1–5 Chuyển) bắn tên nước áp lực cao xuyên thấu." },
+        { type: "gu", id: "am_tieu_gu", guRank: 1, name: "Ám Tiêu Cổ Nhất Chuyển", icon: "🗡️", price: 210, currency: "stones", spawnChance: 0.45, minStock: 1, maxStock: 1, desc: "Phàm cổ Ám Đạo (1–5 Chuyển) phóng phi tiêu bóng tối tốc độ cực nhanh." },
+        { type: "gu", id: "lang_yen_gu", guRank: 1, name: "Lang Yên Cổ Nhất Chuyển", icon: "🐺", price: 230, currency: "stones", spawnChance: 0.42, minStock: 1, maxStock: 1, desc: "Phàm cổ Nô Đạo (1–5 Chuyển) vừa hồi phục sinh mệnh vừa triệu hồi Chiến Thú." },
+        { type: "gu", id: "bach_thi_gu", guRank: 1, name: "Bạch Thỉ Cổ Nhất Chuyển", icon: "🐖", price: 245, currency: "stones", spawnChance: 0.40, minStock: 1, maxStock: 1, desc: "Phàm cổ Lực Đạo (1–5 Chuyển). Kết hợp với Hắc Thỉ Cổ để luyện Toàn Lực Dĩ Phó Cổ." },
+        { type: "gu", id: "dien_nhan_gu", guRank: 1, name: "Điện Nhãn Cổ Nhất Chuyển", icon: "⚡", price: 240, currency: "stones", spawnChance: 0.42, minStock: 1, maxStock: 1, desc: "Phàm cổ Lôi Đạo (1–5 Chuyển). Phụ trợ Sát Chiêu phóng hồ quang điện liên hoàn." },
+        { type: "gu", id: "hu_doc_gu", guRank: 1, name: "Hủ Độc Thảo Cổ Nhất Chuyển", icon: "☠️", price: 225, currency: "stones", spawnChance: 0.42, minStock: 1, maxStock: 1, desc: "Phàm cổ Độc Đạo (1–5 Chuyển) phát tán chướng khí ăn mòn và phá 25% giáp." },
+        { type: "gu", id: "hoi_xuong_gu", guRank: 1, name: "Xuân Quang Cổ Nhất Chuyển", icon: "💚", price: 230, currency: "stones", spawnChance: 0.45, minStock: 1, maxStock: 1, desc: "Phàm cổ trị liệu Mộc Đạo (1–5 Chuyển) khôi phục Sinh Mệnh." },
+        { type: "gu", id: "trinh_sat_gu", guRank: 1, name: "Địa Thính Nhục Nhĩ Thảo Nhất Chuyển", icon: "👁️", price: 185, currency: "stones", spawnChance: 0.48, minStock: 1, maxStock: 1, desc: "Phàm cổ Âm Đạo (1–5 Chuyển) giúp đạn Sát Chiêu tự động truy kích (Homing)." },
+        { type: "gu", id: "hac_thach_gu", guRank: 2, name: "Hắc Thạch Cổ Nhị Chuyển", icon: "☄️", price: 580, currency: "stones", spawnChance: 0.34, minStock: 1, maxStock: 1, desc: "Phàm cổ Thổ Đạo (1–5 Chuyển) giáng cự thạch đập nát đội hình địch." },
+        { type: "gu", id: "xoay_nuoc_gu", guRank: 2, name: "Xoáy Nước Cổ Nhị Chuyển", icon: "🌀", price: 610, currency: "stones", spawnChance: 0.34, minStock: 1, maxStock: 1, desc: "Phàm cổ Thủy Đạo (1–5 Chuyển) tạo xoáy nước cuốn hút và làm chậm quần địch." },
+        { type: "gu", id: "loi_khieu_gu", guRank: 2, name: "Lôi Khiếu Cổ Nhị Chuyển", icon: "🌩️", price: 650, currency: "stones", spawnChance: 0.30, minStock: 1, maxStock: 1, desc: "Phàm cổ Âm Đạo (1–5 Chuyển) phát tiếng gầm sấm sét làm tê liệt xung quanh." },
+        { type: "gu", id: "doc_hat_gu", guRank: 2, name: "Độc Hạt Cổ Nhị Chuyển", icon: "🦂", price: 600, currency: "stones", spawnChance: 0.32, minStock: 1, maxStock: 1, desc: "Phàm cổ Độc Đạo Tây Mạc (1–5 Chuyển) bắn nọc bọ cạp kịch độc." },
+        { type: "item", id: "thach_khieu_gu", name: "Thạch Khiếu Cổ (Cứu Thập Tuyệt Thể)", icon: "🪨", price: 240, currency: "stones", spawnChance: 0.35, minStock: 1, maxStock: 1, desc: "Gia cố Khiếu Bích: Xả ngay -50% áp lực Không Khiếu cho Thập Tuyệt Thể mà vẫn giữ nguyên 100% Biển Nguyên!" },
+        { type: "item", id: "tinh_khieu_dinh_nguyen_gu", name: "Định Nguyên Tịnh Khiếu Cổ (Trụ Đạo)", icon: "⏳", price: 360, currency: "stones", spawnChance: 0.25, minStock: 1, maxStock: 1, desc: "Xả ngay -25% áp lực và ĐÓNG BĂNG hoàn toàn tốc độ tăng áp lực Thập Tuyệt Thể trong 5 phút (300 giây)!" }
     ];
 
     const AUCTION_HOUSE_ITEMS = [
-        { type: "item", id: "am_duong_chuyen_than_gu", name: "Âm Dương Chuyển Thân Cổ (Tứ Chuyển — Cứu Thập Tuyệt Thể)", icon: "☯️", price: 280, currency: "stones", desc: "[Chuẩn Nguyên Tác Bạch Ngưng Băng] Phong ấn Thập Tuyệt Thể xuống 90% Giáp Đẳng, reset áp lực về 0% & NGỪNG HOÀN TOÀN bạo tạc! Dùng lần 2 để khôi phục 100% Thập Tuyệt Thể trước khi Thăng Tiên." },
-        { type: "item", id: "bronze_relic_gu", name: "Thanh Đồng Xá Lợi Cổ", icon: "🟢", price: 260, currency: "stones", desc: "Bảo vật Nhất Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
-        { type: "item", id: "red_iron_relic_gu", name: "Xích Thiết Xá Lợi Cổ", icon: "🔴", price: 680, currency: "stones", desc: "Bảo vật Nhị Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
-        { type: "item", id: "white_silver_relic_gu", name: "Bạch Ngân Xá Lợi Cổ", icon: "⚪", price: 1850, currency: "stones", desc: "Chí bảo Tam Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
-        { type: "item", id: "yellow_gold_relic_gu", name: "Hoàng Kim Xá Lợi Cổ", icon: "🟡", price: 4600, currency: "stones", desc: "Chí bảo Tứ Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
-        { type: "item", id: "purple_crystal_relic_gu", name: "Tử Tinh Xá Lợi Cổ", icon: "🟣", price: 11500, currency: "stones", desc: "Thần vật Ngũ Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
-        { type: "item", id: "remnant_recipe", name: "Cổ Phương Tàn Quyển", icon: "📜", price: 95, currency: "stones", desc: "Giải mã tại Luyện Đạo Các để mở khóa Bí Phương Hợp Luyện cổ Nhị -> Cửu Chuyển." },
-        { type: "item", id: "hundred_year_ginseng", name: "Bách Niên Khổ Sâm", icon: "🥕", price: 65, currency: "stones", desc: "Hồi 90 HP, 45 Tinh Thần & nguyên liệu nuôi dưỡng Thiên Nguyên Bảo Liên, Cẩm Lý Vận Cổ." },
-        { type: "item", id: "soul_crystal", name: "Đãng Hồn Thạch Đan", icon: "🔮", price: 90, currency: "stones", desc: "Mảnh đá từ Đãng Hồn Sơn, hồi 85 Tinh Thần Lực để thăm dò Mộng Cảnh & Độ Kiếp." },
-        { type: "gu", id: "tuu_trung_gu", guRank: 1, name: "Tửu Trùng Nhất Chuyển", icon: "🍶", price: 120, currency: "stones", desc: "Phàm cổ Luyện Đạo (1–5 Chuyển), giảm 25% tiêu hao khi lắp làm Cổ Phụ Trợ Sát Chiêu." },
-        { type: "gu", id: "huyet_nguyet_gu", guRank: 1, name: "Huyết Nguyệt Cổ Nhất Chuyển", icon: "🩸", price: 95, currency: "stones", desc: "Linh cổ Huyết Đạo (Thăng được 1–9 Chuyển) gây chảy máu và hút 25% Sinh Mệnh." },
-        { type: "gu", id: "am_anh_gu", guRank: 2, name: "U Ảnh Tiễn Cổ Nhị Chuyển", icon: "🌑", price: 195, currency: "stones", desc: "Phàm cổ Ám Đạo (1–5 Chuyển), bắn tên bóng tối xuyên thấu nhiều mục tiêu." },
-        { type: "gu", id: "quy_dien_hoa_gu", guRank: 2, name: "Quỷ Diện Hoa Cổ Nhị Chuyển", icon: "🌺", price: 210, currency: "stones", desc: "Phàm cổ Hồn Đạo (1–5 Chuyển), tự động truy kích hồn phách và hút 20% máu." },
-        { type: "gu", id: "kiem_anh_gu", guRank: 2, name: "Kiếm Ảnh Cổ Nhị Chuyển", icon: "🗡️", price: 240, currency: "stones", desc: "Linh cổ Kiếm Đạo (Thăng được 1–9 Chuyển), phóng kiếm ảnh cực nhanh nảy liên hoàn." },
-        { type: "gu", id: "huyet_lo_gu", guRank: 3, name: "Huyết Lô Cổ Tam Chuyển", icon: "💀", price: 620, currency: "stones", desc: "Linh cổ Huyết Đạo (Thăng được 1–9 Chuyển), nổ huyết năng diện rộng và hút 30% máu." },
-        { type: "gu", id: "thu_luc_tinh_hon_gu", guRank: 3, name: "Thú Lực Tinh Hồn Cổ Tam Chuyển", icon: "🦁", price: 590, currency: "stones", desc: "Linh cổ Nô Đạo (Thăng được 1–9 Chuyển), triệu hồi chiến hồn Bách Thú Vương vây công." },
-        { type: "gu", id: "tinh_quang_gu", guRank: 3, name: "Tinh Quang Cổ Tam Chuyển", icon: "🌟", price: 575, currency: "stones", desc: "Linh cổ Quang Đạo (Thăng được 1–9 Chuyển), giáng mưa ánh sao từ chín tầng trời." },
-        { type: "gu", id: "cam_ly_van_gu", guRank: 3, name: "Cẩm Lý Vận Cổ Tam Chuyển", icon: "🐟", price: 680, currency: "stones", desc: "Linh cổ Vận Đạo (Thăng được 1–9 Chuyển), gia tăng khí vận và giảm 25% tiêu hao Sát Chiêu." },
-        { type: "gu", id: "hon_khieu_gu", guRank: 3, name: "Nhiếp Hồn Âm Cổ Tam Chuyển", icon: "👻", price: 580, currency: "stones", desc: "Linh cổ Hồn Đạo (Thăng được 1–9 Chuyển), phát sóng âm chấn Choáng diện rộng." },
-        { type: "gu", id: "toan_cuc_luc_gu", guRank: 3, name: "Toàn Lực Dĩ Phó Cổ Tam Chuyển", icon: "🐯", price: 650, currency: "stones", desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi Thú Ảnh Mãnh Hổ." }
+        { type: "item", id: "am_duong_chuyen_than_gu", name: "Âm Dương Chuyển Thân Cổ (Tứ Chuyển — Cứu Thập Tuyệt Thể)", icon: "☯️", price: 950, currency: "stones", spawnChance: 0.16, minStock: 1, maxStock: 1, desc: "[Chuẩn Nguyên Tác Bạch Ngưng Băng] Phong ấn Thập Tuyệt Thể xuống 90% Giáp Đẳng, reset áp lực về 0% & NGỪNG HOÀN TOÀN bạo tạc! Dùng lần 2 để khôi phục 100% Thập Tuyệt Thể trước khi Thăng Tiên." },
+        { type: "item", id: "bronze_relic_gu", name: "Thanh Đồng Xá Lợi Cổ", icon: "🟢", price: 850, currency: "stones", spawnChance: 0.16, minStock: 1, maxStock: 1, desc: "Bảo vật Nhất Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
+        { type: "item", id: "red_iron_relic_gu", name: "Xích Thiết Xá Lợi Cổ", icon: "🔴", price: 2400, currency: "stones", spawnChance: 0.12, minStock: 1, maxStock: 1, desc: "Bảo vật Nhị Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
+        { type: "item", id: "white_silver_relic_gu", name: "Bạch Ngân Xá Lợi Cổ", icon: "⚪", price: 6800, currency: "stones", spawnChance: 0.09, minStock: 1, maxStock: 1, desc: "Chí bảo Tam Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
+        { type: "item", id: "yellow_gold_relic_gu", name: "Hoàng Kim Xá Lợi Cổ", icon: "🟡", price: 18000, currency: "stones", spawnChance: 0.06, minStock: 1, maxStock: 1, desc: "Chí bảo Tứ Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
+        { type: "item", id: "purple_crystal_relic_gu", name: "Tử Tinh Xá Lợi Cổ", icon: "🟣", price: 45000, currency: "stones", spawnChance: 0.035, minStock: 1, maxStock: 1, desc: "Thần vật Ngũ Chuyển: Sử dụng giúp Khiếu Bích lập tức tăng 1 tiểu cảnh giới!" },
+        { type: "item", id: "remnant_recipe", name: "Cổ Phương Tàn Quyển", icon: "📜", price: 220, currency: "stones", spawnChance: 0.48, minStock: 1, maxStock: 2, desc: "Giải mã tại Luyện Đạo Các để mở khóa Bí Phương Hợp Luyện cổ Nhị -> Cửu Chuyển." },
+        { type: "item", id: "hundred_year_ginseng", name: "Bách Niên Khổ Sâm", icon: "🥕", price: 120, currency: "stones", spawnChance: 0.55, minStock: 1, maxStock: 3, desc: "Hồi 90 HP, 45 Tinh Thần & nguyên liệu nuôi dưỡng Thiên Nguyên Bảo Liên, Cẩm Lý Vận Cổ." },
+        { type: "item", id: "soul_crystal", name: "Đãng Hồn Thạch Đan", icon: "🔮", price: 180, currency: "stones", spawnChance: 0.50, minStock: 1, maxStock: 3, desc: "Mảnh đá từ Đãng Hồn Sơn, hồi 85 Tinh Thần Lực để thăm dò Mộng Cảnh & Độ Kiếp." },
+        { type: "gu", id: "tuu_trung_gu", guRank: 1, name: "Tửu Trùng Nhất Chuyển", icon: "🍶", price: 520, currency: "stones", spawnChance: 0.24, minStock: 1, maxStock: 1, desc: "Phàm cổ Luyện Đạo (1–5 Chuyển), giảm 25% tiêu hao khi lắp làm Cổ Phụ Trợ Sát Chiêu." },
+        { type: "gu", id: "huyet_nguyet_gu", guRank: 1, name: "Huyết Nguyệt Cổ Nhất Chuyển", icon: "🩸", price: 460, currency: "stones", spawnChance: 0.26, minStock: 1, maxStock: 1, desc: "Linh cổ Huyết Đạo (Thăng được 1–9 Chuyển) gây chảy máu và hút 25% Sinh Mệnh." },
+        { type: "gu", id: "am_anh_gu", guRank: 2, name: "U Ảnh Tiễn Cổ Nhị Chuyển", icon: "🌑", price: 920, currency: "stones", spawnChance: 0.28, minStock: 1, maxStock: 1, desc: "Phàm cổ Ám Đạo (1–5 Chuyển), bắn tên bóng tối xuyên thấu nhiều mục tiêu." },
+        { type: "gu", id: "quy_dien_hoa_gu", guRank: 2, name: "Quỷ Diện Hoa Cổ Nhị Chuyển", icon: "🌺", price: 980, currency: "stones", spawnChance: 0.26, minStock: 1, maxStock: 1, desc: "Phàm cổ Hồn Đạo (1–5 Chuyển), tự động truy kích hồn phách và hút 20% máu." },
+        { type: "gu", id: "kiem_anh_gu", guRank: 2, name: "Kiếm Ảnh Cổ Nhị Chuyển", icon: "🗡️", price: 1250, currency: "stones", spawnChance: 0.22, minStock: 1, maxStock: 1, desc: "Linh cổ Kiếm Đạo (Thăng được 1–9 Chuyển), phóng kiếm ảnh cực nhanh nảy liên hoàn." },
+        { type: "gu", id: "huyet_lo_gu", guRank: 3, name: "Huyết Lô Cổ Tam Chuyển", icon: "💀", price: 3100, currency: "stones", spawnChance: 0.16, minStock: 1, maxStock: 1, desc: "Linh cổ Huyết Đạo (Thăng được 1–9 Chuyển), nổ huyết năng diện rộng và hút 30% máu." },
+        { type: "gu", id: "thu_luc_tinh_hon_gu", guRank: 3, name: "Thú Lực Tinh Hồn Cổ Tam Chuyển", icon: "🦁", price: 2900, currency: "stones", spawnChance: 0.18, minStock: 1, maxStock: 1, desc: "Linh cổ Nô Đạo (Thăng được 1–9 Chuyển), triệu hồi chiến hồn Bách Thú Vương vây công." },
+        { type: "gu", id: "tinh_quang_gu", guRank: 3, name: "Tinh Quang Cổ Tam Chuyển", icon: "🌟", price: 2750, currency: "stones", spawnChance: 0.18, minStock: 1, maxStock: 1, desc: "Linh cổ Quang Đạo (Thăng được 1–9 Chuyển), giáng mưa ánh sao từ chín tầng trời." },
+        { type: "gu", id: "cam_ly_van_gu", guRank: 3, name: "Cẩm Lý Vận Cổ Tam Chuyển", icon: "🐟", price: 3400, currency: "stones", spawnChance: 0.14, minStock: 1, maxStock: 1, desc: "Linh cổ Vận Đạo (Thăng được 1–9 Chuyển), gia tăng khí vận và giảm 25% tiêu hao Sát Chiêu." },
+        { type: "gu", id: "hon_khieu_gu", guRank: 3, name: "Nhiếp Hồn Âm Cổ Tam Chuyển", icon: "👻", price: 2850, currency: "stones", spawnChance: 0.17, minStock: 1, maxStock: 1, desc: "Linh cổ Hồn Đạo (Thăng được 1–9 Chuyển), phát sóng âm chấn Choáng diện rộng." },
+        { type: "gu", id: "toan_cuc_luc_gu", guRank: 3, name: "Toàn Lực Dĩ Phó Cổ Tam Chuyển", icon: "🐯", price: 3500, currency: "stones", spawnChance: 0.14, minStock: 1, maxStock: 1, desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi Thú Ảnh Mãnh Hổ." }
     ];
 
     const TREASURE_YELLOW_HEAVEN_ITEMS = [
-        { type: "exchange_immortal", id: "immortal_stone", name: "Đổi 1 Tiên Nguyên Thạch", icon: "🌟", price: 2000, currency: "stones", light: "Bảo Quang 3 Trượng", desc: "Dùng 2.000 Nguyên Thạch phàm phẩm tụ hợp đổi 1 viên Tiên Nguyên Thạch." },
-        { type: "item", id: "purple_crystal_relic_gu", name: "Tử Tinh Xá Lợi Cổ (Lô Hàng Tiên Nhân)", icon: "🟣", price: 12, currency: "immortal", light: "Bảo Quang 5 Trượng", desc: "Tăng thẳng 1 tiểu cảnh giới Ngũ Chuyển (Giá: 12 Tiên Nguyên Thạch)." },
-        { type: "item", id: "soul_crystal", name: "Đãng Hồn Thạch Đan (x5)", icon: "🔮", count: 5, price: 3, currency: "immortal", light: "Bảo Quang 4 Trượng", desc: "5 viên Đãng Hồn Thạch từ Hồ Tiên Phúc Địa (Giá: 3 Tiên Nguyên Thạch)." },
-        { type: "gu", id: "hoa_long_gu", guRank: 4, name: "Xích Viêm Hỏa Long Cổ Tứ Chuyển", icon: "🔥", price: 8, currency: "immortal", light: "Bảo Quang 6 Trượng", desc: "Linh cổ Viêm Đạo (Thăng được 1–9 Chuyển), giáng Hỏa Long và mưa thiên hỏa." },
-        { type: "gu", id: "bang_tuyet_phong_gu", guRank: 4, name: "Băng Tinh Tuyết Hoa Cổ Tứ Chuyển", icon: "❄️", price: 8, currency: "immortal", light: "Bảo Quang 6 Trượng", desc: "Linh cổ Băng Đạo (Thăng được 1–9 Chuyển), đóng băng cứng quần địch." },
-        { type: "gu", id: "van_kiem_quy_tong_gu", guRank: 4, name: "Khổ Lực Cổ Tứ Chuyển", icon: "🦣", price: 10, currency: "immortal", light: "Bảo Quang 7 Trượng", desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi đàn Cự Tượng Hư Ảnh." },
-        { type: "gu", id: "ban_son_luc_gu", guRank: 4, name: "Bàn Sơn Lực Cổ Tứ Chuyển", icon: "⛰️", price: 10, currency: "immortal", light: "Bảo Quang 7 Trượng", desc: "Linh cổ Thổ Đạo (Thăng được 1–9 Chuyển), dựng hộ thuẫn sơn nhạc bất hoại." },
-        { type: "gu", id: "thien_thi_vuong_gu", guRank: 4, name: "Thiên Thi Vương Cổ Tứ Chuyển", icon: "🧟", price: 12, currency: "immortal", light: "Bảo Quang 8 Trượng", desc: "Linh cổ Hồn Đạo (Thăng được 1–9 Chuyển), hút 25% máu và triệu hồi Thi Vương." },
-        { type: "gu", id: "thien_dia_hong_lo_gu", guRank: 4, name: "Thiên Địa Hồng Lô Cổ Tứ Chuyển", icon: "🏺", price: 12, currency: "immortal", light: "Bảo Quang 8 Trượng", desc: "Linh cổ Luyện Đạo (Thăng được 1–9 Chuyển), nung chảy đạo ngân địch trong biển lửa." },
-        { type: "gu", id: "thai_co_long_luc_gu", guRank: 5, name: "Thái Cổ Giao Long Lực Cổ Ngũ Chuyển", icon: "🐉", price: 28, currency: "immortal", light: "Bảo Quang 10 Trượng", desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi 3 Thái Cổ Giao Long." },
-        { type: "gu", id: "huyet_hai_thao_thien_gu", guRank: 5, name: "Huyết Hà Đại Trận Cổ Ngũ Chuyển", icon: "🩸", price: 30, currency: "immortal", light: "Bảo Quang 10 Trượng", desc: "Linh cổ Huyết Đạo (Thăng được 1–9 Chuyển), hút 35% máu & gọi Huyết Thú." },
-        { type: "gu", id: "sinh_co_moc_gu", guRank: 5, name: "Thiên Nguyên Bảo Liên Ngũ Chuyển", icon: "🪷", price: 35, currency: "immortal", light: "Bảo Quang 12 Trượng", desc: "Chí bảo Mộc Đạo của Nguyên Liên Tiên Tôn (Thăng được lên 9 Chuyển)." },
-        { type: "gu", id: "dinh_tien_du_gu", guRank: 6, name: "Định Tiên Du Lục Chuyển", icon: "🦋", price: 220, currency: "immortal", light: "Bảo Quang 22 Trượng!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Không Gian Đạo (6–9 Chuyển), dịch chuyển tức thời & xé rách hư không." },
-        { type: "gu", id: "phi_kiem_tien_gu", guRank: 6, name: "Phi Kiếm Tiên Cổ Lục Chuyển", icon: "✨", price: 240, currency: "immortal", light: "Bảo Quang 25 Trượng!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Kiếm Đạo của Kiếm Tiên Bạc Thanh (6–9 Chuyển)!" },
-        { type: "gu", id: "cau_thi_van_tien_gu", guRank: 6, name: "Cẩu Thỉ Vận Tiên Cổ Lục Chuyển", icon: "🎲", price: 260, currency: "immortal", light: "Bảo Quang 24 Trượng!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Vận Đạo của Cự Dương Tiên Tôn (6–9 Chuyển), hộ vệ khí vận!" },
-        { type: "gu", id: "xuan_thu_thien_gu", guRank: 6, name: "Xuân Thu Thiền Lục Chuyển", icon: "🦗", price: 380, currency: "immortal", light: "Hồng Mông Bảo Quang!", desc: "[Tiên Cổ Duy Nhất] Đệ Thất Kỳ Cổ Thời Gian Đạo của Hồng Liên Ma Tôn (6–9 Chuyển)!" },
-        { type: "gu", id: "hoanh_xung_tien_gu", guRank: 7, name: "Hoành Xung Trực Chạm Tiên Cổ Thất Chuyển", icon: "🦏", price: 680, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Lực Đạo (6–9 Chuyển) húc tung mọi trận hình và làm Choáng diện rộng!" },
-        { type: "gu", id: "dang_hon_tien_gu", guRank: 7, name: "Đãng Hồn Tiên Cổ Thất Chuyển", icon: "🔮", price: 750, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Hồn Đạo tinh hoa Đãng Hồn Sơn (6–9 Chuyển), chấn nát hồn phách!" },
-        { type: "gu", id: "lac_phach_tien_gu", guRank: 7, name: "Lạc Phách Tiên Cổ Thất Chuyển", icon: "🌪️", price: 750, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Phong Đạo từ Lạc Phách Cốc (6–9 Chuyển), thổi Lạc Phách Phong!" },
-        { type: "gu", id: "nghich_luu_ho_than_gu", guRank: 7, name: "Nghịch Lưu Hộ Thân Ấn Cổ Thất Chuyển", icon: "🌊", price: 820, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Thủy Đạo (6–9 Chuyển) khoác dòng sông Nghịch Lưu hộ thể & phản chấn!" },
-        { type: "gu", id: "van_nga_tien_gu", guRank: 7, name: "Vạn Ngã Tiên Cổ Thất Chuyển", icon: "👥", price: 850, currency: "immortal", light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ hợp nhất Nô - Lực của Phương Nguyên (6–9 Chuyển)!" },
-        { type: "gu", id: "thai_do_tien_gu", guRank: 8, name: "Thái Độ Tiên Cổ Bát Chuyển", icon: "🎭", price: 2200, currency: "immortal", light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ truyền kỳ trong Nhân Tổ Truyện (6–9 Chuyển), lướt tàn ảnh & dẫn đường đạn!" },
-        { type: "gu", id: "kiep_van_dan_tien_gu", guRank: 8, name: "Kiếp Vận Đàn Tiên Cổ Bát Chuyển", icon: "⛩️", price: 2500, currency: "immortal", light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Chí bảo Trường Sinh Thiên của Cự Dương Tiên Tôn (6–9 Chuyển)!" },
-        { type: "gu", id: "tri_tue_tien_gu", guRank: 8, name: "Trí Tuệ Cổ Bát Chuyển", icon: "🌟", price: 2800, currency: "immortal", light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Thập Đại Kỳ Cổ Trí Đạo (6–9 Chuyển) phá giải áp chế Boss Bát - Cửu Chuyển!" },
-        { type: "gu", id: "ai_tinh_tien_gu", guRank: 9, name: "Ái Tình Tiên Cổ Cửu Chuyển", icon: "💖", price: 8000, currency: "immortal", light: "Cửu Chuyển Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Kỳ Cổ Cửu Chuyển của Linh Duyên Trai: Sát thương nghịch thiên & hút 30% máu!" },
-        { type: "gu", id: "thien_co_tien_gu", guRank: 9, name: "Thiên Cơ Tiên Cổ Cửu Chuyển", icon: "☸️", price: 9500, currency: "immortal", light: "Cửu Chuyển Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Trọng bảo Cửu Chuyển nắm giữ bí mật Thiên Đạo, giáng Lôi Kiếp Hỗn Độn!" },
-        { type: "gu", id: "chi_ton_tien_thai_gu", guRank: 9, name: "Chí Tôn Tiên Thai Cổ Cửu Chuyển", icon: "☯️", price: 12000, currency: "immortal", light: "Vạn Cổ Đệ Nhất Kỳ Quang!", desc: "[Tiên Cổ Duy Nhất] Đệ Nhất Chí Bảo của U Hồn Ma Tôn & Phương Nguyên! Dung hợp vạn đạo vô xung đột!" }
+        { type: "exchange_immortal", id: "immortal_stone", name: "Đổi 1 Tiên Nguyên Thạch", icon: "🌟", price: 4000, currency: "stones", unlimited: true, spawnChance: 1.0, light: "Bảo Quang 3 Trượng", desc: "Dùng 4.000 Nguyên Thạch phàm phẩm tụ hợp đổi 1 viên Tiên Nguyên Thạch (Luôn mở)." },
+        { type: "item", id: "purple_crystal_relic_gu", name: "Tử Tinh Xá Lợi Cổ (Lô Hàng Tiên Nhân)", icon: "🟣", price: 30, currency: "immortal", spawnChance: 0.10, minStock: 1, maxStock: 1, light: "Bảo Quang 5 Trượng", desc: "Tăng thẳng 1 tiểu cảnh giới Ngũ Chuyển (Giá: 30 Tiên Nguyên Thạch)." },
+        { type: "item", id: "soul_crystal", name: "Đãng Hồn Thạch Đan (x5)", icon: "🔮", count: 5, price: 8, currency: "immortal", spawnChance: 0.55, minStock: 1, maxStock: 3, light: "Bảo Quang 4 Trượng", desc: "5 viên Đãng Hồn Thạch từ Hồ Tiên Phúc Địa (Giá: 8 Tiên Nguyên Thạch)." },
+        { type: "gu", id: "hoa_long_gu", guRank: 4, name: "Xích Viêm Hỏa Long Cổ Tứ Chuyển", icon: "🔥", price: 25, currency: "immortal", spawnChance: 0.18, minStock: 1, maxStock: 1, light: "Bảo Quang 6 Trượng", desc: "Linh cổ Viêm Đạo (Thăng được 1–9 Chuyển), giáng Hỏa Long và mưa thiên hỏa." },
+        { type: "gu", id: "bang_tuyet_phong_gu", guRank: 4, name: "Băng Tinh Tuyết Hoa Cổ Tứ Chuyển", icon: "❄️", price: 25, currency: "immortal", spawnChance: 0.18, minStock: 1, maxStock: 1, light: "Bảo Quang 6 Trượng", desc: "Linh cổ Băng Đạo (Thăng được 1–9 Chuyển), đóng băng cứng quần địch." },
+        { type: "gu", id: "van_kiem_quy_tong_gu", guRank: 4, name: "Khổ Lực Cổ Tứ Chuyển", icon: "🦣", price: 32, currency: "immortal", spawnChance: 0.16, minStock: 1, maxStock: 1, light: "Bảo Quang 7 Trượng", desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi đàn Cự Tượng Hư Ảnh." },
+        { type: "gu", id: "ban_son_luc_gu", guRank: 4, name: "Bàn Sơn Lực Cổ Tứ Chuyển", icon: "⛰️", price: 32, currency: "immortal", spawnChance: 0.16, minStock: 1, maxStock: 1, light: "Bảo Quang 7 Trượng", desc: "Linh cổ Thổ Đạo (Thăng được 1–9 Chuyển), dựng hộ thuẫn sơn nhạc bất hoại." },
+        { type: "gu", id: "thien_thi_vuong_gu", guRank: 4, name: "Thiên Thi Vương Cổ Tứ Chuyển", icon: "🧟", price: 38, currency: "immortal", spawnChance: 0.14, minStock: 1, maxStock: 1, light: "Bảo Quang 8 Trượng", desc: "Linh cổ Hồn Đạo (Thăng được 1–9 Chuyển), hút 25% máu và triệu hồi Thi Vương." },
+        { type: "gu", id: "thien_dia_hong_lo_gu", guRank: 4, name: "Thiên Địa Hồng Lô Cổ Tứ Chuyển", icon: "🏺", price: 40, currency: "immortal", spawnChance: 0.14, minStock: 1, maxStock: 1, light: "Bảo Quang 8 Trượng", desc: "Linh cổ Luyện Đạo (Thăng được 1–9 Chuyển), nung chảy đạo ngân địch trong biển lửa." },
+        { type: "gu", id: "thai_co_long_luc_gu", guRank: 5, name: "Thái Cổ Giao Long Lực Cổ Ngũ Chuyển", icon: "🐉", price: 85, currency: "immortal", spawnChance: 0.11, minStock: 1, maxStock: 1, light: "Bảo Quang 10 Trượng", desc: "Linh cổ Lực Đạo (Thăng được 1–9 Chuyển), triệu hồi 3 Thái Cổ Giao Long." },
+        { type: "gu", id: "huyet_hai_thao_thien_gu", guRank: 5, name: "Huyết Hà Đại Trận Cổ Ngũ Chuyển", icon: "🩸", price: 95, currency: "immortal", spawnChance: 0.10, minStock: 1, maxStock: 1, light: "Bảo Quang 10 Trượng", desc: "Linh cổ Huyết Đạo (Thăng được 1–9 Chuyển), hút 35% máu & gọi Huyết Thú." },
+        { type: "gu", id: "sinh_co_moc_gu", guRank: 5, name: "Thiên Nguyên Bảo Liên Ngũ Chuyển", icon: "🪷", price: 125, currency: "immortal", spawnChance: 0.08, minStock: 1, maxStock: 1, light: "Bảo Quang 12 Trượng", desc: "Chí bảo Mộc Đạo của Nguyên Liên Tiên Tôn (Thăng được lên 9 Chuyển)." },
+        { type: "gu", id: "dinh_tien_du_gu", guRank: 6, name: "Định Tiên Du Lục Chuyển", icon: "🦋", price: 650, currency: "immortal", spawnChance: 0.07, minStock: 1, maxStock: 1, light: "Bảo Quang 22 Trượng!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Không Gian Đạo (6–9 Chuyển), dịch chuyển tức thời & xé rách hư không." },
+        { type: "gu", id: "phi_kiem_tien_gu", guRank: 6, name: "Phi Kiếm Tiên Cổ Lục Chuyển", icon: "✨", price: 720, currency: "immortal", spawnChance: 0.07, minStock: 1, maxStock: 1, light: "Bảo Quang 25 Trượng!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Kiếm Đạo của Kiếm Tiên Bạc Thanh (6–9 Chuyển)!" },
+        { type: "gu", id: "cau_thi_van_tien_gu", guRank: 6, name: "Cẩu Thỉ Vận Tiên Cổ Lục Chuyển", icon: "🎲", price: 780, currency: "immortal", spawnChance: 0.06, minStock: 1, maxStock: 1, light: "Bảo Quang 24 Trượng!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Vận Đạo của Cự Dương Tiên Tôn (6–9 Chuyển), hộ vệ khí vận!" },
+        { type: "gu", id: "xuan_thu_thien_gu", guRank: 6, name: "Xuân Thu Thiền Lục Chuyển", icon: "🦗", price: 1350, currency: "immortal", spawnChance: 0.035, minStock: 1, maxStock: 1, light: "Hồng Mông Bảo Quang!", desc: "[Tiên Cổ Duy Nhất — Kỳ Cổ OP] Đệ Thất Kỳ Cổ Thời Gian Đạo của Hồng Liên Ma Tôn (6–9 Chuyển)!" },
+        { type: "gu", id: "hoanh_xung_tien_gu", guRank: 7, name: "Hoành Xung Trực Chạm Tiên Cổ Thất Chuyển", icon: "🦏", price: 2100, currency: "immortal", spawnChance: 0.045, minStock: 1, maxStock: 1, light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Lực Đạo (6–9 Chuyển) húc tung mọi trận hình và làm Choáng diện rộng!" },
+        { type: "gu", id: "dang_hon_tien_gu", guRank: 7, name: "Đãng Hồn Tiên Cổ Thất Chuyển", icon: "🔮", price: 2400, currency: "immortal", spawnChance: 0.04, minStock: 1, maxStock: 1, light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Hồn Đạo tinh hoa Đãng Hồn Sơn (6–9 Chuyển), chấn nát hồn phách!" },
+        { type: "gu", id: "lac_phach_tien_gu", guRank: 7, name: "Lạc Phách Tiên Cổ Thất Chuyển", icon: "🌪️", price: 2400, currency: "immortal", spawnChance: 0.04, minStock: 1, maxStock: 1, light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ Phong Đạo từ Lạc Phách Cốc (6–9 Chuyển), thổi Lạc Phách Phong!" },
+        { type: "gu", id: "nghich_luu_ho_than_gu", guRank: 7, name: "Nghịch Lưu Hộ Thân Ấn Cổ Thất Chuyển", icon: "🌊", price: 2700, currency: "immortal", spawnChance: 0.032, minStock: 1, maxStock: 1, light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất — Phòng Ngự OP] Tiên Cổ Thủy Đạo (6–9 Chuyển) khoác dòng sông Nghịch Lưu hộ thể!" },
+        { type: "gu", id: "van_nga_tien_gu", guRank: 7, name: "Vạn Ngã Tiên Cổ Thất Chuyển", icon: "👥", price: 2800, currency: "immortal", spawnChance: 0.032, minStock: 1, maxStock: 1, light: "Vạn Trượng Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ hợp nhất Nô - Lực của Phương Nguyên (6–9 Chuyển)!" },
+        { type: "gu", id: "thai_do_tien_gu", guRank: 8, name: "Thái Độ Tiên Cổ Bát Chuyển", icon: "🎭", price: 7200, currency: "immortal", spawnChance: 0.022, minStock: 1, maxStock: 1, light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Tiên Cổ truyền kỳ trong Nhân Tổ Truyện (6–9 Chuyển), lướt tàn ảnh & dẫn đường đạn!" },
+        { type: "gu", id: "kiep_van_dan_tien_gu", guRank: 8, name: "Kiếp Vận Đàn Tiên Cổ Bát Chuyển", icon: "⛩️", price: 8500, currency: "immortal", spawnChance: 0.018, minStock: 1, maxStock: 1, light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất] Chí bảo Trường Sinh Thiên của Cự Dương Tiên Tôn (6–9 Chuyển)!" },
+        { type: "gu", id: "tri_tue_tien_gu", guRank: 8, name: "Trí Tuệ Cổ Bát Chuyển", icon: "🌟", price: 9800, currency: "immortal", spawnChance: 0.015, minStock: 1, maxStock: 1, light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất — Kỳ Cổ OP] Thập Đại Kỳ Cổ Trí Đạo (6–9 Chuyển) phá giải áp chế Boss Bát - Cửu Chuyển!" },
+        { type: "gu", id: "ai_tinh_tien_gu", guRank: 9, name: "Ái Tình Tiên Cổ Cửu Chuyển", icon: "💖", price: 26000, currency: "immortal", spawnChance: 0.010, minStock: 1, maxStock: 1, light: "Cửu Chuyển Tiên Quang!", desc: "[Tiên Cổ Duy Nhất — Cực Hiếm OP] Kỳ Cổ Cửu Chuyển của Linh Duyên Trai: Sát thương nghịch thiên & hút 30% máu!" },
+        { type: "gu", id: "thien_co_tien_gu", guRank: 9, name: "Thiên Cơ Tiên Cổ Cửu Chuyển", icon: "☸️", price: 32000, currency: "immortal", spawnChance: 0.008, minStock: 1, maxStock: 1, light: "Cửu Chuyển Tiên Quang!", desc: "[Tiên Cổ Duy Nhất — Cực Hiếm OP] Trọng bảo Cửu Chuyển nắm giữ bí mật Thiên Đạo, giáng Lôi Kiếp Hỗn Độn!" },
+        { type: "gu", id: "chi_ton_tien_thai_gu", guRank: 9, name: "Chí Tôn Tiên Thai Cổ Cửu Chuyển", icon: "☯️", price: 45000, currency: "immortal", spawnChance: 0.005, minStock: 1, maxStock: 1, light: "Vạn Cổ Đệ Nhất Kỳ Quang!", desc: "[Tiên Cổ Duy Nhất — Tối Thượng OP] Đệ Nhất Chí Bảo của U Hồn Ma Tôn & Phương Nguyên! Dung hợp vạn đạo vô xung đột!" }
     ];
 
     const CLAN_TREASURY_ITEMS = [
-        { type: "item", id: "thach_khieu_gu", name: "Thạch Khiếu Cổ (-50% Áp Lực Thập Tuyệt)", icon: "🪨", meritCost: 70, desc: "Hóa thạch gia cố Khiếu Bích, xả ngay -50% áp lực Không Khiếu cho Thập Tuyệt Thể." },
-        { type: "item", id: "am_duong_chuyen_than_gu", name: "Âm Dương Chuyển Thân Cổ (Phong Ấn Thập Tuyệt)", icon: "☯️", meritCost: 180, desc: "Đổi âm dương nhục thân: Hạ Thập Tuyệt Thể xuống 90% Giáp Đẳng để ngừng hoàn toàn nguy cơ tự bạo (dùng lại để hồi 100%)." },
-        { type: "item", id: "remnant_recipe", name: "Cổ Phương Tàn Quyển", icon: "📜", meritCost: 75, desc: "Bí tịch lưu trữ trong Gia Tộc Các, dùng giải mã Cổ Phương Hợp Luyện mới." },
-        { type: "gu", id: "tuu_trung_gu", guRank: 1, name: "Tửu Trùng Nhất Chuyển", icon: "🍶", meritCost: 110, desc: "Phàm cổ tinh luyện chân nguyên và giảm tiêu hao Sát Chiêu." },
-        { type: "item", id: "bronze_relic_gu", name: "Thanh Đồng Xá Lợi Cổ", icon: "🟢", meritCost: 160, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Nhất Chuyển." },
-        { type: "gu", id: "kim_cham_gu", guRank: 2, name: "Kim Châm Cổ Nhị Chuyển", icon: "🪡", meritCost: 220, desc: "Phàm cổ Kim Đạo đã ôn dưỡng lên Nhị Chuyển, bắn chùm kim châm nảy liên hoàn." },
-        { type: "item", id: "red_iron_relic_gu", name: "Xích Thiết Xá Lợi Cổ", icon: "🔴", meritCost: 420, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Nhị Chuyển." },
-        { type: "gu", id: "nguyet_quang_gu", guRank: 3, name: "Nguyệt Quang Cổ Tam Chuyển", icon: "🌙", meritCost: 480, desc: "Nguyệt Quang Cổ đã được tộc lão ôn dưỡng lên Tam Chuyển." },
-        { type: "gu", id: "kiem_anh_gu", guRank: 3, name: "Kiếm Ảnh Cổ Tam Chuyển", icon: "🗡️", meritCost: 520, desc: "Linh cổ Kiếm Đạo Tam Chuyển (Có thể thăng tiếp lên Cửu Chuyển)." },
-        { type: "gu", id: "tinh_quang_gu", guRank: 3, name: "Tinh Quang Cổ Tam Chuyển", icon: "🌟", meritCost: 540, desc: "Linh cổ Quang Đạo Tam Chuyển (Có thể thăng tiếp lên Cửu Chuyển)." },
-        { type: "item", id: "white_silver_relic_gu", name: "Bạch Ngân Xá Lợi Cổ", icon: "⚪", meritCost: 980, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Tam Chuyển." },
-        { type: "gu", id: "ban_son_luc_gu", guRank: 4, name: "Bàn Sơn Lực Cổ Tứ Chuyển", icon: "⛰️", meritCost: 1350, desc: "Linh cổ Thổ Đạo Tứ Chuyển tạo giáp sơn nhạc kiên cố (Thăng được lên 9 Chuyển)." },
-        { type: "item", id: "yellow_gold_relic_gu", name: "Hoàng Kim Xá Lợi Cổ", icon: "🟡", meritCost: 2200, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Tứ Chuyển." },
-        { type: "item", id: "purple_crystal_relic_gu", name: "Tử Tinh Xá Lợi Cổ", icon: "🟣", meritCost: 4800, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Ngũ Chuyển." }
+        { type: "item", id: "thach_khieu_gu", name: "Thạch Khiếu Cổ (-50% Áp Lực Thập Tuyệt)", icon: "🪨", meritCost: 180, spawnChance: 0.45, minStock: 1, maxStock: 1, desc: "Hóa thạch gia cố Khiếu Bích, xả ngay -50% áp lực Không Khiếu cho Thập Tuyệt Thể." },
+        { type: "item", id: "am_duong_chuyen_than_gu", name: "Âm Dương Chuyển Thân Cổ (Phong Ấn Thập Tuyệt)", icon: "☯️", meritCost: 520, spawnChance: 0.20, minStock: 1, maxStock: 1, desc: "Đổi âm dương nhục thân: Hạ Thập Tuyệt Thể xuống 90% Giáp Đẳng để ngừng hoàn toàn nguy cơ tự bạo (dùng lại để hồi 100%)." },
+        { type: "item", id: "remnant_recipe", name: "Cổ Phương Tàn Quyển", icon: "📜", meritCost: 160, spawnChance: 0.55, minStock: 1, maxStock: 2, desc: "Bí tịch lưu trữ trong Gia Tộc Các, dùng giải mã Cổ Phương Hợp Luyện mới." },
+        { type: "gu", id: "tuu_trung_gu", guRank: 1, name: "Tửu Trùng Nhất Chuyển", icon: "🍶", meritCost: 360, spawnChance: 0.25, minStock: 1, maxStock: 1, desc: "Phàm cổ tinh luyện chân nguyên và giảm tiêu hao Sát Chiêu." },
+        { type: "item", id: "bronze_relic_gu", name: "Thanh Đồng Xá Lợi Cổ", icon: "🟢", meritCost: 480, spawnChance: 0.16, minStock: 1, maxStock: 1, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Nhất Chuyển." },
+        { type: "gu", id: "kim_cham_gu", guRank: 2, name: "Kim Châm Cổ Nhị Chuyển", icon: "🪡", meritCost: 680, spawnChance: 0.30, minStock: 1, maxStock: 1, desc: "Phàm cổ Kim Đạo đã ôn dưỡng lên Nhị Chuyển, bắn chùm kim châm nảy liên hoàn." },
+        { type: "item", id: "red_iron_relic_gu", name: "Xích Thiết Xá Lợi Cổ", icon: "🔴", meritCost: 1250, spawnChance: 0.12, minStock: 1, maxStock: 1, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Nhị Chuyển." },
+        { type: "gu", id: "nguyet_quang_gu", guRank: 3, name: "Nguyệt Quang Cổ Tam Chuyển", icon: "🌙", meritCost: 1550, spawnChance: 0.24, minStock: 1, maxStock: 1, desc: "Nguyệt Quang Cổ đã được tộc lão ôn dưỡng lên Tam Chuyển." },
+        { type: "gu", id: "kiem_anh_gu", guRank: 3, name: "Kiếm Ảnh Cổ Tam Chuyển", icon: "🗡️", meritCost: 1750, spawnChance: 0.20, minStock: 1, maxStock: 1, desc: "Linh cổ Kiếm Đạo Tam Chuyển (Có thể thăng tiếp lên Cửu Chuyển)." },
+        { type: "gu", id: "tinh_quang_gu", guRank: 3, name: "Tinh Quang Cổ Tam Chuyển", icon: "🌟", meritCost: 1850, spawnChance: 0.20, minStock: 1, maxStock: 1, desc: "Linh cổ Quang Đạo Tam Chuyển (Có thể thăng tiếp lên Cửu Chuyển)." },
+        { type: "item", id: "white_silver_relic_gu", name: "Bạch Ngân Xá Lợi Cổ", icon: "⚪", meritCost: 3000, spawnChance: 0.09, minStock: 1, maxStock: 1, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Tam Chuyển." },
+        { type: "gu", id: "ban_son_luc_gu", guRank: 4, name: "Bàn Sơn Lực Cổ Tứ Chuyển", icon: "⛰️", meritCost: 4200, spawnChance: 0.14, minStock: 1, maxStock: 1, desc: "Linh cổ Thổ Đạo Tứ Chuyển tạo giáp sơn nhạc kiên cố (Thăng được lên 9 Chuyển)." },
+        { type: "item", id: "yellow_gold_relic_gu", name: "Hoàng Kim Xá Lợi Cổ", icon: "🟡", meritCost: 6800, spawnChance: 0.06, minStock: 1, maxStock: 1, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Tứ Chuyển." },
+        { type: "item", id: "purple_crystal_relic_gu", name: "Tử Tinh Xá Lợi Cổ", icon: "🟣", meritCost: 14500, spawnChance: 0.035, minStock: 1, maxStock: 1, desc: "Đổi bằng điểm Cống Hiến: Tăng thẳng 1 tiểu cảnh giới Ngũ Chuyển." }
     ];
 
     const TRUE_INHERITANCES = [
@@ -497,7 +497,10 @@
                 daoLordPanelBox: $("dao-lord-panel-box"),
                 daoLordTitle: $("dao-lord-title"),
                 daoLordStats: $("dao-lord-stats"),
-                btnRefineNaturalDao: $("btn-refine-natural-dao")
+                btnRefineNaturalDao: $("btn-refine-natural-dao"),
+                marketCycleNum: $("market-cycle-num"),
+                marketResetCountdown: $("market-reset-countdown"),
+                treasuryResetCountdown: $("treasury-reset-countdown")
             };
         }
 
@@ -916,7 +919,7 @@
 
             if (d.btnHubCultivate) {
                 d.btnHubCultivate.addEventListener("click", () => {
-                    const res = this.aperture.cultivateStep(5.0, 1.5);
+                    const res = this.aperture.cultivateStep(5.0, 1.0);
                     if (res.success) {
                         this.addLog(
                             `🧘 Ngươi vận chuyển Chân Nguyên cọ rửa Khiếu Bích, tiến độ ôn dưỡng đạt ${Math.floor(res.wallProgress)}/${res.maxWallProgress}.`,
@@ -995,22 +998,33 @@
 
             if (d.btnCollectApertureYield) {
                 d.btnCollectApertureYield.addEventListener("click", () => {
-                    if (!this.aperture.isImmortal) {
-                        this.addLog("Chỉ Cổ Tiên Lục Chuyển trở lên mới sở hữu Phúc Địa để thu hoạch sản vật!", "warning");
-                        return;
-                    }
-                    const stonesYield = Math.max(15, this.aperture.immortalAperture.resources.primevalStonesOutput * 2);
-                    this.player.primevalStones += stonesYield;
-                    this.player.addItem("spirit_herb", 2);
-                    this.player.addItem("moon_orchid", 2);
-                    this.aperture.immortalEssence[this.aperture.rank] += 1;
-                    this.addLog(
-                        `🌱 Đã thu hoạch sản vật trong ${this.aperture.immortalAperture.gradeName}: +${stonesYield} Nguyên Thạch, +2 Thanh Linh Thảo, +2 Nguyệt Lan Hoa & +1 viên Tiên Nguyên!`,
-                        "loot"
-                    );
+                    if (!this.aperture || typeof this.aperture.collectApertureYield !== "function") return;
+                    const res = this.aperture.collectApertureYield(this.player);
+                    this.addLog(res.message, res.success ? "loot" : "warning");
+                    if (res.success && this.game) this.game.autoSaveNow("collect_aperture");
                     this.renderApertureTab();
                     this.updateHubTopbar();
                 });
+            }
+
+            if (d.btnCollectApertureYield) {
+                if (!ap.isImmortal) {
+                    d.btnCollectApertureYield.disabled = true;
+                    d.btnCollectApertureYield.textContent = "🔒 Thu Hoạch Tiên Khiếu (Cần Thăng Tiên)";
+                } else {
+                    const yRem = typeof ap.getApertureYieldCooldownRemaining === "function"
+                        ? ap.getApertureYieldCooldownRemaining()
+                        : 0;
+                    if (yRem > 0) {
+                        const mm = Math.floor(yRem / 60);
+                        const ss = String(yRem % 60).padStart(2, "0");
+                        d.btnCollectApertureYield.disabled = true;
+                        d.btnCollectApertureYield.textContent = `⏳ Tái Sinh Sản Vật (${mm}:${ss})`;
+                    } else {
+                        d.btnCollectApertureYield.disabled = false;
+                        d.btnCollectApertureYield.textContent = "🌱 Thu Hoạch Sản Vật Tiên Khiếu (Hồi 3 phút)";
+                    }
+                }
             }
 
             if (d.btnTriggerTribulation) {
@@ -1282,8 +1296,8 @@
                                 <p class="sub-text" style="margin: 8px 0;">${st.description}</p>
                                 <div class="map-card-meta">
                                     <div><strong>Chế độ:</strong> <span style="color:#7ef7c4">🌾 Farm Tự Do — Không có Boss (Rút lui bất cứ lúc nào)</span></div>
-                                    <div><strong>Quái tái sinh:</strong> ${st.mobName} (+2 Tinh Anh) tái sinh mỗi 14s</div>
-                                    <div><strong>Tài nguyên bản đồ:</strong> <span style="color:#ffd700">18 Mỏ Cổ Tài & Nguyên Mạch (2 lượt / hồi 35s)</span></div>
+                                    <div><strong>Quái tái sinh:</strong> ${st.mobName} (+1 Tinh Anh) tái sinh chậm mỗi 24s</div>
+                                    <div><strong>Tài nguyên bản đồ:</strong> <span style="color:#ffd700">10 Mỏ Cổ Tài & Nguyên Mạch (1 lượt / hồi 75s)</span></div>
                                 </div>
                             </div>
 
@@ -1412,7 +1426,7 @@
                     const req = ap.getManualTribulationRequirements();
                     const mPassed = ap.immortalAperture.myriadTribulationsPassed || 0;
                     d.btnTriggerTribulation.disabled = false;
-                    d.btnTriggerTribulation.textContent = `🌩️ Độ Vạn Kiếp [${mPassed}/3] (+55.000 ĐN | -${req.essenceCost} Tiên Nguyên, -${req.humanQiCost} Nhân Khí, -${req.mentalCost} Tinh Thần)`;
+                    d.btnTriggerTribulation.textContent = `🌩️ Độ Vạn Kiếp [${mPassed}/3] (+35.000 ĐN | -${req.essenceCost} Tiên Nguyên, -${req.humanQiCost} Nhân Khí, -${req.mentalCost} Tinh Thần)`;
                 } else {
                     const req = ap.getManualTribulationRequirements();
                     const passed = ap.immortalAperture.subStageTribulationsPassed || 0;
@@ -2118,15 +2132,38 @@
         // TAB 8 RENDER: THƯƠNG ĐỘI, PHÒNG ĐẤU GIÁ & BẢO HOÀNG THIÊN
         // ---------------------------------------------------------------------
         renderMarketTab() {
-            if (!this.player || !this.guSystem) return;
+            if (!this.player || !this.guSystem || !this.game) return;
             const d = this.dom;
             const discount = this.player.tradeDiscount || 0;
 
-            let catalog = CARAVAN_SHOP_ITEMS;
-            if (this.currentMarketTab === "auction") catalog = AUCTION_HOUSE_ITEMS;
-            else if (this.currentMarketTab === "treasure_heaven") catalog = TREASURE_YELLOW_HEAVEN_ITEMS;
+            this.game.ensureMarketRotation(false);
+            this.updateMarketCountdownText();
 
-            d.marketContent.innerHTML = catalog.map((entry, idx) => {
+            const marketKey = this.currentMarketTab || "caravan";
+            let catalog = CARAVAN_SHOP_ITEMS;
+            if (marketKey === "auction") catalog = AUCTION_HOUSE_ITEMS;
+            else if (marketKey === "treasure_heaven") catalog = TREASURE_YELLOW_HEAVEN_ITEMS;
+
+            // Gắn thông tin tồn kho đợt hiện tại & sắp xếp: Còn Hàng lên trước, Chưa Về / Hết Hàng xuống dưới
+            const enriched = catalog.map((entry, idx) => {
+                const stockKey = entry.stockKey || `${entry.type}_${entry.id}_${entry.guRank || 0}_${idx}`;
+                const stock = this.game.getMarketItemStock(marketKey, stockKey);
+                const isUniqueImmortalOwned =
+                    entry.type === "gu" &&
+                    (entry.guRank || 1) >= 6 &&
+                    typeof this.guSystem.hasImmortalGu === "function" &&
+                    this.guSystem.hasImmortalGu(entry.id);
+                return { entry, idx, stockKey, stock, isUniqueImmortalOwned };
+            });
+
+            enriched.sort((a, b) => {
+                const aAvail = (a.stock > 0 && !a.isUniqueImmortalOwned) ? 1 : 0;
+                const bAvail = (b.stock > 0 && !b.isUniqueImmortalOwned) ? 1 : 0;
+                if (aAvail !== bAvail) return bAvail - aAvail;
+                return a.idx - b.idx;
+            });
+
+            d.marketContent.innerHTML = enriched.map(({ entry, idx, stockKey, stock, isUniqueImmortalOwned }) => {
                 const isImmortalCurr = entry.currency === "immortal";
                 const finalPrice = isImmortalCurr
                     ? entry.price
@@ -2135,25 +2172,46 @@
                 const currencyLabel = isImmortalCurr ? `🌟 ${priceStr} Tiên Thạch` : `💎 ${priceStr} Nguyên Thạch`;
                 const lightBadge = entry.light ? `<span class="badge highlight-gold">${entry.light}</span>` : "";
 
-                const isUniqueImmortalOwned =
-                    entry.type === "gu" &&
-                    (entry.guRank || 1) >= 6 &&
-                    typeof this.guSystem.hasImmortalGu === "function" &&
-                    this.guSystem.hasImmortalGu(entry.id);
+                const chancePct = entry.spawnChance !== undefined
+                    ? (entry.spawnChance * 100 < 1 ? (entry.spawnChance * 100).toFixed(1) : Math.round(entry.spawnChance * 100))
+                    : 50;
+                const isUnlimited = Boolean(entry.unlimited) || stock >= 9999;
+                const inStock = isUnlimited || stock > 0;
+
+                const stockBadge = isUnlimited
+                    ? `<span style="color:#5cc995">♾️ Luôn Mở</span>`
+                    : (inStock
+                        ? `<span style="color:#5cc995">📦 Đợt này còn: <strong>${stock}</strong></span>`
+                        : `<span style="color:#ff8a8a">⏳ Chưa có hàng đợt này</span>`);
+
+                const rateBadge = `<span class="sub-text">Tỷ lệ xuất hiện: <strong>${chancePct}%</strong>/đợt</span>`;
+
+                let btnHtml = "";
+                if (isUniqueImmortalOwned) {
+                    btnHtml = `<button class="btn-secondary" disabled style="width:100%;">🔒 Đã Sở Hữu (Tiên Cổ Là Duy Nhất)</button>`;
+                } else if (!inStock) {
+                    btnHtml = `<button class="btn-secondary" disabled style="width:100%;">⏳ Chưa Có Hàng — Chờ Đợt Sau (${currencyLabel})</button>`;
+                } else {
+                    btnHtml = `<button class="btn-primary btn-market-buy" data-idx="${idx}" data-stock-key="${stockKey}" style="width:100%;">Mua Ngay (${currencyLabel})</button>`;
+                }
+
+                const extraCardClass = (!inStock && !isUniqueImmortalOwned) ? "market-card-out-of-stock" : "";
+                const ownedStyle = isUniqueImmortalOwned ? "opacity:0.72;border-color:#3ca67d;" : "";
 
                 return `
-                    <div class="card-box" style="justify-content:space-between;gap:10px;${isUniqueImmortalOwned ? "opacity:0.72;border-color:#3ca67d;" : ""}">
+                    <div class="card-box ${extraCardClass}" style="justify-content:space-between;gap:10px;${ownedStyle}">
                         <div>
                             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">
                                 <strong style="color:#e2bf75;font-size:14.5px;">${entry.icon} ${entry.name}</strong>
                                 ${lightBadge}
                             </div>
                             <p class="sub-text mt-5">${entry.desc}</p>
+                            <div class="market-stock-row">
+                                ${stockBadge}
+                                ${rateBadge}
+                            </div>
                         </div>
-                        ${isUniqueImmortalOwned
-                            ? `<button class="btn-secondary" disabled style="width:100%;">🔒 Đã Sở Hữu (Tiên Cổ Là Duy Nhất)</button>`
-                            : `<button class="btn-primary btn-market-buy" data-idx="${idx}" style="width:100%;">Mua Ngay (${currencyLabel})</button>`
-                        }
+                        ${btnHtml}
                     </div>
                 `;
             }).join("");
@@ -2161,6 +2219,7 @@
             d.marketContent.querySelectorAll(".btn-market-buy").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const idx = parseInt(btn.getAttribute("data-idx"), 10);
+                    const stockKey = btn.getAttribute("data-stock-key");
                     const entry = catalog[idx];
                     if (!entry) return;
 
@@ -2171,6 +2230,13 @@
                         this.guSystem.hasImmortalGu(entry.id)
                     ) {
                         this.addLog(`🔒 Tiên Cổ là duy nhất trong thiên địa! Ngươi đã sở hữu 【${entry.name}】, không thể mua thêm con thứ hai.`, "warning");
+                        this.renderMarketTab();
+                        return;
+                    }
+
+                    const curStock = this.game.getMarketItemStock(marketKey, stockKey);
+                    if (!entry.unlimited && curStock <= 0) {
+                        this.addLog(`⏳ 【${entry.name}】 hiện chưa có hàng hoặc đã bán hết trong đợt này! Hãy đợi đợt hàng mới sau 5 phút.`, "warning");
                         this.renderMarketTab();
                         return;
                     }
@@ -2192,6 +2258,10 @@
                             return;
                         }
                         this.player.primevalStones -= finalPrice;
+                    }
+
+                    if (!entry.unlimited) {
+                        this.game.consumeMarketItemStock(marketKey, stockKey, 1);
                     }
 
                     if (entry.type === "exchange_immortal") {
@@ -2244,31 +2314,57 @@
                 </div>
             `).join("");
 
-            d.clanTreasury.innerHTML = CLAN_TREASURY_ITEMS.map((item, idx) => `
-                <div class="list-card">
-                    <div class="list-card-header">
-                        <span>${item.icon} ${item.name}</span>
-                        <span>🏅 ${item.meritCost} Cống Hiến</span>
+            this.game.ensureMarketRotation(false);
+            this.updateMarketCountdownText();
+
+            const enrichedTreasury = CLAN_TREASURY_ITEMS.map((item, idx) => {
+                const stockKey = item.stockKey || `${item.type}_${item.id}_${item.guRank || 0}_${idx}`;
+                const stock = this.game.getMarketItemStock("clan_treasury", stockKey);
+                return { item, idx, stockKey, stock };
+            });
+            enrichedTreasury.sort((a, b) => (b.stock > 0 ? 1 : 0) - (a.stock > 0 ? 1 : 0) || a.idx - b.idx);
+
+            d.clanTreasury.innerHTML = enrichedTreasury.map(({ item, idx, stockKey, stock }) => {
+                const inStock = stock > 0;
+                const pct = Math.round((item.spawnChance || 0.3) * 100);
+                return `
+                    <div class="list-card ${inStock ? "" : "market-card-out-of-stock"}">
+                        <div class="list-card-header">
+                            <span>${item.icon} ${item.name}</span>
+                            <span>🏅 ${item.meritCost.toLocaleString("vi-VN")} Cống Hiến</span>
+                        </div>
+                        <p class="sub-text">${item.desc}</p>
+                        <div class="market-stock-row">
+                            <span>${inStock ? `<strong style="color:#5cc995">📦 Còn: ${stock}</strong>` : `<span style="color:#ff8a8a">⏳ Chưa về đợt này</span>`}</span>
+                            <span class="sub-text">Tỷ lệ: ${pct}%/đợt</span>
+                        </div>
+                        <button class="btn-mini btn-redeem-merit mt-5" data-idx="${idx}" data-stock-key="${stockKey}" ${inStock ? "" : "disabled"}>
+                            ${inStock ? "Đổi Vật Phẩm" : "⏳ Chờ Đợt Sau (5 phút)"}
+                        </button>
                     </div>
-                    <p class="sub-text">${item.desc}</p>
-                    <button class="btn-mini btn-redeem-merit mt-5" data-idx="${idx}">
-                        Đổi Vật Phẩm
-                    </button>
-                </div>
-            `).join("");
+                `;
+            }).join("");
 
             d.clanTreasury.querySelectorAll(".btn-redeem-merit").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const idx = parseInt(btn.getAttribute("data-idx"), 10);
+                    const stockKey = btn.getAttribute("data-stock-key");
                     const item = CLAN_TREASURY_ITEMS[idx];
                     if (!item) return;
 
+                    if (this.game.getMarketItemStock("clan_treasury", stockKey) <= 0) {
+                        this.addLog(`⏳ [${item.name}] hiện chưa có hàng trong Gia Tộc Khố Phòng đợt này!`, "warning");
+                        this.renderFactionTab();
+                        return;
+                    }
+
                     if ((this.player.meritPoints || 0) < item.meritCost) {
-                        this.addLog(`Điểm Cống Hiến không đủ (Cần 🏅 ${item.meritCost})! Hãy vượt các Bản Đồ Lịch Luyện để tích lũy.`, "warning");
+                        this.addLog(`Điểm Cống Hiến không đủ (Cần 🏅 ${item.meritCost.toLocaleString("vi-VN")})! Hãy vượt các Bản Đồ Lịch Luyện để tích lũy.`, "warning");
                         return;
                     }
 
                     this.player.meritPoints -= item.meritCost;
+                    this.game.consumeMarketItemStock("clan_treasury", stockKey, 1);
                     if (item.type === "gu") {
                         this.guSystem.addGuToStorage(item.id, {
                             rank: item.guRank || 1,
@@ -2279,8 +2375,10 @@
                         this.player.addItem(item.id, 1);
                     }
 
-                    this.addLog(`🏛️ Đã dùng ${item.meritCost} Điểm Cống Hiến đổi lấy [${item.name}] từ Gia Tộc Khố Phòng!`, "loot");
+                    this.addLog(`🏛️ Đã dùng ${item.meritCost.toLocaleString("vi-VN")} Điểm Cống Hiến đổi lấy [${item.name}] từ Gia Tộc Khố Phòng!`, "loot");
+                    if (this.game) this.game.autoSaveNow("treasury_redeem");
                     this.updateHubTopbar();
+                    this.renderFactionTab();
                 });
             });
 
@@ -2825,6 +2923,39 @@
             d.permadeathModal.classList.remove("hidden");
         }
 
+        updateMarketCountdownText() {
+            if (!this.game || typeof this.game.getMarketRemainingSeconds !== "function") return;
+            const rem = this.game.getMarketRemainingSeconds();
+            const mm = String(Math.floor(rem / 60)).padStart(2, "0");
+            const ss = String(rem % 60).padStart(2, "0");
+            const timeStr = `${mm}:${ss}`;
+
+            if (this.dom.marketResetCountdown) {
+                this.dom.marketResetCountdown.textContent = timeStr;
+            }
+            if (this.dom.marketCycleNum && this.game.marketRotation) {
+                this.dom.marketCycleNum.textContent = `#${this.game.marketRotation.cycleId || 1}`;
+            }
+            if (this.dom.treasuryResetCountdown) {
+                this.dom.treasuryResetCountdown.textContent = `⏳ ${timeStr}`;
+            }
+            // Cập nhật live nút thu hoạch Tiên Khiếu nếu đang mở tab Không Khiếu
+            if (this.activeHubTab === "tab-aperture" && this.aperture && this.aperture.isImmortal && this.dom.btnCollectApertureYield) {
+                const yRem = typeof this.aperture.getApertureYieldCooldownRemaining === "function"
+                    ? this.aperture.getApertureYieldCooldownRemaining()
+                    : 0;
+                if (yRem > 0) {
+                    const ym = Math.floor(yRem / 60);
+                    const ys = String(yRem % 60).padStart(2, "0");
+                    this.dom.btnCollectApertureYield.disabled = true;
+                    this.dom.btnCollectApertureYield.textContent = `⏳ Tái Sinh Sản Vật (${ym}:${ys})`;
+                } else {
+                    this.dom.btnCollectApertureYield.disabled = false;
+                    this.dom.btnCollectApertureYield.textContent = "🌱 Thu Hoạch Sản Vật Tiên Khiếu (Hồi 3 phút)";
+                }
+            }
+        }
+
         resetCreationScreenToForm() {
             const d = this.dom;
             if (d.stepForm) d.stepForm.classList.remove("hidden");
@@ -2835,6 +2966,15 @@
             this.renderCreationSkinPreview();
         }
     }
+
+    UIManager.getMarketCatalogs = function () {
+        return {
+            caravan: CARAVAN_SHOP_ITEMS,
+            auction: AUCTION_HOUSE_ITEMS,
+            treasure_heaven: TREASURE_YELLOW_HEAVEN_ITEMS,
+            clan_treasury: CLAN_TREASURY_ITEMS
+        };
+    };
 
     global.UIManager = UIManager;
 

@@ -14,7 +14,7 @@
     // 1. DỮ LIỆU HẰNG SỐ: TƯ CHẤT, THẬP TUYỆT THỂ, TIỂU CẢNH GIỚI & CHÂN NGUYÊN
     // =========================================================================
 
-    const MIN_ASCENSION_HUMAN_QI = 120;
+    const MIN_ASCENSION_HUMAN_QI = 240;
     const VENERABLE_REQ_DAO_MARKS = 300000;
     const VENERABLE_REQ_MYRIAD_TRIBULATIONS = 3;
 
@@ -189,37 +189,37 @@
             wallName: "Khinh Mạc (Màng Ánh Sáng)",
             statMult: 1.0,
             wallHpMax: 100,
-            immortalTribulationsReq: 8
+            immortalTribulationsReq: 14
         },
         {
             index: 1,
             name: "Trung Giai",
             wallName: "Thủy Mạc (Màng Nước)",
-            statMult: 1.40,
+            statMult: 1.45,
             wallHpMax: 180,
-            immortalTribulationsReq: 12
+            immortalTribulationsReq: 20
         },
         {
             index: 2,
             name: "Cao Giai",
             wallName: "Thạch Mạc (Màng Đá)",
-            statMult: 1.90,
+            statMult: 2.05,
             wallHpMax: 300,
-            immortalTribulationsReq: 16
+            immortalTribulationsReq: 28
         },
         {
             index: 3,
             name: "Đỉnh Phong",
             wallName: "Tinh Mạc (Màng Kết Tinh)",
-            statMult: 2.60,
+            statMult: 2.85,
             wallHpMax: 450,
-            immortalTribulationsReq: 20
+            immortalTribulationsReq: 36
         },
         {
             index: 4,
             name: "Á Tiên Tôn",
             wallName: "Thái Cổ Động Thiên Cực Hạn",
-            statMult: 3.40,
+            statMult: 3.60,
             wallHpMax: 700,
             immortalTribulationsReq: 3
         }
@@ -238,7 +238,7 @@
             colorPrimary: "#196b4d",
             colorSecondary: "#38c992",
             densityMultiplier: 1,
-            baseWallReq: 450
+            baseWallReq: 1200
         },
         2: {
             rank: 2,
@@ -249,7 +249,7 @@
             colorPrimary: "#801f19",
             colorSecondary: "#e6483d",
             densityMultiplier: 8,
-            baseWallReq: 1600
+            baseWallReq: 4800
         },
         3: {
             rank: 3,
@@ -260,7 +260,7 @@
             colorPrimary: "#6e7d85",
             colorSecondary: "#e1eef5",
             densityMultiplier: 64,
-            baseWallReq: 5500
+            baseWallReq: 65000
         },
         4: {
             rank: 4,
@@ -282,7 +282,7 @@
             colorPrimary: "#531b8f",
             colorSecondary: "#b75cff",
             densityMultiplier: 4096,
-            baseWallReq: 60000
+            baseWallReq: 220000
         }
     };
 
@@ -476,9 +476,10 @@
                 spaceAcres: 0,
                 timeRatio: 16,
                 internalDays: 0,
-                calamityCountdownDays: 600,
+                calamityCountdownDays: 1200,
+                lastYieldAt: 0,
                 subStageTribulationsPassed: 0,
-                subStageTribulationsRequired: 8,
+                subStageTribulationsRequired: 14,
                 earthlyCalamitiesPassed: 0,
                 heavenlyTribulationsPassed: 0,
                 grandTribulationsPassed: 0,
@@ -738,8 +739,8 @@
                     }
                 }
             } else if (this.immortalAperture.active) {
-                // Tiên Cảnh tu luyện đầm & dài hơi hơn chuẩn nguyên tác
-                const internalDaysDelta = (dt / 36) * this.immortalAperture.timeRatio;
+                // Tiên Cảnh tu luyện dài hơi chuẩn nguyên tác (chậm & đầm)
+                const internalDaysDelta = (dt / 72) * this.immortalAperture.timeRatio;
                 this.immortalAperture.internalDays += internalDaysDelta;
                 this.immortalAperture.calamityCountdownDays = Math.max(
                     0,
@@ -747,11 +748,11 @@
                 );
 
                 const gradeConfig = BLESSED_LAND_GRADES[this.immortalAperture.gradeId] || BLESSED_LAND_GRADES.MEDIUM;
-                const beadRatePerDay = (gradeConfig.essenceBeadPerYear * 0.65) / 365;
+                const beadRatePerDay = (gradeConfig.essenceBeadPerYear * 0.35) / 365;
                 this.immortalEssence[this.rank] += beadRatePerDay * internalDaysDelta;
 
                 if (this.immortalAperture.calamityCountdownDays <= 0) {
-                    this.immortalAperture.calamityCountdownDays = 600;
+                    this.immortalAperture.calamityCountdownDays = 1200;
                     const calamityRes = this._triggerApertureCalamity(player, false);
                     const uiRef = this.ui || (global.vanCoTienDoGame && global.vanCoTienDoGame.ui);
 
@@ -869,7 +870,7 @@
                 return { success: false, message: `Biển Nguyên đã đầy ở mức giới hạn tư chất (${maxCap}%)!` };
             }
 
-            const restoreByRank = { 1: 16, 2: 10, 3: 6, 4: 3.5, 5: 2.0 };
+            const restoreByRank = { 1: 12, 2: 7.5, 3: 4.5, 4: 2.5, 5: 1.4 };
             const restorePerStone = restoreByRank[this.rank] || 2.0;
             const totalRestore = restorePerStone * stoneCount;
             const before = this.currentEssence;
@@ -896,7 +897,7 @@
                 };
             }
 
-            const essenceNeeded = Number((2.5 * dt).toFixed(1));
+            const essenceNeeded = Number((3.2 * dt).toFixed(1));
             if (this.currentEssence < essenceNeeded) {
                 this.isMeditating = false;
                 return {
@@ -908,7 +909,7 @@
             this.currentEssence = Math.max(0, Number((this.currentEssence - essenceNeeded).toFixed(1)));
 
             // Giảm tốc độ tăng tiến độ Khiếu Bích mỗi lần vận công để tu luyện không còn quá nhanh
-            const gain = 1.15 * this.aptitude.cultivateMult * externalBonus * dt;
+            const gain = 0.55 * this.aptitude.cultivateMult * externalBonus * dt;
             this.wallProgress = Math.min(this.maxWallProgress, Number((this.wallProgress + gain).toFixed(1)));
             if (!this.aptitude.physique) {
                 this.wallPressure = Math.min(100, this.wallPressure + 0.65 * dt);
@@ -1471,7 +1472,8 @@
                 spaceAcres: acres,
                 timeRatio: cfg.timeRatio,
                 internalDays: 1,
-                calamityCountdownDays: 600,
+                calamityCountdownDays: 1200,
+                lastYieldAt: 0,
                 subStageTribulationsPassed: 0,
                 subStageTribulationsRequired: firstReq,
                 earthlyCalamitiesPassed: 1,
@@ -1523,16 +1525,57 @@
         /**
          * Chi phí và số lần Độ Tai Kiếp cần thiết ở từng tiểu cảnh giới Cổ Tiên (Lâu hơn & chuẩn nguyên tác)
          */
+        getApertureYieldCooldownRemaining() {
+            if (!this.isImmortal || !this.immortalAperture) return 0;
+            const last = this.immortalAperture.lastYieldAt || 0;
+            const elapsedSec = (Date.now() - last) / 1000;
+            return Math.max(0, Math.ceil(180 - elapsedSec));
+        }
+
+        /**
+         * Thu hoạch sản vật Phúc Địa / Động Thiên (Có thời gian hồi 3 phút = 180 giây để tránh spam tăng cấp quá nhanh)
+         */
+        collectApertureYield(player) {
+            if (!this.isImmortal || !this.immortalAperture.active) {
+                return { success: false, message: "Chỉ Cổ Tiên Lục Chuyển trở lên mới sở hữu Phúc Địa để thu hoạch sản vật!" };
+            }
+            const cdRem = this.getApertureYieldCooldownRemaining();
+            if (cdRem > 0) {
+                const m = Math.floor(cdRem / 60);
+                const s = String(cdRem % 60).padStart(2, "0");
+                return {
+                    success: false,
+                    cooldownRemaining: cdRem,
+                    message: `⏳ Phúc Địa đang tái sinh nguyên khí! Cần chờ thêm ${m}:${s} nữa mới có thể thu hoạch đợt kế tiếp.`
+                };
+            }
+
+            this.immortalAperture.lastYieldAt = Date.now();
+            const stonesYield = Math.max(8, Math.round((this.immortalAperture.resources.primevalStonesOutput || 5) * 1.2));
+            const essenceYield = 0.5;
+            if (player) {
+                player.primevalStones += stonesYield;
+                player.addItem("spirit_herb", 1);
+                player.addItem("moon_orchid", 1);
+            }
+            this.immortalEssence[this.rank] = Number(((this.immortalEssence[this.rank] || 0) + essenceYield).toFixed(2));
+
+            return {
+                success: true,
+                message: `🌱 Đã thu hoạch sản vật trong ${this.immortalAperture.gradeName}: +${stonesYield} Nguyên Thạch, +1 Thanh Linh Thảo, +1 Nguyệt Lan Hoa & +${essenceYield} viên Tiên Nguyên! (Hồi thu hoạch: 3 phút)`
+            };
+        }
+
         getManualTribulationRequirements() {
             // Riêng Á Tiên Tôn (Bát Chuyển Cực Hạn): Độ Vạn Kiếp (Myriad Tribulation)
             if (this.isPseudoVenerable()) {
                 return {
                     isMyriadTribulation: true,
                     tribulationName: "Vạn Kiếp (Myriad Tribulation)",
-                    essenceCost: 45,
-                    humanQiCost: 180,
-                    mentalCost: 145,
-                    hpDamagePct: 0.62,
+                    essenceCost: 65,
+                    humanQiCost: 260,
+                    mentalCost: 165,
+                    hpDamagePct: 0.65,
                     tribulationsNeededForNextStage: VENERABLE_REQ_MYRIAD_TRIBULATIONS
                 };
             }
@@ -1540,7 +1583,7 @@
             const rankOffset = Math.max(0, this.rank - 6);
             const subReq = MORTAL_SUBSTAGES[this.subStage]
                 ? MORTAL_SUBSTAGES[this.subStage].immortalTribulationsReq
-                : 8;
+                : 14;
 
             const nameByRank = {
                 6: this.subStage < 2 ? "Địa Tai" : "Thiên Kiếp",
@@ -1552,11 +1595,11 @@
             return {
                 isMyriadTribulation: false,
                 tribulationName: nameByRank[this.rank] || "Tai Kiếp",
-                essenceCost: 10 + rankOffset * 8 + this.subStage * 4,
-                humanQiCost: 45 + rankOffset * 28 + this.subStage * 14,
-                mentalCost: 60 + rankOffset * 18 + this.subStage * 6,
-                hpDamagePct: 0.48,
-                tribulationsNeededForNextStage: subReq + rankOffset * 4
+                essenceCost: 14 + rankOffset * 12 + this.subStage * 6,
+                humanQiCost: 65 + rankOffset * 40 + this.subStage * 20,
+                mentalCost: 70 + rankOffset * 20 + this.subStage * 8,
+                hpDamagePct: 0.50,
+                tribulationsNeededForNextStage: subReq + rankOffset * 6
             };
         }
 
@@ -1579,9 +1622,9 @@
 
             // Tai kiếp tự nhiên mỗi 600 ngày ở Á Tiên Tôn chỉ là Hạo Kiếp bổ trợ Đạo Ngân, KHÔNG thay thế Vạn Kiếp chủ động
             if (!isManual && isPseudo) {
-                this.immortalAperture.calamityCountdownDays = 600;
+                this.immortalAperture.calamityCountdownDays = 1200;
                 this.immortalAperture.grandTribulationsPassed = (this.immortalAperture.grandTribulationsPassed || 0) + 1;
-                const naturalDaoGain = 12000;
+                const naturalDaoGain = 6000;
                 this.immortalAperture.spaceAcres += 350;
                 if (player) {
                     player.hp = Math.max(1, player.hp - Math.round(player.maxHp * 0.18));
@@ -1594,7 +1637,7 @@
                     isManual: false,
                     didAdvance: false,
                     newRealmName: this.getRealmDisplayName(),
-                    message: `🌩️ [Hạo Kiếp Định Kỳ 600 Ngày — Á Tiên Tôn] Động Thiên vượt qua 1 đợt Hạo Kiếp tự nhiên (+350 mẫu, +${naturalDaoGain.toLocaleString("vi-VN")} Đạo Ngân)! Hãy chủ động Độ Vạn Kiếp (3 lần) để chuẩn bị Thành Tôn.`
+                    message: `🌩️ [Hạo Kiếp Định Kỳ 1200 Ngày — Á Tiên Tôn] Động Thiên vượt qua 1 đợt Hạo Kiếp tự nhiên (+350 mẫu, +${naturalDaoGain.toLocaleString("vi-VN")} Đạo Ngân)! Hãy chủ động Độ Vạn Kiếp (3 lần) để chuẩn bị Thành Tôn.`
                 };
             }
 
@@ -1641,14 +1684,14 @@
                 player.hp = Math.max(1, player.hp - naturalDamage);
             }
 
-            this.immortalAperture.calamityCountdownDays = 600;
+            this.immortalAperture.calamityCountdownDays = 1200;
 
             // --- NHÁNH RIÊNG CHO Á TIÊN TÔN: ĐỘ VẠN KIẾP (MYRIAD TRIBULATION) ---
             if (isPseudo && isManual) {
                 this.immortalAperture.myriadTribulationsPassed = (this.immortalAperture.myriadTribulationsPassed || 0) + 1;
                 this.immortalAperture.grandTribulationsPassed = (this.immortalAperture.grandTribulationsPassed || 0) + 1;
                 const acreGain = 1200;
-                const daoMarkGain = 55000;
+                const daoMarkGain = 35000;
                 this.immortalAperture.spaceAcres += acreGain;
 
                 if (player && typeof player.addDaoMarksFromTribulation === "function") {
@@ -1689,10 +1732,10 @@
 
             // Mức tăng Đạo Ngân chuẩn nguyên tác hướng tới 30 vạn Đạo Ngân ở Á Tiên Tôn
             const daoGainByRank = {
-                6: 650,
-                7: 2800,
-                8: 9000,
-                9: 25000
+                6: 450,
+                7: 1800,
+                8: 5500,
+                9: 18000
             };
             const acreGain = 110 * (this.rank - 5);
             const daoMarkGain = daoGainByRank[this.rank] || 650;
@@ -1748,7 +1791,7 @@
             const progressStr = this.isPseudoVenerable()
                 ? `(Vạn Kiếp: ${this.immortalAperture.myriadTribulationsPassed || 0}/${VENERABLE_REQ_MYRIAD_TRIBULATIONS})`
                 : `(${this.immortalAperture.subStageTribulationsPassed}/${this.immortalAperture.subStageTribulationsRequired} ${req.tribulationName} để lên tiểu cảnh giới kế tiếp)`;
-            const prefixLabel = isManual ? `⚡ [Chủ Động Độ ${req.tribulationName}]` : `🌩️ [${req.tribulationName} Định Kỳ 600 Ngày]`;
+            const prefixLabel = isManual ? `⚡ [Chủ Động Độ ${req.tribulationName}]` : `🌩️ [${req.tribulationName} Định Kỳ 1200 Ngày]`;
 
             return {
                 success: true,

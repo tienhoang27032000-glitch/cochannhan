@@ -354,7 +354,7 @@
                             </div>
 
                             <div class="action-stack mt-15">
-                                <button id="btn-hub-cultivate" class="btn-primary">🧘 Vận Chuyển Chân Nguyên Ôn Dưỡng Khiếu Bích (-12.5% Chân Nguyên)</button>
+                                <button id="btn-hub-cultivate" class="btn-primary">🧘 Vận Chuyển Chân Nguyên Ôn Dưỡng Khiếu Bích (-16% Chân Nguyên)</button>
                                 <button id="btn-hub-absorb-stone" class="btn-secondary">💎 Hấp Thu 1 Nguyên Thạch Hồi Nhanh Chân Nguyên</button>
                                 <button id="btn-hub-use-relic" class="btn-accent">✨ Sử Dụng Xá Lợi Cổ (Đột Phá Nhanh Tiểu Cảnh Giới)</button>
                                 <button id="btn-hub-breakthrough" class="btn-primary" disabled>⚡ Xung Kích Đột Phá Cảnh Giới Tiếp Theo</button>
@@ -619,6 +619,17 @@
                         </div>
                     </div>
 
+                    <div id="market-rotation-banner" class="market-rotation-banner">
+                        <div>
+                            <strong style="color:#ffd700;">⏳ Đợt Hàng Hiện Tại (<span id="market-cycle-num">#1</span>) — Làm mới mỗi 5 phút</strong>
+                            <p class="sub-text">Cổ Trùng càng hiếm, bậc càng cao và càng mạnh (OP) thì tỷ lệ xuất hiện mỗi đợt càng thấp — hãy canh đợt hàng về!</p>
+                        </div>
+                        <div class="market-timer-pill">
+                            <span>Làm mới sau:</span>
+                            <strong id="market-reset-countdown">05:00</strong>
+                        </div>
+                    </div>
+
                     <div id="market-content-container" class="market-container">
                         <!-- Render động bởi UIManager -->
                     </div>
@@ -639,7 +650,7 @@
                             <div id="quest-list-container" class="scroll-list"></div>
                         </div>
                         <div class="card-box">
-                            <h3>🏛️ Gia Tộc Khố Phòng (Đổi Cống Hiến)</h3>
+                            <h3>🏛️ Gia Tộc Khố Phòng <span id="treasury-reset-countdown" class="badge" style="float:right;font-weight:normal;">⏳ 05:00</span></h3>
                             <div id="clan-treasury-container" class="scroll-list"></div>
                         </div>
                         <div class="card-box">

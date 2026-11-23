@@ -12,6 +12,7 @@
     const SAVE_KEY_PREFIX = "van_co_tien_do_v2_slot_";
     const AUTO_SAVE_KEY = "van_co_tien_do_v2_autosave";
     const GRAVEYARD_KEY = "van_co_tien_do_v2_dead_uids";
+    const MARKET_RESET_INTERVAL_MS = 5 * 60 * 1000; // 5 phút reset hàng 1 lần
 
     // =========================================================================
     // 1. DANH MỤC 25 BẢN ĐỒ LỊCH LUYỆN CHUẨN NGUYÊN TÁC (1 CHUYỂN -> 9 CHUYỂN)
@@ -899,7 +900,7 @@
             description: "[Cửu Chuyển Tôn Giả Chiến] Giữa Vô Cực Hỗn Độn Đại Trận tại Tầng Chín Phong Ma Quật, Tinh Tú Tiên Tôn và Cự Dương Tiên Tôn liên thủ vây sát ngươi bằng 12 Tiên Cổ Cửu Chuyển, 10 Sát Chiêu Cửu Chuyển, Khóa Sát Thương Vạn Pháp Bất Xâm và Niết Bàn Trọng Sinh!"
         },
 
-        // ==================== 6 MÀN CHƠI ĐẶC BIỆT KIẾM TÀI NGUYÊN (FARM TỰ DO — ĐÃ CÂN BẰNG TÀI NGUYÊN) ====================
+        // ==================== 6 MÀN CHƠI ĐẶC BIỆT KIẾM TÀI NGUYÊN (FARM CHẬM & CÂN BẰNG) ====================
         {
             id: "special_spirit_spring",
             order: 101,
@@ -922,16 +923,17 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 1,
+            mobMeritReward: 0,
             mobHumanQiReward: 0,
+            mobHumanQiChance: 0,
             mobDrops: [
-                { itemId: "primeval_stone", chance: 0.65, min: 2, max: 5 },
-                { itemId: "bronze_ore", chance: 0.25, min: 1, max: 1 },
-                { itemId: "spirit_herb", chance: 0.22, min: 1, max: 1 },
-                { itemId: "ration_meat", chance: 0.25, min: 1, max: 1 }
+                { itemId: "primeval_stone", chance: 0.35, min: 1, max: 2 },
+                { itemId: "bronze_ore", chance: 0.12, min: 1, max: 1 },
+                { itemId: "spirit_herb", chance: 0.10, min: 1, max: 1 },
+                { itemId: "ration_meat", chance: 0.12, min: 1, max: 1 }
             ],
-            dropPreview: "Quái rơi 2–5💎 Nguyên Thạch, Thanh Đồng Khoáng (25%), Thanh Linh Thảo (22%) + 18 Mạch Nguyên Tuyền (2 lượt / hồi 35s)",
-            description: "[Farm Tự Do — Không Có Boss] Mỏ Nguyên Tuyền khai thác ổn định, không có Boss — thích hợp cày dần Nguyên Thạch & khoáng thạch nuôi Cổ."
+            dropPreview: "Quái rơi 1–2💎 Nguyên Thạch (35%), Thanh Đồng Khoáng (12%), Thanh Linh Thảo (10%) + 10 Mỏ (1 lượt / hồi 75s)",
+            description: "[Farm Tự Do — Không Có Boss] Mạch Nguyên Tuyền khai thác chậm và ổn định — thích hợp tích góp dần Nguyên Thạch nuôi Cổ."
         },
         {
             id: "special_herb_valley",
@@ -955,18 +957,19 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 1,
+            mobMeritReward: 0,
             mobHumanQiReward: 0,
+            mobHumanQiChance: 0,
             mobDrops: [
-                { itemId: "primeval_stone", chance: 0.55, min: 3, max: 7 },
-                { itemId: "moon_orchid", chance: 0.26, min: 1, max: 1 },
-                { itemId: "wind_essence_crystal", chance: 0.22, min: 1, max: 1 },
-                { itemId: "red_iron_ore", chance: 0.22, min: 1, max: 1 },
-                { itemId: "beast_blood_core", chance: 0.22, min: 1, max: 1 },
-                { itemId: "jade_bone", chance: 0.16, min: 1, max: 1 }
+                { itemId: "primeval_stone", chance: 0.30, min: 1, max: 3 },
+                { itemId: "moon_orchid", chance: 0.14, min: 1, max: 1 },
+                { itemId: "wind_essence_crystal", chance: 0.11, min: 1, max: 1 },
+                { itemId: "red_iron_ore", chance: 0.11, min: 1, max: 1 },
+                { itemId: "beast_blood_core", chance: 0.11, min: 1, max: 1 },
+                { itemId: "jade_bone", chance: 0.07, min: 1, max: 1 }
             ],
-            dropPreview: "Nguyệt Lan Hoa, Phong Tuyền Tinh Thạch, Xích Thiết Tinh Khoáng, Bách Thú Tinh Huyết, Bạch Ngọc Cốt Tủy + 18 Bụi Cổ Tài",
-            description: "[Farm Tự Do — Không Có Boss] Vườn dược thảo cổ tài giúp thu hái thức ăn nuôi Cổ Trùng và phụ liệu hợp luyện."
+            dropPreview: "Nguyệt Lan Hoa (14%), Phong Tuyền / Xích Thiết / Tinh Huyết (11%), Bạch Ngọc Cốt Tủy (7%) + 10 Bụi Cổ Tài (hồi 75s)",
+            description: "[Farm Tự Do — Không Có Boss] Vườn thảo dược cổ tài giúp tìm thức ăn nuôi Cổ Trùng và phụ liệu hợp luyện."
         },
         {
             id: "special_relic_tomb",
@@ -990,16 +993,15 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 2,
-            mobHumanQiReward: 1,
+            mobMeritReward: 1,
+            mobHumanQiReward: 0,
+            mobHumanQiChance: 0.15,
             mobDrops: [
-                { itemId: "primeval_stone", chance: 0.60, min: 5, max: 11 },
-                { itemId: "remnant_recipe", chance: 0.10, min: 1, max: 1 },
-                { itemId: "red_iron_relic_gu", chance: 0.01, min: 1, max: 1 },
-                { itemId: "white_silver_relic_gu", chance: 0.01, min: 1, max: 1 },
-                { itemId: "yellow_gold_relic_gu", chance: 0.01, min: 1, max: 1 }
+                { itemId: "primeval_stone", chance: 0.35, min: 2, max: 4 },
+                { itemId: "remnant_recipe", chance: 0.04, min: 1, max: 1 },
+                { itemId: "white_silver_relic_gu", chance: 0.01, min: 1, max: 1 }
             ],
-            dropPreview: "Cổ Mộ Xá Lợi (1% ra Xá Lợi Cổ) & Bia Đá Tàn Phương + Quái rơi Nguyên Thạch, Tàn Phương (10%), Xá Lợi Cổ (1%)",
+            dropPreview: "Cổ Mộ Xá Lợi (1% ra Xá Lợi Cổ) + Quái rơi 2–4💎 (35%), Tàn Phương (4%), Bạch Ngân Xá Lợi Cổ (1%)",
             description: "[Farm Tự Do — Không Có Boss] Cổ mộ lưu giữ tàn phương cổ xưa và cơ duyên cực hiếm (1%) tìm thấy Xá Lợi Cổ."
         },
         {
@@ -1024,16 +1026,17 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 3,
-            mobHumanQiReward: 1,
+            mobMeritReward: 1,
+            mobHumanQiReward: 0,
+            mobHumanQiChance: 0.25,
             mobDrops: [
-                { itemId: "primeval_stone", chance: 0.60, min: 8, max: 16 },
-                { itemId: "soul_crystal", chance: 0.28, min: 1, max: 1 },
-                { itemId: "hundred_year_ginseng", chance: 0.22, min: 1, max: 1 },
+                { itemId: "primeval_stone", chance: 0.35, min: 3, max: 6 },
+                { itemId: "soul_crystal", chance: 0.12, min: 1, max: 1 },
+                { itemId: "hundred_year_ginseng", chance: 0.10, min: 1, max: 1 },
                 { itemId: "purple_crystal_relic_gu", chance: 0.01, min: 1, max: 1 }
             ],
-            dropPreview: "Mỏ Đãng Hồn Tinh Thạch (1–2🔮), Nhân Khí Linh Liên (+2~4 Nhân Khí) + Quái rơi Đãng Hồn Thạch (28%), Tử Tinh Xá Lợi Cổ (1%)",
-            description: "[Farm Tự Do — Không Có Boss] Thánh địa Hồn Đạo để thu thập Đãng Hồn Thạch Đan và tích lũy dần Nhân Khí."
+            dropPreview: "Mỏ Đãng Hồn Tinh Thạch (1🔮), Nhân Khí Linh Liên (+1 Nhân Khí) + Quái rơi Đãng Hồn Thạch (12%), Tử Tinh Xá Lợi Cổ (1%)",
+            description: "[Farm Tự Do — Không Có Boss] Thánh địa Hồn Đạo để kiên trì thu gom Đãng Hồn Thạch Đan và tích lũy dần Nhân Khí."
         },
         {
             id: "special_immortal_vein",
@@ -1057,15 +1060,16 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 6,
-            mobHumanQiReward: 1,
+            mobMeritReward: 2,
+            mobHumanQiReward: 0,
+            mobHumanQiChance: 0.30,
             mobDrops: [
-                { itemId: "immortal_stone", chance: 0.35, min: 1, max: 2 },
-                { itemId: "primeval_stone", chance: 0.65, min: 30, max: 65 },
-                { itemId: "soul_crystal", chance: 0.28, min: 1, max: 1 }
+                { itemId: "immortal_stone", chance: 0.12, min: 1, max: 1 },
+                { itemId: "primeval_stone", chance: 0.40, min: 10, max: 25 },
+                { itemId: "soul_crystal", chance: 0.12, min: 1, max: 1 }
             ],
-            dropPreview: "Mạch Tiên Thạch Lộ Thiên (+1~2🌟/lần) + Quái rơi 1–2🌟 Tiên Thạch (35%) & Đãng Hồn Thạch (28%)",
-            description: "[Farm Tự Do — Không Có Boss] Linh mạch Tiên Nguyên Thạch cho Cổ Tiên Lục Chuyển+ vào đào mỏ và săn Hoang Thú."
+            dropPreview: "Mạch Tiên Thạch (40% tách ra 1🌟) + Quái rơi 1🌟 Tiên Thạch (12%) & Đãng Hồn Thạch (12%)",
+            description: "[Farm Tự Do — Không Có Boss] Linh mạch Tiên Nguyên Thạch hiếm hoi cho Cổ Tiên Lục Chuyển+ tích lũy từng viên Tiên Thạch."
         },
         {
             id: "special_chaos_vault",
@@ -1089,15 +1093,16 @@
             bossTemplateId: null,
             bossName: "Không có Boss (Farm Tự Do)",
             bossIsHuman: false,
-            mobMeritReward: 14,
-            mobHumanQiReward: 2,
+            mobMeritReward: 4,
+            mobHumanQiReward: 1,
+            mobHumanQiChance: 0,
             mobDrops: [
-                { itemId: "immortal_stone", chance: 0.50, min: 2, max: 4 },
-                { itemId: "primeval_stone", chance: 0.70, min: 80, max: 160 },
-                { itemId: "soul_crystal", chance: 0.35, min: 1, max: 2 }
+                { itemId: "immortal_stone", chance: 0.22, min: 1, max: 2 },
+                { itemId: "primeval_stone", chance: 0.45, min: 25, max: 55 },
+                { itemId: "soul_crystal", chance: 0.15, min: 1, max: 1 }
             ],
-            dropPreview: "Thánh Mạch Tiên Thạch (+3~7🌟/lần) + Quái rơi 2–4🌟 Tiên Thạch (50%) & Nhân Khí Linh Liên",
-            description: "[Farm Tự Do — Không Có Boss] Kho báu Tiên Nguyên Thạch dành cho Bát Chuyển / Á Tiên Tôn kiên trì tích lũy tài lực."
+            dropPreview: "Thánh Mạch Tiên Thạch (65% ra 1–2🌟) + Quái rơi 1–2🌟 Tiên Thạch (22%) & Đãng Hồn Thạch (15%)",
+            description: "[Farm Tự Do — Không Có Boss] Kho báu Tiên Nguyên Thạch cho Bát Chuyển / Á Tiên Tôn kiên trì tích góp đợi Tiên Cổ về chợ."
         }
     ];
 
@@ -1135,6 +1140,8 @@
             this.isPermadead = false;
             this.isBattlePaused = false;
             this.hasUserSetZoom = false;
+            this.marketRotation = null;
+            this._marketTimerTick = 0;
 
             this.stageClears = {};
             this.claimedInheritances = [];
@@ -1193,6 +1200,8 @@
             window.addEventListener("resize", () => this._handleResize());
             this._bindKeyboardAndMouseEvents();
             this._bindBrowserAutoSaveEvents();
+
+            this.ensureMarketRotation(false);
 
             if (this.ui && typeof this.ui.refreshStartScreenContinueButton === "function") {
                 this.ui.refreshStartScreenContinueButton();
@@ -1258,6 +1267,8 @@
             this.stageClears = {};
             this.claimedInheritances = [];
             this.activeStage = null;
+            this.marketRotation = null;
+            this.ensureMarketRotation(false);
 
             this.player.initializeNewCharacter(playerName, originKey, regionKey, skinKey);
             this.player.primevalStones = Math.max(15, Math.round(this.player.primevalStones * 0.55));
@@ -1378,9 +1389,9 @@
             this._handleResize();
             this.ui.showScreen("battle");
             if (st.isSpecialResourceStage || st.noBoss) {
-                this.reinforcementTimer = 14;
+                this.reinforcementTimer = 24;
                 this.ui.addLog(
-                    `🌾 Đã tiến vào Bí Cảnh Tài Nguyên 【${st.name}】! Không có Boss — hãy tự do farm Quái, Tinh Anh và 18 Mỏ Cổ Tài, sau đó bấm 'Rút Lui Về Đại Bản Doanh' bất cứ lúc nào!`,
+                    `🌾 Đã tiến vào Bí Cảnh Tài Nguyên 【${st.name}】! Không có Boss — hãy tự do farm Quái và 10 Mỏ Cổ Tài, sau đó bấm 'Rút Lui Về Đại Bản Doanh' bất cứ lúc nào!`,
                     "loot"
                 );
             } else {
@@ -1416,7 +1427,7 @@
             });
 
             // 1. Sinh Quái thường phân bố ngẫu nhiên khắp vùng chiến trường mở rộng
-            const totalNormalMobs = stage.isSpecialResourceStage ? 10 : (stage.targetKills + 8);
+            const totalNormalMobs = stage.isSpecialResourceStage ? 6 : (stage.targetKills + 8);
             for (let i = 0; i < totalNormalMobs; i++) {
                 const pt = this.map
                     ? this.map.getRandomWalkablePoint(stage.arenaCenterX, stage.arenaCenterY, 220, 1250)
@@ -1426,7 +1437,7 @@
             }
 
             // 2. Sinh Quái Tinh Anh (Elite)
-            const eliteCount = stage.isSpecialResourceStage ? 2 : 4;
+            const eliteCount = stage.isSpecialResourceStage ? 1 : 4;
             for (let e = 0; e < eliteCount; e++) {
                 const pt = this.map
                     ? this.map.getRandomWalkablePoint(stage.arenaCenterX, stage.arenaCenterY, 350, 1180)
@@ -1685,6 +1696,8 @@
                     }
                     if (st.mobHumanQiReward) {
                         this.aperture.humanQi += (st.mobHumanQiReward * mult);
+                    } else if (st.mobHumanQiChance && Math.random() <= st.mobHumanQiChance * mult) {
+                        this.aperture.humanQi += 1;
                     }
                     if (st.kills % 10 === 0) {
                         this.combat.spawnFloatingText(
@@ -2127,6 +2140,8 @@
                 this.player.mental = Math.min(this.player.maxMental, this.player.mental + 2.0 * dt);
             }
 
+            this._tickMarketRotation(dt);
+
             this.hudRefreshTimer += dt;
             if (this.hudRefreshTimer >= 0.25) {
                 this.hudRefreshTimer = 0;
@@ -2140,6 +2155,8 @@
                     }
                 }
             }
+
+            this._tickMarketRotation(dt);
 
             this.autoSaveTimer -= dt;
             if (this.autoSaveTimer <= 0) {
@@ -2182,10 +2199,10 @@
                 const isSpecialFarm = Boolean(this.activeStage.isSpecialResourceStage || this.activeStage.noBoss);
                 this.reinforcementTimer -= dt;
                 if (this.reinforcementTimer <= 0) {
-                    this.reinforcementTimer = 14;
+                    this.reinforcementTimer = isSpecialFarm ? 24 : 14;
                     const livingMobs = (this.enemies.beasts || []).filter(b => !b.isDead && !b.isStageBoss).length;
-                    const minMobs = isSpecialFarm ? 8 : 10;
-                    const spawnBatch = isSpecialFarm ? 2 : 3;
+                    const minMobs = isSpecialFarm ? 5 : 10;
+                    const spawnBatch = isSpecialFarm ? 1 : 3;
                     if (livingMobs < minMobs) {
                         for (let i = 0; i < spawnBatch; i++) {
                             const pt = this.map.getRandomWalkablePoint(
@@ -2395,6 +2412,125 @@
         // 8. HỆ THỐNG LƯU/TẢI 3 Ô (LOCALSTORAGE) & XUẤT/NHẬP FILE (.JSON)
         // =====================================================================
 
+        // =====================================================================
+        // 7B. HỆ THỐNG ĐỢT HÀNG THƯƠNG HỘI & BẢO HOÀNG THIÊN (RESET 5 PHÚT/LẦN)
+        // =====================================================================
+
+        _tickMarketRotation(dt) {
+            this._marketTimerTick = (this._marketTimerTick || 0) + dt;
+            if (this._marketTimerTick < 0.5) return;
+            this._marketTimerTick = 0;
+
+            const refreshed = this.ensureMarketRotation(true);
+            if (this.ui) {
+                if (typeof this.ui.updateMarketCountdownText === "function") {
+                    this.ui.updateMarketCountdownText();
+                }
+                if (refreshed && this.currentScreen === "hub") {
+                    if (this.ui.activeHubTab === "tab-market") this.ui.renderMarketTab();
+                    else if (this.ui.activeHubTab === "tab-faction") this.ui.renderFactionTab();
+                }
+            }
+        }
+
+        ensureMarketRotation(notifyOnRefresh = false) {
+            const now = Date.now();
+            if (
+                !this.marketRotation ||
+                typeof this.marketRotation.nextResetAt !== "number" ||
+                !this.marketRotation.stocks ||
+                now >= this.marketRotation.nextResetAt
+            ) {
+                this._rollNewMarketWave(now, notifyOnRefresh);
+                return true;
+            }
+            return false;
+        }
+
+        _rollNewMarketWave(nowTs = Date.now(), notify = false) {
+            const catalogs = (global.UIManager && typeof global.UIManager.getMarketCatalogs === "function")
+                ? global.UIManager.getMarketCatalogs()
+                : null;
+            if (!catalogs) return;
+
+            const prevCycle = (this.marketRotation && this.marketRotation.cycleId) ? this.marketRotation.cycleId : 0;
+            const newStocks = {};
+
+            for (const [marketKey, list] of Object.entries(catalogs)) {
+                newStocks[marketKey] = {};
+                let spawnedCount = 0;
+
+                list.forEach((entry, idx) => {
+                    const key = entry.stockKey || `${entry.type}_${entry.id}_${entry.guRank || 0}_${idx}`;
+                    const chance = typeof entry.spawnChance === "number" ? entry.spawnChance : 0.5;
+                    const minS = entry.minStock !== undefined ? entry.minStock : 1;
+                    const maxS = entry.maxStock !== undefined ? entry.maxStock : 1;
+
+                    if (entry.unlimited) {
+                        newStocks[marketKey][key] = 9999;
+                        return;
+                    }
+
+                    if (Math.random() <= chance) {
+                        const qty = minS + Math.floor(Math.random() * Math.max(1, maxS - minS + 1));
+                        newStocks[marketKey][key] = Math.max(1, qty);
+                        spawnedCount += 1;
+                    } else {
+                        newStocks[marketKey][key] = 0;
+                    }
+                });
+
+                // Bảo đảm mỗi đợt có ít nhất 1 món hàng thường để tránh chợ hoàn toàn trống
+                if (spawnedCount === 0 && list.length > 0) {
+                    const firstCommon = list.find(e => (e.spawnChance || 0) >= 0.30) || list[0];
+                    const idx0 = list.indexOf(firstCommon);
+                    const k0 = firstCommon.stockKey || `${firstCommon.type}_${firstCommon.id}_${firstCommon.guRank || 0}_${idx0}`;
+                    newStocks[marketKey][k0] = 1;
+                }
+            }
+
+            this.marketRotation = {
+                cycleId: prevCycle + 1,
+                lastResetAt: nowTs,
+                nextResetAt: nowTs + MARKET_RESET_INTERVAL_MS,
+                stocks: newStocks
+            };
+
+            if (notify && this.ui && this.currentScreen !== "creation") {
+                this.ui.addLog(
+                    `🔔 [Đợt Hàng Mới #${this.marketRotation.cycleId}] Thương Đội, Phòng Đấu Giá, Bảo Hoàng Thiên & Khố Phòng vừa làm mới hàng hóa! (Đợt tiếp theo sau 5 phút)`,
+                    "system"
+                );
+            }
+        }
+
+        getMarketRemainingSeconds() {
+            this.ensureMarketRotation(false);
+            if (!this.marketRotation) return 300;
+            return Math.max(0, Math.ceil((this.marketRotation.nextResetAt - Date.now()) / 1000));
+        }
+
+        getMarketItemStock(marketKey, itemKey) {
+            this.ensureMarketRotation(false);
+            if (!this.marketRotation || !this.marketRotation.stocks || !this.marketRotation.stocks[marketKey]) {
+                return 0;
+            }
+            const val = this.marketRotation.stocks[marketKey][itemKey];
+            return typeof val === "number" ? val : 0;
+        }
+
+        consumeMarketItemStock(marketKey, itemKey, qty = 1) {
+            this.ensureMarketRotation(false);
+            if (!this.marketRotation || !this.marketRotation.stocks || !this.marketRotation.stocks[marketKey]) {
+                return false;
+            }
+            const cur = this.marketRotation.stocks[marketKey][itemKey] || 0;
+            if (cur >= 9999) return true;
+            if (cur < qty) return false;
+            this.marketRotation.stocks[marketKey][itemKey] = cur - qty;
+            return true;
+        }
+
         _getDeadUidSet() {
             try {
                 const raw = localStorage.getItem(GRAVEYARD_KEY);
@@ -2441,6 +2577,7 @@
                 realmName: this.aperture.getRealmDisplayName(),
                 stageClears: this.stageClears,
                 claimedInheritances: this.claimedInheritances,
+                marketRotation: this.marketRotation,
                 aperture: this.aperture.toSaveData(),
                 player: this.player.toSaveData(),
                 map: this.map.toSaveData(),
@@ -2461,6 +2598,8 @@
             this.isBattlePaused = false;
             this.stageClears = data.stageClears || {};
             this.claimedInheritances = data.claimedInheritances || [];
+            this.marketRotation = data.marketRotation || null;
+            this.ensureMarketRotation(false);
             this.aperture.fromSaveData(data.aperture);
             this.player.fromSaveData(data.player);
             if (data.map) this.map.fromSaveData(data.map);

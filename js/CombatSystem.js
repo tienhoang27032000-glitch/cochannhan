@@ -605,13 +605,14 @@
                     });
                     this.spawnFloatingText(this.player.x, this.player.y - 26, "👁️ Trinh Sát Lộ Điểm Yếu!", "#76d7c4");
                 } else if (gu.subType === "cultivation") {
+                    const wallGain = Math.max(3, Math.round(gu.power * 0.18));
                     if (!this.aperture.isImmortal) {
                         this.aperture.wallProgress = Math.min(
                             this.aperture.maxWallProgress,
-                            this.aperture.wallProgress + gu.power
+                            this.aperture.wallProgress + wallGain
                         );
                     }
-                    this.spawnFloatingText(this.player.x, this.player.y - 26, `+${gu.power} Ôn Dưỡng Khiếu`, "#f7c948");
+                    this.spawnFloatingText(this.player.x, this.player.y - 26, `+${wallGain} Ôn Dưỡng Khiếu`, "#f7c948");
                 }
                 this._spawnParticleBurst(this.player.x, this.player.y, gu.visualColor || "#e0be77", 14);
                 return;

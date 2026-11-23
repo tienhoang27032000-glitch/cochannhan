@@ -1509,3 +1509,45 @@ input[type="text"]:focus, select:focus {
     background: linear-gradient(180deg, rgba(46, 34, 12, 0.94) 0%, rgba(18, 14, 8, 0.96) 100%) !important;
     box-shadow: 0 0 18px rgba(255, 215, 0, 0.24);
 }
+
+/* =========================================================================
+   9. BỔ SUNG V7: ĐỢT HÀNG THƯƠNG HỘI 5 PHÚT & THẺ HẾT HÀNG / HIẾM
+   ========================================================================= */
+.market-rotation-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: linear-gradient(90deg, rgba(38, 30, 14, 0.92) 0%, rgba(16, 22, 32, 0.95) 100%);
+    border: 1px solid var(--border-gold);
+    padding: 10px 14px;
+    box-shadow: var(--shadow-heavy);
+}
+.market-timer-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(8, 11, 16, 0.92);
+    border: 1px solid #3ca67d;
+    padding: 6px 12px;
+    font-size: 13px;
+}
+.market-timer-pill strong {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: #7ef7c4;
+}
+.market-card-out-of-stock {
+    opacity: 0.48;
+    filter: grayscale(55%);
+    border-style: dashed !important;
+}
+.market-stock-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 11.5px;
+}

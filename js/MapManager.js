@@ -698,30 +698,29 @@
             const isSpecial = Boolean(stageObj.isSpecialResourceStage);
             const resPool = this.activeTheme.stageResources || ["spirit_herb", "primeval_stone", "wild_gu"];
 
-            const stoneMult = isSpecial ? 1.05 : 1.0;
             const nodeMetaMap = {
-                primeval_stone: { name: "Mạch Nguyên Thạch Lộ Thiên", icon: "💎", color: "#4cd964", itemId: "primeval_stone", min: Math.max(2, Math.round(2 * rank * stoneMult)), max: Math.max(4, Math.round(5 * rank * stoneMult)) },
-                spirit_herb: { name: "Bụi Thanh Linh Thảo", icon: "🌿", color: "#5cc995", itemId: "spirit_herb", min: 1, max: 2 },
-                ration_meat: { name: "Bãi Săn Thịt Thú Rừng", icon: "🍖", color: "#e67e22", itemId: "ration_meat", min: 1, max: 2 },
-                moon_orchid: { name: "Khóm Nguyệt Lan Hoa", icon: "🌸", color: "#e6a8d7", itemId: "moon_orchid", min: 1, max: 2 },
-                bronze_ore: { name: "Mạch Thanh Đồng Khoáng", icon: "🪨", color: "#8aa69b", itemId: "bronze_ore", min: 1, max: 2 },
-                red_iron_ore: { name: "Mạch Xích Thiết Tinh Khoáng", icon: "🧱", color: "#e05252", itemId: "red_iron_ore", min: 1, max: 2 },
-                wind_essence_crystal: { name: "Phong Tuyền Tinh Thạch", icon: "🎐", color: "#6ce6b8", itemId: "wind_essence_crystal", min: 1, max: 2 },
-                beast_blood_core: { name: "Huyết Tinh Ngưng Tụ", icon: "🩸", color: "#d93838", itemId: "beast_blood_core", min: 1, max: 2 },
-                jade_bone: { name: "Cốt Tủy Bạch Ngọc", icon: "🦴", color: "#dce8f2", itemId: "jade_bone", min: 1, max: 2 },
+                primeval_stone: { name: "Mạch Nguyên Thạch Lộ Thiên", icon: "💎", color: "#4cd964", itemId: "primeval_stone", min: Math.max(1, rank), max: Math.max(2, Math.round(rank * 2)) },
+                spirit_herb: { name: "Bụi Thanh Linh Thảo", icon: "🌿", color: "#5cc995", itemId: "spirit_herb", min: 1, max: 1 },
+                ration_meat: { name: "Bãi Săn Thịt Thú Rừng", icon: "🍖", color: "#e67e22", itemId: "ration_meat", min: 1, max: 1 },
+                moon_orchid: { name: "Khóm Nguyệt Lan Hoa", icon: "🌸", color: "#e6a8d7", itemId: "moon_orchid", min: 1, max: 1 },
+                bronze_ore: { name: "Mạch Thanh Đồng Khoáng", icon: "🪨", color: "#8aa69b", itemId: "bronze_ore", min: 1, max: 1 },
+                red_iron_ore: { name: "Mạch Xích Thiết Tinh Khoáng", icon: "🧱", color: "#e05252", itemId: "red_iron_ore", min: 1, max: 1 },
+                wind_essence_crystal: { name: "Phong Tuyền Tinh Thạch", icon: "🎐", color: "#6ce6b8", itemId: "wind_essence_crystal", min: 1, max: 1 },
+                beast_blood_core: { name: "Huyết Tinh Ngưng Tụ", icon: "🩸", color: "#d93838", itemId: "beast_blood_core", min: 1, max: 1 },
+                jade_bone: { name: "Cốt Tủy Bạch Ngọc", icon: "🦴", color: "#dce8f2", itemId: "jade_bone", min: 1, max: 1 },
                 hundred_year_ginseng: { name: "Bách Niên Khổ Sâm", icon: "🥕", color: "#f7c948", itemId: "hundred_year_ginseng", min: 1, max: 1 },
-                soul_crystal: { name: "Đãng Hồn Tinh Thạch", icon: "🔮", color: "#c278ff", itemId: "soul_crystal", min: 1, max: 2 },
+                soul_crystal: { name: "Đãng Hồn Tinh Thạch", icon: "🔮", color: "#c278ff", itemId: "soul_crystal", min: 1, max: 1 },
                 remnant_recipe: { name: "Bia Đá Cổ Phương Tàn Quyển", icon: "📜", color: "#f7c948", itemId: "remnant_recipe", min: 1, max: 1 },
                 relic_chest: { name: "Cổ Mộ Xá Lợi Cổ (1% Xá Lợi)", icon: "⚱️", color: "#ffd700", isRelicChest: true, min: 1, max: 1 },
-                human_qi_lotus: { name: "Nhân Khí Linh Liên", icon: "☯️", color: "#00e5ff", isHumanQiNode: true, min: 2, max: 4 },
-                immortal_stone_vein: { name: "Mạch Tiên Nguyên Thạch Lộ Thiên", icon: "🌟", color: "#ffd700", itemId: "immortal_stone", min: 1, max: 2 },
-                supreme_immortal_vein: { name: "Thánh Mạch Tiên Thạch Chí Tôn", icon: "👑", color: "#00e5ff", itemId: "immortal_stone", min: 3, max: 7 },
+                human_qi_lotus: { name: "Nhân Khí Linh Liên", icon: "☯️", color: "#00e5ff", isHumanQiNode: true, min: 1, max: 1 },
+                immortal_stone_vein: { name: "Mạch Tiên Nguyên Thạch (Hiếm)", icon: "🌟", color: "#ffd700", isImmortalVein: true, veinTier: 1, min: 1, max: 1 },
+                supreme_immortal_vein: { name: "Thánh Mạch Tiên Thạch Chí Tôn", icon: "👑", color: "#00e5ff", isImmortalVein: true, veinTier: 2, min: 1, max: 2 },
                 wild_gu: { name: "Cổ Trùng Hoang Dã Ẩn Nấp", icon: "🪲", color: "#ffd700", isWildGu: true }
             };
 
-            const totalNodes = 18;
-            const nodeCharges = 2;
-            const nodeRespawn = isSpecial ? 35 : 42;
+            const totalNodes = isSpecial ? 10 : 14;
+            const nodeCharges = isSpecial ? 1 : 2;
+            const nodeRespawn = isSpecial ? 75 : 55;
 
             for (let i = 0; i < totalNodes; i++) {
                 const key = resPool[i % resPool.length];
@@ -737,12 +736,14 @@
                     x: pt.x,
                     y: pt.y,
                     dangerRank: rank,
-                    itemId: (meta.isWildGu || meta.isRelicChest || meta.isHumanQiNode) ? null : (meta.itemId || key),
+                    itemId: (meta.isWildGu || meta.isRelicChest || meta.isHumanQiNode || meta.isImmortalVein) ? null : (meta.itemId || key),
                     isWildGu: Boolean(meta.isWildGu),
                     isRelicChest: Boolean(meta.isRelicChest),
                     isHumanQiNode: Boolean(meta.isHumanQiNode),
+                    isImmortalVein: Boolean(meta.isImmortalVein),
+                    veinTier: meta.veinTier || 1,
                     minYield: meta.min || 1,
-                    maxYield: meta.max || 2,
+                    maxYield: meta.max || 1,
                     charges: nodeCharges,
                     maxCharges: nodeCharges,
                     respawnTime: nodeRespawn,
@@ -949,8 +950,8 @@
                         message: `⚱️ Cơ duyên nghịch thiên (1%)! Khai quật [${node.name}] nhận được 1x 【${rMeta.name}】!`
                     };
                 } else {
-                    const stones = 5 + Math.floor(Math.random() * 8);
-                    const gotRecipe = Math.random() <= 0.16;
+                    const stones = 2 + Math.floor(Math.random() * 4);
+                    const gotRecipe = Math.random() <= 0.06;
                     if (player && typeof player.addItem === "function") {
                         player.addItem("primeval_stone", stones);
                         if (gotRecipe) player.addItem("remnant_recipe", 1);
@@ -966,14 +967,14 @@
             }
 
             if (node.isHumanQiNode) {
-                const qiGain = Math.floor(node.minYield + Math.random() * (node.maxYield - node.minYield + 1));
+                const qiGain = 1;
                 node.charges -= 1;
                 if (node.charges <= 0) node.respawnTimer = node.respawnTime;
 
                 if (player && player.aperture) {
                     player.aperture.humanQi += qiGain;
                 }
-                const gotSoul = Math.random() <= 0.22;
+                const gotSoul = Math.random() <= 0.08;
                 if (gotSoul && player && typeof player.addItem === "function") {
                     player.addItem("soul_crystal", 1);
                 }
@@ -983,6 +984,36 @@
                     floatingText: `☯️ +${qiGain} Nhân Khí${gotSoul ? " & +1🔮" : ""}`,
                     message: `☯️ Hấp thu tinh hoa từ [${node.name}] nhận +${qiGain} Nhân Khí${gotSoul ? " và 1x [Đãng Hồn Thạch Đan]" : ""}!`
                 };
+            }
+
+            if (node.isImmortalVein) {
+                node.charges -= 1;
+                if (node.charges <= 0) node.respawnTimer = node.respawnTime;
+
+                const isSupreme = node.veinTier >= 2;
+                const roll = Math.random();
+                const hitChance = isSupreme ? 0.65 : 0.40;
+                if (roll <= hitChance) {
+                    const qty = (isSupreme && Math.random() <= 0.25) ? 2 : 1;
+                    if (player && typeof player.addItem === "function") player.addItem("immortal_stone", qty);
+                    return {
+                        success: true,
+                        itemId: "immortal_stone",
+                        amount: qty,
+                        floatingText: `🌟 +${qty} Tiên Thạch`,
+                        message: `🌟 Khai thác [${node.name}] tách được ${qty} viên [Tiên Nguyên Thạch]!`
+                    };
+                } else {
+                    const fallbackStones = isSupreme ? (18 + Math.floor(Math.random() * 20)) : (8 + Math.floor(Math.random() * 12));
+                    if (player && typeof player.addItem === "function") player.addItem("primeval_stone", fallbackStones);
+                    return {
+                        success: true,
+                        itemId: "primeval_stone",
+                        amount: fallbackStones,
+                        floatingText: `💎 +${fallbackStones} Nguyên Thạch`,
+                        message: `💎 Mạch Tiên Thạch chỉ kết tinh được phần rìa: thu được ${fallbackStones} Nguyên Thạch.`
+                    };
+                }
             }
 
             const amount = Math.floor(node.minYield + Math.random() * (node.maxYield - node.minYield + 1));

@@ -309,8 +309,8 @@
             equippedGu: "hoi_xuong_gu",
             equippedGuRank: 3,
             shopInventory: [
-                { guId: "hoi_xuong_gu", guRank: 1, name: "Xuân Quang Cổ Nhất Chuyển", icon: "💚", price: 48, stock: 2, desc: "Phàm cổ trị liệu Mộc Đạo (Có thể thăng lên 5 Chuyển)." },
-                { guId: "trinh_sat_gu", guRank: 1, name: "Địa Thính Nhục Nhĩ Thảo Nhất Chuyển", icon: "👁️", price: 38, stock: 2, desc: "Phàm cổ trinh sát giúp đạn Sát Chiêu tự truy kích." },
+                { guId: "hoi_xuong_gu", guRank: 1, name: "Xuân Quang Cổ Nhất Chuyển", icon: "💚", price: 220, stock: 1, desc: "Phàm cổ trị liệu Mộc Đạo (Có thể thăng lên 5 Chuyển)." },
+                { guId: "trinh_sat_gu", guRank: 1, name: "Địa Thính Nhục Nhĩ Thảo Nhất Chuyển", icon: "👁️", price: 185, stock: 1, desc: "Phàm cổ trinh sát giúp đạn Sát Chiêu tự truy kích." },
                 { itemId: "ration_meat", name: "Thịt Thú Rừng Tươi", icon: "🍖", price: 4, stock: 10, desc: "Thức ăn nuôi Hắc Thỉ Cổ & Bạch Thỉ Cổ." }
             ]
         },
@@ -340,9 +340,9 @@
             equippedGu: "thuy_trao_gu",
             equippedGuRank: 2,
             shopInventory: [
-                { guId: "tuu_trung_gu", guRank: 1, name: "Tửu Trùng Nhất Chuyển", icon: "🍶", price: 75, stock: 1, desc: "Tinh luyện chân nguyên, giảm 25% tiêu hao Sát Chiêu." },
-                { guId: "hoa_cau_gu", guRank: 1, name: "Xích Diễm Cổ Nhất Chuyển", icon: "🔥", price: 45, stock: 2, desc: "Phàm cổ Viêm Đạo nổ vùng chỉ định (1–5 Chuyển)." },
-                { guId: "han_bang_gu", guRank: 1, name: "Hàn Sương Cổ Nhất Chuyển", icon: "❄️", price: 44, stock: 2, desc: "Phàm cổ Băng Đạo làm chậm & đóng băng mục tiêu." },
+                { guId: "tuu_trung_gu", guRank: 1, name: "Tửu Trùng Nhất Chuyển", icon: "🍶", price: 480, stock: 1, desc: "Tinh luyện chân nguyên, giảm 25% tiêu hao Sát Chiêu." },
+                { guId: "hoa_cau_gu", guRank: 1, name: "Xích Diễm Cổ Nhất Chuyển", icon: "🔥", price: 220, stock: 1, desc: "Phàm cổ Viêm Đạo nổ vùng chỉ định (1–5 Chuyển)." },
+                { guId: "han_bang_gu", guRank: 1, name: "Hàn Sương Cổ Nhất Chuyển", icon: "❄️", price: 215, stock: 1, desc: "Phàm cổ Băng Đạo làm chậm & đóng băng mục tiêu." },
                 { itemId: "red_iron_ore", name: "Xích Thiết Tinh Khoáng", icon: "🧱", price: 20, stock: 4, desc: "Phụ liệu thăng Chuyển cổ trùng Kim/Viêm/Kiếm." },
                 { itemId: "wind_essence_crystal", name: "Phong Tuyền Tinh Thạch", icon: "🎐", price: 22, stock: 4, desc: "Phụ liệu thăng Chuyển cổ trùng Phong Đạo." }
             ]
@@ -373,7 +373,7 @@
             equippedGu: "bang_tuyet_phong_gu",
             equippedGuRank: 3,
             shopInventory: [
-                { guId: "bang_tuyet_phong_gu", guRank: 3, name: "Băng Tinh Tuyết Hoa Cổ Tam Chuyển", icon: "❄️", price: 420, stock: 1, desc: "Linh cổ Băng Đạo (Có thể thăng lên 9 Chuyển)." },
+                { guId: "bang_tuyet_phong_gu", guRank: 3, name: "Băng Tinh Tuyết Hoa Cổ Tam Chuyển", icon: "❄️", price: 2900, stock: 1, desc: "Linh cổ Băng Đạo (Có thể thăng lên 9 Chuyển)." },
                 { itemId: "soul_crystal", name: "Đãng Hồn Thạch Đan", icon: "🔮", price: 48, stock: 3, desc: "Khôi phục 85 Tinh Thần Lực & thăng Chuyển cổ Tứ Chuyển+." }
             ]
         },
@@ -403,7 +403,7 @@
             equippedGu: "huyet_nguyet_gu",
             equippedGuRank: 4,
             shopInventory: [
-                { guId: "huyet_nguyet_gu", guRank: 2, name: "Huyết Nguyệt Cổ Nhị Chuyển", icon: "🩸", price: 135, stock: 2, desc: "Linh cổ Huyết Đạo hút 25% máu (Thăng được 1–9 Chuyển)." },
+                { guId: "huyet_nguyet_gu", guRank: 2, name: "Huyết Nguyệt Cổ Nhị Chuyển", icon: "🩸", price: 1050, stock: 1, desc: "Linh cổ Huyết Đạo hút 25% máu (Thăng được 1–9 Chuyển)." },
                 { itemId: "beast_blood_core", name: "Bách Thú Tinh Huyết", icon: "🩸", price: 20, stock: 6, desc: "Tinh huyết Bách Thú Vương dùng cho Huyết/Lực Đạo." }
             ]
         }
