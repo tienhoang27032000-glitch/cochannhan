@@ -121,7 +121,7 @@
             this.player._combatHooked = true;
 
             const origTakeDamage = this.player.takeDamage.bind(this.player);
-            this.player.takeDamage = (rawDamage, sourceName = "Đòn tấn công", attackerRank = null) => {
+            this.player.takeDamage = (rawDamage, sourceName = "Đòn tấn công", attackerRank = null, attackerRef = null) => {
                 if (this.iframeTimer > 0 && !sourceName.includes("Khiếu Bích")) {
                     this.spawnFloatingText(this.player.x, this.player.y - 24, "Tàn Ảnh Né Tránh!", "#6ce6b8");
                     return { damageTaken: 0, isDead: false, dodged: true, source: sourceName };
@@ -131,12 +131,13 @@
                     b => b.statMods && (b.statMods.def > 0 || b.shieldHp > 0)
                 );
 
-                const res = origTakeDamage(rawDamage, sourceName, attackerRank);
+                const res = origTakeDamage(rawDamage, sourceName, attackerRank, attackerRef);
                 if (res.blocked) {
                     const nowMs = performance.now();
                     if (!this._lastRealmBlockTextAt || nowMs - this._lastRealmBlockTextAt > 450) {
                         this._lastRealmBlockTextAt = nowMs;
-                        this.spawnFloatingText(this.player.x, this.player.y - 24, "🛡️ Hộ Thể Cảnh Giới (0)", "#7ef7f0");
+                        const label = res.blockLabel || "🛡️ Hộ Thể Cảnh Giới (0)";
+                        this.spawnFloatingText(this.player.x, this.player.y - 24, label, label.includes("👑") ? "#ffd700" : "#7ef7f0");
                     }
                     return res;
                 }
@@ -284,45 +285,101 @@
                 };
             }
 
-            // 3. Cách biệt từ 2 Đại Cảnh Giới trở lên về Chuyển số Cổ Trùng / Sát Chiêu -> Không phá được phòng ngự!
-            const skillGap = effTargetRank - skillRank;
+            // 2B. Tôn Giả Cửu Chuyển áp chế tuyệt đối mọi tồn tại từ Bát Chuyển trở xuống!
+            if (playerRank >= 9 && effTargetRank <= 8) {
+                if (skillRank >= 6 || effTargetRank <= 5) {
+                    const isPseudoTarget = Boolean(target && target.isPseudoVenerable);
+                    return {
+                        multiplier: effTargetRank <= 5 ? 3.0 : (isPseudoTarget ? 1.60 : 2.20),
+                        suppressed: false,
+                        blocked: false,
+                        label: ""
+                    };
+                }
+            }
+
+            // 2C. Tôn Giả Cửu Chuyển giao chiến với Song Tôn Cửu Chuyển: Tiên Cổ 6-8 Chuyển được Hoàng Hạnh Tiên Nguyên gia trì vẫn gây sát thương giảm nhẹ, Tiên Cổ 9 Chuyển phát huy tối đa!
+            if (effTargetRank >= 9) {
+                if (playerRank >= 9) {
+                    if (skillRank >= 9) {
+                        return {
+                            multiplier: 0.65,
+                            suppressed: true,
+                            blocked: false,
+                            label: "Hộ Thể Tôn Giả Cửu Chuyển (-35%)"
+                        };
+                    }
+                    if (skillRank === 8) {
+                        return {
+                            multiplier: 0.45,
+                            suppressed: true,
+                            blocked: false,
+                            label: "Cổ Bát Chuyển Khó Thương Tôn Giả (-55%)"
+                        };
+                    }
+                    if (skillRank === 7) {
+                        return {
+                            multiplier: 0.25,
+                            suppressed: true,
+                            blocked: false,
+                            label: "Cổ Thất Chuyển Khó Thương Tôn Giả (-75%)"
+                        };
+                    }
+                    if (skillRank === 6) {
+                        return {
+                            multiplier: 0.15,
+                            suppressed: true,
+                            blocked: false,
+                            label: "Cổ Lục Chuyển Khó Thương Tôn Giả (-85%)"
+                        };
+                    }
+                    return {
+                        multiplier: 0,
+                        suppressed: true,
+                        blocked: true,
+                        label: "PHÀM CỔ BẤT KHẢ THƯƠNG TÔN GIẢ (0)"
+                    };
+                }
+
+                // Người chơi chưa lên Cửu Chuyển đánh Song Tôn
+                if (isPseudoVenerable && skillRank >= 8) {
+                    return {
+                        multiplier: 0.08,
+                        suppressed: true,
+                        blocked: false,
+                        label: "Á Tiên Tôn Khó Phá Tôn Giả (-92%)"
+                    };
+                }
+                return {
+                    multiplier: 0.02,
+                    suppressed: true,
+                    blocked: false,
+                    label: "Chưa Thành Tôn Giả Khó Thương Tôn Giả (-98%)"
+                };
+            }
+
+            // 3. Cách biệt từ 2 Đại Cảnh Giới trở lên về Chuyển số Cổ Trùng / Sát Chiêu (khi người chơi không vượt trội cảnh giới bằng Tiên Cổ)
+            const effSkillRank = (skillRank >= 6 && playerRank > skillRank)
+                ? Math.min(playerRank, skillRank + 1)
+                : skillRank;
+            const skillGap = effTargetRank - effSkillRank;
             if (skillGap >= 2) {
                 return {
                     multiplier: 0,
                     suppressed: true,
                     blocked: true,
-                    label: `CHIÊU KÉM ${skillGap} CHUYỂN — BẤT KHẢ PHÁ PHÒNG`
+                    label: `CHIÊU KÉM ${effTargetRank - skillRank} CHUYỂN — BẤT KHẢ PHÁ PHÒNG`
                 };
             }
 
-            // 4. Đối đầu Tôn Giả Cửu Chuyển (Phong Ma Quật)
-            if (effTargetRank >= 9) {
-                if (playerRank < 9 || skillRank < 9) {
-                    if (isPseudoVenerable && skillRank >= 8) {
-                        return {
-                            multiplier: 0.08,
-                            suppressed: true,
-                            blocked: false,
-                            label: "Á Tiên Tôn Khó Phá Tôn Giả (-92%)"
-                        };
-                    }
-                    return {
-                        multiplier: 0.02,
-                        suppressed: true,
-                        blocked: false,
-                        label: "Chưa Thành Tôn Giả Khó Thương Tôn Giả (-98%)"
-                    };
-                }
-                return {
-                    multiplier: 0.65,
-                    suppressed: true,
-                    blocked: false,
-                    label: "Hộ Thể Tôn Giả Cửu Chuyển (-35%)"
-                };
-            }
-
+            // 4. Người chơi áp chế kẻ địch thấp cảnh giới hơn
             const maxGap = Math.max(realmGap, skillGap);
             if (maxGap <= 0) {
+                if (playerRank > effTargetRank) {
+                    const adv = playerRank - effTargetRank;
+                    const mult = (playerRank >= 6 && effTargetRank <= 5) ? 2.5 : (1 + adv * 0.35);
+                    return { multiplier: mult, suppressed: false, blocked: false, label: "" };
+                }
                 return { multiplier: 1.0, suppressed: false, blocked: false, label: "" };
             }
 
@@ -423,7 +480,11 @@
             gu.hunger = Math.max(0, Number((gu.hunger - 0.30).toFixed(2)));
 
             const daoAmp = this.player.calculateDaoAmplification(gu.path, []);
-            const finalPower = Math.max(5, Math.round(gu.power * daoAmp.multiplier));
+            const pRankNow = this.aperture ? (this.aperture.rank || 1) : 1;
+            const venEssenceBoost = (pRankNow >= 9 && gu.rank >= 6 && gu.rank < 9)
+                ? ({ 6: 3.2, 7: 2.2, 8: 1.5 }[gu.rank] || 1.0)
+                : 1.0;
+            const finalPower = Math.max(5, Math.round(gu.power * daoAmp.multiplier * venEssenceBoost));
 
             const aimX = typeof targetX === "number"
                 ? targetX
@@ -711,7 +772,11 @@
             }
 
             const daoAmp = this.player.calculateDaoAmplification(move.path, []);
-            const totalPower = Math.max(20, Math.round(move.power * daoAmp.multiplier));
+            const pRankNow = this.aperture ? (this.aperture.rank || 1) : 1;
+            const venEssenceBoost = (pRankNow >= 9 && moveRank >= 6 && moveRank < 9)
+                ? ({ 6: 3.2, 7: 2.2, 8: 1.5 }[moveRank] || 1.0)
+                : 1.0;
+            const totalPower = Math.max(20, Math.round(move.power * daoAmp.multiplier * venEssenceBoost));
 
             const aimX = typeof targetX === "number"
                 ? targetX
@@ -1355,6 +1420,7 @@
         spawnProjectile(cfg) {
             this.projectiles.push({
                 owner: cfg.owner || "player",
+                attackerRef: cfg.attackerRef || null,
                 isKillerMove: Boolean(cfg.isKillerMove || this._castingKillerMove),
                 attackerRef: cfg.attackerRef || null,
                 name: cfg.name || "Cổ Thuật",
@@ -1475,7 +1541,7 @@
             } else if (owner !== "player" && this.player && this.player.hp > 0) {
                 const distToLine = this._pointToSegmentDistance(this.player.x, this.player.y, cfg.x, cfg.y, endX, endY);
                 if (distToLine <= (cfg.width / 2) + this.player.radius) {
-                    const res = this.player.takeDamage(cfg.damage, cfg.name || "Tôn Giả Quang Trụ", cfg.skillRank || null);
+                    const res = this.player.takeDamage(cfg.damage, cfg.name || "Tôn Giả Quang Trụ", cfg.skillRank || null, cfg.attackerRef || null);
                     if (!res.dodged && !res.blocked && res.damageTaken > 0) {
                         this.spawnFloatingText(this.player.x, this.player.y - 22, `-${res.damageTaken}`, "#ff4d4d");
                     }
@@ -1554,7 +1620,7 @@
             } else if (effect.owner !== "player" && this.player) {
                 const d = Math.hypot(this.player.x - effect.x, this.player.y - effect.y);
                 if (d <= effect.radius + this.player.radius) {
-                    const res = this.player.takeDamage(effect.damage, effect.name, effect.skillRank || null);
+                    const res = this.player.takeDamage(effect.damage, effect.name, effect.skillRank || null, effect.attackerRef || null);
                     if (!res.dodged && !res.blocked && res.damageTaken > 0) {
                         this.spawnFloatingText(this.player.x, this.player.y - 18, `-${res.damageTaken}`, "#ff4d4d");
                     }
@@ -1964,7 +2030,7 @@
                 } else if (p.owner !== "player" && this.player && this.player.hp > 0) {
                     const distToPlayer = Math.hypot(this.player.x - p.x, this.player.y - p.y);
                     if (distToPlayer <= this.player.radius + p.radius * 0.7) {
-                        const dmgRes = this.player.takeDamage(p.damage, p.name, p.skillRank || (p.attackerRef && p.attackerRef.rank) || null);
+                        const dmgRes = this.player.takeDamage(p.damage, p.name, p.skillRank || (p.attackerRef && p.attackerRef.rank) || null, p.attackerRef || null);
                         if (!dmgRes.dodged && !dmgRes.blocked && dmgRes.damageTaken > 0) {
                             this.spawnFloatingText(this.player.x, this.player.y - 20, `-${dmgRes.damageTaken}`, "#ff4d4d");
                             this._spawnParticleBurst(this.player.x, this.player.y, p.color, 8);

@@ -1141,7 +1141,7 @@
                 6: 48.0,
                 7: 120.0,
                 8: 295.0,
-                9: 720.0
+                9: 1450.0
             };
             const rankMult = playerRankTable[rank] || (isImmortal ? 48.0 : 1.0);
             let subMult = 1 + subStage * 0.16;
@@ -1340,7 +1340,7 @@
             let daoLordBonusMult = 1.0;
             if (this.aperture && this.aperture.rank >= 9 && this.aperture.daoLordPath === primaryPath) {
                 const refinedNat = this.aperture.naturalDaoMarksRefined || 0;
-                daoLordBonusMult = 1.25 + Math.min(0.25, refinedNat / 600000);
+                daoLordBonusMult = 1.35 + Math.min(0.35, refinedNat / 500000);
             }
 
             const finalMultiplier = Math.max(0.45, Number(((amplification - conflictPenalty) * daoLordBonusMult).toFixed(2)));
@@ -1369,10 +1369,12 @@
             if (buffChanged) this.recalculateStats();
 
             if (this.mental < this.maxMental) {
-                this.mental = Math.min(this.maxMental, this.mental + 1.5 * dt);
+                const mentalRegen = Math.max(1.5, this.maxMental * 0.015);
+                this.mental = Math.min(this.maxMental, this.mental + mentalRegen * dt);
             }
             if (this.hp < this.maxHp) {
-                this.hp = Math.min(this.maxHp, this.hp + 0.6 * dt);
+                const hpRegen = Math.max(0.6, this.maxHp * 0.003);
+                this.hp = Math.min(this.maxHp, this.hp + hpRegen * dt);
             }
 
             if (input && typeof input.mouseWorldX === "number" && typeof input.mouseWorldY === "number") {
@@ -1469,19 +1471,54 @@
             this.recalculateStats();
         }
 
-        takeDamage(rawDamage, sourceName = "Đòn tấn công", attackerRank = null) {
+        takeDamage(rawDamage, sourceName = "Đòn tấn công", attackerRank = null, attackerRef = null) {
             let actualDamage = rawDamage;
             if (!sourceName.includes("Khiếu Bích") && !sourceName.includes("Đồng Hóa")) {
-                // Hộ Thể Cảnh Giới 2 chiều: Kẻ địch yếu hơn từ 2 Đại Cảnh Giới trở lên (hoặc Phàm Nhân đánh Cổ Tiên) không phá nổi phòng ngự người chơi!
+                const pRank = (this.aperture && this.aperture.rank) ? this.aperture.rank : 1;
+                const isAttackerPseudo = Boolean(attackerRef && attackerRef.isPseudoVenerable);
+
                 if (typeof attackerRank === "number" && this.aperture) {
-                    const pRank = this.aperture.rank || 1;
+                    // 1. Phàm nhân không thể thương Cổ Tiên; chênh >= 2 Đại Cảnh Giới tuyệt đối bất khả phá phòng!
                     if ((pRank >= 6 && attackerRank <= 5) || (pRank - attackerRank >= 2)) {
-                        return { damageTaken: 0, isDead: false, blocked: true, source: sourceName };
+                        return {
+                            damageTaken: 0,
+                            isDead: false,
+                            blocked: true,
+                            blockLabel: "🛡️ Hộ Thể Cảnh Giới (0)",
+                            source: sourceName
+                        };
                     }
+
+                    // 2. Cửu Chuyển Tôn Giả Vô Địch Trước Bát Chuyển ("Cửu Chuyển chi hạ giai vi lâu nghĩ!")
+                    if (pRank >= 9 && attackerRank <= 8) {
+                        if (!isAttackerPseudo) {
+                            return {
+                                damageTaken: 0,
+                                isDead: false,
+                                blocked: true,
+                                blockLabel: "👑 Tôn Giả Vô Địch Trước Bát Chuyển (0)",
+                                source: sourceName
+                            };
+                        }
+                        // Ngay cả Á Tiên Tôn (Long Công) cũng bị áp chế -94% khi đánh vào Tôn Giả Cửu Chuyển
+                        const suppressedRaw = rawDamage * 0.06;
+                        actualDamage = Math.max(1, Math.round(suppressedRaw - this.def * 0.02));
+                    } else if (pRank - attackerRank === 1) {
+                        // 3. Hơn địch 1 Đại Cảnh Giới: Áp chế sát thương nhận vào tương xứng (-70% Tiên Cảnh / -55% Phàm Cảnh)
+                        const supMult = pRank >= 6 ? 0.30 : 0.45;
+                        const minFloor = pRank >= 6 ? 0.05 : 0.10;
+                        const suppressedRaw = rawDamage * supMult;
+                        const minPen = Math.max(1, suppressedRaw * minFloor);
+                        actualDamage = Math.max(minPen, suppressedRaw - this.def * 0.55);
+                    } else {
+                        // Địch ngang cấp hoặc cao cấp hơn
+                        const minPenetration = Math.max(1, rawDamage * 0.20);
+                        actualDamage = Math.max(minPenetration, rawDamage - this.def * 0.55);
+                    }
+                } else {
+                    const minPenetration = Math.max(1, rawDamage * 0.20);
+                    actualDamage = Math.max(minPenetration, rawDamage - this.def * 0.55);
                 }
-                // Giáp cơ bản giảm tối đa 80% sát thương đối với địch ngang cấp / cách 1 cấp
-                const minPenetration = Math.max(1, rawDamage * 0.20);
-                actualDamage = Math.max(minPenetration, rawDamage - this.def * 0.55);
             }
 
             for (const buff of this.activeBuffs) {
@@ -1537,12 +1574,23 @@
                 return true;
             }
             const idx = this.inventory.findIndex(i => i.id === itemId);
+            if (itemId === "immortal_stone") {
+                const invCount = idx >= 0 ? this.inventory[idx].count : 0;
+                const available = Math.max(this.immortalStones || 0, invCount);
+                if (available < count) return false;
+                const nextVal = Math.max(0, available - count);
+                this.immortalStones = nextVal;
+                if (idx >= 0) {
+                    if (nextVal <= 0) this.inventory.splice(idx, 1);
+                    else this.inventory[idx].count = nextVal;
+                } else if (nextVal > 0) {
+                    this.inventory.push({ id: "immortal_stone", count: nextVal });
+                }
+                return true;
+            }
             if (idx === -1 || this.inventory[idx].count < count) return false;
 
             this.inventory[idx].count -= count;
-            if (itemId === "immortal_stone") {
-                this.immortalStones = Math.max(0, this.immortalStones - count);
-            }
             if (this.inventory[idx].count <= 0) {
                 this.inventory.splice(idx, 1);
             }

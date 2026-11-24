@@ -40,7 +40,8 @@
         { type: "gu", id: "loi_khieu_gu", guRank: 2, name: "Lôi Khiếu Cổ Nhị Chuyển", icon: "🌩️", price: 650, currency: "stones", spawnChance: 0.30, minStock: 1, maxStock: 1, desc: "Phàm cổ Âm Đạo (1–5 Chuyển) phát tiếng gầm sấm sét làm tê liệt xung quanh." },
         { type: "gu", id: "doc_hat_gu", guRank: 2, name: "Độc Hạt Cổ Nhị Chuyển", icon: "🦂", price: 600, currency: "stones", spawnChance: 0.32, minStock: 1, maxStock: 1, desc: "Phàm cổ Độc Đạo Tây Mạc (1–5 Chuyển) bắn nọc bọ cạp kịch độc." },
         { type: "item", id: "thach_khieu_gu", name: "Thạch Khiếu Cổ (Cứu Thập Tuyệt Thể)", icon: "🪨", price: 240, currency: "stones", spawnChance: 0.35, minStock: 1, maxStock: 1, desc: "Gia cố Khiếu Bích: Xả ngay -50% áp lực Không Khiếu cho Thập Tuyệt Thể mà vẫn giữ nguyên 100% Biển Nguyên!" },
-        { type: "item", id: "tinh_khieu_dinh_nguyen_gu", name: "Định Nguyên Tịnh Khiếu Cổ (Trụ Đạo)", icon: "⏳", price: 360, currency: "stones", spawnChance: 0.25, minStock: 1, maxStock: 1, desc: "Xả ngay -25% áp lực và ĐÓNG BĂNG hoàn toàn tốc độ tăng áp lực Thập Tuyệt Thể trong 5 phút (300 giây)!" }
+        { type: "item", id: "tinh_khieu_dinh_nguyen_gu", name: "Định Nguyên Tịnh Khiếu Cổ (Trụ Đạo)", icon: "⏳", price: 360, currency: "stones", spawnChance: 0.25, minStock: 1, maxStock: 1, desc: "Xả ngay -25% áp lực và ĐÓNG BĂNG hoàn toàn tốc độ tăng áp lực Thập Tuyệt Thể trong 5 phút (300 giây)!" },
+        { type: "exchange_stones", stockKey: "caravan_imm_to_stones_1", id: "primeval_stone", name: "Đổi 1 Tiên Thạch → 2.800 Nguyên Thạch", icon: "💎", price: 1, currency: "immortal", stoneReward: 2800, spawnChance: 0.85, minStock: 2, maxStock: 3, desc: "Thương Đội Ngũ Vực thu mua Tiên Nguyên Thạch với giá 2.800 Nguyên Thạch/viên (Giới hạn 2–3 lượt mỗi đợt 5 phút)." }
     ];
 
     const AUCTION_HOUSE_ITEMS = [
@@ -93,7 +94,9 @@
         { type: "gu", id: "tri_tue_tien_gu", guRank: 8, name: "Trí Tuệ Cổ Bát Chuyển", icon: "🌟", price: 9800, currency: "immortal", spawnChance: 0.015, minStock: 1, maxStock: 1, light: "Chí Tôn Tiên Quang!", desc: "[Tiên Cổ Duy Nhất — Kỳ Cổ OP] Thập Đại Kỳ Cổ Trí Đạo (6–9 Chuyển) phá giải áp chế Boss Bát - Cửu Chuyển!" },
         { type: "gu", id: "ai_tinh_tien_gu", guRank: 9, name: "Ái Tình Tiên Cổ Cửu Chuyển", icon: "💖", price: 26000, currency: "immortal", spawnChance: 0.010, minStock: 1, maxStock: 1, light: "Cửu Chuyển Tiên Quang!", desc: "[Tiên Cổ Duy Nhất — Cực Hiếm OP] Kỳ Cổ Cửu Chuyển của Linh Duyên Trai: Sát thương nghịch thiên & hút 30% máu!" },
         { type: "gu", id: "thien_co_tien_gu", guRank: 9, name: "Thiên Cơ Tiên Cổ Cửu Chuyển", icon: "☸️", price: 32000, currency: "immortal", spawnChance: 0.008, minStock: 1, maxStock: 1, light: "Cửu Chuyển Tiên Quang!", desc: "[Tiên Cổ Duy Nhất — Cực Hiếm OP] Trọng bảo Cửu Chuyển nắm giữ bí mật Thiên Đạo, giáng Lôi Kiếp Hỗn Độn!" },
-        { type: "gu", id: "chi_ton_tien_thai_gu", guRank: 9, name: "Chí Tôn Tiên Thai Cổ Cửu Chuyển", icon: "☯️", price: 45000, currency: "immortal", spawnChance: 0.005, minStock: 1, maxStock: 1, light: "Vạn Cổ Đệ Nhất Kỳ Quang!", desc: "[Tiên Cổ Duy Nhất — Tối Thượng OP] Đệ Nhất Chí Bảo của U Hồn Ma Tôn & Phương Nguyên! Dung hợp vạn đạo vô xung đột!" }
+        { type: "gu", id: "chi_ton_tien_thai_gu", guRank: 9, name: "Chí Tôn Tiên Thai Cổ Cửu Chuyển", icon: "☯️", price: 45000, currency: "immortal", spawnChance: 0.005, minStock: 1, maxStock: 1, light: "Vạn Cổ Đệ Nhất Kỳ Quang!", desc: "[Tiên Cổ Duy Nhất — Tối Thượng OP] Đệ Nhất Chí Bảo của U Hồn Ma Tôn & Phương Nguyên! Dung hợp vạn đạo vô xung đột!" },
+        { type: "exchange_stones", stockKey: "tyh_imm_to_stones_1", id: "primeval_stone", name: "Đổi 1 Tiên Thạch → 3.000 Nguyên Thạch", icon: "💎", price: 1, currency: "immortal", stoneReward: 3000, spawnChance: 1.0, minStock: 5, maxStock: 5, light: "Bảo Quang 3 Trượng", desc: "Phân tách 1 viên Tiên Nguyên Thạch đổi lấy 3.000 Nguyên Thạch phàm phẩm (Giới hạn 5 lượt mỗi đợt 5 phút)." },
+        { type: "exchange_stones", stockKey: "tyh_imm_to_stones_5", id: "primeval_stone", name: "Đổi 5 Tiên Thạch → 15.000 Nguyên Thạch", icon: "💎", price: 5, currency: "immortal", stoneReward: 15000, spawnChance: 0.80, minStock: 1, maxStock: 2, light: "Bảo Quang 5 Trượng", desc: "Quy đổi sỉ 5 viên Tiên Nguyên Thạch lấy 15.000 Nguyên Thạch (Giới hạn 1–2 lượt mỗi đợt 5 phút)." }
     ];
 
     const CLAN_TREASURY_ITEMS = [
@@ -439,9 +442,7 @@
                 inheritanceList: $("inheritance-list-container"),
 
                 // Tab 10: Cài đặt, Lưu Game & Xuất/Nhập File
-                saveSlot1Info: $("save-slot-1-info"),
-                saveSlot2Info: $("save-slot-2-info"),
-                saveSlot3Info: $("save-slot-3-info"),
+                saveSlotsContainer: $("save-slots-container"),
                 btnExportSaveFile: $("btn-export-save-file"),
                 btnImportSaveFile: $("btn-import-save-file"),
                 btnResetSaves: $("btn-reset-all-saves"),
@@ -549,10 +550,7 @@
                 daoMarksRealmBanner: $("dao-marks-realm-banner"),
                 immortalYieldPreview: $("immortal-yield-preview"),
                 btnLoadAutoSaveNow: $("btn-load-autosave-now"),
-                btnCreateNewCharSafe: $("btn-create-new-char-safe"),
-                btnRestoreSlot1: $("btn-restore-slot-1"),
-                btnRestoreSlot2: $("btn-restore-slot-2"),
-                btnRestoreSlot3: $("btn-restore-slot-3")
+                btnCreateNewCharSafe: $("btn-create-new-char-safe")
             };
         }
 
@@ -1442,25 +1440,29 @@
                 });
             }
 
-            // --- TAB 10: Lưu Trữ 3 Ô & Phím Tắt ---
-            document.querySelectorAll(".btn-save-slot").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const slot = btn.getAttribute("data-slot");
-                    if (this.game) {
+            // --- TAB 10: Lưu Trữ Động (Ô 1, 2, 3, ... đến 10 Ô) & Phím Tắt ---
+            if (d.saveSlotsContainer) {
+                d.saveSlotsContainer.addEventListener("click", (e) => {
+                    const btn = e.target.closest("button[data-slot]");
+                    if (!btn || !this.game) return;
+                    const slot = parseInt(btn.getAttribute("data-slot"), 10);
+                    if (btn.classList.contains("btn-save-slot")) {
                         this.game.saveGame(slot);
                         this.renderSettingsTab();
-                    }
-                });
-            });
-
-            document.querySelectorAll(".btn-load-slot").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const slot = btn.getAttribute("data-slot");
-                    if (this.game) {
+                    } else if (btn.classList.contains("btn-load-slot")) {
                         this.game.loadGame(slot);
+                        this.renderSettingsTab();
+                    } else if (btn.classList.contains("btn-restore-slot")) {
+                        if (typeof this.game.restoreSlotBackup === "function") {
+                            this.game.restoreSlotBackup(slot);
+                        }
+                    } else if (btn.classList.contains("btn-delete-slot")) {
+                        if (typeof this.game.deleteSaveSlot === "function") {
+                            this.game.deleteSaveSlot(slot);
+                        }
                     }
                 });
-            });
+            }
 
             if (d.btnManualAutoSaveNow) {
                 d.btnManualAutoSaveNow.addEventListener("click", () => {
@@ -1479,15 +1481,6 @@
                     }
                 });
             }
-
-            document.querySelectorAll(".btn-restore-slot").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const slot = btn.getAttribute("data-slot");
-                    if (this.game && typeof this.game.restoreSlotBackup === "function") {
-                        this.game.restoreSlotBackup(slot);
-                    }
-                });
-            });
 
             if (d.btnCreateNewCharSafe) {
                 d.btnCreateNewCharSafe.addEventListener("click", () => {
@@ -2933,6 +2926,9 @@
                 const aAvail = (a.stock > 0 && !a.isUniqueImmortalOwned) ? 1 : 0;
                 const bAvail = (b.stock > 0 && !b.isUniqueImmortalOwned) ? 1 : 0;
                 if (aAvail !== bAvail) return bAvail - aAvail;
+                const aEx = (a.entry.type === "exchange_immortal" || a.entry.type === "exchange_stones") ? 1 : 0;
+                const bEx = (b.entry.type === "exchange_immortal" || b.entry.type === "exchange_stones") ? 1 : 0;
+                if (aAvail === 1 && aEx !== bEx) return bEx - aEx;
                 return a.idx - b.idx;
             });
 
@@ -2957,11 +2953,14 @@
                 const isUnlimited = Boolean(entry.unlimited) || stock >= 9999;
                 const inStock = isUnlimited || stock > 0;
 
+                const isExchangeLimited = entry.type === "exchange_stones";
                 const stockBadge = isUnlimited
                     ? `<span style="color:#5cc995">♾️ Luôn Mở</span>`
                     : (inStock
-                        ? `<span style="color:#5cc995">📦 Đợt này còn: <strong>${stock}</strong></span>`
-                        : `<span style="color:#ff8a8a">⏳ Chưa có hàng đợt này</span>`);
+                        ? (isExchangeLimited
+                            ? `<span style="color:#5cc995">📦 Giới hạn còn: <strong>${stock}/${entry.maxStock || stock}</strong> lượt</span>`
+                            : `<span style="color:#5cc995">📦 Đợt này còn: <strong>${stock}</strong></span>`)
+                        : `<span style="color:#ff8a8a">⏳ ${isExchangeLimited ? "Hết lượt đổi đợt này" : "Chưa có hàng đợt này"}</span>`);
 
                 const rateBadge = `<span class="sub-text">Tỷ lệ xuất hiện: <strong>${chancePct}%</strong>/đợt</span>`;
 
@@ -2979,7 +2978,8 @@
                             <button class="btn-accent btn-market-buy" data-idx="${idx}" data-stock-key="${stockKey}" data-buy-qty="5">Mua x5 (💎 ${price5Str})</button>
                         </div>`;
                     } else {
-                        btnHtml = `<button class="btn-primary btn-market-buy" data-idx="${idx}" data-stock-key="${stockKey}" data-buy-qty="1" style="width:100%;">Mua Ngay (${currencyLabel})</button>`;
+                        const actionVerb = (entry.type === "exchange_immortal" || entry.type === "exchange_stones") ? "Đổi Ngay" : "Mua Ngay";
+                        btnHtml = `<button class="btn-primary btn-market-buy" data-idx="${idx}" data-stock-key="${stockKey}" data-buy-qty="1" style="width:100%;">${actionVerb} (${currencyLabel})</button>`;
                     }
                 }
 
@@ -3057,6 +3057,10 @@
                     if (entry.type === "exchange_immortal") {
                         this.player.addItem("immortal_stone", 1);
                         this.addLog(`🌟 Đã tụ hợp ${finalPrice.toLocaleString("vi-VN")} Nguyên Thạch đổi thành công 1 viên Tiên Nguyên Thạch tại Bảo Hoàng Thiên!`, "loot");
+                    } else if (entry.type === "exchange_stones") {
+                        const stonesGain = (entry.stoneReward || 3000) * buyQty;
+                        this.player.primevalStones += stonesGain;
+                        this.addLog(`💎 Đã quy đổi ${finalPrice.toLocaleString("vi-VN")} Tiên Nguyên Thạch nhận +${stonesGain.toLocaleString("vi-VN")} Nguyên Thạch (Còn ${this.game.getMarketItemStock(marketKey, stockKey)} lượt trong đợt này)!`, "loot");
                     } else if (entry.type === "gu") {
                         const newGu = this.guSystem.addGuToStorage(entry.id, {
                             rank: entry.guRank || 1,
@@ -3214,21 +3218,36 @@
             if (d.settingsAutoSaveInfo && typeof this.game.getAutoSaveSummary === "function") {
                 const autoSum = this.game.getAutoSaveSummary();
                 d.settingsAutoSaveInfo.textContent = autoSum
-                    ? `Bản Auto-Save riêng: ${autoSum.label}${autoSum.savedAt ? " | Lúc: " + autoSum.savedAt : ""} (Không tự động ghi đè Ô 1–3).`
-                    : "Chưa có dữ liệu Auto-Save. (Auto-Save hoàn toàn tách biệt với 3 Ô Lưu Thủ Công 1–3).";
+                    ? `Bản Auto-Save riêng: ${autoSum.label}${autoSum.savedAt ? " | Lúc: " + autoSum.savedAt : ""} (Không tự ghi đè các Ô Lưu bên dưới; khi Nhập .json mới bản này sẽ tự động đẩy xuống Ô 1).`
+                    : "Chưa có dữ liệu Auto-Save. (Auto-Save tách biệt hoàn toàn với các Ô Lưu Thủ Công 1, 2, 3...).";
             }
-            [1, 2, 3].forEach(slotNum => {
-                const el = d[`saveSlot${slotNum}Info`];
-                if (el) el.textContent = this.game.getSaveSlotSummary(slotNum);
-                const restoreBtn = d[`btnRestoreSlot${slotNum}`];
-                if (restoreBtn && typeof this.game.hasSlotBackup === "function") {
-                    const backupLabel = this.game.hasSlotBackup(slotNum);
-                    restoreBtn.classList.toggle("hidden", !backupLabel);
-                    if (backupLabel) {
-                        restoreBtn.title = `Khôi phục bản cũ: ${backupLabel}`;
-                    }
-                }
-            });
+            if (!d.saveSlotsContainer) return;
+
+            const totalSlots = typeof this.game.getSaveSlotCount === "function" ? this.game.getSaveSlotCount() : 3;
+            const cardsHtml = [];
+            for (let slotNum = 1; slotNum <= totalSlots; slotNum++) {
+                const summary = this.game.getSaveSlotSummary(slotNum);
+                const hasData = typeof this.game.hasSlotData === "function" ? this.game.hasSlotData(slotNum) : false;
+                const backupLabel = typeof this.game.hasSlotBackup === "function" ? this.game.hasSlotBackup(slotNum) : null;
+                const isActive = this.game.activeSaveSlot === slotNum;
+                const slotTag = slotNum > 3 ? " (Mở rộng tự động)" : " (Độc lập)";
+
+                cardsHtml.push(`
+                    <div class="save-slot-card" style="${isActive ? "border-color:#5cc995;" : ""}">
+                        <div class="save-slot-meta">
+                            <strong>🔒 Ô Lưu ${slotNum}${slotTag}${isActive ? ' <span class="badge" style="color:#7ef7c4">Đang chọn</span>' : ""}</strong>
+                            <p class="sub-text">${summary}</p>
+                        </div>
+                        <div class="save-actions">
+                            <button class="btn-mini btn-save-style btn-save-slot" data-slot="${slotNum}">💾 Lưu</button>
+                            <button class="btn-mini btn-load-style btn-load-slot" data-slot="${slotNum}" ${hasData ? "" : "disabled"}>📂 Tải</button>
+                            ${backupLabel ? `<button class="btn-mini btn-restore-style btn-restore-slot" data-slot="${slotNum}" title="Khôi phục bản cũ: ${backupLabel}">↩️ Hoàn Tác</button>` : ""}
+                            ${hasData ? `<button class="btn-mini btn-danger btn-delete-slot" data-slot="${slotNum}" title="Xóa Ô Lưu ${slotNum}">🗑️</button>` : ""}
+                        </div>
+                    </div>
+                `);
+            }
+            d.saveSlotsContainer.innerHTML = cardsHtml.join("");
         }
 
         // =====================================================================

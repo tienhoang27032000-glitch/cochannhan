@@ -818,47 +818,15 @@
                                     <button id="btn-load-autosave-now" class="btn-mini btn-load-style">📂 Tải Auto</button>
                                 </div>
                             </div>
-                            <div class="save-slots-container">
-                                <div class="save-slot-card">
-                                    <div class="save-slot-meta">
-                                        <strong>🔒 Ô Lưu Thủ Công 1 (Độc lập)</strong>
-                                        <p id="save-slot-1-info" class="sub-text">Chưa có dữ liệu</p>
-                                    </div>
-                                    <div class="save-actions">
-                                        <button class="btn-mini btn-save-style btn-save-slot" data-slot="1">💾 Lưu</button>
-                                        <button class="btn-mini btn-load-style btn-load-slot" data-slot="1">📂 Tải</button>
-                                        <button id="btn-restore-slot-1" class="btn-mini btn-restore-style btn-restore-slot hidden" data-slot="1" title="Khôi phục dữ liệu cũ trước lần ghi đè gần nhất">↩️ Hoàn Tác</button>
-                                    </div>
-                                </div>
-                                <div class="save-slot-card">
-                                    <div class="save-slot-meta">
-                                        <strong>🔒 Ô Lưu Thủ Công 2 (Độc lập)</strong>
-                                        <p id="save-slot-2-info" class="sub-text">Chưa có dữ liệu</p>
-                                    </div>
-                                    <div class="save-actions">
-                                        <button class="btn-mini btn-save-style btn-save-slot" data-slot="2">💾 Lưu</button>
-                                        <button class="btn-mini btn-load-style btn-load-slot" data-slot="2">📂 Tải</button>
-                                        <button id="btn-restore-slot-2" class="btn-mini btn-restore-style btn-restore-slot hidden" data-slot="2" title="Khôi phục dữ liệu cũ trước lần ghi đè gần nhất">↩️ Hoàn Tác</button>
-                                    </div>
-                                </div>
-                                <div class="save-slot-card">
-                                    <div class="save-slot-meta">
-                                        <strong>🔒 Ô Lưu Thủ Công 3 (Độc lập)</strong>
-                                        <p id="save-slot-3-info" class="sub-text">Chưa có dữ liệu</p>
-                                    </div>
-                                    <div class="save-actions">
-                                        <button class="btn-mini btn-save-style btn-save-slot" data-slot="3">💾 Lưu</button>
-                                        <button class="btn-mini btn-load-style btn-load-slot" data-slot="3">📂 Tải</button>
-                                        <button id="btn-restore-slot-3" class="btn-mini btn-restore-style btn-restore-slot hidden" data-slot="3" title="Khôi phục dữ liệu cũ trước lần ghi đè gần nhất">↩️ Hoàn Tác</button>
-                                    </div>
-                                </div>
+                            <div id="save-slots-container" class="save-slots-container">
+                                <!-- Các Ô Lưu Thủ Công 1, 2, 3, ... (tự động mở rộng khi nhập file .json đẩy bản cũ xuống) -->
                             </div>
                             <div class="action-row mt-10">
                                 <button id="btn-create-new-char-safe" class="btn-secondary">🆕 Tạo Nhân Vật Mới (Giữ Nguyên 3 Ô Lưu 1–3)</button>
                             </div>
 
                             <h3 class="mt-15">📦 Xuất / Nhập File Lưu Trữ (.json)</h3>
-                            <p class="sub-text">Tải tiến trình hiện tại về máy tính dưới dạng file <code>.json</code> để cất giữ an toàn hoặc chuyển sang máy/trình duyệt khác chơi tiếp.</p>
+                            <p class="sub-text">Tải tiến trình hiện tại về máy dưới dạng file <code>.json</code> để sao lưu. Khi <strong>Nhập file .json mới</strong>, bản cũ đang chơi sẽ <strong>tự động bị đẩy xuống Ô Lưu 1</strong> (và tự dời các bản cũ hơn xuống Ô 2, 3, 4... tối đa 10 ô)!</p>
                             <div class="action-row mt-10">
                                 <button id="btn-export-save-file" class="btn-primary">⬇️ Xuất File Lưu Về Máy (.json)</button>
                                 <button id="btn-import-save-file" class="btn-accent">⬆️ Nhập File Lưu Từ Máy (.json)</button>

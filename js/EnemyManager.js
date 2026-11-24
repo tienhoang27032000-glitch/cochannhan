@@ -11,9 +11,9 @@
     "use strict";
 
     // Ngưỡng sát thương tối đa mà Song Tôn Cửu Chuyển có thể gây ra trong 1 đòn
-    const VENERABLE_MAX_SINGLE_HIT_DAMAGE = 38000;
-    const VENERABLE_MAX_KILLER_MOVE_DAMAGE = 72000;
-    const VENERABLE_MAX_REFLECT_DAMAGE = 12000;
+    const VENERABLE_MAX_SINGLE_HIT_DAMAGE = 75000;
+    const VENERABLE_MAX_KILLER_MOVE_DAMAGE = 135000;
+    const VENERABLE_MAX_REFLECT_DAMAGE = 22000;
 
     // =========================================================================
     // 1. DỮ LIỆU MẪU DÃ THÚ, BÁCH THÚ VƯƠNG & HOANG THÚ
@@ -943,6 +943,7 @@
             // 1. Vụ nổ chính tại tâm vùng cảnh báo
             combatSystem.spawnAoEEffect({
                 owner: "enemy",
+                attackerRef: boss,
                 name: telegraph.name,
                 skillRank: boss.rank,
                 x: telegraph.x,
@@ -962,6 +963,7 @@
                     const sy = telegraph.y + Math.sin(subAng) * 185;
                     combatSystem.spawnAoEEffect({
                         owner: "enemy",
+                        attackerRef: boss,
                         name: `${telegraph.name} (Dư Chấn)`,
                         skillRank: 9,
                         x: sx,
@@ -1010,6 +1012,7 @@
                     const offset = (b - 1) * 0.22;
                     combatSystem.spawnLaserBeam({
                         owner: "enemy",
+                        attackerRef: boss,
                         name: telegraph.name,
                         skillRank: 9,
                         x: boss.x,
@@ -1084,6 +1087,7 @@
                         combatSystem.spawnFloatingText(beast.x, beast.y - 24, `💥 Thú Vương Phác Kích!`, "#ff9f43");
                         combatSystem.spawnAoEEffect({
                             owner: "enemy",
+                            attackerRef: beast,
                             name: `${beast.name} Giẫm Đạp`,
                             skillRank: beast.rank,
                             x: beast.x,
@@ -1126,7 +1130,7 @@
                             });
                         }
                     } else if (player) {
-                        const dmgRes = player.takeDamage(finalBeastDmg, beast.name, beast.rank || 1);
+                        const dmgRes = player.takeDamage(finalBeastDmg, beast.name, beast.rank || 1, beast);
                         if (combatSystem && !dmgRes.dodged && !dmgRes.blocked && dmgRes.damageTaken > 0) {
                             combatSystem.spawnFloatingText(player.x, player.y - 18, `-${dmgRes.damageTaken}`, "#ff4d4d");
                         }
@@ -1370,7 +1374,7 @@
                         VENERABLE_MAX_REFLECT_DAMAGE,
                         Math.round((target.atk || 50000) * 0.25)
                     );
-                    const refRes = attackerPlayer.takeDamage(reflectDmg, `${target.name} Hộ Thuẫn Phản Chấn`, target.rank || 9);
+                    const refRes = attackerPlayer.takeDamage(reflectDmg, `${target.name} Hộ Thuẫn Phản Chấn`, target.rank || 9, target);
                     if (combatSystem && !refRes.dodged && !refRes.blocked && refRes.damageTaken > 0) {
                         combatSystem.spawnFloatingText(attackerPlayer.x, attackerPlayer.y - 26, `☯ Phản Chấn -${refRes.damageTaken}`, "#ffd700");
                     }

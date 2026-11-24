@@ -13,6 +13,8 @@
     const BACKUP_KEY_PREFIX = "van_co_tien_do_v2_backup_slot_";
     const AUTO_SAVE_KEY = "van_co_tien_do_v2_autosave";
     const GRAVEYARD_KEY = "van_co_tien_do_v2_dead_uids";
+    const MIN_SAVE_SLOTS = 3;
+    const MAX_SAVE_SLOTS = 10;
     const MARKET_RESET_INTERVAL_MS = 5 * 60 * 1000; // 5 phút reset hàng 1 lần
 
     // =========================================================================
@@ -1523,7 +1525,7 @@
                 6: 8200,
                 7: 23500,
                 8: 62000,
-                9: 185000
+                9: 380000
             };
             const atkByRank = {
                 1: 16,
@@ -1534,7 +1536,7 @@
                 6: 1280,
                 7: 3350,
                 8: 8400,
-                9: 23500
+                9: 46000
             };
             const defByRank = {
                 1: 11,
@@ -1545,7 +1547,7 @@
                 6: 1050,
                 7: 3500,
                 8: 11000,
-                9: 36000
+                9: 52000
             };
 
             const isSpecialFarm = Boolean(stage.isSpecialResourceStage);
@@ -2214,10 +2216,12 @@
             if (this.isPermadead) return;
 
             if (this.player.hp < this.player.maxHp) {
-                this.player.hp = Math.min(this.player.maxHp, this.player.hp + 2.5 * dt);
+                const hubHpRegen = Math.max(2.5, this.player.maxHp * 0.025);
+                this.player.hp = Math.min(this.player.maxHp, this.player.hp + hubHpRegen * dt);
             }
             if (this.player.mental < this.player.maxMental) {
-                this.player.mental = Math.min(this.player.maxMental, this.player.mental + 2.0 * dt);
+                const hubMentalRegen = Math.max(2.0, this.player.maxMental * 0.02);
+                this.player.mental = Math.min(this.player.maxMental, this.player.mental + hubMentalRegen * dt);
             }
 
             this._tickMarketRotation(dt);
@@ -2441,7 +2445,7 @@
                     localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(tombstonePayload));
                 }
 
-                for (const slot of [1, 2, 3]) {
+                for (let slot = 1; slot <= MAX_SAVE_SLOTS; slot++) {
                     const key = `${SAVE_KEY_PREFIX}${slot}`;
                     const raw = localStorage.getItem(key);
                     if (!raw) continue;
@@ -2516,6 +2520,32 @@
             ) {
                 this._rollNewMarketWave(now, notifyOnRefresh);
                 return true;
+            }
+            // Đồng bộ bổ sung các mặt hàng mới thêm (vd: quy đổi Tiên Thạch -> Nguyên Thạch) khi tải bản lưu cũ
+            const catalogs = (global.UIManager && typeof global.UIManager.getMarketCatalogs === "function")
+                ? global.UIManager.getMarketCatalogs()
+                : null;
+            if (catalogs) {
+                for (const [marketKey, list] of Object.entries(catalogs)) {
+                    if (!this.marketRotation.stocks[marketKey]) {
+                        this.marketRotation.stocks[marketKey] = {};
+                    }
+                    const stockMap = this.marketRotation.stocks[marketKey];
+                    list.forEach((entry, idx) => {
+                        const key = entry.stockKey || `${entry.type}_${entry.id}_${entry.guRank || 0}_${idx}`;
+                        if (stockMap[key] !== undefined) return;
+                        if (entry.unlimited) {
+                            stockMap[key] = 9999;
+                        } else {
+                            const chance = typeof entry.spawnChance === "number" ? entry.spawnChance : 0.5;
+                            const minS = entry.minStock !== undefined ? entry.minStock : 1;
+                            const maxS = entry.maxStock !== undefined ? entry.maxStock : 1;
+                            stockMap[key] = Math.random() <= chance
+                                ? Math.max(1, minS + Math.floor(Math.random() * Math.max(1, maxS - minS + 1)))
+                                : 0;
+                        }
+                    });
+                }
             }
             return false;
         }
@@ -2912,7 +2942,7 @@
             try {
                 const raw = localStorage.getItem(AUTO_SAVE_KEY);
                 if (!raw) {
-                    for (const slot of [1, 2, 3]) {
+                    for (let slot = 1; slot <= MAX_SAVE_SLOTS; slot++) {
                         const sRaw = localStorage.getItem(`${SAVE_KEY_PREFIX}${slot}`);
                         if (!sRaw) continue;
                         const sd = JSON.parse(sRaw);
@@ -2982,6 +3012,139 @@
             }
         }
 
+        getSaveSlotCount() {
+            let highest = MIN_SAVE_SLOTS;
+            for (let slot = MIN_SAVE_SLOTS + 1; slot <= MAX_SAVE_SLOTS; slot++) {
+                if (localStorage.getItem(`${SAVE_KEY_PREFIX}${slot}`) || localStorage.getItem(`${BACKUP_KEY_PREFIX}${slot}`)) {
+                    highest = slot;
+                }
+            }
+            return highest;
+        }
+
+        hasSlotData(slotNum = 1) {
+            return Boolean(localStorage.getItem(`${SAVE_KEY_PREFIX}${slotNum}`));
+        }
+
+        deleteSaveSlot(slotNum = 1) {
+            const slot = Number(slotNum) || 1;
+            const slotKey = `${SAVE_KEY_PREFIX}${slot}`;
+            const raw = localStorage.getItem(slotKey);
+            if (!raw) return false;
+
+            let label = `Ô Lưu ${slot}`;
+            try {
+                const d = JSON.parse(raw);
+                label = `${d.playerName || "Cổ Sư"} (${d.realmName || "---"})`;
+            } catch (e) {}
+
+            if (!confirm(`🗑️ Xóa dữ liệu trong Ô Lưu ${slot}: 【${label}】?
+(Bản cũ vẫn được giữ trong nút ↩️ Hoàn Tác cho đến lần ghi tiếp theo.)`)) {
+                return false;
+            }
+
+            localStorage.setItem(`${BACKUP_KEY_PREFIX}${slot}`, raw);
+            localStorage.removeItem(slotKey);
+            if (this.activeSaveSlot === slot) this.activeSaveSlot = null;
+            if (this.ui) {
+                this.ui.addLog(`🗑️ Đã xóa dữ liệu tại Ô Lưu ${slot} (có thể bấm ↩️ Hoàn Tác nếu đổi ý).`, "warning");
+                this.ui.renderSettingsTab();
+            }
+            return true;
+        }
+
+        /**
+         * Tự động đẩy bản lưu cũ xuống Ô Lưu 1, đồng thời dời dây chuyền các bản cũ hơn xuống Ô 2, 3, 4... (tối đa 10 ô)
+         * để không bao giờ mất tiến trình khi người chơi nhập file .json mới.
+         */
+        _pushSaveDownToSlots(previousRaw, importedUid = null) {
+            if (!previousRaw) return { pushed: false };
+            let prevObj = null;
+            try {
+                prevObj = JSON.parse(previousRaw);
+                if (!prevObj || !prevObj.aperture || !prevObj.player || this._isPayloadPermadead(prevObj)) {
+                    return { pushed: false };
+                }
+            } catch (e) {
+                return { pushed: false };
+            }
+
+            const prevUid = prevObj.characterUid || null;
+            const isDifferentFromImported = !prevUid || !importedUid || prevUid !== importedUid;
+
+            // Nếu bản cũ thuộc nhân vật khác file sắp nhập và đã từng nằm ở một ô lưu trước đó,
+            // cập nhật phiên bản mới nhất lên Ô 1 và tránh giữ 2 bản trùng lặp của cùng 1 nhân vật.
+            let existingDupSlot = null;
+            if (isDifferentFromImported && prevUid) {
+                for (let s = 1; s <= MAX_SAVE_SLOTS; s++) {
+                    const sRaw = localStorage.getItem(`${SAVE_KEY_PREFIX}${s}`);
+                    if (!sRaw) continue;
+                    try {
+                        const sObj = JSON.parse(sRaw);
+                        if (sObj && sObj.characterUid === prevUid) {
+                            existingDupSlot = s;
+                            break;
+                        }
+                    } catch (e) {}
+                }
+            }
+
+            if (existingDupSlot !== null) {
+                const oldDupRaw = localStorage.getItem(`${SAVE_KEY_PREFIX}${existingDupSlot}`);
+                if (oldDupRaw) {
+                    localStorage.setItem(`${BACKUP_KEY_PREFIX}${existingDupSlot}`, oldDupRaw);
+                }
+                localStorage.removeItem(`${SAVE_KEY_PREFIX}${existingDupSlot}`);
+            }
+
+            // Đẩy dây chuyền từ Ô 1 -> Ô 2 -> Ô 3 -> ... cho đến khi gặp ô trống đầu tiên (hoặc MAX_SAVE_SLOTS)
+            let carryRaw = previousRaw;
+            let carryBackup = null;
+            let shiftedCount = 0;
+
+            for (let slot = 1; slot <= MAX_SAVE_SLOTS; slot++) {
+                const slotKey = `${SAVE_KEY_PREFIX}${slot}`;
+                const backupKey = `${BACKUP_KEY_PREFIX}${slot}`;
+                const displacedRaw = localStorage.getItem(slotKey);
+                const displacedBackup = localStorage.getItem(backupKey);
+
+                try {
+                    localStorage.setItem(slotKey, carryRaw);
+                    if (slot > 1) {
+                        if (carryBackup) localStorage.setItem(backupKey, carryBackup);
+                        else localStorage.removeItem(backupKey);
+                    }
+                } catch (quotaErr) {
+                    console.warn(`Không đủ bộ nhớ trình duyệt để đẩy sang Ô Lưu ${slot}:`, quotaErr);
+                    break;
+                }
+
+                if (!displacedRaw) {
+                    break;
+                }
+
+                // Nếu chạm trần MAX_SAVE_SLOTS, lưu bản bị đẩy ra ngoài cùng vào backup của ô cuối
+                if (slot === MAX_SAVE_SLOTS) {
+                    try {
+                        localStorage.setItem(backupKey, displacedRaw);
+                    } catch (e) {}
+                    break;
+                }
+
+                carryRaw = displacedRaw;
+                carryBackup = displacedBackup;
+                shiftedCount += 1;
+            }
+
+            return {
+                pushed: true,
+                targetSlot: 1,
+                shiftedCount: shiftedCount,
+                prevName: prevObj.playerName || (prevObj.player && prevObj.player.name) || "Cổ Sư",
+                prevRealm: prevObj.realmName || ""
+            };
+        }
+
         importSaveFromFile(file) {
             if (!file) return;
             const reader = new FileReader();
@@ -2989,21 +3152,48 @@
             reader.onload = (e) => {
                 try {
                     const data = JSON.parse(e.target.result);
+                    if (!data || !data.aperture || !data.player) {
+                        throw new Error("Cấu trúc file lưu không hợp lệ!");
+                    }
                     if (this._isPayloadPermadead(data)) {
                         alert("💀 File lưu này thuộc về Cổ Sư Thập Tuyệt Thể đã BẠO TẠC KHÔNG KHIẾU CHẾT HẲN! Vĩnh viễn không thể sử dụng lại file lưu này.");
                         return;
                     }
+
+                    // 1. Lấy bản lưu cũ đang chơi (hoặc bản Auto-Save trên trình duyệt) để tự động đẩy xuống Ô Lưu 1, 2, 3,...
+                    let previousRaw = null;
+                    if (
+                        this.currentScreen !== "creation" &&
+                        !this.isPermadead &&
+                        this.aperture &&
+                        this.aperture.isAwakened
+                    ) {
+                        previousRaw = JSON.stringify(this._buildSavePayload());
+                    } else {
+                        previousRaw = localStorage.getItem(AUTO_SAVE_KEY);
+                    }
+
+                    const pushInfo = this._pushSaveDownToSlots(previousRaw, data.characterUid || null);
+
+                    // 2. Nạp file .json mới làm nhân vật đang chơi hiện tại & cập nhật Auto-Save
                     this.activeSaveSlot = null;
                     this._applySavePayload(data);
 
-                    // CHỈ ghi vào Auto-Save, tuyệt đối không tự ý xóa đè Ô Lưu Thủ Công 1 của người chơi!
                     const serialized = JSON.stringify(this._buildSavePayload());
                     localStorage.setItem(AUTO_SAVE_KEY, serialized);
 
                     this.currentScreen = "hub";
                     this.ui.showScreen("hub");
+                    if (this.ui && typeof this.ui.renderSettingsTab === "function") {
+                        this.ui.renderSettingsTab();
+                    }
+
+                    const pushNote = pushInfo.pushed
+                        ? ` Bản cũ 【${pushInfo.prevName}${pushInfo.prevRealm ? " — " + pushInfo.prevRealm : ""}】 đã được tự động đẩy xuống Ô Lưu 1${pushInfo.shiftedCount > 0 ? ` (và dời ${pushInfo.shiftedCount} bản cũ hơn xuống các ô kế tiếp)` : ""}!`
+                        : "";
+
                     this.ui.addLog(
-                        `⬆️ Đã nhập file lưu [${file.name}] thành công! Chào mừng trở lại: ${this.player.name} (${this.aperture.getRealmDisplayName()}). (Các Ô Lưu 1–3 cũ vẫn được giữ nguyên!)`,
+                        `⬆️ Đã nhập file lưu [${file.name}] thành công! Chào mừng trở lại: ${this.player.name} (${this.aperture.getRealmDisplayName()}).${pushNote}`,
                         "cultivation"
                     );
                 } catch (err) {
@@ -3029,7 +3219,7 @@
                     }
                 } catch (e) {}
             }
-            for (const slot of [1, 2, 3]) {
+            for (let slot = 1; slot <= MAX_SAVE_SLOTS; slot++) {
                 const raw = localStorage.getItem(`${SAVE_KEY_PREFIX}${slot}`);
                 if (!raw) continue;
                 try {
@@ -3058,7 +3248,10 @@
 
         clearAllSaves() {
             localStorage.removeItem(AUTO_SAVE_KEY);
-            [1, 2, 3].forEach(slot => { localStorage.removeItem(`${SAVE_KEY_PREFIX}${slot}`); localStorage.removeItem(`${BACKUP_KEY_PREFIX}${slot}`); });
+            for (let slot = 1; slot <= MAX_SAVE_SLOTS; slot++) {
+                localStorage.removeItem(`${SAVE_KEY_PREFIX}${slot}`);
+                localStorage.removeItem(`${BACKUP_KEY_PREFIX}${slot}`);
+            }
         }
     }
 
