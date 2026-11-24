@@ -10,6 +10,7 @@
     "use strict";
 
     const SAVE_KEY_PREFIX = "van_co_tien_do_v2_slot_";
+    const BACKUP_KEY_PREFIX = "van_co_tien_do_v2_backup_slot_";
     const AUTO_SAVE_KEY = "van_co_tien_do_v2_autosave";
     const GRAVEYARD_KEY = "van_co_tien_do_v2_dead_uids";
     const MARKET_RESET_INTERVAL_MS = 5 * 60 * 1000; // 5 phút reset hàng 1 lần
@@ -37,7 +38,9 @@
             mobIsHuman: false,
             targetKills: 8,
             bossTemplateId: "thunder_wolf_king",
-            bossName: "Lôi Quan Đầu Lang (Bách Thú Vương)",
+            bossName: "Thanh Mao Điện Lang Vương",
+            bossRankBadge: "1 Chuyển • Đầu Đàn",
+            bossPowerScale: 0.95,
             bossIsHuman: false,
             rewardStones: 6,
             rewardMerit: 5,
@@ -48,7 +51,7 @@
                 { itemId: "spirit_herb", count: 1, chance: 0.45 },
                 { itemId: "ration_meat", count: 1, chance: 0.50 }
             ],
-            description: "Rừng trúc rộng lớn dưới chân Cổ Nguyệt Sơn Trại. Đàn Điện Lang rải rác khắp sườn núi cùng Bách Thú Vương rình rập."
+            description: "Rừng trúc rộng lớn dưới chân Cổ Nguyệt Sơn Trại. Đàn Điện Lang rải rác khắp sườn núi do Thanh Mao Điện Lang Vương dẫn đầu."
         },
         {
             id: "stage_2",
@@ -68,6 +71,8 @@
             targetKills: 9,
             bossTemplateId: "blood_bat_king",
             bossName: "Xích Nhãn Tửu Viên Vương",
+            bossRankBadge: "1 Chuyển • Hung Thú",
+            bossPowerScale: 1.0,
             bossIsHuman: false,
             rewardStones: 9,
             rewardMerit: 7,
@@ -98,6 +103,8 @@
             targetKills: 10,
             bossTemplateId: "blood_bat_king",
             bossName: "Huyết Thi Cổ Sư Hộ Trì",
+            bossRankBadge: "1 Chuyển Đỉnh Phong",
+            bossPowerScale: 1.08,
             bossIsHuman: true,
             bossSkinKey: "u_hon",
             bossKillerMove: "Huyết Lãng Thôn Phệ Sát",
@@ -133,7 +140,9 @@
             mobIsHuman: false,
             targetKills: 10,
             bossTemplateId: "thunder_wolf_king",
-            bossName: "Lôi Điện Hào Lang (Thiên Thú Vương)",
+            bossName: "Lôi Quan Đầu Lang",
+            bossRankBadge: "2 Chuyển • Bách Thú Vương",
+            bossPowerScale: 1.0,
             bossIsHuman: false,
             rewardStones: 18,
             rewardMerit: 14,
@@ -162,7 +171,9 @@
             mobIsHuman: false,
             targetKills: 11,
             bossTemplateId: "frost_python_lord",
-            bossName: "Bạch Cốt Gia Lão Thủ Điện",
+            bossName: "Bạch Cốt Khôi Lỗi Thủ Điện",
+            bossRankBadge: "2 Chuyển • Hộ Điện",
+            bossPowerScale: 1.05,
             bossIsHuman: true,
             bossSkinKey: "bach_ngung_bang",
             bossKillerMove: "Vạn Cốt Phi Thương Trận",
@@ -197,6 +208,8 @@
             targetKills: 11,
             bossTemplateId: "blood_bat_king",
             bossName: "Lục Giao Đầm Lầy Thú Vương",
+            bossRankBadge: "2 Chuyển Đỉnh Phong",
+            bossPowerScale: 1.08,
             bossIsHuman: false,
             rewardStones: 30,
             rewardMerit: 22,
@@ -224,16 +237,18 @@
             themeTint: "rgba(180, 130, 35, 0.16)",
             arenaBorderColor: "#f7c948",
             mobTemplateId: "wind_falcon",
-            mobName: "Cổ Sư Đấu Vũ Trường (Tam Chuyển)",
+            mobName: "Cổ Sư Đấu Vũ Trường",
             mobIsHuman: true,
             targetKills: 12,
             bossTemplateId: "frost_python_lord",
-            bossName: "Cự Khai Bi & Viêm Đột (Song Bá Đấu Vũ Trường)",
+            bossName: "Thiết Đao Khổ",
+            bossRankBadge: "3 Chuyển • Đao Đạo Đấu Vũ",
+            bossPowerScale: 1.05,
             bossIsHuman: true,
             bossSkinKey: "hac_lau_lan",
-            bossKillerMove: "Long Tượng Liệt Diễm Bá Kích",
-            bossAttackGu: "Toàn Lực Dĩ Phó Cổ Tam Chuyển",
-            bossDefGu: "Thủy Tráo Cổ Tam Chuyển",
+            bossKillerMove: "Đao Đạo Sát Chiêu: Đoạn Nhai Cuồng Đao Trảm",
+            bossAttackGu: "Kim Châm Cổ Tam Chuyển",
+            bossDefGu: "Bạch Ngọc Cổ Tam Chuyển",
             rewardStones: 42,
             rewardMerit: 30,
             rewardHumanQi: 8,
@@ -262,11 +277,13 @@
             mobIsHuman: true,
             targetKills: 12,
             bossTemplateId: "ancient_rock_behemoth",
-            bossName: "Phi Thiên Hổ & Hồ Mị Nhi (Tam Chuyển Đỉnh Phong)",
+            bossName: "Thiết Gia Tứ Lão",
+            bossRankBadge: "3 Chuyển Đỉnh Phong",
+            bossPowerScale: 1.10,
             bossIsHuman: true,
             bossSkinKey: "phuong_cuu_ca",
-            bossKillerMove: "Phong Lôi Hổ Khiếu Phá",
-            bossAttackGu: "Lôi Dực Cổ Tam Chuyển",
+            bossKillerMove: "Tứ Lão Hợp Kích: Vô Địch Thiết Tỏa Đại Trận",
+            bossAttackGu: "Kiếm Ảnh Cổ Tam Chuyển",
             bossDefGu: "Bạch Ngọc Cổ Tam Chuyển",
             rewardStones: 52,
             rewardMerit: 38,
@@ -296,7 +313,9 @@
             mobIsHuman: false,
             targetKills: 12,
             bossTemplateId: "frost_python_lord",
-            bossName: "Hàn Sương Bạch Ngọc Mãng Vương",
+            bossName: "Hàn Sương Bạch Ngọc Mãng",
+            bossRankBadge: "3 Chuyển • Thiên Thú Vương",
+            bossPowerScale: 1.08,
             bossIsHuman: false,
             rewardStones: 62,
             rewardMerit: 45,
@@ -323,11 +342,13 @@
             themeTint: "rgba(180, 140, 30, 0.22)",
             arenaBorderColor: "#ffd700",
             mobTemplateId: "blood_bat_king",
-            mobName: "Cường Giả Tứ Chuyển & Khuyển Thú Vương",
+            mobName: "Cổ Sư Tam Vương Sơn & Khuyển Thú Vương",
             mobIsHuman: true,
             targetKills: 13,
             bossTemplateId: "ancient_rock_behemoth",
-            bossName: "Thiết Mộ Bạch (Tộc Trưởng Thiết Gia — Tứ Chuyển Đỉnh Phong)",
+            bossName: "Thiết Ba Tu",
+            bossRankBadge: "4 Chuyển Đỉnh Phong • Thiết Gia",
+            bossPowerScale: 1.10,
             bossIsHuman: true,
             bossSkinKey: "hac_lau_lan",
             bossKillerMove: "Kim Đạo Sát Chiêu: Hoàng Kim Khuynh Thành Kích",
@@ -342,7 +363,7 @@
                 { itemId: "remnant_recipe", count: 1, chance: 0.18 },
                 { itemId: "yellow_gold_relic_gu", count: 1, chance: 0.01 }
             ],
-            description: "Đỉnh Tam Vương Sơn nơi Phương Nguyên đại chiến quần hùng Tứ Chuyển và đoạt lấy Định Tiên Du ngay trước mắt Thiết Mộ Bạch!"
+            description: "Đỉnh Tam Vương Sơn nơi Phương Nguyên đại chiến Thiết Ba Tu cùng quần hùng Tứ Chuyển để tranh đoạt Tam Vương Truyền Thừa!"
         },
         {
             id: "stage_11",
@@ -361,7 +382,9 @@
             mobIsHuman: false,
             targetKills: 13,
             bossTemplateId: "ancient_rock_behemoth",
-            bossName: "Tiêu Sơn (Tộc Trưởng Tiêu Gia — Tứ Chuyển)",
+            bossName: "Mạc Gia Đại Trưởng Lão",
+            bossRankBadge: "4 Chuyển • Tây Mạc",
+            bossPowerScale: 1.05,
             bossIsHuman: true,
             bossSkinKey: "hong_lien",
             bossKillerMove: "Viêm Đạo Sát Chiêu: Xích Long Thiên Hỏa Trận",
@@ -394,7 +417,9 @@
             mobIsHuman: true,
             targetKills: 14,
             bossTemplateId: "ancient_rock_behemoth",
-            bossName: "Tiêu Mang & Phong Thiên Ngữ (Tứ Chuyển Đỉnh Phong)",
+            bossName: "Phương Chính & Tôn Nguyên Hóa",
+            bossRankBadge: "4 Chuyển Đỉnh Phong • Cổ Phái",
+            bossPowerScale: 1.10,
             bossIsHuman: true,
             bossSkinKey: "phuong_cuu_ca",
             bossKillerMove: "Quang Đạo Sát Chiêu: Thiên Hà Lưu Tinh Bộc",
@@ -430,7 +455,9 @@
             mobIsHuman: false,
             targetKills: 14,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Lưu Văn Võ & Mặc Sư Cuồng (Ngũ Chuyển Cường Giả)",
+            bossName: "Lưu Văn Võ & Mặc Sư Cuồng",
+            bossRankBadge: "5 Chuyển • Song Hùng Bắc Nguyên",
+            bossPowerScale: 1.05,
             bossIsHuman: true,
             bossSkinKey: "phuong_cuu_ca",
             bossKillerMove: "Ngũ Chuyển Sát Chiêu: Phong Lôi Bá Hoàng Trảm",
@@ -459,11 +486,13 @@
             themeTint: "rgba(165, 35, 35, 0.24)",
             arenaBorderColor: "#ff4d4d",
             mobTemplateId: "ancient_rock_behemoth",
-            mobName: "Thống Lĩnh Hắc Gia Quân (Ngũ Chuyển)",
+            mobName: "Thống Lĩnh Hắc Gia Quân",
             mobIsHuman: true,
             targetKills: 15,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Hắc Lâu Lan (Ngũ Chuyển Đỉnh Phong — Đại Lực Chân Vũ Thể)",
+            bossName: "Hắc Lâu Lan",
+            bossRankBadge: "5 Chuyển Đỉnh Phong • Thập Tuyệt Thể",
+            bossPowerScale: 1.14,
             bossIsHuman: true,
             bossSkinKey: "hac_lau_lan",
             bossKillerMove: "Ngũ Chuyển Sát Chiêu: Đại Lực Chân Vũ Bá Hoàng Quyền",
@@ -497,7 +526,9 @@
             mobIsHuman: false,
             targetKills: 15,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Cự Dương Tiên Tôn Cuồng Man Ý Chí (Ngũ Chuyển Cực Hạn)",
+            bossName: "Tàn Ý Cự Dương",
+            bossRankBadge: "5 Chuyển Cực Hạn • Chân Dương Lâu",
+            bossPowerScale: 1.18,
             bossIsHuman: true,
             bossSkinKey: "hong_lien",
             bossKillerMove: "Vận Đạo Sát Chiêu: Hoàng Kim Khí Vận Trấn Thiên Địa",
@@ -512,7 +543,7 @@
                 { itemId: "immortal_stone", count: 1, chance: 0.25 },
                 { itemId: "soul_crystal", count: 1, chance: 0.65 }
             ],
-            description: "Đánh sập Bát Thập Bát Giác Chân Dương Lâu trong Vương Đình Phúc Địa để tích lũy đủ 120 Nhân Khí Phá Khiếu Thăng Tiên!"
+            description: "Đánh tan Tàn Ý Cự Dương trấn giữ Bát Thập Bát Giác Chân Dương Lâu trong Vương Đình Phúc Địa để tích lũy đủ 240 Nhân Khí Phá Khiếu Thăng Tiên!"
         },
 
         // ==================== LỤC CHUYỂN TIÊN CẢNH (RANK 6: ẢI 16 -> 18) ====================
@@ -533,11 +564,13 @@
             mobIsHuman: false,
             targetKills: 15,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Hạc Phong Dương (Lục Chuyển Cổ Tiên Tiên Hạc Môn)",
+            bossName: "Hạc Phong Dương",
+            bossRankBadge: "6 Chuyển • Tiên Hạc Môn",
+            bossPowerScale: 1.0,
             bossIsHuman: true,
             bossSkinKey: "thuong_tam_tu",
-            bossKillerMove: "Lục Chuyển Tiên Đạo Sát Chiêu: Vạn Hạc Tề Phi Kiếm Vũ",
-            bossAttackGu: "Phi Kiếm Tiên Cổ Lục Chuyển",
+            bossKillerMove: "Lục Chuyển Tiên Đạo Sát Chiêu: Cửu Cung Tiên Hạc Đại Trận",
+            bossAttackGu: "Thiên Phong Kiếm Vũ Cổ Lục Chuyển",
             bossDefGu: "Hoàng Kim Chung Cổ Lục Chuyển",
             rewardStones: 380,
             rewardMerit: 230,
@@ -566,11 +599,13 @@
             mobIsHuman: true,
             targetKills: 16,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Tần Bách Thắng (Lục Chuyển Đỉnh Phong — Á Tiên Tôn Chiến Lực)",
+            bossName: "Tuyết Tùng Tử",
+            bossRankBadge: "6 Chuyển • Tuyết Đạo Cổ Tiên",
+            bossPowerScale: 1.05,
             bossIsHuman: true,
             bossSkinKey: "hac_lau_lan",
-            bossKillerMove: "Tiên Đạo Sát Chiêu: Ngũ Chỉ Quyền Tâm Kiếm",
-            bossAttackGu: "Phi Kiếm Tiên Cổ Lục Chuyển",
+            bossKillerMove: "Lục Chuyển Tiên Đạo Sát Chiêu: Hàn Tùng Băng Tuyết Bạo",
+            bossAttackGu: "Băng Tinh Tuyết Hoa Cổ Lục Chuyển",
             bossDefGu: "Hoàng Kim Chung Cổ Lục Chuyển",
             rewardStones: 460,
             rewardMerit: 280,
@@ -581,12 +616,12 @@
                 { itemId: "remnant_recipe", count: 1, chance: 0.30 },
                 { itemId: "soul_crystal", count: 1, chance: 0.65 }
             ],
-            description: "[Lục Chuyển Tiên Cảnh] Quân đoàn Ảnh Tông do Tần Bách Thắng dẫn đầu đột kích Lang Gia Phúc Địa!"
+            description: "[Lục Chuyển Tiên Cảnh] Ma Đạo Cổ Tiên Tuyết Tùng Tử dẫn thế lực Bắc Nguyên đột kích Lang Gia Phúc Địa cướp đoạt Luyện Đạo tài nguyên!"
         },
         {
             id: "stage_18",
             order: 18,
-            name: "Ải 18: Bí Cảnh Lạc Phách Cốc — Bách Nhật Đại Chiến",
+            name: "Ải 18: Thanh Thành Sơn — Đấu Trí Đông Phương Trường Phàm",
             icon: "❄️",
             regionName: "Bắc Nguyên (Lục Chuyển Tiên Cảnh)",
             reqRank: 6,
@@ -596,16 +631,18 @@
             themeTint: "rgba(95, 185, 245, 0.25)",
             arenaBorderColor: "#85c1e9",
             mobTemplateId: "desolate_thunder_dragon",
-            mobName: "Lạc Phách Phong Hồn Thú & Trung Châu Cổ Tiên",
+            mobName: "Hoang Thú Thanh Thành & Đông Phương Cổ Tiên",
             mobIsHuman: true,
             targetKills: 16,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Hồi Phong Tử & Tần Bách Thắng Tử Chiến (Lục Chuyển Cực Hạn)",
+            bossName: "Đông Phương Trường Phàm",
+            bossRankBadge: "6 Chuyển Đỉnh Phong • Trí Đạo",
+            bossPowerScale: 1.12,
             bossIsHuman: true,
             bossSkinKey: "bach_ngung_bang",
-            bossKillerMove: "Tiên Đạo Sát Chiêu: Lạc Phách Mê Hồn Phong Nhận",
-            bossAttackGu: "Nhiếp Hồn Âm Cổ Lục Chuyển",
-            bossDefGu: "Băng Tinh Tuyết Hoa Cổ Lục Chuyển",
+            bossKillerMove: "Lục Chuyển Trí Đạo Sát Chiêu: Vạn Tinh Đom Đóm Đại Trận",
+            bossAttackGu: "Tinh Quang Cổ Lục Chuyển",
+            bossDefGu: "Hoàng Kim Chung Cổ Lục Chuyển",
             rewardStones: 550,
             rewardMerit: 330,
             rewardHumanQi: 45,
@@ -614,7 +651,7 @@
                 { itemId: "immortal_stone", count: 1, chance: 0.75 },
                 { itemId: "soul_crystal", count: 2, chance: 0.75 }
             ],
-            description: "[Lục Chuyển Đỉnh Phong] Cuộc đại chiến kéo dài trăm ngày trong thánh địa Hồn Đạo Lạc Phách Cốc."
+            description: "[Lục Chuyển Đỉnh Phong] Đông Phương Trường Phàm đoạt xá trùng sinh ở tu vi Lục Chuyển, bày Tinh Tượng Đại Trận tại Thanh Thành Sơn quyết chiến quần tiên Bắc Nguyên!"
         },
 
         // ==================== THẤT CHUYỂN TIÊN CẢNH (RANK 7: ẢI 19 -> 21) ====================
@@ -631,15 +668,17 @@
             themeTint: "rgba(165, 25, 45, 0.28)",
             arenaBorderColor: "#ff3b30",
             mobTemplateId: "desolate_thunder_dragon",
-            mobName: "Tiên Cương Ảnh Tông & Hộ Vệ Giám Thiên Tháp (Thất Chuyển)",
+            mobName: "Tiên Cương Ảnh Tông & Hộ Vệ Giám Thiên Tháp",
             mobIsHuman: true,
             targetKills: 16,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Bạc Thanh Tàn Hồn & Ảnh Vô Tà (Thất Chuyển Đỉnh Phong)",
+            bossName: "Tần Bách Thắng & Ảnh Vô Tà",
+            bossRankBadge: "7 Chuyển Đỉnh Phong • Ảnh Tông",
+            bossPowerScale: 1.14,
             bossIsHuman: true,
             bossSkinKey: "u_hon",
-            bossKillerMove: "Thất Chuyển Tiên Đạo Sát Chiêu: Vạn Thiên Kiếm Giao • Dẫn Hồn Nhập Mộng",
-            bossAttackGu: "Phi Kiếm Tiên Cổ Thất Chuyển",
+            bossKillerMove: "Thất Chuyển Tiên Đạo Sát Chiêu: Ngũ Chỉ Quyền Tâm Kiếm • Dẫn Hồn Nhập Mộng",
+            bossAttackGu: "Nhiếp Hồn Âm Cổ Thất Chuyển",
             bossDefGu: "Hoàng Kim Chung Cổ Thất Chuyển",
             rewardStones: 720,
             rewardMerit: 420,
@@ -649,7 +688,7 @@
                 { itemId: "immortal_stone", count: 2, chance: 0.85 },
                 { itemId: "soul_crystal", count: 2, chance: 0.80 }
             ],
-            description: "[Thất Chuyển Tiên Cảnh] Trận đại chiến kinh thiên động địa trên đỉnh Nghĩa Thiên Sơn! Bạc Thanh Kiếm Tiên xuất kiếm chém ngang Nam Cương, U Hồn Ma Tôn nghịch thiên luyện Chí Tôn Tiên Thai Cổ!"
+            description: "[Thất Chuyển Tiên Cảnh] Trận đại chiến Nghĩa Thiên Sơn! Thủ lĩnh Ảnh Tông Tần Bách Thắng cùng Ảnh Vô Tà hộ pháp cho Thập Tuyệt Tiên Cương Đại Trận!"
         },
         {
             id: "stage_20",
@@ -668,7 +707,9 @@
             mobIsHuman: true,
             targetKills: 17,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Bá Tiên Sở Độ (Thất Chuyển Đỉnh Phong Bắc Nguyên)",
+            bossName: "Bá Tiên Sở Độ",
+            bossRankBadge: "7 Chuyển Đỉnh Phong • Bá Tiên",
+            bossPowerScale: 1.12,
             bossIsHuman: true,
             bossSkinKey: "hac_lau_lan",
             bossKillerMove: "Thất Chuyển Tiên Đạo Sát Chiêu: Nội Cảnh Phá Không Thần Quyền",
@@ -701,7 +742,9 @@
             mobIsHuman: true,
             targetKills: 18,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Phượng Cửu Ca & Ảnh Vô Tà (Thất Chuyển Chiến Lực Bát Chuyển)",
+            bossName: "Phượng Cửu Ca",
+            bossRankBadge: "7 Chuyển Đỉnh Phong • Trung Châu",
+            bossPowerScale: 1.18,
             bossIsHuman: true,
             bossSkinKey: "phuong_cuu_ca",
             bossKillerMove: "Tiên Đạo Chí Cao Sát Chiêu: Ngọc Thanh Tích Phong • Mệnh Ca",
@@ -732,11 +775,13 @@
             themeTint: "rgba(240, 195, 65, 0.26)",
             arenaBorderColor: "#f2d16b",
             mobTemplateId: "desolate_thunder_dragon",
-            mobName: "Thái Cổ Niên Thú & Tiên Cổ Ốc Thiên Đình (Bát Chuyển)",
+            mobName: "Thái Cổ Niên Thú & Tiên Cổ Ốc Thiên Đình",
             mobIsHuman: false,
             targetKills: 18,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Tử Vi Tiên Tử & Hạ Tra (Đại Năng Bát Chuyển Thiên Đình)",
+            bossName: "Tử Vi Tiên Tử & Hạ Tra",
+            bossRankBadge: "8 Chuyển • Thiên Đình",
+            bossPowerScale: 1.05,
             bossIsHuman: true,
             bossSkinKey: "tinh_tu",
             bossKillerMove: "Bát Chuyển Tiên Đạo Sát Chiêu: Tinh Tượng Kỳ Cục • Xuân Hạ Thu Đông",
@@ -765,15 +810,17 @@
             themeTint: "rgba(35, 110, 195, 0.26)",
             arenaBorderColor: "#3b8beb",
             mobTemplateId: "desolate_thunder_dragon",
-            mobName: "Thái Cổ Hoang Thú Giao Long & Cổ Tiên Bát Chuyển Đông Hải",
+            mobName: "Thái Cổ Hoang Thú Giao Long & Đông Hải Cổ Tiên",
             mobIsHuman: true,
             targetKills: 19,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Tuyết Hồ Lão Tổ & Long Công Phân Thân (Bát Chuyển Đỉnh Phong)",
+            bossName: "Tuyết Hồ Lão Tổ & Bạc Thanh Kiếm Hồn",
+            bossRankBadge: "8 Chuyển Đỉnh Phong",
+            bossPowerScale: 1.14,
             bossIsHuman: true,
             bossSkinKey: "bach_ngung_bang",
-            bossKillerMove: "Bát Chuyển Tiên Đạo Sát Chiêu: Vạn Tuyết Băng Thiên • Mộng Cảnh Luân Hồi",
-            bossAttackGu: "Băng Tinh Tuyết Hoa Cổ Bát Chuyển",
+            bossKillerMove: "Bát Chuyển Tiên Đạo Sát Chiêu: Vạn Tuyết Băng Thiên • Ngũ Chỉ Quyền Tâm Kiếm",
+            bossAttackGu: "Phi Kiếm Tiên Cổ Bát Chuyển",
             bossDefGu: "Hoàng Kim Chung Cổ Bát Chuyển",
             rewardStones: 1950,
             rewardMerit: 1050,
@@ -783,7 +830,7 @@
                 { itemId: "immortal_stone", count: 5, chance: 1.0 },
                 { itemId: "soul_crystal", count: 4, chance: 1.0 }
             ],
-            description: "[Bát Chuyển Đỉnh Phong] Tứ đại Bát Chuyển Đông Hải cùng Thiên Đình và Tuyết Hồ Lão Tổ đại chiến dưới đáy biển tranh đoạt Bát Chuyển Tiên Cổ Ốc Long Cung!"
+            description: "[Bát Chuyển Đỉnh Phong] Tuyết Hồ Lão Tổ cùng Kiếm Hồn Bạc Thanh xuất hiện giữa chiến trường Đông Hải Long Cung tranh đoạt Tiên Cổ Ốc Bát Chuyển!"
         },
         {
             id: "stage_24",
@@ -798,11 +845,14 @@
             themeTint: "rgba(215, 165, 35, 0.26)",
             arenaBorderColor: "#ffd700",
             mobTemplateId: "desolate_thunder_dragon",
-            mobName: "Chư Tiên Thiên Đình & Hộ Vệ Giám Thiên Tháp (Bát Chuyển)",
+            mobName: "Chư Tiên Thiên Đình & Hộ Vệ Giám Thiên Tháp",
             mobIsHuman: true,
             targetKills: 20,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Long Công (Á Tiên Tôn Bát Chuyển Đỉnh Phong — Hộ Đạo Nhân Thiên Đình)",
+            bossName: "Long Công",
+            isPseudoVenerableBoss: true,
+            bossRankBadge: "8 Chuyển • Á Tiên Tôn",
+            bossPowerScale: 1.18,
             bossIsHuman: true,
             bossSkinKey: "hong_lien",
             bossKillerMove: "Á Tiên Tôn Tuyệt Kỹ: Nhất Khí Tam Thanh • Long Ngự Thượng Tân",
@@ -833,11 +883,12 @@
             themeTint: "rgba(155, 35, 225, 0.28)",
             arenaBorderColor: "#00e5ff",
             mobTemplateId: "desolate_thunder_dragon",
-            mobName: "Thái Cổ Truyền Kỳ Hoang Thú & Á Tiên Tôn Thủ Trận (Bát Chuyển)",
+            mobName: "Thái Cổ Truyền Kỳ Hoang Thú & Cổ Tiên Thủ Trận",
             mobIsHuman: true,
             targetKills: 20,
             bossTemplateId: "desolate_thunder_dragon",
-            bossName: "Tinh Tú Tiên Tôn & Cự Dương Tiên Tôn (Song Tôn Cửu Chuyển Vây Công)",
+            bossName: "Tinh Tú Tiên Tôn & Cự Dương Tiên Tôn",
+            bossRankBadge: "9 Chuyển • Song Tôn",
             bossIsHuman: true,
             bossSkinKey: "tinh_tu",
             bossKillerMove: "Cửu Chuyển Sát Chiêu: Tinh Tượng Vô Cực • Chúng Sinh Thiên Địa Ngã Cư Trung",
@@ -845,7 +896,8 @@
             bossDefGu: "Cửu Chuyển Sát Chiêu: Tâm Cảnh Chúng Sinh & Hoàng Kim Bất Bại Kim Thân",
             venerableBosses: [
                 {
-                    name: "Tinh Tú Tiên Tôn (Cửu Chuyển Trí Đạo & Tinh Đạo Tôn Giả)",
+                    name: "Tinh Tú Tiên Tôn",
+                    rankBadge: "9 Chuyển • Tôn Giả",
                     skinKey: "tinh_tu",
                     projectileColor: "#4ce6ff",
                     defGuName: "Cửu Chuyển Sát Chiêu: Tâm Cảnh Chúng Sinh Thiên Địa Lung",
@@ -867,7 +919,8 @@
                     ]
                 },
                 {
-                    name: "Cự Dương Tiên Tôn (Cửu Chuyển Vận Đạo & Huyết Đạo Tôn Giả)",
+                    name: "Cự Dương Tiên Tôn",
+                    rankBadge: "9 Chuyển • Tôn Giả",
                     skinKey: "hong_lien",
                     projectileColor: "#ffd700",
                     defGuName: "Cửu Chuyển Sát Chiêu: Hoàng Kim Khí Vận Bất Bại Kim Thân",
@@ -897,7 +950,7 @@
                 { itemId: "immortal_stone", count: 20, chance: 1.0 },
                 { itemId: "soul_crystal", count: 12, chance: 1.0 }
             ],
-            description: "[Cửu Chuyển Tôn Giả Chiến] Giữa Vô Cực Hỗn Độn Đại Trận tại Tầng Chín Phong Ma Quật, Tinh Tú Tiên Tôn và Cự Dương Tiên Tôn liên thủ vây sát ngươi bằng 12 Tiên Cổ Cửu Chuyển, 10 Sát Chiêu Cửu Chuyển, Khóa Sát Thương Vạn Pháp Bất Xâm và Niết Bàn Trọng Sinh!"
+            description: "[Cửu Chuyển Tôn Giả Chiến] Giữa Vô Cực Hỗn Độn Đại Trận tại Tầng Chín Phong Ma Quật, Tinh Tú Tiên Tôn và Cự Dương Tiên Tôn liên thủ vây sát ngươi bằng 12 Tiên Cổ Cửu Chuyển, 10 Sát Chiêu Cửu Chuyển, Song Tôn Liên Thủ Kết Giới và trạng thái Cuồng Bạo Cực Hạn!"
         },
 
         // ==================== 6 MÀN CHƠI ĐẶC BIỆT KIẾM TÀI NGUYÊN (FARM CHẬM & CÂN BẰNG) ====================
@@ -1087,7 +1140,7 @@
             themeTint: "rgba(145, 50, 235, 0.22)",
             arenaBorderColor: "#ffd700",
             mobTemplateId: "desolate_thunder_dragon",
-            mobName: "Hỗn Độn Thủ Vệ Tiên Cương (Bát Chuyển)",
+            mobName: "Hỗn Độn Thủ Vệ Tiên Cương",
             mobIsHuman: true,
             targetKills: 0,
             bossTemplateId: null,
@@ -1136,7 +1189,7 @@
             this.lastAutoSaveLabel = "";
 
             this.characterUid = null;
-            this.activeSaveSlot = 1;
+            this.activeSaveSlot = null;
             this.isPermadead = false;
             this.isBattlePaused = false;
             this.hasUserSetZoom = false;
@@ -1261,7 +1314,7 @@
             }
 
             this.characterUid = `char_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
-            this.activeSaveSlot = 1;
+            this.activeSaveSlot = null;
             this.isPermadead = false;
             this.isBattlePaused = false;
             this.stageClears = {};
@@ -1460,63 +1513,66 @@
             // Quái thường & Tinh Anh ở Phong Ma Quật giữ nguyên cấp 8 Chuyển (Không bị buff lên 9 Chuyển)
             const entityRank = isVenerableBoss ? 9 : Math.min(8, stageRank);
 
-            // Bảng chỉ số cân bằng chuẩn theo Cảnh Giới 1 -> 9 Chuyển (Khắc phục hoàn toàn lỗi quái Tiên Cảnh đánh 1 máu & quá giấy)
+            // Bảng chỉ số cân bằng v16 đồng bộ theo Cảnh Giới 1 -> 9 Chuyển (Quái ~0.85x–1.1x HP người chơi, Boss ~2.5x–4.7x HP người chơi)
             const hpByRank = {
-                1: 155,
-                2: 450,
-                3: 1180,
-                4: 3250,
-                5: 8900,
-                6: 58000,
-                7: 680000,
-                8: 5600000,
-                9: 52000000
+                1: 125,
+                2: 245,
+                3: 470,
+                4: 890,
+                5: 1650,
+                6: 8200,
+                7: 23500,
+                8: 62000,
+                9: 185000
             };
             const atkByRank = {
-                1: 24,
-                2: 48,
-                3: 88,
-                4: 158,
-                5: 255,
-                6: 3800,
-                7: 9800,
-                8: 24500,
-                9: 78000
+                1: 16,
+                2: 29,
+                3: 52,
+                4: 94,
+                5: 168,
+                6: 1280,
+                7: 3350,
+                8: 8400,
+                9: 23500
             };
             const defByRank = {
-                1: 8,
-                2: 28,
-                3: 75,
-                4: 205,
-                5: 520,
-                6: 2800,
-                7: 32000,
-                8: 260000,
-                9: 1500000
+                1: 11,
+                2: 22,
+                3: 44,
+                4: 85,
+                5: 160,
+                6: 1050,
+                7: 3500,
+                8: 11000,
+                9: 36000
             };
 
             const isSpecialFarm = Boolean(stage.isSpecialResourceStage);
             const subOrderOffset = isSpecialFarm ? 0 : Math.max(0, (stageOrder - 1) % 3);
-            // 3 ải trong mỗi Chuyển tăng đều theo Sơ Giai -> Trung/Cao Giai -> Đỉnh Phong
-            const stageStepMult = isSpecialFarm ? 0.90 : (1 + subOrderOffset * 0.22);
+            // 3 ải trong mỗi Chuyển tăng nhẹ theo Sơ Giai -> Trung Giai -> Đỉnh Phong (1.0 -> 1.12 -> 1.24)
+            const stageStepMult = isSpecialFarm ? 0.90 : (1 + subOrderOffset * 0.12);
 
             let hpMult = 1.0;
             if (isStageBoss) {
-                hpMult = isVenerableBoss ? 7.5 : (entityRank === 8 ? 5.6 : (entityRank >= 6 ? 5.0 : 4.2));
+                hpMult = isVenerableBoss ? 4.4 : (entityRank >= 6 ? 3.4 : 3.0);
             } else if (isElite) {
-                hpMult = 2.25;
+                hpMult = 1.80;
             }
 
             const atkMult = isStageBoss
-                ? (isVenerableBoss ? 2.0 : (entityRank >= 6 ? 1.62 : 1.48))
-                : (isElite ? 1.32 : 1.0);
+                ? (isVenerableBoss ? 1.60 : (entityRank >= 6 ? 1.42 : 1.35))
+                : (isElite ? 1.20 : 1.0);
             const defMult = isStageBoss
-                ? (isVenerableBoss ? 1.85 : (entityRank >= 6 ? 1.45 : 1.32))
-                : (isElite ? 1.22 : 1.0);
+                ? (isVenerableBoss ? 1.35 : (entityRank >= 6 ? 1.22 : 1.18))
+                : (isElite ? 1.12 : 1.0);
 
-            const baseHp = Math.round((hpByRank[entityRank] || 155) * stageStepMult * hpMult);
-            const baseAtk = Math.round((atkByRank[entityRank] || 24) * stageStepMult * atkMult);
-            const baseDef = Math.round((defByRank[entityRank] || 8) * stageStepMult * defMult);
+            const bossPowerScale = isStageBoss ? (stage.bossPowerScale || 1.0) : 1.0;
+            const isPseudoVenBoss = Boolean(isStageBoss && stage.isPseudoVenerableBoss);
+
+            const baseHp = Math.round((hpByRank[entityRank] || 155) * stageStepMult * hpMult * bossPowerScale);
+            const baseAtk = Math.round((atkByRank[entityRank] || 24) * stageStepMult * atkMult * Math.sqrt(bossPowerScale));
+            const baseDef = Math.round((defByRank[entityRank] || 8) * stageStepMult * defMult * Math.sqrt(bossPowerScale));
 
             const isHumanEntity = isStageBoss
                 ? Boolean(stage.bossIsHuman || customBossConfig)
@@ -1532,10 +1588,10 @@
             const skinPool = ["phuong_nguyen", "bach_ngung_bang", "phuong_cuu_ca", "hac_lau_lan", "hong_lien", "u_hon", "tinh_tu"];
 
             const initialShield = isVenerableBoss
-                ? Math.round(baseHp * 0.40)
+                ? Math.round(baseHp * 0.25)
                 : (isStageBoss
-                    ? Math.round(baseHp * (entityRank >= 6 ? 0.25 : (entityRank >= 2 ? 0.16 : 0.10)))
-                    : (isElite && entityRank >= 3 ? Math.round(baseHp * 0.15) : 0));
+                    ? Math.round(baseHp * (entityRank >= 6 ? 0.18 : (entityRank >= 2 ? 0.14 : 0.10)))
+                    : (isElite && entityRank >= 2 ? Math.round(baseHp * 0.12) : 0));
 
             const entity = {
                 id: `stage_mob_${Date.now()}_${Math.floor(Math.random() * 100000)}`,
@@ -1551,7 +1607,13 @@
                 rank: entityRank,
                 isBoss: isStageBoss,
                 isStageBoss: isStageBoss,
+                isPseudoVenerable: isPseudoVenBoss,
                 isVenerable: isVenerableBoss,
+                rankBadge: (customBossConfig && customBossConfig.rankBadge)
+                    ? customBossConfig.rankBadge
+                    : (isStageBoss && stage.bossRankBadge
+                        ? stage.bossRankBadge
+                        : `${entityRank} Chuyển`),
                 hasRevivedOnce: false,
                 enraged: false,
                 isElite: isElite,
@@ -1665,8 +1727,8 @@
                         const survivingBosses = (this.enemies.beasts || []).filter(b => b.isStageBoss && !b.isDead);
                         for (const surv of survivingBosses) {
                             surv.enraged = true;
-                            surv.hp = Math.min(surv.maxHp, surv.hp + Math.round(surv.maxHp * 0.35));
-                            surv.shieldHp = Math.round(surv.maxHp * 0.50);
+                            surv.hp = Math.min(surv.maxHp, surv.hp + Math.round(surv.maxHp * 0.20));
+                            surv.shieldHp = Math.round(surv.maxHp * 0.25);
                             surv.maxShieldHp = surv.shieldHp;
                             this.combat.spawnFloatingText(
                                 surv.x,
@@ -1683,7 +1745,7 @@
                             "#ffd700"
                         );
                         this.ui.addLog(
-                            `🔥 Ngươi đã đánh bại 【${target.name}】! Nhưng vị Tôn Giả còn lại vừa thôn phệ đạo ngân Hỗn Độn, khôi phục 35% Sinh Mệnh + 50% Hộ Thuẫn và tiến vào trạng thái CUỒNG BẠO CỰC HẠN!`,
+                            `🔥 Ngươi đã đánh bại 【${target.name}】! Nhưng vị Tôn Giả còn lại vừa thôn phệ đạo ngân Hỗn Độn, khôi phục 20% Sinh Mệnh + 25% Hộ Thuẫn và tiến vào trạng thái CUỒNG BẠO CỰC HẠN!`,
                             "danger"
                         );
                         this.ui.updateBattleHUD();
@@ -2382,20 +2444,13 @@
                 for (const slot of [1, 2, 3]) {
                     const key = `${SAVE_KEY_PREFIX}${slot}`;
                     const raw = localStorage.getItem(key);
-                    if (raw) {
-                        try {
-                            const parsed = JSON.parse(raw);
-                            if (slot === this.activeSaveSlot || parsed.characterUid === uid) {
-                                localStorage.setItem(key, JSON.stringify(tombstonePayload));
-                            }
-                        } catch (e) {
-                            if (slot === this.activeSaveSlot) {
-                                localStorage.setItem(key, JSON.stringify(tombstonePayload));
-                            }
+                    if (!raw) continue;
+                    try {
+                        const parsed = JSON.parse(raw);
+                        if (parsed && parsed.characterUid === uid) {
+                            localStorage.setItem(key, JSON.stringify(tombstonePayload));
                         }
-                    } else if (slot === this.activeSaveSlot) {
-                        localStorage.setItem(key, JSON.stringify(tombstonePayload));
-                    }
+                    } catch (e) {}
                 }
             } catch (e) {
                 console.error("Lỗi khi niêm phong file lưu đã tử vong:", e);
@@ -2627,7 +2682,8 @@
         }
 
         /**
-         * Tự động lưu trực tiếp trên trình duyệt mỗi người chơi (Auto-Save tức thì)
+         * Tự động lưu trực tiếp trên trình duyệt (Auto-Save ĐỘC LẬP).
+         * QUAN TRỌNG: CHỈ ghi vào AUTO_SAVE_KEY — TUYỆT ĐỐI KHÔNG BAO GIỜ tự ý ghi đè lên 3 Ô Lưu Thủ Công (Ô 1, 2, 3)!
          */
         autoSaveNow(reason = "auto") {
             if (this.isPermadead || this.currentScreen === "creation" || !this.aperture || !this.aperture.isAwakened) {
@@ -2637,7 +2693,6 @@
                 const payload = this._buildSavePayload();
                 const serialized = JSON.stringify(payload);
                 localStorage.setItem(AUTO_SAVE_KEY, serialized);
-                localStorage.setItem(`${SAVE_KEY_PREFIX}${this.activeSaveSlot || 1}`, serialized);
 
                 const now = new Date();
                 const hh = String(now.getHours()).padStart(2, "0");
@@ -2655,6 +2710,11 @@
             }
         }
 
+        /**
+         * Lưu Thủ Công vào Ô 1, 2 hoặc 3:
+         *  - Xác nhận rõ ràng nếu ô đó đang chứa nhân vật khác hoặc cảnh giới cao hơn.
+         *  - Tự động sao lưu bản cũ sang BACKUP_KEY_PREFIX để có thể bấm "Hoàn Tác" nếu lỡ ghi đè nhầm!
+         */
         saveGame(slotNum = 1, isAuto = false) {
             if (this.isPermadead) {
                 if (!isAuto && this.ui) {
@@ -2662,11 +2722,45 @@
                 }
                 return false;
             }
+            const slot = Number(slotNum) || 1;
+            const slotKey = `${SAVE_KEY_PREFIX}${slot}`;
+            const backupKey = `${BACKUP_KEY_PREFIX}${slot}`;
+
             try {
-                this.activeSaveSlot = Number(slotNum) || 1;
+                const existingRaw = localStorage.getItem(slotKey);
+                if (existingRaw && !isAuto) {
+                    try {
+                        const existing = JSON.parse(existingRaw);
+                        const isDifferentChar = existing.characterUid && this.characterUid && existing.characterUid !== this.characterUid;
+                        const existingRank = (existing.aperture && existing.aperture.rank) || 1;
+                        const currentRank = (this.aperture && this.aperture.rank) || 1;
+                        const isHigherRealm = existingRank > currentRank;
+
+                        if (isDifferentChar || isHigherRealm) {
+                            const ok = confirm(
+                                `⚠️ CẢNH BÁO GHI ĐÈ Ô LƯU ${slot}!\n\n` +
+                                `• Dữ liệu CŨ trong Ô ${slot}: ${existing.playerName || "Cổ Sư"} (${existing.realmName || existingRank + " Chuyển"})\n` +
+                                `• Dữ liệu MỚI sắp lưu: ${this.player.name} (${this.aperture.getRealmDisplayName()})\n\n` +
+                                `Bạn có CHẮC CHẮN muốn ghi đè Ô Lưu ${slot} không?\n` +
+                                `(Nếu chỉ muốn TẢI lại nhân vật cũ, hãy bấm HỦY rồi bấm nút [📂 Tải Ô Này]!)`
+                            );
+                            if (!ok) {
+                                if (this.ui) {
+                                    this.ui.addLog(`🛡️ Đã hủy ghi đè Ô Lưu ${slot} — dữ liệu cũ được giữ nguyên an toàn.`, "system");
+                                }
+                                return false;
+                            }
+                        }
+                    } catch (e) {}
+
+                    // Luôn giữ 1 bản dự phòng của dữ liệu trước đó để Hoàn Tác nếu cần
+                    localStorage.setItem(backupKey, existingRaw);
+                }
+
+                this.activeSaveSlot = slot;
                 const payload = this._buildSavePayload();
                 const serialized = JSON.stringify(payload);
-                localStorage.setItem(`${SAVE_KEY_PREFIX}${this.activeSaveSlot}`, serialized);
+                localStorage.setItem(slotKey, serialized);
                 localStorage.setItem(AUTO_SAVE_KEY, serialized);
 
                 const now = new Date();
@@ -2675,7 +2769,7 @@
                     this.ui.updateAutoSaveIndicator(this.lastAutoSaveLabel);
                 }
                 if (!isAuto && this.ui) {
-                    this.ui.addLog(`💾 Đã lưu tiến trình vào Ô Lưu ${this.activeSaveSlot} (và bản Tự Động Lưu trình duyệt) thành công!`, "system");
+                    this.ui.addLog(`💾 Đã lưu 【${this.player.name} — ${this.aperture.getRealmDisplayName()}】 vào Ô Lưu Thủ Công ${slot} thành công!`, "system");
                 }
                 return true;
             } catch (err) {
@@ -2684,11 +2778,66 @@
             }
         }
 
-        loadGame(slotNum = 1) {
+        /**
+         * Khôi phục bản sao lưu trước khi ghi đè của Ô Lưu 1/2/3 (Chống mất acc khi lỡ tay)
+         */
+        restoreSlotBackup(slotNum = 1) {
+            const slot = Number(slotNum) || 1;
+            const slotKey = `${SAVE_KEY_PREFIX}${slot}`;
+            const backupKey = `${BACKUP_KEY_PREFIX}${slot}`;
             try {
-                const raw = localStorage.getItem(`${SAVE_KEY_PREFIX}${slotNum}`);
+                const backupRaw = localStorage.getItem(backupKey);
+                if (!backupRaw) {
+                    if (this.ui) this.ui.addLog(`Ô Lưu ${slot} chưa có bản dự phòng trước đó.`, "warning");
+                    return false;
+                }
+                const parsed = JSON.parse(backupRaw);
+                const ok = confirm(
+                    `↩️ Khôi phục lại dữ liệu trước khi ghi đè của Ô Lưu ${slot}?\n\n` +
+                    `Bản dự phòng: ${parsed.playerName || "Cổ Sư"} (${parsed.realmName || "---"}) — Lưu lúc: ${parsed.savedAt || "---"}`
+                );
+                if (!ok) return false;
+
+                const currentRaw = localStorage.getItem(slotKey);
+                localStorage.setItem(slotKey, backupRaw);
+                if (currentRaw) {
+                    localStorage.setItem(backupKey, currentRaw);
+                } else {
+                    localStorage.removeItem(backupKey);
+                }
+
+                if (this.ui) {
+                    this.ui.addLog(`↩️ Đã khôi phục bản dự phòng cho Ô Lưu ${slot}: 【${parsed.playerName} — ${parsed.realmName}】! Hãy bấm [📂 Tải Ô Này] để vào chơi.`, "loot");
+                    this.ui.renderSettingsTab();
+                }
+                return true;
+            } catch (err) {
+                console.error("Lỗi khôi phục bản dự phòng:", err);
+                return false;
+            }
+        }
+
+        hasSlotBackup(slotNum = 1) {
+            try {
+                const raw = localStorage.getItem(`${BACKUP_KEY_PREFIX}${slotNum}`);
+                if (!raw) return null;
+                const d = JSON.parse(raw);
+                return `${d.playerName || "Cổ Sư"} (${d.realmName || "---"})`;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        /**
+         * Tải dữ liệu từ Ô Lưu Thủ Công 1, 2 hoặc 3:
+         * CHỈ ĐỌC dữ liệu — TUYỆT ĐỐI KHÔNG ghi đè lên ô lưu được chọn!
+         */
+        loadGame(slotNum = 1) {
+            const slot = Number(slotNum) || 1;
+            try {
+                const raw = localStorage.getItem(`${SAVE_KEY_PREFIX}${slot}`);
                 if (!raw) {
-                    if (this.ui) this.ui.addLog(`Ô Lưu ${slotNum} hiện chưa có dữ liệu!`, "warning");
+                    if (this.ui) this.ui.addLog(`Ô Lưu ${slot} hiện chưa có dữ liệu!`, "warning");
                     return false;
                 }
 
@@ -2698,13 +2847,28 @@
                     return false;
                 }
 
-                this.activeSaveSlot = Number(slotNum) || 1;
+                if (
+                    this.currentScreen !== "creation" &&
+                    this.characterUid &&
+                    data.characterUid &&
+                    data.characterUid !== this.characterUid
+                ) {
+                    const ok = confirm(
+                        `📂 Tải Ô Lưu ${slot}: 【${data.playerName || "Cổ Sư"} — ${data.realmName || "---"}】?\n\n` +
+                        `Nhân vật hiện tại (${this.player.name}) sẽ được chuyển ra sau (nếu muốn giữ lâu dài hãy lưu nhân vật hiện tại vào một ô trống trước).`
+                    );
+                    if (!ok) return false;
+                }
+
+                this.activeSaveSlot = slot;
                 this._applySavePayload(data);
+                // Cập nhật Auto-Save theo nhân vật vừa tải (KHÔNG chạm vào các ô lưu thủ công)
+                localStorage.setItem(AUTO_SAVE_KEY, raw);
 
                 this.currentScreen = "hub";
                 this.ui.showScreen("hub");
                 this.ui.addLog(
-                    `📂 Đã tải tiến trình từ Ô Lưu ${slotNum}: ${this.player.name} (${this.aperture.getRealmDisplayName()}).`,
+                    `📂 Đã tải tiến trình từ Ô Lưu ${slot}: ${this.player.name} (${this.aperture.getRealmDisplayName()}).`,
                     "cultivation"
                 );
                 return true;
@@ -2725,15 +2889,16 @@
 
                 const data = JSON.parse(raw);
                 if (this._isPayloadPermadead(data)) {
-                    alert("💀 Bản lưu tự động này thuộc về Cổ Sư Thập Tuyệt Thể đã bạo tạc chết hẳn! Hãy tạo nhân vật mới.");
+                    alert("💀 Bản lưu tự động này thuộc về Cổ Sư Thập Tuyệt Thể đã bạo tạc chết hẳn! Hãy tải từ Ô Lưu 1–3 hoặc tạo nhân vật mới.");
                     return false;
                 }
 
+                this.activeSaveSlot = null;
                 this._applySavePayload(data);
                 this.currentScreen = "hub";
                 this.ui.showScreen("hub");
                 this.ui.addLog(
-                    `📂 Đã tiếp tục hành trình từ Lưu Trữ Tự Động Trình Duyệt: ${this.player.name} (${this.aperture.getRealmDisplayName()}).`,
+                    `📂 Đã tiếp tục hành trình từ Ô Tự Động Lưu: ${this.player.name} (${this.aperture.getRealmDisplayName()}).`,
                     "cultivation"
                 );
                 return true;
@@ -2745,8 +2910,24 @@
 
         getAutoSaveSummary() {
             try {
-                const raw = localStorage.getItem(AUTO_SAVE_KEY) || localStorage.getItem(`${SAVE_KEY_PREFIX}1`);
-                if (!raw) return null;
+                const raw = localStorage.getItem(AUTO_SAVE_KEY);
+                if (!raw) {
+                    for (const slot of [1, 2, 3]) {
+                        const sRaw = localStorage.getItem(`${SAVE_KEY_PREFIX}${slot}`);
+                        if (!sRaw) continue;
+                        const sd = JSON.parse(sRaw);
+                        if (!this._isPayloadPermadead(sd)) {
+                            return {
+                                isPermadead: false,
+                                playerName: sd.playerName,
+                                realmName: sd.realmName,
+                                savedAt: sd.savedAt,
+                                label: `${sd.playerName} — ${sd.realmName} (Ô ${slot})`
+                            };
+                        }
+                    }
+                    return null;
+                }
                 const data = JSON.parse(raw);
                 if (this._isPayloadPermadead(data)) {
                     return { isPermadead: true, label: `💀 ${data.playerName || "Cổ Sư"} (Đã Bạo Tạc Chết Hẳn)` };
@@ -2776,7 +2957,7 @@
 
                 const safeName = (this.player.name || "CoSu")
                     .normalize("NFD")
-                    .replace(/[̀-ͯ]/g, "")
+                    .replace(/[\u0300-\u036f]/g, "")
                     .replace(/[^a-zA-Z0-9_-]/g, "_");
                 const fileName = `VanCoTienDo_${safeName}_Rank${this.aperture.rank}.json`;
 
@@ -2789,7 +2970,7 @@
                 URL.revokeObjectURL(url);
 
                 if (this.ui) {
-                    this.ui.addLog(`⬇️ Đã xuất file lưu trữ [${fileName}] về máy tính thành công!`, "loot");
+                    this.ui.addLog(`⬇️ Đã xuất file lưu trữ [${fileName}] về máy thành công!`, "loot");
                 }
                 return true;
             } catch (err) {
@@ -2812,16 +2993,17 @@
                         alert("💀 File lưu này thuộc về Cổ Sư Thập Tuyệt Thể đã BẠO TẠC KHÔNG KHIẾU CHẾT HẲN! Vĩnh viễn không thể sử dụng lại file lưu này.");
                         return;
                     }
+                    this.activeSaveSlot = null;
                     this._applySavePayload(data);
 
+                    // CHỈ ghi vào Auto-Save, tuyệt đối không tự ý xóa đè Ô Lưu Thủ Công 1 của người chơi!
                     const serialized = JSON.stringify(this._buildSavePayload());
-                    localStorage.setItem(`${SAVE_KEY_PREFIX}1`, serialized);
                     localStorage.setItem(AUTO_SAVE_KEY, serialized);
 
                     this.currentScreen = "hub";
                     this.ui.showScreen("hub");
                     this.ui.addLog(
-                        `⬆️ Đã nhập file lưu [${file.name}] thành công! Chào mừng trở lại: ${this.player.name} (${this.aperture.getRealmDisplayName()}).`,
+                        `⬆️ Đã nhập file lưu [${file.name}] thành công! Chào mừng trở lại: ${this.player.name} (${this.aperture.getRealmDisplayName()}). (Các Ô Lưu 1–3 cũ vẫn được giữ nguyên!)`,
                         "cultivation"
                     );
                 } catch (err) {
@@ -2876,7 +3058,7 @@
 
         clearAllSaves() {
             localStorage.removeItem(AUTO_SAVE_KEY);
-            [1, 2, 3].forEach(slot => localStorage.removeItem(`${SAVE_KEY_PREFIX}${slot}`));
+            [1, 2, 3].forEach(slot => { localStorage.removeItem(`${SAVE_KEY_PREFIX}${slot}`); localStorage.removeItem(`${BACKUP_KEY_PREFIX}${slot}`); });
         }
     }
 

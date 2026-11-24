@@ -49,6 +49,7 @@
             this.iframeTimer = 0;
 
             this._boundExtraControls = false;
+            this._castingKillerMove = false;
         }
 
         init(systems) {
@@ -120,7 +121,7 @@
             this.player._combatHooked = true;
 
             const origTakeDamage = this.player.takeDamage.bind(this.player);
-            this.player.takeDamage = (rawDamage, sourceName = "Đòn tấn công") => {
+            this.player.takeDamage = (rawDamage, sourceName = "Đòn tấn công", attackerRank = null) => {
                 if (this.iframeTimer > 0 && !sourceName.includes("Khiếu Bích")) {
                     this.spawnFloatingText(this.player.x, this.player.y - 24, "Tàn Ảnh Né Tránh!", "#6ce6b8");
                     return { damageTaken: 0, isDead: false, dodged: true, source: sourceName };
@@ -130,14 +131,27 @@
                     b => b.statMods && (b.statMods.def > 0 || b.shieldHp > 0)
                 );
 
-                const res = origTakeDamage(rawDamage, sourceName);
+                const res = origTakeDamage(rawDamage, sourceName, attackerRank);
+                if (res.blocked) {
+                    const nowMs = performance.now();
+                    if (!this._lastRealmBlockTextAt || nowMs - this._lastRealmBlockTextAt > 450) {
+                        this._lastRealmBlockTextAt = nowMs;
+                        this.spawnFloatingText(this.player.x, this.player.y - 24, "🛡️ Hộ Thể Cảnh Giới (0)", "#7ef7f0");
+                    }
+                    return res;
+                }
 
                 if (activeDefBuff && this.enemies && !sourceName.includes("Khiếu Bích")) {
+                    const playerRank = this.aperture ? this.aperture.rank : 1;
                     const reflectDmg = Math.max(3, Math.round(activeDefBuff.statMods.def * 0.85));
                     const nearTargets = this.enemies.getHostileTargetsInRadius(this.player.x, this.player.y, 105);
                     for (const t of nearTargets) {
-                        this.enemies.damageEntity(t, reflectDmg, this.player, this);
-                        this.spawnFloatingText(t.x, t.y - 22, `Phản Chấn -${reflectDmg}`, "#e0be77");
+                        const sup = this._calculateRankSuppression(playerRank, t.rank || 1, t);
+                        if (sup.blocked) continue;
+                        const dealt = this.enemies.damageEntity(t, Math.round(reflectDmg * sup.multiplier), this.player, this);
+                        if (dealt > 0) {
+                            this.spawnFloatingText(t.x, t.y - 22, `Phản Chấn -${dealt}`, "#e0be77");
+                        }
                     }
                     this._spawnParticleBurst(this.player.x, this.player.y, "#e0be77", 6);
                 }
@@ -233,92 +247,108 @@
         }
 
         /**
-         * Tính hệ số Áp Chế Chuyển Số & Phòng Ngự Vô Đối Cửu Chuyển Tôn Giả
+         * Hệ thống Phòng Ngự & Áp Chế Cảnh Giới chuẩn nguyên tác Cổ Chân Nhân:
+         *  - Vượt từ 2 Đại Cảnh Giới trở lên (xét theo Tu Vi người chơi HOẶC Chuyển số chiêu thức):
+         *    TUYỆT ĐỐI KHÔNG PHÁ ĐƯỢC PHÒNG NGỰ (blocked = true, 0 sát thương, miễn nhiễm hiệu ứng/khống chế).
+         *  - Phàm Nhân (1–5 Chuyển) đánh Cổ Tiên (6–9 Chuyển): Tuyệt đối không phá nổi Tiên Thể (0 sát thương).
+         *  - Vượt 1 Đại Cảnh Giới: Bị áp chế cực nặng (Phàm -70%, Tiên -75%, Bát Chuyển vs Tôn Giả -98% / Á Tiên Tôn -92%),
+         *    nếu sát thương không xuyên nổi DEF của địch cũng sẽ bị chặn hoàn toàn thành 0!
          */
         _calculateRankSuppression(skillRank = 1, targetRank = 1, target = null) {
-            // A. Trường hợp mục tiêu là Tôn Giả Cửu Chuyển (Phong Ma Quật)
-            if (targetRank >= 9 || (target && target.isVenerable)) {
+            const playerRank = this.aperture ? (this.aperture.rank || 1) : 1;
+            const isPseudoVenerable = Boolean(
+                this.aperture &&
+                typeof this.aperture.isPseudoVenerable === "function" &&
+                this.aperture.isPseudoVenerable()
+            );
+            const effTargetRank = (target && target.isVenerable) ? Math.max(9, targetRank) : targetRank;
+
+            // 1. Phàm Nhân (Tu Vi <= 5) không thể phá phòng Cổ Tiên (6-9 Chuyển)
+            if (playerRank <= 5 && effTargetRank >= 6) {
+                return {
+                    multiplier: 0,
+                    suppressed: true,
+                    blocked: true,
+                    label: "PHÀM NHÂN BẤT KHẢ PHÁ TIÊN THỂ (0)"
+                };
+            }
+
+            // 2. Cách biệt từ 2 Đại Cảnh Giới trở lên về Tu Vi -> Tuyệt đối không phá được phòng ngự!
+            const realmGap = effTargetRank - playerRank;
+            if (realmGap >= 2) {
+                return {
+                    multiplier: 0,
+                    suppressed: true,
+                    blocked: true,
+                    label: `BẤT KHẢ PHÁ PHÒNG (Cách ${realmGap} Đại Cảnh Giới)`
+                };
+            }
+
+            // 3. Cách biệt từ 2 Đại Cảnh Giới trở lên về Chuyển số Cổ Trùng / Sát Chiêu -> Không phá được phòng ngự!
+            const skillGap = effTargetRank - skillRank;
+            if (skillGap >= 2) {
+                return {
+                    multiplier: 0,
+                    suppressed: true,
+                    blocked: true,
+                    label: `CHIÊU KÉM ${skillGap} CHUYỂN — BẤT KHẢ PHÁ PHÒNG`
+                };
+            }
+
+            // 4. Đối đầu Tôn Giả Cửu Chuyển (Phong Ma Quật)
+            if (effTargetRank >= 9) {
+                if (playerRank < 9 || skillRank < 9) {
+                    if (isPseudoVenerable && skillRank >= 8) {
+                        return {
+                            multiplier: 0.08,
+                            suppressed: true,
+                            blocked: false,
+                            label: "Á Tiên Tôn Khó Phá Tôn Giả (-92%)"
+                        };
+                    }
+                    return {
+                        multiplier: 0.02,
+                        suppressed: true,
+                        blocked: false,
+                        label: "Chưa Thành Tôn Giả Khó Thương Tôn Giả (-98%)"
+                    };
+                }
+                return {
+                    multiplier: 0.65,
+                    suppressed: true,
+                    blocked: false,
+                    label: "Hộ Thể Tôn Giả Cửu Chuyển (-35%)"
+                };
+            }
+
+            const maxGap = Math.max(realmGap, skillGap);
+            if (maxGap <= 0) {
+                return { multiplier: 1.0, suppressed: false, blocked: false, label: "" };
+            }
+
+            // 5. Vượt đúng 1 Đại Cảnh Giới (diff === 1): Áp chế nặng + kết hợp phòng ngự DEF cứng của địch
+            if (effTargetRank >= 6) {
                 if (skillRank <= 5) {
                     return {
-                        multiplier: 0.001,
+                        multiplier: 0.14,
                         suppressed: true,
-                        label: "Phàm Thuật Bất Khả Xâm Tôn Giả (-99.9%)"
-                    };
-                }
-                if (skillRank === 6) {
-                    return {
-                        multiplier: 0.005,
-                        suppressed: true,
-                        label: "Tôn Giả Vạn Pháp Bất Xâm (-99.5%)"
-                    };
-                }
-                if (skillRank === 7) {
-                    return {
-                        multiplier: 0.015,
-                        suppressed: true,
-                        label: "Đạo Ngân Tôn Giả Áp Chế (-98.5%)"
-                    };
-                }
-                if (skillRank === 8) {
-                    return {
-                        multiplier: 0.04,
-                        suppressed: true,
-                        label: "Chưa Thành Tôn Giả Đều Là Sâu Kiến (-96%)"
-                    };
-                }
-                // Ngay cả khi dùng Cổ Trùng / Sát Chiêu Cửu Chuyển (Rank 9),
-                // Tôn Giả vẫn có Hộ Thể Cửu Chuyển Vô Địch giảm 65% sát thương!
-                return {
-                    multiplier: 0.35,
-                    suppressed: true,
-                    label: "Hộ Thể Cửu Chuyển Vô Địch (-65%)"
-                };
-            }
-
-            if (skillRank >= targetRank) {
-                return { multiplier: 1.0, suppressed: false, label: "" };
-            }
-
-            // B. Phàm Cổ / Phàm Chiêu (1–5 Chuyển) đánh vào Tiên Cảnh (6–8 Chuyển)
-            if (skillRank <= 5 && targetRank >= 6) {
-                return {
-                    multiplier: 0.02,
-                    suppressed: true,
-                    label: "Phàm Thuật Khó Thương Tiên Thể (-98%)"
-                };
-            }
-
-            const diff = targetRank - skillRank;
-
-            // C. Chênh lệch giữa các bậc Tiên Cảnh (6 vs 7, 6 vs 8, 7 vs 8)
-            if (targetRank >= 6) {
-                if (diff === 1) {
-                    return {
-                        multiplier: 0.32,
-                        suppressed: true,
-                        label: `Áp Chế ${targetRank} Chuyển (-68%)`
-                    };
-                }
-                if (diff === 2) {
-                    return {
-                        multiplier: 0.08,
-                        suppressed: true,
-                        label: `Áp Chế Tuyệt Đối ${targetRank} Chuyển (-92%)`
+                        blocked: false,
+                        label: "Phàm Chiêu Khó Phá Tiên Phòng (-86%)"
                     };
                 }
                 return {
-                    multiplier: 0.03,
+                    multiplier: 0.25,
                     suppressed: true,
-                    label: `Áp Chế Tôn Giả (-97%)`
+                    blocked: false,
+                    label: `Áp Chế ${effTargetRank} Chuyển (-75%)`
                 };
             }
 
-            // D. Chênh lệch giữa các bậc Phàm Cảnh (1 -> 5 Chuyển)
-            const mortalMult = Math.max(0.18, Number(Math.pow(0.62, diff).toFixed(2)));
             return {
-                multiplier: mortalMult,
-                suppressed: diff >= 2,
-                label: diff >= 2 ? `Vượt Cấp Khó Phá Giáp (-${Math.round((1 - mortalMult) * 100)}%)` : ""
+                multiplier: 0.30,
+                suppressed: true,
+                blocked: false,
+                label: `Vượt 1 Cảnh Giới — Giáp Cứng (-70%)`
             };
         }
 
@@ -328,12 +358,18 @@
             if (this.comboCount > this.maxComboReached) {
                 this.maxComboReached = this.comboCount;
             }
-            if (this.comboCount % 12 === 0 && this.aperture && !this.aperture.isImmortal) {
-                this.aperture.currentEssence = Math.min(
-                    this.aperture.aptitude.maxSeaPercent,
-                    this.aperture.currentEssence + 1.5
-                );
-                this.spawnFloatingText(this.player.x, this.player.y - 34, `${this.comboCount} Liên Kích! (+1.5% Chân Nguyên)`, "#ffd700");
+            if (this.comboCount % 12 === 0 && this.aperture) {
+                if (!this.aperture.isImmortal) {
+                    this.aperture.currentEssence = Math.min(
+                        this.aperture.aptitude.maxSeaPercent,
+                        this.aperture.currentEssence + 1.5
+                    );
+                    this.spawnFloatingText(this.player.x, this.player.y - 34, `${this.comboCount} Liên Kích! (+1.5% Chân Nguyên)`, "#ffd700");
+                } else {
+                    const immGain = this.aperture.rank >= 9 ? 0.60 : (this.aperture.rank >= 8 ? 0.45 : 0.35);
+                    this.aperture.immortalEssence[this.aperture.rank] = Number(((this.aperture.immortalEssence[this.aperture.rank] || 0) + immGain).toFixed(2));
+                    this.spawnFloatingText(this.player.x, this.player.y - 34, `${this.comboCount} Liên Kích! (+${immGain} Tiên Nguyên)`, "#7ef7f0");
+                }
             }
         }
 
@@ -538,6 +574,7 @@
 
                 if (guRank >= 2 || gu.path === "Độc Đạo" || gu.path === "Viêm Đạo") {
                     this.groundZones.push({
+                        isKillerMove: Boolean(this._castingKillerMove),
                         x: castX,
                         y: castY,
                         skillRank: guRank,
@@ -712,8 +749,13 @@
                 this.ui.addLog(`⚡ Phát động Sát Chiêu 【${move.name} (${rankName})】 (Uy lực thực tế: ${totalPower})!`, "combat");
             }
 
-            this._executeKillerMovePrimaryDelivery(move, profile, totalPower, baseAngle, aimX, aimY);
-            this._executeKillerMoveSupportModifiers(move, profile, totalPower, baseAngle, aimX, aimY);
+            this._castingKillerMove = true;
+            try {
+                this._executeKillerMovePrimaryDelivery(move, profile, totalPower, baseAngle, aimX, aimY);
+                this._executeKillerMoveSupportModifiers(move, profile, totalPower, baseAngle, aimX, aimY);
+            } finally {
+                this._castingKillerMove = false;
+            }
 
             if (this.ui) this.ui.updateHUD();
             return true;
@@ -784,6 +826,7 @@
                         });
                     }
                     this.groundZones.push({
+                        isKillerMove: Boolean(this._castingKillerMove),
                         x: targetPointX,
                         y: targetPointY,
                         skillRank: rank,
@@ -894,6 +937,7 @@
                     const meteorCount = 1 + Math.min(6, rank);
                     for (let m = 0; m < meteorCount; m++) {
                         this.fallingStrikes.push({
+                            isKillerMove: Boolean(this._castingKillerMove),
                             targetX: targetPointX + (Math.random() - 0.5) * (profile.aoeRadius || 85),
                             targetY: targetPointY + (Math.random() - 0.5) * (profile.aoeRadius || 85),
                             skillRank: rank,
@@ -977,6 +1021,7 @@
                         statusEffect: "poison"
                     });
                     this.groundZones.push({
+                        isKillerMove: Boolean(this._castingKillerMove),
                         x: targetPointX,
                         y: targetPointY,
                         skillRank: rank,
@@ -1310,6 +1355,7 @@
         spawnProjectile(cfg) {
             this.projectiles.push({
                 owner: cfg.owner || "player",
+                isKillerMove: Boolean(cfg.isKillerMove || this._castingKillerMove),
                 attackerRef: cfg.attackerRef || null,
                 name: cfg.name || "Cổ Thuật",
                 skillRank: cfg.skillRank || 1,
@@ -1342,6 +1388,7 @@
         spawnOrbiter(cfg) {
             this.orbiters.push({
                 name: cfg.name || "Hộ Thân Nhận",
+                isKillerMove: Boolean(cfg.isKillerMove || this._castingKillerMove),
                 skillRank: cfg.skillRank || 1,
                 color: cfg.color || "#4ce6ff",
                 damage: cfg.damage || 15,
@@ -1356,6 +1403,7 @@
         spawnBeastPhantom(cfg) {
             this.beastPhantoms.push({
                 name: cfg.name || "Lực Đạo Thú Ảnh",
+                isKillerMove: Boolean(cfg.isKillerMove || this._castingKillerMove),
                 skillRank: cfg.skillRank || 1,
                 icon: cfg.icon || "🐗",
                 x: cfg.x,
@@ -1417,6 +1465,7 @@
                     if (distToLine <= (cfg.width / 2) + t.radius) {
                         this._applyPlayerDamageToTarget(t, cfg.damage, {
                             skillRank: cfg.skillRank || 1,
+                            isKillerMove: Boolean(cfg.isKillerMove || this._castingKillerMove),
                             color: cfg.color,
                             lifesteal: cfg.lifesteal || 0,
                             statusEffect: cfg.statusEffect || "bleed"
@@ -1426,8 +1475,8 @@
             } else if (owner !== "player" && this.player && this.player.hp > 0) {
                 const distToLine = this._pointToSegmentDistance(this.player.x, this.player.y, cfg.x, cfg.y, endX, endY);
                 if (distToLine <= (cfg.width / 2) + this.player.radius) {
-                    const res = this.player.takeDamage(cfg.damage, cfg.name || "Tôn Giả Quang Trụ");
-                    if (!res.dodged) {
+                    const res = this.player.takeDamage(cfg.damage, cfg.name || "Tôn Giả Quang Trụ", cfg.skillRank || null);
+                    if (!res.dodged && !res.blocked && res.damageTaken > 0) {
                         this.spawnFloatingText(this.player.x, this.player.y - 22, `-${res.damageTaken}`, "#ff4d4d");
                     }
                 }
@@ -1461,6 +1510,7 @@
 
                 this._applyPlayerDamageToTarget(nextTarget, currDmg, {
                     skillRank: skillRank,
+                    isKillerMove: Boolean(this._castingKillerMove),
                     color: color,
                     statusEffect: "stun"
                 });
@@ -1474,6 +1524,7 @@
         spawnAoEEffect(cfg) {
             const effect = {
                 owner: cfg.owner || "player",
+                isKillerMove: Boolean(cfg.isKillerMove || this._castingKillerMove),
                 name: cfg.name || "Sát Chiêu",
                 skillRank: cfg.skillRank || 1,
                 x: cfg.x,
@@ -1495,16 +1546,16 @@
             if (effect.owner === "player" && this.enemies) {
                 const targets = this.enemies.getHostileTargetsInRadius(effect.x, effect.y, effect.radius);
                 for (const target of targets) {
-                    this._applyPlayerDamageToTarget(target, effect.damage, effect);
-                    if (effect.knockbackForce > 0) {
+                    const didPenetrate = this._applyPlayerDamageToTarget(target, effect.damage, effect);
+                    if (didPenetrate !== false && effect.knockbackForce > 0) {
                         this._knockbackTarget(target, effect.x, effect.y, effect.knockbackForce);
                     }
                 }
             } else if (effect.owner !== "player" && this.player) {
                 const d = Math.hypot(this.player.x - effect.x, this.player.y - effect.y);
                 if (d <= effect.radius + this.player.radius) {
-                    const res = this.player.takeDamage(effect.damage, effect.name);
-                    if (!res.dodged) {
+                    const res = this.player.takeDamage(effect.damage, effect.name, effect.skillRank || null);
+                    if (!res.dodged && !res.blocked && res.damageTaken > 0) {
                         this.spawnFloatingText(this.player.x, this.player.y - 18, `-${res.damageTaken}`, "#ff4d4d");
                     }
                 }
@@ -1516,24 +1567,69 @@
         // =====================================================================
 
         _applyPlayerDamageToTarget(target, rawDamage, sourceEffect = {}) {
-            if (!target || target.isDead) return;
-
-            this._registerComboHit();
-
-            let bonusMult = 1.0;
-            if (target.poisonTimer && target.poisonTimer > 0) bonusMult += 0.25;
-            if (target.freezeTimer && target.freezeTimer > 0) bonusMult += 0.20;
+            if (!target || target.isDead) return false;
 
             const skillRank = sourceEffect.skillRank || (this.aperture ? this.aperture.rank : 1);
             const targetRank = target.rank || 1;
             const suppression = this._calculateRankSuppression(skillRank, targetRank, target);
 
-            const adjustedDamage = Math.max(1, rawDamage * bonusMult * suppression.multiplier);
+            // Chênh lệch >= 2 Đại Cảnh Giới hoặc Phàm Nhân vs Cổ Tiên -> TUYỆT ĐỐI BẤT KHẢ PHÁ PHÒNG (0 sát thương, miễn dịch hiệu ứng!)
+            if (suppression.blocked || suppression.multiplier <= 0) {
+                const nowMs = performance.now();
+                if (!target._lastBlockTextAt || nowMs - target._lastBlockTextAt > 380) {
+                    target._lastBlockTextAt = nowMs;
+                    this.spawnFloatingText(target.x, target.y - 30, `🛡️ ${suppression.label}`, "#90caf9");
+                }
+                if (target.entityType === "npc" && !target.isHostile) {
+                    target.becomeHostile(true);
+                } else if (target.entityType === "beast") {
+                    target.aiState = "chase";
+                }
+                return false;
+            }
+
+            let bonusMult = 1.0;
+            if (target.poisonTimer && target.poisonTimer > 0) bonusMult += 0.25;
+            if (target.freezeTimer && target.freezeTimer > 0) bonusMult += 0.20;
+
+            // Kháng Sát Chiêu & Giảm Chấn Đa Đòn trong 0.75s (chống sốc chết quái/Boss ngay khi ăn trọn 1 Sát Chiêu đa đạn, giữ nguyên sát thương Cổ đơn lẻ)
+            let killerMoveMit = 1.0;
+            if (sourceEffect.isKillerMove) {
+                const nowMs = performance.now();
+                if (!target._kmBurstExpireAt || nowMs > target._kmBurstExpireAt) {
+                    target._kmBurstCount = 0;
+                }
+                target._kmBurstCount = (target._kmBurstCount || 0) + 1;
+                target._kmBurstExpireAt = nowMs + 750;
+
+                const multiHitFalloff = target._kmBurstCount === 1
+                    ? 1.0
+                    : (target._kmBurstCount === 2 ? 0.75 : (target._kmBurstCount === 3 ? 0.58 : 0.45));
+
+                const tierFortitude = target.isVenerable
+                    ? 0.88
+                    : (target.isBoss ? 0.75 : (target.isElite ? 0.82 : 0.90));
+
+                killerMoveMit = multiHitFalloff * tierFortitude;
+            }
+
+            const adjustedDamage = Math.max(0, rawDamage * bonusMult * suppression.multiplier * killerMoveMit);
             const roll = this._rollCriticalAndComboDamage(adjustedDamage);
             const actualDmg = this.enemies
                 ? this.enemies.damageEntity(target, roll.damage, this.player, this)
                 : roll.damage;
 
+            // Nếu sát thương sau trừ giáp phòng ngự DEF của địch <= 0 -> Không phá nổi phòng ngự!
+            if (actualDmg <= 0) {
+                const nowMs = performance.now();
+                if (!target._lastDefTextAt || nowMs - target._lastDefTextAt > 360) {
+                    target._lastDefTextAt = nowMs;
+                    this.spawnFloatingText(target.x, target.y - 26, "🛡️ Không Phá Nổi Giáp (0)", "#b0bec5");
+                }
+                return false;
+            }
+
+            this._registerComboHit();
             target.hitFlashTimer = 0.14;
 
             if (suppression.suppressed && target.isBoss && Math.random() < 0.35) {
@@ -1759,25 +1855,34 @@
                 if (ent._dotTick >= 0.6) {
                     ent._dotTick = 0;
 
+                    const pRank = this.aperture ? (this.aperture.rank || 1) : 1;
+                    const dotBlocked = ((ent.rank || 1) - pRank >= 2) || (pRank <= 5 && (ent.rank || 1) >= 6);
+
                     if (ent.burnTimer && ent.burnTimer > 0) {
                         ent.burnTimer = Math.max(0, ent.burnTimer - 0.6);
-                        const dmg = ent.burnDamage || 4;
-                        this.enemies.damageEntity(ent, dmg, this.player, this);
-                        this.spawnFloatingText(ent.x, ent.y - 16, `🔥 -${dmg}`, "#ff5733");
+                        if (!dotBlocked) {
+                            const dmg = ent.burnDamage || 4;
+                            const dealt = this.enemies.damageEntity(ent, dmg, this.player, this, true);
+                            if (dealt > 0) this.spawnFloatingText(ent.x, ent.y - 16, `🔥 -${dealt}`, "#ff5733");
+                        }
                     }
 
                     if (ent.bleedTimer && ent.bleedTimer > 0) {
                         ent.bleedTimer = Math.max(0, ent.bleedTimer - 0.6);
-                        const dmg = (ent.bleedDamage || 4) * (ent.bleedStacks || 1);
-                        this.enemies.damageEntity(ent, dmg, this.player, this);
-                        this.spawnFloatingText(ent.x, ent.y - 16, `🩸 -${dmg}`, "#e03e3e");
+                        if (!dotBlocked) {
+                            const dmg = (ent.bleedDamage || 4) * (ent.bleedStacks || 1);
+                            const dealt = this.enemies.damageEntity(ent, dmg, this.player, this, true);
+                            if (dealt > 0) this.spawnFloatingText(ent.x, ent.y - 16, `🩸 -${dealt}`, "#e03e3e");
+                        }
                     }
 
                     if (ent.poisonTimer && ent.poisonTimer > 0) {
                         ent.poisonTimer = Math.max(0, ent.poisonTimer - 0.6);
-                        const dmg = ent.poisonDamage || 4;
-                        this.enemies.damageEntity(ent, dmg, this.player, this);
-                        this.spawnFloatingText(ent.x, ent.y - 16, `☠️ -${dmg}`, "#9b59b6");
+                        if (!dotBlocked) {
+                            const dmg = ent.poisonDamage || 4;
+                            const dealt = this.enemies.damageEntity(ent, dmg, this.player, this, true);
+                            if (dealt > 0) this.spawnFloatingText(ent.x, ent.y - 16, `☠️ -${dealt}`, "#9b59b6");
+                        }
                     }
                 }
             }
@@ -1859,8 +1964,8 @@
                 } else if (p.owner !== "player" && this.player && this.player.hp > 0) {
                     const distToPlayer = Math.hypot(this.player.x - p.x, this.player.y - p.y);
                     if (distToPlayer <= this.player.radius + p.radius * 0.7) {
-                        const dmgRes = this.player.takeDamage(p.damage, p.name);
-                        if (!dmgRes.dodged) {
+                        const dmgRes = this.player.takeDamage(p.damage, p.name, p.skillRank || (p.attackerRef && p.attackerRef.rank) || null);
+                        if (!dmgRes.dodged && !dmgRes.blocked && dmgRes.damageTaken > 0) {
                             this.spawnFloatingText(this.player.x, this.player.y - 20, `-${dmgRes.damageTaken}`, "#ff4d4d");
                             this._spawnParticleBurst(this.player.x, this.player.y, p.color, 8);
                         }
@@ -1881,12 +1986,15 @@
                     for (const t of targets) {
                         if (bp.hitTargets.has(t.id)) continue;
                         bp.hitTargets.add(t.id);
-                        this._applyPlayerDamageToTarget(t, bp.damage, {
+                        const didPenetrate = this._applyPlayerDamageToTarget(t, bp.damage, {
                             skillRank: bp.skillRank || 1,
+                            isKillerMove: Boolean(bp.isKillerMove),
                             color: bp.color,
                             statusEffect: "stun"
                         });
-                        this._knockbackTarget(t, bp.x - Math.cos(bp.angle) * 20, bp.y - Math.sin(bp.angle) * 20, bp.knockbackForce);
+                        if (didPenetrate !== false) {
+                            this._knockbackTarget(t, bp.x - Math.cos(bp.angle) * 20, bp.y - Math.sin(bp.angle) * 20, bp.knockbackForce);
+                        }
                     }
                 }
 
@@ -1924,6 +2032,7 @@
                         orb.hitCooldowns[t.id] = 0.45;
                         this._applyPlayerDamageToTarget(t, orb.damage, {
                             skillRank: orb.skillRank || 1,
+                            isKillerMove: Boolean(orb.isKillerMove),
                             color: orb.color,
                             statusEffect: "bleed"
                         });
@@ -1962,6 +2071,7 @@
                         for (const t of targets) {
                             this._applyPlayerDamageToTarget(t, gz.damagePerTick, {
                                 skillRank: gz.skillRank || 1,
+                                isKillerMove: Boolean(gz.isKillerMove),
                                 color: gz.color,
                                 statusEffect: gz.statusEffect
                             });
@@ -1978,6 +2088,7 @@
                 if (fs.currentYOffset <= 0) {
                     this.spawnAoEEffect({
                         owner: "player",
+                        isKillerMove: Boolean(fs.isKillerMove),
                         name: "Thiên Phạt",
                         skillRank: fs.skillRank || 1,
                         x: fs.targetX,

@@ -269,7 +269,7 @@
             stageResources: ["soul_crystal", "jade_bone", "primeval_stone", "wild_gu"]
         },
         stage_18: {
-            name: "Bí Cảnh Lạc Phách Cốc — Bách Nhật Đại Chiến",
+            name: "Thanh Thành Sơn — Đấu Trí Đông Phương Trường Phàm",
             weatherId: "gale",
             cPrimary: "#182029",
             cSecondary: "#202a36",

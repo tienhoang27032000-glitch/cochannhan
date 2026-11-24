@@ -747,9 +747,8 @@
                     this.immortalAperture.calamityCountdownDays - internalDaysDelta
                 );
 
-                const gradeConfig = BLESSED_LAND_GRADES[this.immortalAperture.gradeId] || BLESSED_LAND_GRADES.MEDIUM;
-                const beadRatePerDay = (gradeConfig.essenceBeadPerYear * 0.35) / 365;
-                this.immortalEssence[this.rank] += beadRatePerDay * internalDaysDelta;
+                const essencePerSec = this.getImmortalEssenceRegenPerSec();
+                this.immortalEssence[this.rank] = Number(((this.immortalEssence[this.rank] || 0) + essencePerSec * dt).toFixed(4));
 
                 if (this.immortalAperture.calamityCountdownDays <= 0) {
                     this.immortalAperture.calamityCountdownDays = 1200;
@@ -770,18 +769,36 @@
         // 5. CƠ CHẾ TIÊU HAO, QUY ĐỔI & HỒI PHỤC CHÂN NGUYÊN (ĐÃ SIẾT CHẶT)
         // =====================================================================
 
+        /**
+         * Tốc độ khôi phục Tiên Nguyên tự động (viên/giây) dựa theo Phẩm Cấp Phúc Địa, Diện Tích (mẫu) & Cảnh Giới Cổ Tiên
+         * (Tách biệt hoàn toàn khỏi nhịp đếm ngược Tai Kiếp để không làm Tai Kiếp đến nhanh hơn)
+         */
+        getImmortalEssenceRegenPerSec() {
+            if (!this.isImmortal || !this.immortalAperture || !this.immortalAperture.active) return 0;
+            const baseByGrade = { SMALL: 0.10, MEDIUM: 0.18, LARGE: 0.28, SUPER: 0.45 };
+            const baseRate = baseByGrade[this.immortalAperture.gradeId] || 0.18;
+            const acres = Math.max(1500, this.immortalAperture.spaceAcres || 3200);
+            const spaceMult = 1 + Math.min(1.20, Math.max(0, (acres - 2000) / 18000));
+            const rankMult = 1 + Math.max(0, (this.rank || 6) - 6) * 0.20;
+            const pseudoMult = (typeof this.isPseudoVenerable === "function" && this.isPseudoVenerable()) ? 1.25 : 1.0;
+            const daoLordMult = (this.rank >= 9 && this.daoLordPath) ? 1.30 : 1.0;
+            const restMult = (this.game && this.game.currentScreen === "hub") ? 1.25 : 1.0;
+            return Number((baseRate * spaceMult * rankMult * pseudoMult * daoLordMult * restMult).toFixed(3));
+        }
+
         calculateEssenceCost(baseCost, guRank = 1, guPath = null) {
             if (this.isImmortal) {
                 if (guRank <= 5) {
                     return { canUse: true, isImmortalCost: true, rank: this.rank, cost: 0.01 };
                 }
                 const rankDiff = guRank - this.rank;
-                let beadCost = baseCost * Math.pow(100, Math.max(0, rankDiff)) * (rankDiff < 0 ? Math.pow(0.01, -rankDiff) : 1);
+                // Dịu hệ số vượt cấp (15x thay vì 100x) và giảm sâu khi dùng Tiên Cổ thấp chuyển hơn
+                let beadCost = baseCost * Math.pow(15, Math.max(0, rankDiff)) * (rankDiff < 0 ? Math.pow(0.15, -rankDiff) : 1);
                 // Quyền năng Đạo Chủ Cửu Chuyển: giảm 30% tiêu hao Tiên Nguyên khi thúc giục Cổ cùng lưu phái Đạo Chủ
                 if (this.rank >= 9 && this.daoLordPath && guPath && guPath === this.daoLordPath) {
                     beadCost *= 0.70;
                 }
-                return { canUse: true, isImmortalCost: true, rank: this.rank, cost: Number(Math.max(0.01, beadCost).toFixed(4)) };
+                return { canUse: true, isImmortalCost: true, rank: this.rank, cost: Number(Math.max(0.01, beadCost).toFixed(2)) };
             }
 
             if (guRank >= 6) {
@@ -1594,7 +1611,54 @@
         }
 
         /**
-         * Thu hoạch sản vật Phúc Địa / Động Thiên (Có thời gian hồi 3 phút = 180 giây để tránh spam tăng cấp quá nhanh)
+         * Tính sản lượng thu hoạch Phúc Địa / Động Thiên theo Cảnh Giới (6–9 Chuyển), Phẩm Cấp & Diện Tích (mẫu)
+         */
+        getApertureYieldProfile() {
+            const ap = this.immortalAperture || {};
+            const rank = Math.max(6, Math.min(9, this.rank || 6));
+            const rankOffset = rank - 6;
+            const isPseudo = typeof this.isPseudoVenerable === "function" && this.isPseudoVenerable();
+            const gradeMultMap = { SMALL: 1.0, MEDIUM: 1.35, LARGE: 1.75, SUPER: 2.30 };
+            const gradeMult = gradeMultMap[ap.gradeId] || 1.35;
+            const acres = Math.max(1500, ap.spaceAcres || 3200);
+            const spaceBonus = 1 + Math.min(1.5, Math.max(0, (acres - 2000) / 15000));
+            const pseudoMult = isPseudo ? 1.30 : 1.0;
+
+            const baseStones = { 6: 450, 7: 1100, 8: 2600, 9: 6500 }[rank] || 450;
+            const baseImmStones = { 6: 2, 7: 5, 8: 12, 9: 28 }[rank] || 2;
+            const baseEssence = { 6: 4.5, 7: 6.5, 8: 9.0, 9: 12.0 }[rank] || 4.5;
+            const baseHumanQi = { 6: 12, 7: 20, 8: 32, 9: 50 }[rank] || 12;
+
+            const stonesYield = Math.round(baseStones * gradeMult * spaceBonus * pseudoMult);
+            const immortalStonesYield = Math.max(2, Math.round(baseImmStones * gradeMult * (1 + Math.min(0.75, (acres - 2000) / 22000)) * pseudoMult));
+            const essenceYield = Number((baseEssence * gradeMult * (1 + Math.min(0.60, acres / 30000)) * (isPseudo ? 1.15 : 1.0)).toFixed(1));
+            const humanQiYield = Math.round(baseHumanQi * gradeMult * (isPseudo ? 1.25 : 1.0));
+
+            const herbScale = Math.max(1, Math.round((gradeMult + rankOffset * 0.65) * (isPseudo ? 1.2 : 1.0)));
+            const spiritHerbCount = 2 + herbScale * 2;
+            const moonOrchidCount = 2 + herbScale * 2;
+            const ginsengCount = 1 + herbScale;
+            const soulCrystalCount = 1 + herbScale;
+            const bonusMatCount = 2 + herbScale;
+            const remnantChance = (ap.gradeId === "SUPER" || ap.gradeId === "LARGE" || rank >= 8) ? 0.40 : 0.25;
+
+            return {
+                stonesYield,
+                immortalStonesYield,
+                essenceYield,
+                essenceName: (IMMORTAL_RANKS[rank] && IMMORTAL_RANKS[rank].essenceName) || "Tiên Nguyên",
+                humanQiYield,
+                spiritHerbCount,
+                moonOrchidCount,
+                ginsengCount,
+                soulCrystalCount,
+                bonusMatCount,
+                remnantChance
+            };
+        }
+
+        /**
+         * Thu hoạch sản vật Phúc Địa / Động Thiên (Sản lượng phong phú theo Cảnh Giới, Phẩm Cấp & Diện Tích — Hồi 3 phút)
          */
         collectApertureYield(player) {
             if (!this.isImmortal || !this.immortalAperture.active) {
@@ -1612,18 +1676,47 @@
             }
 
             this.immortalAperture.lastYieldAt = Date.now();
-            const stonesYield = Math.max(8, Math.round((this.immortalAperture.resources.primevalStonesOutput || 5) * 1.2));
-            const essenceYield = 0.5;
+            const y = this.getApertureYieldProfile();
+
+            // Chọn ngẫu nhiên 2 loại Cổ Tài khoáng/thú đặc sản sinh trưởng trong Phúc Địa
+            const bonusMatPool = [
+                "red_iron_ore",
+                "beast_blood_core",
+                "wind_essence_crystal",
+                "jade_bone",
+                "bronze_ore",
+                "ration_meat"
+            ];
+            const shuffled = [...bonusMatPool].sort(() => Math.random() - 0.5);
+            const pickedMats = shuffled.slice(0, 2);
+            const gotRemnant = Math.random() <= y.remnantChance;
+
             if (player) {
-                player.primevalStones += stonesYield;
-                player.addItem("spirit_herb", 1);
-                player.addItem("moon_orchid", 1);
+                player.primevalStones += y.stonesYield;
+                player.addItem("immortal_stone", y.immortalStonesYield);
+                player.addItem("spirit_herb", y.spiritHerbCount);
+                player.addItem("moon_orchid", y.moonOrchidCount);
+                player.addItem("hundred_year_ginseng", y.ginsengCount);
+                player.addItem("soul_crystal", y.soulCrystalCount);
+                for (const mId of pickedMats) {
+                    player.addItem(mId, y.bonusMatCount);
+                }
+                if (gotRemnant) {
+                    player.addItem("remnant_recipe", 1);
+                }
             }
-            this.immortalEssence[this.rank] = Number(((this.immortalEssence[this.rank] || 0) + essenceYield).toFixed(2));
+
+            this.immortalEssence[this.rank] = Number(((this.immortalEssence[this.rank] || 0) + y.essenceYield).toFixed(2));
+            this.humanQi += y.humanQiYield;
+
+            const itemDb = (global.PlayerManager && global.PlayerManager.ITEM_DATABASE) || {};
+            const bonusMatLabels = pickedMats.map(id => `+${y.bonusMatCount} ${(itemDb[id] && itemDb[id].name) || id}`).join(", ");
+            const remnantNote = gotRemnant ? ", +1 📜 Cổ Phương Tàn Quyển" : "";
 
             return {
                 success: true,
-                message: `🌱 Đã thu hoạch sản vật trong ${this.immortalAperture.gradeName}: +${stonesYield} Nguyên Thạch, +1 Thanh Linh Thảo, +1 Nguyệt Lan Hoa & +${essenceYield} viên Tiên Nguyên! (Hồi thu hoạch: 3 phút)`
+                yieldProfile: y,
+                message: `🌱 Đại thu hoạch ${this.immortalAperture.gradeName} (${this.immortalAperture.spaceAcres.toLocaleString("vi-VN")} mẫu): 💎 +${y.stonesYield.toLocaleString("vi-VN")} Nguyên Thạch, 🌟 +${y.immortalStonesYield} Tiên Thạch, ✨ +${y.essenceYield} viên ${y.essenceName}, ☯ +${y.humanQiYield} Nhân Khí, +${y.spiritHerbCount} Thanh Linh Thảo, +${y.moonOrchidCount} Nguyệt Lan Hoa, +${y.ginsengCount} Khổ Sâm, +${y.soulCrystalCount} Đãng Hồn Thạch, ${bonusMatLabels}${remnantNote}!`
             };
         }
 

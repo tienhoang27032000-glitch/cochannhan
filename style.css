@@ -1092,10 +1092,35 @@ input[type="text"]:focus, select:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.save-slot-meta {
+    flex: 1 1 200px;
 }
 .save-actions {
     display: flex;
-    gap: 6px;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.btn-save-style {
+    background: rgba(140, 102, 24, 0.35) !important;
+    border: 1px solid #d4af37 !important;
+    color: #ffd700 !important;
+    padding: 6px 12px !important;
+}
+.btn-load-style {
+    background: rgba(25, 118, 138, 0.35) !important;
+    border: 1px solid #4ce6ff !important;
+    color: #7ef7f0 !important;
+    padding: 6px 12px !important;
+}
+.btn-restore-style {
+    background: rgba(180, 90, 24, 0.35) !important;
+    border: 1px solid #ff9f43 !important;
+    color: #ffd199 !important;
+    padding: 6px 10px !important;
 }
 .keybind-guide-list {
     list-style: none;

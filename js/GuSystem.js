@@ -33,14 +33,14 @@
      */
     const RANK_POWER_MULTIPLIERS = {
         1: 1.0,
-        2: 2.6,
-        3: 6.8,
-        4: 18.0,
-        5: 45.0,
-        6: 135.0,
-        7: 580.0,
-        8: 2600.0,
-        9: 12000.0
+        2: 1.9,
+        3: 3.6,
+        4: 6.8,
+        5: 12.5,
+        6: 42.0,
+        7: 105.0,
+        8: 255.0,
+        9: 620.0
     };
 
     const RANK_ESSENCE_COST_BASE = {
@@ -49,10 +49,10 @@
         3: 20,
         4: 28,
         5: 36,
-        6: 1,
-        7: 2,
-        8: 4,
-        9: 8
+        6: 0.35,
+        7: 0.60,
+        8: 1.00,
+        9: 1.60
     };
 
     const REALM_CATEGORY_LABELS = {
@@ -2445,9 +2445,9 @@
             type: "offensive",
             typeLabel: "Tiên Đạo Sát Chiêu (Hồn + Phong)",
             requiredGuIds: ["dang_hon_tien_gu", "lac_phach_tien_gu"],
-            essenceCost: 3,
+            essenceCost: 0.85,
             cooldown: 5.8,
-            power: 32500,
+            power: 9800,
             isImmortal: true,
             combatProfile: {
                 deliveryType: "soul_howl_wave",
@@ -3786,7 +3786,17 @@
 
                 const contributedPower = Math.round(sub.power * rankFitFactor);
                 rawPowerSum += contributedPower;
-                rawEssenceSum += sub.essenceCost * 0.65;
+                if (moveRank >= 6) {
+                    // Sát Chiêu Tiên Đạo: Phàm Cổ phụ trợ chỉ tốn 0.02 viên Tiên Nguyên; Tiên Cổ phụ trợ giảm mạnh hệ số cộng (0.35x)
+                    if (sub.rank <= 5) {
+                        rawEssenceSum += 0.02;
+                    } else {
+                        const subScale = sub.rank < moveRank ? Math.pow(0.35, moveRank - sub.rank) : 1.0;
+                        rawEssenceSum += sub.essenceCost * 0.35 * subScale;
+                    }
+                } else {
+                    rawEssenceSum += sub.essenceCost * 0.65;
+                }
 
                 if (sub.shieldAmount) {
                     shieldAmount += Math.round(sub.shieldAmount * rankFitFactor);
@@ -3810,10 +3820,12 @@
             }
 
             const minComponentRank = Math.min(coreGu.rank, ...subGus.map(s => s.rank));
-            const rankSynergyBonus = 1 + (minComponentRank - 1) * 0.14;
+            const rankSynergyBonus = 1 + (minComponentRank - 1) * 0.08;
 
             const finalPower = Math.max(20, Math.round(rawPowerSum * rankSynergyBonus));
-            const finalEssenceCost = Math.max(1, Math.round(rawEssenceSum * essenceDiscount));
+            const finalEssenceCost = moveRank >= 6
+                ? Math.max(0.25, Number((rawEssenceSum * essenceDiscount).toFixed(2)))
+                : Math.max(1, Math.round(rawEssenceSum * essenceDiscount));
 
             const baseProjCount = Math.min(10, 1 + moveRank + (modifiers.includes("moon_slash") ? 2 : 0));
             const baseAoeRadius = Math.round((coreGu.radius || 65) + moveRank * 16 + subGus.length * 12);
@@ -3927,6 +3939,8 @@
                 },
                 name: `${moveName} (${GuSystem.getRankName(built.moveRank)})`,
                 typeLabel: `${rankLabel} Sát Chiêu (${coreGu.path})`,
+                isImmortal: isImmortalMove,
+                moveRank: built.moveRank,
                 essenceCost: built.finalEssenceCost,
                 description: fullDesc
             };

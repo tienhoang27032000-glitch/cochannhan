@@ -546,7 +546,13 @@
                 inventoryFilterTabs: $("inventory-filter-tabs"),
                 chkMarketInStockOnly: $("chk-market-instock-only"),
                 apLiquorWormStatus: $("ap-liquor-worm-status"),
-                daoMarksRealmBanner: $("dao-marks-realm-banner")
+                daoMarksRealmBanner: $("dao-marks-realm-banner"),
+                immortalYieldPreview: $("immortal-yield-preview"),
+                btnLoadAutoSaveNow: $("btn-load-autosave-now"),
+                btnCreateNewCharSafe: $("btn-create-new-char-safe"),
+                btnRestoreSlot1: $("btn-restore-slot-1"),
+                btnRestoreSlot2: $("btn-restore-slot-2"),
+                btnRestoreSlot3: $("btn-restore-slot-3")
             };
         }
 
@@ -940,8 +946,9 @@
                     d.hubPressureText.style.color = ap.daoLordPath ? "#ffd700" : "";
                 }
 
-                d.hubEssenceTitle.textContent = ap.getEssenceQualityName();
-                d.hubEssenceText.textContent = `${(ap.immortalEssence[ap.rank] || 0).toFixed(1)} viên`;
+                const immRegen = typeof ap.getImmortalEssenceRegenPerSec === "function" ? ap.getImmortalEssenceRegenPerSec() : 0;
+                d.hubEssenceTitle.textContent = `${ap.getEssenceQualityName()} (+${immRegen.toFixed(2)}/s)`;
+                d.hubEssenceText.textContent = `${(ap.immortalEssence[ap.rank] || 0).toFixed(2)} viên`;
                 d.hubEssenceCapMarker.classList.add("hidden");
                 d.hubEssenceFill.className = `progress-fill ${ap.getEssenceCssClass()}`;
                 d.hubEssenceFill.style.width = "100%";
@@ -1458,9 +1465,40 @@
             if (d.btnManualAutoSaveNow) {
                 d.btnManualAutoSaveNow.addEventListener("click", () => {
                     if (this.game && this.game.autoSaveNow("manual")) {
-                        this.addLog("☁️ Đã đồng bộ lưu tiến trình trực tiếp vào trình duyệt thành công!", "system");
+                        this.addLog("☁️ Đã lưu vào Ô Tự Động Lưu riêng (không ảnh hưởng 3 Ô Lưu Thủ Công)!", "system");
                         this.renderSettingsTab();
                     }
+                });
+            }
+
+            if (d.btnLoadAutoSaveNow) {
+                d.btnLoadAutoSaveNow.addEventListener("click", () => {
+                    if (this.game) {
+                        this.game.loadAutoSave();
+                        this.renderSettingsTab();
+                    }
+                });
+            }
+
+            document.querySelectorAll(".btn-restore-slot").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const slot = btn.getAttribute("data-slot");
+                    if (this.game && typeof this.game.restoreSlotBackup === "function") {
+                        this.game.restoreSlotBackup(slot);
+                    }
+                });
+            });
+
+            if (d.btnCreateNewCharSafe) {
+                d.btnCreateNewCharSafe.addEventListener("click", () => {
+                    if (!this.game) return;
+                    const ok = confirm(
+                        "🆕 Quay về màn hình Khai Khiếu để tạo nhân vật mới?\n\n" +
+                        "🛡️ 3 Ô Lưu Thủ Công (Ô 1, 2, 3) của bạn sẽ được GIỮ NGUYÊN 100%, không bị ghi đè!\n" +
+                        "(Hãy nhớ bấm [💾 Lưu] nhân vật hiện tại vào một Ô Lưu trước nếu bạn muốn giữ lại nhân vật đang chơi.)"
+                    );
+                    if (!ok) return;
+                    this.game.returnToCharacterCreationAfterPermadeath();
                 });
             }
 
@@ -1602,7 +1640,7 @@
                             <div class="map-card-meta">
                                 <div><strong>Vùng:</strong> ${st.regionName} | <strong>Đã vượt:</strong> ${clearCount} lần</div>
                                 <div><strong>Quái phân bố:</strong> ${st.targetKills} ${st.mobName} (+Tinh Anh)</div>
-                                <div><strong>Thủ lĩnh ải:</strong> <span style="color:#ff8080">${st.bossName}</span></div>
+                                <div><strong>Thủ lĩnh ải:</strong> <span style="color:#ff8080">${st.bossName}</span> ${st.bossRankBadge ? `<span class="badge">[${st.bossRankBadge}]</span>` : ""}</div>
                                 ${bossCombatNote}
                             </div>
                         </div>
@@ -1736,6 +1774,20 @@
                         d.btnCollectApertureYield.disabled = false;
                         d.btnCollectApertureYield.textContent = "🌱 Thu Hoạch Sản Vật Tiên Khiếu (Hồi 3 phút)";
                     }
+                }
+            }
+
+            if (d.immortalYieldPreview) {
+                if (ap.isImmortal && ap.immortalAperture && ap.immortalAperture.active && typeof ap.getApertureYieldProfile === "function") {
+                    const yp = ap.getApertureYieldProfile();
+                    d.immortalYieldPreview.classList.remove("hidden");
+                    d.immortalYieldPreview.innerHTML = `
+                        <p><strong style="color:#7ef7c4;">🌾 Sản Lượng Thu Hoạch Hiện Tại (${ap.immortalAperture.gradeName} — ${ap.immortalAperture.spaceAcres.toLocaleString("vi-VN")} mẫu):</strong></p>
+                        <p>💎 <strong>+${yp.stonesYield.toLocaleString("vi-VN")}</strong> Nguyên Thạch | 🌟 <strong>+${yp.immortalStonesYield}</strong> Tiên Thạch | ✨ <strong>+${yp.essenceYield}</strong> ${yp.essenceName} | ☯ <strong>+${yp.humanQiYield}</strong> Nhân Khí</p>
+                        <p class="sub-text">📦 Cổ Tài: +${yp.spiritHerbCount} Thanh Linh Thảo, +${yp.moonOrchidCount} Nguyệt Lan Hoa, +${yp.ginsengCount} Khổ Sâm, +${yp.soulCrystalCount} Đãng Hồn Thạch, +2 loại Cổ Tài đặc sản (x${yp.bonusMatCount}) & ${Math.round(yp.remnantChance * 100)}% rơi 📜 Tàn Phương.</p>
+                    `;
+                } else {
+                    d.immortalYieldPreview.classList.add("hidden");
                 }
             }
 
@@ -2659,7 +2711,9 @@
 
             d.deduceName.textContent = preview.name || "---";
             d.deduceType.textContent = preview.typeLabel || "---";
-            d.deduceCost.textContent = preview.essenceCost ? `${preview.essenceCost}% Chân Nguyên` : "0";
+            d.deduceCost.textContent = preview.essenceCost
+                ? (preview.isImmortal ? `${preview.essenceCost} viên Tiên Nguyên` : `${preview.essenceCost}% Chân Nguyên`)
+                : "0";
             d.deduceDesc.textContent = preview.description || "Hãy chọn ít nhất 1 Cổ Cốt Lõi và 1 Cổ Phụ Trợ.";
         }
 
@@ -3157,9 +3211,23 @@
         renderSettingsTab() {
             const d = this.dom;
             if (!this.game) return;
+            if (d.settingsAutoSaveInfo && typeof this.game.getAutoSaveSummary === "function") {
+                const autoSum = this.game.getAutoSaveSummary();
+                d.settingsAutoSaveInfo.textContent = autoSum
+                    ? `Bản Auto-Save riêng: ${autoSum.label}${autoSum.savedAt ? " | Lúc: " + autoSum.savedAt : ""} (Không tự động ghi đè Ô 1–3).`
+                    : "Chưa có dữ liệu Auto-Save. (Auto-Save hoàn toàn tách biệt với 3 Ô Lưu Thủ Công 1–3).";
+            }
             [1, 2, 3].forEach(slotNum => {
                 const el = d[`saveSlot${slotNum}Info`];
                 if (el) el.textContent = this.game.getSaveSlotSummary(slotNum);
+                const restoreBtn = d[`btnRestoreSlot${slotNum}`];
+                if (restoreBtn && typeof this.game.hasSlotBackup === "function") {
+                    const backupLabel = this.game.hasSlotBackup(slotNum);
+                    restoreBtn.classList.toggle("hidden", !backupLabel);
+                    if (backupLabel) {
+                        restoreBtn.title = `Khôi phục bản cũ: ${backupLabel}`;
+                    }
+                }
             });
         }
 
@@ -3180,7 +3248,33 @@
 
             if (d.btnBattleUseStone) {
                 d.btnBattleUseStone.addEventListener("click", () => {
-                    if (!this.player || this.player.primevalStones <= 0) {
+                    if (!this.player || !this.aperture) return;
+                    if (this.aperture.isImmortal) {
+                        if (this.player.getItemCount("immortal_stone") > 0) {
+                            const res = this.player.useItem("immortal_stone");
+                            if (res.success) {
+                                this.addLog(res.message, "cultivation");
+                                if (this.combat) {
+                                    this.combat.spawnFloatingText(this.player.x, this.player.y - 24, "+5 Tiên Nguyên!", "#7ef7f0");
+                                }
+                                this.updateBattleHUD();
+                            }
+                            return;
+                        }
+                        if (this.player.primevalStones >= 100) {
+                            this.player.primevalStones -= 100;
+                            const r = this.aperture.rank || 6;
+                            this.aperture.immortalEssence[r] = Number(((this.aperture.immortalEssence[r] || 0) + 0.8).toFixed(2));
+                            if (this.combat) {
+                                this.combat.spawnFloatingText(this.player.x, this.player.y - 24, "+0.8 Tiên Nguyên (-100💎)", "#7ef7f0");
+                            }
+                            this.updateBattleHUD();
+                            return;
+                        }
+                        this.addLog("Không còn Tiên Nguyên Thạch (hoặc 100 Nguyên Thạch) để hồi nhanh Tiên Nguyên!", "warning");
+                        return;
+                    }
+                    if (this.player.primevalStones <= 0) {
                         this.addLog("Không còn Nguyên Thạch để hồi Chân Nguyên!", "warning");
                         return;
                     }
@@ -3451,7 +3545,9 @@
                 d.battleEssenceCapMarker.classList.remove("hidden");
                 d.battleEssenceFill.style.width = `${curEss}%`;
             } else {
-                d.battleEssenceText.textContent = `${(ap.immortalEssence[ap.rank] || 0).toFixed(1)} viên`;
+                const immRegen = typeof ap.getImmortalEssenceRegenPerSec === "function" ? ap.getImmortalEssenceRegenPerSec() : 0;
+                d.battleEssenceName.textContent = `${ap.getEssenceQualityName()} (+${immRegen.toFixed(2)}/s)`;
+                d.battleEssenceText.textContent = `${(ap.immortalEssence[ap.rank] || 0).toFixed(2)} viên`;
                 d.battleEssenceCapMarker.classList.add("hidden");
                 d.battleEssenceFill.style.width = "100%";
             }
@@ -3553,7 +3649,9 @@
                 }
 
                 iconEl.textContent = move.icon || "☯";
-                costEl.textContent = move.moveRank >= 6 ? `${move.essenceCost}T` : `${move.essenceCost}%`;
+                const kmRank = move.moveRank || (move.isImmortal ? 6 : 1);
+                const kmCostCalc = this.aperture.calculateEssenceCost(move.essenceCost, kmRank, move.path);
+                costEl.textContent = kmCostCalc.isImmortalCost ? `${kmCostCalc.cost}T` : `${kmCostCalc.cost}%`;
 
                 const cdRem = this.combat ? this.combat.getKillerMoveCooldownRemaining(move.id) : 0;
                 const cdPct = move.cooldown > 0 ? Math.min(100, (cdRem / move.cooldown) * 100) : 0;

@@ -11,9 +11,9 @@
     "use strict";
 
     // Ngưỡng sát thương tối đa mà Song Tôn Cửu Chuyển có thể gây ra trong 1 đòn
-    const VENERABLE_MAX_SINGLE_HIT_DAMAGE = 160000;
-    const VENERABLE_MAX_KILLER_MOVE_DAMAGE = 380000;
-    const VENERABLE_MAX_REFLECT_DAMAGE = 50000;
+    const VENERABLE_MAX_SINGLE_HIT_DAMAGE = 38000;
+    const VENERABLE_MAX_KILLER_MOVE_DAMAGE = 72000;
+    const VENERABLE_MAX_REFLECT_DAMAGE = 12000;
 
     // =========================================================================
     // 1. DỮ LIỆU MẪU DÃ THÚ, BÁCH THÚ VƯƠNG & HOANG THÚ
@@ -26,9 +26,9 @@
             title: "Dã Thú Nhất Chuyển",
             icon: "🐺",
             rank: 1,
-            hp: 155,
-            atk: 24,
-            def: 8,
+            hp: 125,
+            atk: 16,
+            def: 11,
             spd: 122,
             aggroRange: 280,
             attackRange: 42,
@@ -46,9 +46,9 @@
             title: "Dã Thú Nhất Chuyển",
             icon: "🐗",
             rank: 1,
-            hp: 220,
-            atk: 28,
-            def: 12,
+            hp: 155,
+            atk: 18,
+            def: 13,
             spd: 105,
             aggroRange: 260,
             attackRange: 44,
@@ -67,9 +67,9 @@
             title: "Dị Thú Nhị Chuyển",
             icon: "🦅",
             rank: 2,
-            hp: 460,
-            atk: 48,
-            def: 28,
+            hp: 245,
+            atk: 29,
+            def: 22,
             spd: 148,
             aggroRange: 340,
             attackRange: 250,
@@ -88,9 +88,9 @@
             title: "Bách Thú Vương (Nhị Chuyển)",
             icon: "⚡",
             rank: 2,
-            hp: 1650,
-            atk: 72,
-            def: 38,
+            hp: 760,
+            atk: 42,
+            def: 28,
             spd: 136,
             aggroRange: 380,
             attackRange: 270,
@@ -111,9 +111,9 @@
             title: "Bách Thú Vương (Nhị Chuyển)",
             icon: "🦇",
             rank: 2,
-            hp: 1580,
-            atk: 78,
-            def: 34,
+            hp: 740,
+            atk: 44,
+            def: 26,
             spd: 148,
             aggroRange: 380,
             attackRange: 260,
@@ -134,9 +134,9 @@
             title: "Thiên Thú Vương (Tam Chuyển)",
             icon: "🐍",
             rank: 3,
-            hp: 4800,
-            atk: 132,
-            def: 95,
+            hp: 1450,
+            atk: 74,
+            def: 54,
             spd: 130,
             aggroRange: 420,
             attackRange: 300,
@@ -158,9 +158,9 @@
             title: "Vạn Thú Vương (Tứ Chuyển)",
             icon: "🦣",
             rank: 4,
-            hp: 13500,
-            atk: 235,
-            def: 260,
+            hp: 2750,
+            atk: 132,
+            def: 105,
             spd: 118,
             aggroRange: 450,
             attackRange: 330,
@@ -182,9 +182,9 @@
             title: "Thượng Cổ Hoang Thú (Lục Chuyển+)",
             icon: "🐉",
             rank: 6,
-            hp: 290000,
-            atk: 6150,
-            def: 4050,
+            hp: 28000,
+            atk: 1820,
+            def: 1350,
             spd: 152,
             aggroRange: 520,
             attackRange: 380,
@@ -242,7 +242,7 @@
         {
             id: "huyet_ma_cult",
             name: "Ảnh Tông — Cương Minh",
-            leader: "Ảnh Vô Tà / Bạc Thanh Tàn Hồn (Thất Chuyển)",
+            leader: "Tần Bách Thắng / Ảnh Vô Tà (Thất Chuyển)",
             territory: "Nghĩa Thiên Sơn",
             alignment: "Ma Đạo",
             power: 3500,
@@ -268,10 +268,10 @@
             y: 2180,
             homeX: 2160,
             homeY: 2180,
-            hp: 950,
-            maxHp: 950,
-            atk: 62,
-            def: 35,
+            hp: 420,
+            maxHp: 420,
+            atk: 34,
+            def: 24,
             spd: 120,
             primevalStones: 85,
             relation: 25,
@@ -298,10 +298,10 @@
             y: 2120,
             homeX: 2520,
             homeY: 2120,
-            hp: 2600,
-            maxHp: 2600,
-            atk: 115,
-            def: 85,
+            hp: 820,
+            maxHp: 820,
+            atk: 60,
+            def: 48,
             spd: 112,
             primevalStones: 340,
             relation: 15,
@@ -329,10 +329,10 @@
             y: 2550,
             homeX: 2650,
             homeY: 2550,
-            hp: 1050,
-            maxHp: 1050,
-            atk: 60,
-            def: 38,
+            hp: 450,
+            maxHp: 450,
+            atk: 32,
+            def: 26,
             spd: 118,
             primevalStones: 620,
             relation: 30,
@@ -362,10 +362,10 @@
             y: 2620,
             homeX: 2150,
             homeY: 2620,
-            hp: 3400,
-            maxHp: 3400,
-            atk: 138,
-            def: 98,
+            hp: 960,
+            maxHp: 960,
+            atk: 70,
+            def: 52,
             spd: 140,
             primevalStones: 380,
             relation: 5,
@@ -392,10 +392,10 @@
             y: 2260,
             homeX: 2720,
             homeY: 2260,
-            hp: 8200,
-            maxHp: 8200,
-            atk: 225,
-            def: 240,
+            hp: 1650,
+            maxHp: 1650,
+            atk: 118,
+            def: 98,
             spd: 132,
             primevalStones: 520,
             relation: -10,
@@ -779,8 +779,8 @@
                     boss.hp <= boss.maxHp * shieldTriggerHpRatio &&
                     (boss.defGuCooldown || 0) <= 0
                 ) {
-                    boss.defGuCooldown = isVen ? 7.5 : (boss.isStageBoss ? 11.0 : 15.0);
-                    const shieldPct = isVen ? 0.35 : (boss.rank >= 6 ? 0.22 : 0.16);
+                    boss.defGuCooldown = isVen ? 10.5 : (boss.isStageBoss ? 13.0 : 16.0);
+                    const shieldPct = isVen ? 0.22 : (boss.rank >= 6 ? 0.16 : 0.14);
                     const shieldVal = Math.round(boss.maxHp * shieldPct);
                     boss.shieldHp = shieldVal;
                     boss.maxShieldHp = shieldVal;
@@ -793,16 +793,16 @@
 
             // D. Bật Cổ Trùng / Sát Chiêu Trị Liệu
             if (boss.isStageBoss) {
-                const maxHeals = isVen ? 3 : 2;
+                const maxHeals = isVen ? 2 : 1;
                 boss.healsUsed = boss.healsUsed || 0;
                 if (
-                    boss.hp < boss.maxHp * 0.50 &&
+                    boss.hp < boss.maxHp * 0.45 &&
                     boss.healsUsed < maxHeals &&
                     (boss.healGuCooldown || 0) <= 0
                 ) {
                     boss.healsUsed += 1;
-                    boss.healGuCooldown = isVen ? 12.0 : 16.0;
-                    const healVal = Math.round(boss.maxHp * (isVen ? 0.25 : 0.20));
+                    boss.healGuCooldown = isVen ? 14.0 : 18.0;
+                    const healVal = Math.round(boss.maxHp * (isVen ? 0.15 : 0.14));
                     boss.hp = Math.min(boss.maxHp, boss.hp + healVal);
                     const healName = isVen
                         ? "Cửu Chuyển Sát Chiêu: Vạn Kiếp Trường Sinh Nguyên"
@@ -898,9 +898,10 @@
                     }
                 }
 
-                const shotCount = isVen ? 7 : (boss.isStageBoss ? Math.min(5, 2 + Math.floor(boss.rank / 2)) : (boss.isElite ? 2 : 1));
-                const spread = isVen ? 0.60 : 0.36;
-                const projDamage = this._computeBossEffectiveDamage(boss, player, 1.0, false);
+                const shotCount = isVen ? 5 : (boss.isStageBoss ? Math.min(3, 1 + Math.floor(boss.rank / 3)) : (boss.isElite ? 2 : 1));
+                const spread = isVen ? 0.65 : 0.40;
+                const perShotScale = shotCount >= 4 ? 0.72 : (shotCount >= 2 ? 0.85 : 1.0);
+                const projDamage = this._computeBossEffectiveDamage(boss, player, perShotScale, false);
 
                 for (let i = 0; i < shotCount; i++) {
                     const offset = shotCount === 1 ? 0 : -spread / 2 + (spread / (shotCount - 1)) * i;
@@ -934,7 +935,7 @@
             const killerDmg = this._computeBossEffectiveDamage(
                 boss,
                 player,
-                isVen ? 2.2 : (boss.rank >= 8 ? 2.0 : (boss.rank >= 6 ? 1.75 : 1.45)),
+                isVen ? 1.75 : (boss.rank >= 6 ? 1.55 : 1.40),
                 true
             );
             combatSystem.triggerScreenShake(isVen ? 14 : (4 + boss.rank), isVen ? 0.38 : 0.28);
@@ -954,7 +955,7 @@
 
             // 2. Chỉ riêng Song Tôn Cửu Chuyển: Tạo thêm 4 vụ nổ Hỗn Độn vây quanh
             if (isVen && player) {
-                const subDmg = this._computeBossEffectiveDamage(boss, player, 1.35, true);
+                const subDmg = this._computeBossEffectiveDamage(boss, player, 1.05, true);
                 for (let k = 0; k < 4; k++) {
                     const subAng = (Math.PI / 2) * k + (telegraph.patternIndex * 0.4);
                     const sx = telegraph.x + Math.cos(subAng) * 185;
@@ -976,7 +977,7 @@
             // 3. Bắn vòng đạn Sát Chiêu tỏa ra xung quanh Boss
             if (boss.rank >= 3) {
                 const ringCount = isVen ? 12 : Math.min(12, 4 + boss.rank);
-                const ringProjDmg = this._computeBossEffectiveDamage(boss, player, isVen ? 1.15 : 1.10, false);
+                const ringProjDmg = this._computeBossEffectiveDamage(boss, player, isVen ? 0.78 : 0.82, false);
 
                 for (let i = 0; i < ringCount; i++) {
                     const ang = (Math.PI * 2 * i) / ringCount;
@@ -1003,7 +1004,7 @@
             if (isVen && player && typeof combatSystem.spawnLaserBeam === "function") {
                 const aimAngle = Math.atan2(player.y - boss.y, player.x - boss.x);
                 const beamCount = 3;
-                const beamDmg = this._computeBossEffectiveDamage(boss, player, 1.65, true);
+                const beamDmg = this._computeBossEffectiveDamage(boss, player, 1.25, true);
 
                 for (let b = 0; b < beamCount; b++) {
                     const offset = (b - 1) * 0.22;
@@ -1125,8 +1126,8 @@
                             });
                         }
                     } else if (player) {
-                        const dmgRes = player.takeDamage(finalBeastDmg, beast.name);
-                        if (combatSystem && !dmgRes.dodged) {
+                        const dmgRes = player.takeDamage(finalBeastDmg, beast.name, beast.rank || 1);
+                        if (combatSystem && !dmgRes.dodged && !dmgRes.blocked && dmgRes.damageTaken > 0) {
                             combatSystem.spawnFloatingText(player.x, player.y - 18, `-${dmgRes.damageTaken}`, "#ff4d4d");
                         }
                     }
@@ -1201,6 +1202,7 @@
                         owner: "npc",
                         attackerRef: npc,
                         name: `${npc.name} Cổ Thuật`,
+                        skillRank: npc.rank || 1,
                         x: npc.x,
                         y: npc.y,
                         angle: ang,
@@ -1332,19 +1334,33 @@
             return null;
         }
 
-        damageEntity(target, rawDamage, attackerPlayer, combatSystem) {
+        damageEntity(target, rawDamage, attackerPlayer, combatSystem, ignoreFlatDef = false) {
             if (!target || target.isDead) return 0;
 
-            // Tính sát thương thực tế sau khi trừ giáp (KHÔNG còn bất kỳ giới hạn sát thương tối đa nào trên Tôn Giả)
-            let actualDamage = Math.max(1, Math.round(rawDamage - (target.def || 0) * 0.65));
+            // Tính sát thương phá giáp thực tế: KHÔNG còn ép gây tối thiểu 1 máu nếu đòn đánh không phá nổi phòng ngự DEF của địch!
+            let postDefDamage = ignoreFlatDef
+                ? Math.max(0, Math.round(rawDamage))
+                : Math.round(rawDamage - (target.def || 0) * 0.72);
 
-            // Nếu cả 2 vị Tôn Giả cùng trên sân, Liên Thủ Kết Giới chỉ giảm 30% sát thương chứ không khóa trần sát thương
+            if (postDefDamage <= 0) {
+                if (target.entityType === "npc" && !target.isHostile) {
+                    target.becomeHostile(true);
+                } else if (target.entityType === "beast") {
+                    target.aiState = "chase";
+                }
+                return 0;
+            }
+
+            // Nếu cả 2 vị Tôn Giả cùng trên sân, Liên Thủ Kết Giới giảm 30% sát thương
             if (Boolean(target.isVenerable)) {
                 const livingVenerables = this.beasts.filter(b => Boolean(b.isVenerable) && !b.isDead).length;
                 if (livingVenerables >= 2) {
-                    actualDamage = Math.max(1, Math.round(actualDamage * 0.70));
+                    postDefDamage = Math.max(1, Math.round(postDefDamage * 0.80));
                 }
             }
+
+            let hpDamage = postDefDamage;
+            let shieldAbsorbed = 0;
 
             // Nếu mục tiêu đang có Hộ Thuẫn Cổ Trùng (shieldHp) thì hấp thụ vào hộ thuẫn trước
             if (target.shieldHp && target.shieldHp > 0) {
@@ -1354,21 +1370,21 @@
                         VENERABLE_MAX_REFLECT_DAMAGE,
                         Math.round((target.atk || 50000) * 0.25)
                     );
-                    const refRes = attackerPlayer.takeDamage(reflectDmg, `${target.name} Hộ Thuẫn Phản Chấn`);
-                    if (combatSystem && !refRes.dodged) {
+                    const refRes = attackerPlayer.takeDamage(reflectDmg, `${target.name} Hộ Thuẫn Phản Chấn`, target.rank || 9);
+                    if (combatSystem && !refRes.dodged && !refRes.blocked && refRes.damageTaken > 0) {
                         combatSystem.spawnFloatingText(attackerPlayer.x, attackerPlayer.y - 26, `☯ Phản Chấn -${refRes.damageTaken}`, "#ffd700");
                     }
                 }
 
-                const absorbed = Math.min(target.shieldHp, actualDamage);
-                target.shieldHp -= absorbed;
-                actualDamage -= absorbed;
+                shieldAbsorbed = Math.min(target.shieldHp, hpDamage);
+                target.shieldHp -= shieldAbsorbed;
+                hpDamage -= shieldAbsorbed;
                 if (target.shieldHp <= 0 && combatSystem) {
                     combatSystem.spawnFloatingText(target.x, target.y - 28, "💥 Phá Vỡ Hộ Thuẫn!", "#ffd700");
                 }
             }
 
-            target.hp = Math.max(0, target.hp - actualDamage);
+            target.hp = Math.max(0, target.hp - hpDamage);
 
             if (target.entityType === "npc" && !target.isHostile) {
                 target.becomeHostile(true);
@@ -1380,7 +1396,7 @@
                 this._handleEntityDeath(target, attackerPlayer, combatSystem);
             }
 
-            return actualDamage;
+            return hpDamage + shieldAbsorbed;
         }
 
         _handleEntityDeath(target, player, combatSystem) {
@@ -1769,7 +1785,8 @@
                     b.isVenerable ? -44 : (b.isHuman ? -34 : -b.radius - 14),
                     barColor,
                     b.shieldHp || 0,
-                    b.isBoss
+                    b.isBoss,
+                    b.rankBadge || null
                 );
                 ctx.restore();
             }
@@ -1811,7 +1828,7 @@
             }
         }
 
-        _renderEntityHealthBar(ctx, name, rank, hp, maxHp, offsetY, barColor, shieldHp = 0, isBoss = false) {
+        _renderEntityHealthBar(ctx, name, rank, hp, maxHp, offsetY, barColor, shieldHp = 0, isBoss = false, rankBadge = null) {
             const barW = isBoss ? 112 : 50;
             const barH = isBoss ? 8 : 5;
             const pct = Math.max(0, Math.min(1, hp / Math.max(1, maxHp)));
@@ -1819,7 +1836,8 @@
             ctx.font = isBoss ? "bold 12px Georgia" : "11px Georgia";
             ctx.textAlign = "center";
             ctx.fillStyle = isBoss ? "#ffd700" : "#e6dfd5";
-            ctx.fillText(`${name} [${rank} Chuyển]`, 0, offsetY - (shieldHp > 0 ? 10 : 5));
+            const badgeText = rankBadge || `${rank} Chuyển`;
+            ctx.fillText(`${name} [${badgeText}]`, 0, offsetY - (shieldHp > 0 ? 10 : 5));
 
             ctx.fillStyle = "#07090d";
             ctx.fillRect(-barW / 2, offsetY, barW, barH);

@@ -523,7 +523,7 @@
             category: "immortal_material",
             rarity: "legendary",
             value: 1000,
-            desc: "Tiền tệ tối cao do Thiên Đình phát hành hoặc giao dịch trên Bảo Hoàng Thiên. Sử dụng giúp nhận 1 viên Lục Đề Tiên Nguyên."
+            desc: "Tiền tệ tối cao do Thiên Đình phát hành hoặc giao dịch trên Bảo Hoàng Thiên. Sử dụng giúp luyện hóa ngay thành +5 viên Tiên Nguyên đúng cảnh giới hiện tại."
         },
         remnant_recipe: {
             id: "remnant_recipe",
@@ -1132,16 +1132,27 @@
                 isDaoLord = Boolean(isImmortal && rank >= 9 && this.aperture.daoLordPath);
             }
 
-            const rankMult = isImmortal ? Math.pow(2.5, rank - 1) : Math.pow(1.52, rank - 1);
-            let subMult = 1 + subStage * 0.18;
+            const playerRankTable = {
+                1: 1.0,
+                2: 1.85,
+                3: 3.4,
+                4: 6.2,
+                5: 11.2,
+                6: 48.0,
+                7: 120.0,
+                8: 295.0,
+                9: 720.0
+            };
+            const rankMult = playerRankTable[rank] || (isImmortal ? 48.0 : 1.0);
+            let subMult = 1 + subStage * 0.16;
             if (isImmortal) {
-                if (isPseudo) subMult = 1.68;
-                else if (rank >= 9) subMult = 1.35 + subStage * 0.22 + (isDaoLord ? 0.25 : 0);
+                if (isPseudo) subMult = 1.56;
+                else if (rank >= 9) subMult = 1.28 + subStage * 0.18 + (isDaoLord ? 0.18 : 0);
                 else subMult = 1.0 + subStage * 0.12;
             }
             const totalRealmMult = rankMult * subMult;
 
-            // Đường cong Đạo Ngân mềm mượt (tránh vỡ số khi tích lũy 300.000 Đạo Ngân)
+            // Đường cong Đạo Ngân mềm mượt (tương đồng với chỉ số quái/Boss ở Tiên Cảnh)
             const curveMarks = (m) => {
                 const v = Math.max(0, m || 0);
                 if (v <= 2000) return v;
@@ -1156,9 +1167,9 @@
             const thoMarks = isImmortal ? curveMarks(this.daoMarks["Thổ Đạo"] || 0) : 0;
             const phongMarks = isImmortal ? curveMarks(this.daoMarks["Phong Đạo"] || 0) : 0;
 
-            let calcMaxHp = Math.round(this.baseMaxHp * totalRealmMult + lucMarks * 1.8 + thoMarks * 1.4 + mainMarks * 1.0);
+            let calcMaxHp = Math.round(this.baseMaxHp * totalRealmMult + lucMarks * 2.0 + thoMarks * 1.6 + mainMarks * 1.6);
             let calcAtk = Math.round(this.baseAtk * totalRealmMult + lucMarks * 0.45 + mainMarks * 0.35);
-            let calcDef = Math.round(this.baseDef * totalRealmMult + (kimMarks + thoMarks) * 0.35 + mainMarks * 0.20);
+            let calcDef = Math.round(this.baseDef * totalRealmMult + (kimMarks + thoMarks) * 0.35 + mainMarks * 0.25);
             let calcSpd = Math.round(this.baseSpd + (rank - 1) * 8 + (isPseudo ? 16 : 0) + Math.min(95, phongMarks * 0.12));
             let calcVision = Math.round(this.baseVision + (rank - 1) * 20);
             let calcMaxMental = Math.round(this.baseMaxMental * (1 + (rank - 1) * 0.38) + honMarks * 0.35 + mainMarks * 0.08);
@@ -1291,12 +1302,12 @@
 
         calculateDaoAmplification(primaryPath, secondaryPaths = []) {
             const sameMarks = this.getEffectiveDaoMarks(primaryPath);
-            // Chuẩn nguyên tác: dưới 5.000 ĐN tăng +100% mỗi 1.000 ĐN; trên 5.000 dùng đường cong mượt cho mốc 30 vạn Đạo Ngân
+            // Đường cong khuếch đại Đạo Ngân mượt & thực tế (không gây số ảo hàng chục triệu)
             let amplification = 1.0;
-            if (sameMarks <= 5000) {
-                amplification += sameMarks / 1000;
+            if (sameMarks <= 2000) {
+                amplification += sameMarks / 2000;
             } else {
-                amplification += 5.0 + Math.sqrt((sameMarks - 5000) / 1500);
+                amplification += 1.0 + Math.sqrt((sameMarks - 2000) / 10000) * 0.45;
             }
 
             if (
@@ -1329,7 +1340,7 @@
             let daoLordBonusMult = 1.0;
             if (this.aperture && this.aperture.rank >= 9 && this.aperture.daoLordPath === primaryPath) {
                 const refinedNat = this.aperture.naturalDaoMarksRefined || 0;
-                daoLordBonusMult = 1.35 + Math.min(0.65, refinedNat / 500000);
+                daoLordBonusMult = 1.25 + Math.min(0.25, refinedNat / 600000);
             }
 
             const finalMultiplier = Math.max(0.45, Number(((amplification - conflictPenalty) * daoLordBonusMult).toFixed(2)));
@@ -1458,10 +1469,17 @@
             this.recalculateStats();
         }
 
-        takeDamage(rawDamage, sourceName = "Đòn tấn công") {
+        takeDamage(rawDamage, sourceName = "Đòn tấn công", attackerRank = null) {
             let actualDamage = rawDamage;
             if (!sourceName.includes("Khiếu Bích") && !sourceName.includes("Đồng Hóa")) {
-                // Giáp cơ bản giảm tối đa 80% sát thương (đảm bảo quái đồng cấp / cao cấp không bao giờ bị ép về 1 máu)
+                // Hộ Thể Cảnh Giới 2 chiều: Kẻ địch yếu hơn từ 2 Đại Cảnh Giới trở lên (hoặc Phàm Nhân đánh Cổ Tiên) không phá nổi phòng ngự người chơi!
+                if (typeof attackerRank === "number" && this.aperture) {
+                    const pRank = this.aperture.rank || 1;
+                    if ((pRank >= 6 && attackerRank <= 5) || (pRank - attackerRank >= 2)) {
+                        return { damageTaken: 0, isDead: false, blocked: true, source: sourceName };
+                    }
+                }
+                // Giáp cơ bản giảm tối đa 80% sát thương đối với địch ngang cấp / cách 1 cấp
                 const minPenetration = Math.max(1, rawDamage * 0.20);
                 actualDamage = Math.max(minPenetration, rawDamage - this.def * 0.55);
             }
@@ -1578,8 +1596,11 @@
                     return { success: false, message: "Chỉ Cổ Tiên Lục Chuyển trở lên mới có thể luyện hóa Tiên Nguyên Thạch thành Tiên Nguyên!" };
                 }
                 this.removeItem(itemId, 1);
-                this.aperture.immortalEssence[6] += 1;
-                return { success: true, message: "Đã hấp thu 1 Tiên Nguyên Thạch, chuyển hóa thành 1 viên Lục Đề Tiên Nguyên!" };
+                const curRank = this.aperture.rank || 6;
+                const gainBeads = 5;
+                this.aperture.immortalEssence[curRank] = Number(((this.aperture.immortalEssence[curRank] || 0) + gainBeads).toFixed(2));
+                const essName = this.aperture.getEssenceQualityName ? this.aperture.getEssenceQualityName() : "Tiên Nguyên";
+                return { success: true, message: `🌟 Đã luyện hóa 1 Tiên Nguyên Thạch thành +${gainBeads} viên ${essName}!` };
             }
 
             if (itemId === "remnant_recipe") {
