@@ -1,883 +1,98 @@
-/* =========================================================================
-   VẠN CỔ TIÊN ĐỒ - GIAO DIỆN MOBILE TOÀN MÀN HÌNH & XOAY NGANG (MOBILE.CSS)
-   ========================================================================= */
-
-:root {
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-right: env(safe-area-inset-right, 0px);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --safe-left: env(safe-area-inset-left, 0px);
-}
-
-/* -------------------------------------------------------------------------
-   1. LỚP PHỦ NHẮC XOAY NGANG & NÚT TOÀN MÀN HÌNH
-   ------------------------------------------------------------------------- */
-#mobile-rotate-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: radial-gradient(circle at center, #141c28 0%, #05070a 90%);
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 24px;
-    gap: 14px;
-}
-
-.rotate-phone-icon {
-    font-size: 56px;
-    animation: rotatePhoneHint 2s ease-in-out infinite;
-    filter: drop-shadow(0 0 12px rgba(226, 191, 117, 0.55));
-}
-
-@keyframes rotatePhoneHint {
-    0%, 15% { transform: rotate(0deg); }
-    45%, 65% { transform: rotate(-90deg); }
-    100% { transform: rotate(0deg); }
-}
-
-#mobile-rotate-overlay h2 {
-    color: var(--text-gold);
-    font-size: 20px;
-    letter-spacing: 1px;
-}
-
-#mobile-rotate-overlay p {
-    color: var(--text-muted);
-    max-width: 320px;
-    font-size: 13px;
-}
-
-.rotate-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    max-width: 260px;
-    margin-top: 6px;
-}
-
-body.mobile-ui:not(.ignore-portrait-lock) #mobile-rotate-overlay {
-    display: none;
-}
-
-@media (orientation: portrait) {
-    body.mobile-ui:not(.ignore-portrait-lock) #mobile-rotate-overlay {
-        display: flex;
-    }
-}
-
-.mobile-hub-utility-btns {
-    display: none;
-    align-items: center;
-    gap: 6px;
-}
-
-/* =========================================================================
-   2. KÍCH HOẠT GIAO DIỆN MOBILE (BODY.MOBILE-UI)
-   ========================================================================= */
-body.mobile-ui {
-    width: 100vw;
-    height: 100dvh;
-    overscroll-behavior: none;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-}
-
-body.mobile-ui .modal-backdrop {
-    padding: 10px;
-}
-
-body.mobile-ui .modal-window {
-    max-height: 92dvh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-body.mobile-ui .modal-body {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 12px 14px;
-}
-
-/* -------------------------------------------------------------------------
-   3. MÀN HÌNH 1 (KHỞI TẠO NHÂN VẬT) TRÊN MOBILE NGANG
-   ------------------------------------------------------------------------- */
-body.mobile-ui #character-creation-screen {
-    padding: 10px max(12px, var(--safe-right)) 14px max(12px, var(--safe-left));
-}
-
-body.mobile-ui .creation-wrapper {
-    width: 96vw;
-    max-width: 760px;
-    padding: 12px 16px;
-}
-
-body.mobile-ui .creation-header {
-    padding-bottom: 6px;
-    margin-bottom: 10px;
-}
-
-body.mobile-ui .game-title {
-    font-size: 20px;
-    letter-spacing: 3px;
-}
-
-body.mobile-ui .game-subtitle {
-    font-size: 11px;
-}
-
-body.mobile-ui .creation-panel h2 {
-    font-size: 14px;
-    margin-bottom: 8px;
-}
-
-body.mobile-ui .form-row-2 {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-body.mobile-ui .form-group {
-    margin-bottom: 8px;
-}
-
-body.mobile-ui input[type="text"],
-body.mobile-ui select {
-    padding: 6px 9px;
-    font-size: 12.5px;
-}
-
-body.mobile-ui .skin-selection-box {
-    padding: 8px 10px;
-    gap: 10px;
-    margin-bottom: 8px;
-}
-
-body.mobile-ui .skin-preview-frame {
-    width: 72px;
-    min-width: 72px;
-    padding: 4px;
-}
-
-body.mobile-ui #creationSkinPreviewCanvas {
-    width: 60px;
-    height: 60px;
-}
-
-body.mobile-ui #ritualCanvas {
-    height: 135px;
-}
-
-body.mobile-ui .ritual-log {
-    height: 70px;
-    font-size: 12px;
-}
-
-/* -------------------------------------------------------------------------
-   4. MÀN HÌNH 2 (ĐẠI BẢN DOANH - HUB) TỐI ƯU MÀN HÌNH NGANG
-   ------------------------------------------------------------------------- */
-body.mobile-ui #hub-screen {
-    height: 100dvh;
-}
-
-body.mobile-ui .hub-topbar {
-    min-height: 50px;
-    height: auto;
-    padding: 5px max(10px, var(--safe-right)) 5px max(10px, var(--safe-left));
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-body.mobile-ui .topbar-identity {
-    gap: 7px;
-    flex-shrink: 0;
-    max-width: 28%;
-}
-
-body.mobile-ui .avatar-badge {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    border-width: 1.5px;
-}
-
-body.mobile-ui #hubTopAvatarCanvas {
-    width: 32px;
-    height: 32px;
-}
-
-body.mobile-ui #hub-player-name {
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 130px;
-}
-
-body.mobile-ui .identity-sub {
-    gap: 3px;
-    margin-top: 1px;
-}
-
-body.mobile-ui .identity-sub .badge {
-    font-size: 9.5px;
-    padding: 1px 4px;
-}
-
-body.mobile-ui #hub-region-badge,
-body.mobile-ui #hub-faction-badge {
-    display: none;
-}
-
-body.mobile-ui .topbar-bars {
-    flex: 1;
-    min-width: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-}
-
-body.mobile-ui .bar-block {
-    padding: 3px 6px;
-}
-
-body.mobile-ui .bar-label {
-    font-size: 10px;
-    margin-bottom: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-body.mobile-ui .bar-label .sub-text {
-    display: none;
-}
-
-body.mobile-ui .progress-track {
-    height: 7px;
-}
-
-body.mobile-ui .bar-meta {
-    font-size: 9.5px;
-    margin-top: 2px;
-}
-
-body.mobile-ui .topbar-currencies {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 2px 8px;
-    padding: 3px 7px;
-    flex-shrink: 0;
-}
-
-body.mobile-ui .currency-item {
-    font-size: 10.5px;
-    gap: 4px;
-}
-
-body.mobile-ui .currency-item span {
-    font-size: 10px;
-}
-
-body.mobile-ui .mobile-hub-utility-btns {
-    display: flex;
-    flex-shrink: 0;
-}
-
-body.mobile-ui .btn-mobile-util {
-    background: rgba(34, 42, 56, 0.92);
-    border: 1px solid var(--border-gold);
-    color: var(--text-gold);
-    padding: 5px 8px;
-    font-size: 13px;
-    border-radius: 3px;
-    line-height: 1;
-}
-
-body.mobile-ui .hub-main-layout {
-    grid-template-columns: 156px 1fr;
-    height: calc(100dvh - 52px);
-}
-
-body.mobile-ui .hub-sidebar {
-    padding: 6px 6px 40px max(6px, var(--safe-left));
-    gap: 4px;
-}
-
-body.mobile-ui .sidebar-group-title {
-    font-size: 9.5px;
-    margin: 6px 4px 2px 4px;
-}
-
-body.mobile-ui .nav-btn {
-    padding: 7px 7px;
-    gap: 7px;
-}
-
-body.mobile-ui .nav-btn .nav-icon {
-    font-size: 16px;
-    width: 20px;
-}
-
-body.mobile-ui .nav-btn strong {
-    font-size: 11.5px;
-    line-height: 1.2;
-}
-
-body.mobile-ui .nav-btn small {
-    display: none;
-}
-
-body.mobile-ui .hub-content-area {
-    padding: 10px max(12px, var(--safe-right)) 60px 12px;
-}
-
-body.mobile-ui .panel-header {
-    padding-bottom: 8px;
-    gap: 8px;
-}
-
-body.mobile-ui .panel-header h2 {
-    font-size: 15.5px;
-}
-
-body.mobile-ui .tab-btn {
-    padding: 4px 8px;
-    font-size: 11px;
-}
-
-body.mobile-ui .split-2 {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-body.mobile-ui .split-3 {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-body.mobile-ui .maps-grid {
-    grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-    gap: 10px;
-}
-
-body.mobile-ui .card-box {
-    padding: 10px;
-}
-
-body.mobile-ui .card-box h3 {
-    font-size: 13.5px;
-    margin-bottom: 8px;
-}
-
-body.mobile-ui .equipped-loadout-banner .slot-grid-8 {
-    grid-template-columns: repeat(8, 36px);
-    gap: 4px;
-}
-
-body.mobile-ui .equipped-loadout-banner .skill-slot {
-    width: 36px;
-    height: 36px;
-}
-
-body.mobile-ui .hub-right-log {
-    display: flex;
-    position: fixed;
-    top: 50px;
-    right: 0;
-    bottom: 0;
-    width: min(300px, 78vw);
-    z-index: 80;
-    transform: translateX(105%);
-    transition: transform 0.22s ease;
-    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.85);
-}
-
-body.mobile-ui .hub-right-log.drawer-open {
-    transform: translateX(0);
-}
-
-/* -------------------------------------------------------------------------
-   5. MÀN HÌNH 3 (CHIẾN ĐẤU 2D) — BỐ CỤC HUD & ĐIỀU KHIỂN CẢM ỨNG
-   ------------------------------------------------------------------------- */
-body.mobile-ui #battle-screen {
-    width: 100vw;
-    height: 100dvh;
-    touch-action: none;
-}
-
-body.mobile-ui .battle-hud-bottom-center {
-    display: none !important;
-}
-
-body.mobile-ui .battle-hud-top-left {
-    top: max(6px, var(--safe-top));
-    left: max(8px, var(--safe-left));
-    width: 196px;
-    padding: 6px 8px;
-    background: rgba(14, 18, 25, 0.82);
-}
-
-body.mobile-ui .battle-header-row {
-    margin-bottom: 4px;
-    padding-bottom: 3px;
-}
-
-body.mobile-ui #battle-player-name {
-    font-size: 12px;
-}
-
-body.mobile-ui #battle-realm-badge {
-    font-size: 9.5px;
-    padding: 1px 4px;
-}
-
-body.mobile-ui .stat-bar-group {
-    margin-bottom: 4px;
-}
-
-body.mobile-ui .stat-label {
-    font-size: 10px;
-    margin-bottom: 2px;
-}
-
-body.mobile-ui .active-buffs-row {
-    gap: 3px;
-    margin-top: 3px;
-}
-
-body.mobile-ui .buff-badge {
-    font-size: 9.5px;
-    padding: 1px 4px;
-}
-
-body.mobile-ui .battle-hud-top-center {
-    top: max(6px, var(--safe-top));
-    width: clamp(210px, 36vw, 330px);
-    padding: 5px 9px;
-    background: rgba(14, 18, 25, 0.80);
-}
-
-body.mobile-ui #battle-stage-title {
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-body.mobile-ui #battle-stage-objective {
-    font-size: 10px;
-    line-height: 1.25;
-}
-
-body.mobile-ui .battle-hud-top-right {
-    top: max(6px, var(--safe-top));
-    right: max(8px, var(--safe-right));
-    gap: 5px;
-}
-
-body.mobile-ui .minimap-panel {
-    padding: 4px;
-    background: rgba(14, 18, 25, 0.82);
-}
-
-body.mobile-ui #minimapCanvas {
-    width: 82px !important;
-    height: 82px !important;
-}
-
-body.mobile-ui #btn-retreat-to-hub {
-    padding: 5px 8px;
-    font-size: 10.5px;
-}
-
-/* -------------------------------------------------------------------------
-   6. BỘ ĐIỀU KHIỂN CHIẾN ĐẤU MOBILE (JOYSTICK TRÁI + CỤM CHIÊU PHẢI)
-   ------------------------------------------------------------------------- */
-#mobile-battle-controls {
-    position: absolute;
-    inset: 0;
-    z-index: 25;
-    pointer-events: none;
-    display: none;
-}
-
-body.mobile-ui #mobile-battle-controls {
-    display: block;
-}
-
-#mobile-joystick-zone {
-    position: absolute;
-    left: max(12px, var(--safe-left));
-    bottom: max(10px, var(--safe-bottom));
-    width: 146px;
-    height: 146px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: auto;
-    touch-action: none;
-}
-
-.joystick-base {
-    width: 112px;
-    height: 112px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(20, 26, 36, 0.45) 0%, rgba(8, 11, 16, 0.78) 100%);
-    border: 2px solid rgba(184, 151, 88, 0.65);
-    box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.85), 0 0 12px rgba(0, 0, 0, 0.55);
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.joystick-base::after {
-    content: "";
-    position: absolute;
-    inset: 14px;
-    border-radius: 50%;
-    border: 1px dashed rgba(226, 191, 117, 0.28);
-    pointer-events: none;
-}
-
-.joystick-knob {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #e8c67a 0%, #8a6a32 70%, #3b2d1a 100%);
-    border: 2px solid #fff2cc;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
-    transform: translate3d(0px, 0px, 0);
-    transition: box-shadow 0.1s;
-    pointer-events: none;
-}
-
-.joystick-base.sprinting {
-    border-color: #6ce6b8;
-    box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.85), 0 0 14px rgba(108, 230, 184, 0.5);
-}
-
-.joystick-base.sprinting .joystick-knob {
-    box-shadow: 0 0 16px rgba(108, 230, 184, 0.9);
-}
-
-.joystick-hint {
-    position: absolute;
-    bottom: -2px;
-    font-size: 9.5px;
-    color: rgba(230, 223, 213, 0.72);
-    text-shadow: 0 1px 3px #000;
-    pointer-events: none;
-}
-
-#mobile-action-cluster {
-    position: absolute;
-    right: max(10px, var(--safe-right));
-    bottom: max(10px, var(--safe-bottom));
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    pointer-events: auto;
-    touch-action: none;
-}
-
-.mobile-aux-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-}
-
-.mobile-quick-items-row {
-    display: flex;
-    gap: 5px;
-}
-
-.m-btn {
-    position: relative;
-    border-radius: 8px;
-    background: rgba(14, 19, 27, 0.86);
-    border: 1.5px solid var(--border-bronze);
-    color: var(--text-main);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    touch-action: none;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8), 0 3px 8px rgba(0, 0, 0, 0.7);
-    transition: transform 0.08s ease, border-color 0.12s ease;
-}
-
-.m-btn:active {
-    transform: scale(0.92);
-    border-color: var(--border-glow);
-}
-
-.m-btn-small {
-    width: 42px;
-    height: 36px;
-    font-size: 14px;
-    border-radius: 7px;
-}
-
-.m-btn-small .m-sub {
-    font-size: 8.5px;
-    color: var(--text-gold);
-    line-height: 1;
-    margin-top: 1px;
-}
-
-.m-btn-dash {
-    width: 58px;
-    height: 52px;
-    border-radius: 50%;
-    border: 2px solid #5cc995;
-    background: radial-gradient(circle, rgba(27, 77, 62, 0.92) 0%, rgba(12, 26, 22, 0.95) 100%);
-    font-size: 19px;
-}
-
-.m-btn-dash .m-sub {
-    font-size: 9px;
-    color: #7ef7c4;
-    font-weight: bold;
-}
-
-.m-btn-interact {
-    width: 54px;
-    height: 44px;
-    border-radius: 10px;
-    border: 1.5px solid #474137;
-    opacity: 0.45;
-    font-size: 16px;
-}
-
-.m-btn-interact .m-sub {
-    font-size: 8.5px;
-    color: var(--text-muted);
-}
-
-.m-btn-interact.active-prompt {
-    opacity: 1;
-    border-color: #ffd700;
-    background: linear-gradient(180deg, rgba(84, 62, 24, 0.95) 0%, rgba(36, 26, 12, 0.95) 100%);
-    box-shadow: 0 0 14px rgba(255, 215, 0, 0.65);
-    animation: pulseInteract 1.1s ease-in-out infinite;
-}
-
-.m-btn-interact.active-prompt .m-sub {
-    color: #ffd700;
-    font-weight: bold;
-}
-
-@keyframes pulseInteract {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.06); }
-}
-
-.mobile-skills-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    background: rgba(10, 14, 20, 0.62);
-    border: 1px solid rgba(184, 151, 88, 0.35);
-    border-radius: 10px;
-    padding: 6px;
-    backdrop-filter: blur(2px);
-}
-
-.mobile-killer-row {
-    display: grid;
-    grid-template-columns: repeat(4, 46px);
-    gap: 6px;
-}
-
-.mobile-gu-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 46px);
-    grid-template-rows: repeat(2, 46px);
-    gap: 6px;
-}
-
-.m-skill-btn {
-    width: 46px;
-    height: 46px;
-    border-radius: 8px;
-}
-
-.m-skill-btn.m-killer-btn {
-    height: 42px;
-    border-radius: 21px;
-    border-color: #c96a34;
-    background: radial-gradient(circle, rgba(58, 25, 16, 0.92) 0%, rgba(20, 10, 8, 0.95) 100%);
-}
-
-.m-skill-btn .m-key {
-    position: absolute;
-    top: 2px;
-    left: 4px;
-    font-size: 8.5px;
-    font-family: var(--font-mono);
-    color: rgba(230, 223, 213, 0.72);
-    z-index: 4;
-}
-
-.m-skill-btn .m-icon {
-    font-size: 20px;
-    line-height: 1;
-    z-index: 2;
-}
-
-.m-skill-btn .m-cost {
-    position: absolute;
-    bottom: 1px;
-    right: 3px;
-    font-size: 8.5px;
-    font-family: var(--font-mono);
-    color: var(--text-cyan);
-    z-index: 4;
-}
-
-.m-skill-btn .m-cd-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    background: rgba(0, 0, 0, 0.76);
-    z-index: 3;
-}
-
-.m-skill-btn .m-cd-text {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 11px;
-    font-weight: bold;
-    font-family: var(--font-mono);
-    color: #fff;
-    text-shadow: 0 1px 3px #000;
-    z-index: 5;
-}
-
-.m-skill-btn .m-no-essence {
-    position: absolute;
-    inset: 0;
-    background: rgba(110, 15, 15, 0.68);
-    color: #ffadad;
-    font-size: 9px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 6;
-}
-
-.m-skill-btn.empty-slot {
-    opacity: 0.38;
-    border-style: dashed;
-}
-
-#mobile-interact-toast {
-    position: absolute;
-    bottom: 158px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(14, 18, 26, 0.9);
-    border: 1px solid var(--border-gold);
-    color: var(--text-gold);
-    padding: 4px 12px;
-    font-size: 11px;
-    border-radius: 14px;
-    white-space: nowrap;
-    max-width: 72vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    pointer-events: none;
-}
-
-#btn-mobile-battle-fs {
-    padding: 4px 8px;
-    font-size: 10.5px;
-    background: rgba(24, 32, 46, 0.9);
-    border: 1px solid var(--border-gold);
-    color: var(--text-gold);
-}
-
-@media (max-height: 385px) {
-    body.mobile-ui .mobile-killer-row {
-        grid-template-columns: repeat(4, 40px);
-        gap: 4px;
-    }
-    body.mobile-ui .mobile-gu-grid {
-        grid-template-columns: repeat(4, 40px);
-        grid-template-rows: repeat(2, 40px);
-        gap: 4px;
-    }
-    body.mobile-ui .m-skill-btn {
-        width: 40px;
-        height: 40px;
-    }
-    body.mobile-ui .m-skill-btn.m-killer-btn {
-        height: 36px;
-    }
-    body.mobile-ui .m-skill-btn .m-icon {
-        font-size: 17px;
-    }
-    body.mobile-ui #mobile-joystick-zone {
-        width: 126px;
-        height: 126px;
-    }
-    body.mobile-ui .joystick-base {
-        width: 96px;
-        height: 96px;
-    }
-    body.mobile-ui .joystick-knob {
-        width: 40px;
-        height: 40px;
-    }
-    body.mobile-ui .m-btn-dash {
-        width: 50px;
-        height: 46px;
-        font-size: 16px;
-    }
-    body.mobile-ui #minimapCanvas {
-        width: 68px !important;
-        height: 68px !important;
-    }
-}
-
-
-/* -------------------------------------------------------------------------
-   7. BỔ SUNG MOBILE: ZOOM BAR, TỰ LƯU GỌN & CẢNH BÁO THẬP TUYỆT THỂ
-   ------------------------------------------------------------------------- */
-body.mobile-ui .autosave-status-row {
-    display: none;
-}
-
-body.mobile-ui .zoom-controls-bar {
-    padding: 3px 4px !important;
-    gap: 3px;
-    background: rgba(14, 18, 25, 0.82);
-}
-
-body.mobile-ui .zoom-btn,
-body.mobile-ui .zoom-pct-btn {
-    padding: 3px 5px !important;
-    font-size: 10px !important;
-    min-width: auto;
-}
-
-body.mobile-ui .battle-pressure-alert {
-    font-size: 9.5px;
-    padding: 2px 5px;
-}
+:root{--safe-top:env(safe-area-inset-top,0px);--safe-right:env(safe-area-inset-right,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px)}#mobile-rotate-overlay{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at center,#141c28 0%,#05070a 90%);display:none;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px;gap:14px}.rotate-phone-icon{font-size:56px;animation:rotatePhoneHint 2s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(226,191,117,0.55))}@keyframes rotatePhoneHint{0%,15%{transform:rotate(0deg)}45%,65%{transform:rotate(-90deg)}100%{transform:rotate(0deg)}}#mobile-rotate-overlay h2{color:var(--text-gold);font-size:20px;letter-spacing:1px}#mobile-rotate-overlay p{color:var(--text-muted);max-width:320px;font-size:13px}.rotate-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:260px;margin-top:6px}body.mobile-ui:not(.ignore-portrait-lock) #mobile-rotate-overlay{display:none}@media (orientation:portrait){body.mobile-ui:not(.ignore-portrait-lock) #mobile-rotate-overlay{display:flex}}.mobile-hub-utility-btns{display:none;align-items:center;gap:6px}body.mobile-ui{width:100vw;height:100dvh;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}body.mobile-ui .modal-backdrop{padding:10px}body.mobile-ui .modal-window{max-height:92dvh;display:flex;flex-direction:column;overflow:hidden}body.mobile-ui .modal-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 14px}body.mobile-ui #character-creation-screen{padding:10px max(12px,var(--safe-right)) 14px max(12px,var(--safe-left))}body.mobile-ui .creation-wrapper{width:96vw;max-width:760px;padding:12px 16px}body.mobile-ui .creation-header{padding-bottom:6px;margin-bottom:10px}body.mobile-ui .game-title{font-size:20px;letter-spacing:3px}body.mobile-ui .game-subtitle{font-size:11px}body.mobile-ui .creation-panel h2{font-size:14px;margin-bottom:8px}body.mobile-ui .form-row-2{grid-template-columns:1fr 1fr;gap:10px}body.mobile-ui .form-group{margin-bottom:8px}body.mobile-ui input[type="text"],body.mobile-ui select{padding:6px 9px;font-size:12.5px}body.mobile-ui .skin-selection-box{padding:8px 10px;gap:10px;margin-bottom:8px}body.mobile-ui .skin-preview-frame{width:72px;min-width:72px;padding:4px}body.mobile-ui #creationSkinPreviewCanvas{width:60px;height:60px}body.mobile-ui #ritualCanvas{height:135px}body.mobile-ui .ritual-log{height:70px;font-size:12px}body.mobile-ui #hub-screen{height:100dvh}body.mobile-ui .hub-topbar{min-height:50px;height:auto;padding:5px max(10px,var(--safe-right)) 5px max(10px,var(--safe-left));display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:8px}body.mobile-ui .topbar-identity{gap:7px;flex-shrink:0;max-width:28%}body.mobile-ui .avatar-badge{width:36px;height:36px;min-width:36px;border-width:1.5px}body.mobile-ui #hubTopAvatarCanvas{width:32px;height:32px}body.mobile-ui #hub-player-name{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}body.mobile-ui .identity-sub{gap:3px;margin-top:1px}body.mobile-ui .identity-sub .badge{font-size:9.5px;padding:1px 4px}body.mobile-ui #hub-region-badge,body.mobile-ui #hub-faction-badge{display:none}body.mobile-ui .topbar-bars{flex:1;min-width:0;display:grid;grid-template-columns:1fr 1fr;gap:6px}body.mobile-ui .bar-block{padding:3px 6px}body.mobile-ui .bar-label{font-size:10px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}body.mobile-ui .bar-label .sub-text{display:none}body.mobile-ui .progress-track{height:7px}body.mobile-ui .bar-meta{font-size:9.5px;margin-top:2px}body.mobile-ui .topbar-currencies{display:grid;grid-template-columns:auto auto;gap:2px 8px;padding:3px 7px;flex-shrink:0}body.mobile-ui .currency-item{font-size:10.5px;gap:4px}body.mobile-ui .currency-item span{font-size:10px}body.mobile-ui .mobile-hub-utility-btns{display:flex;flex-shrink:0}body.mobile-ui .btn-mobile-util{background:rgba(34,42,56,0.92);border:1px solid var(--border-gold);color:var(--text-gold);padding:5px 8px;font-size:13px;border-radius:3px;line-height:1}body.mobile-ui .hub-main-layout{grid-template-columns:156px 1fr;height:calc(100dvh - 52px)}body.mobile-ui .hub-sidebar{padding:6px 6px 40px max(6px,var(--safe-left));gap:4px}body.mobile-ui .sidebar-group-title{font-size:9.5px;margin:6px 4px 2px 4px}body.mobile-ui .nav-btn{padding:7px 7px;gap:7px}body.mobile-ui .nav-btn .nav-icon{font-size:16px;width:20px}body.mobile-ui .nav-btn strong{font-size:11.5px;line-height:1.2}body.mobile-ui .nav-btn small{display:none}body.mobile-ui .hub-content-area{padding:10px max(12px,var(--safe-right)) 60px 12px}body.mobile-ui .panel-header{padding-bottom:8px;gap:8px}body.mobile-ui .panel-header h2{font-size:15.5px}body.mobile-ui .tab-btn{padding:4px 8px;font-size:11px}body.mobile-ui .split-2{grid-template-columns:1fr 1fr;gap:10px}body.mobile-ui .split-3{grid-template-columns:1fr 1fr;gap:10px}body.mobile-ui .maps-grid{grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:10px}body.mobile-ui .card-box{padding:10px}body.mobile-ui .card-box h3{font-size:13.5px;margin-bottom:8px}body.mobile-ui .equipped-loadout-banner .slot-grid-8{grid-template-columns:repeat(8,36px);gap:4px}body.mobile-ui .equipped-loadout-banner .skill-slot{width:36px;height:36px}body.mobile-ui .hub-right-log{display:flex;position:fixed;top:50px;right:0;bottom:0;width:min(300px,78vw);z-index:80;transform:translateX(105%);transition:transform 0.22s ease;box-shadow:-8px 0 24px rgba(0,0,0,0.85)}body.mobile-ui .hub-right-log.drawer-open{transform:translateX(0)}body.mobile-ui #battle-screen{width:100vw;height:100dvh;touch-action:none}body.mobile-ui .battle-hud-bottom-center{display:none !important}body.mobile-ui .battle-hud-top-left{top:max(6px,var(--safe-top));left:max(8px,var(--safe-left));width:196px;padding:6px 8px;background:rgba(14,18,25,0.82)}body.mobile-ui .battle-header-row{margin-bottom:4px;padding-bottom:3px}body.mobile-ui #battle-player-name{font-size:12px}body.mobile-ui #battle-realm-badge{font-size:9.5px;padding:1px 4px}body.mobile-ui .stat-bar-group{margin-bottom:4px}body.mobile-ui .stat-label{font-size:10px;margin-bottom:2px}body.mobile-ui .active-buffs-row{gap:3px;margin-top:3px}body.mobile-ui .buff-badge{font-size:9.5px;padding:1px 4px}body.mobile-ui .battle-hud-top-center{top:max(6px,var(--safe-top));width:clamp(210px,36vw,330px);padding:5px 9px;background:rgba(14,18,25,0.80)}body.mobile-ui #battle-stage-title{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}body.mobile-ui #battle-stage-objective{font-size:10px;line-height:1.25}body.mobile-ui .battle-hud-top-right{top:max(6px,var(--safe-top));right:max(8px,var(--safe-right));gap:5px}body.mobile-ui .minimap-panel{padding:4px;background:rgba(14,18,25,0.82)}body.mobile-ui #minimapCanvas{width:82px !important;height:82px !important}body.mobile-ui #btn-retreat-to-hub{padding:5px 8px;font-size:10.5px}#mobile-battle-controls{position:absolute;inset:0;z-index:25;pointer-events:none;display:none}body.mobile-ui #mobile-battle-controls{display:block}#mobile-joystick-zone{position:absolute;left:max(12px,var(--safe-left));bottom:max(10px,var(--safe-bottom));width:146px;height:146px;display:flex;justify-content:center;align-items:center;pointer-events:auto;touch-action:none}.joystick-base{width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,rgba(20,26,36,0.45) 0%,rgba(8,11,16,0.78) 100%);border:2px solid rgba(184,151,88,0.65);box-shadow:inset 0 0 14px rgba(0,0,0,0.85),0 0 12px rgba(0,0,0,0.55);position:relative;display:flex;justify-content:center;align-items:center}.joystick-base::after{content:"";position:absolute;inset:14px;border-radius:50%;border:1px dashed rgba(226,191,117,0.28);pointer-events:none}.joystick-knob{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#e8c67a 0%,#8a6a32 70%,#3b2d1a 100%);border:2px solid #fff2cc;box-shadow:0 4px 12px rgba(0,0,0,0.8);transform:translate3d(0px,0px,0);transition:box-shadow 0.1s;pointer-events:none}.joystick-base.sprinting{border-color:#6ce6b8;box-shadow:inset 0 0 14px rgba(0,0,0,0.85),0 0 14px rgba(108,230,184,0.5)}.joystick-base.sprinting .joystick-knob{box-shadow:0 0 16px rgba(108,230,184,0.9)}.joystick-hint{position:absolute;bottom:-2px;font-size:9.5px;color:rgba(230,223,213,0.72);text-shadow:0 1px 3px #000;pointer-events:none}#mobile-action-cluster{position:absolute;right:max(10px,var(--safe-right));bottom:max(10px,var(--safe-bottom));display:flex;align-items:flex-end;gap:8px;pointer-events:auto;touch-action:none}.mobile-aux-column{display:flex;flex-direction:column;align-items:center;gap:6px}.mobile-quick-items-row{display:flex;gap:5px}.m-btn{position:relative;border-radius:8px;background:rgba(14,19,27,0.86);border:1.5px solid var(--border-bronze);color:var(--text-main);display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;touch-action:none;box-shadow:inset 0 0 10px rgba(0,0,0,0.8),0 3px 8px rgba(0,0,0,0.7);transition:transform 0.08s ease,border-color 0.12s ease}.m-btn:active{transform:scale(0.92);border-color:var(--border-glow)}.m-btn-small{width:42px;height:36px;font-size:14px;border-radius:7px}.m-btn-small .m-sub{font-size:8.5px;color:var(--text-gold);line-height:1;margin-top:1px}.m-btn-dash{width:58px;height:52px;border-radius:50%;border:2px solid #5cc995;background:radial-gradient(circle,rgba(27,77,62,0.92) 0%,rgba(12,26,22,0.95) 100%);font-size:19px}.m-btn-dash .m-sub{font-size:9px;color:#7ef7c4;font-weight:bold}.m-btn-interact{width:54px;height:44px;border-radius:10px;border:1.5px solid #474137;opacity:0.45;font-size:16px}.m-btn-interact .m-sub{font-size:8.5px;color:var(--text-muted)}.m-btn-interact.active-prompt{opacity:1;border-color:#ffd700;background:linear-gradient(180deg,rgba(84,62,24,0.95) 0%,rgba(36,26,12,0.95) 100%);box-shadow:0 0 14px rgba(255,215,0,0.65);animation:pulseInteract 1.1s ease-in-out infinite}.m-btn-interact.active-prompt .m-sub{color:#ffd700;font-weight:bold}@keyframes pulseInteract{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}.mobile-skills-panel{display:flex;flex-direction:column;gap:6px;background:rgba(10,14,20,0.62);border:1px solid rgba(184,151,88,0.35);border-radius:10px;padding:6px;backdrop-filter:blur(2px)}.mobile-killer-row{display:grid;grid-template-columns:repeat(4,46px);gap:6px}.mobile-gu-grid{display:grid;grid-template-columns:repeat(4,46px);grid-template-rows:repeat(2,46px);gap:6px}.m-skill-btn{width:46px;height:46px;border-radius:8px}.m-skill-btn.m-killer-btn{height:42px;border-radius:21px;border-color:#c96a34;background:radial-gradient(circle,rgba(58,25,16,0.92) 0%,rgba(20,10,8,0.95) 100%)}.m-skill-btn .m-key{position:absolute;top:2px;left:4px;font-size:8.5px;font-family:var(--font-mono);color:rgba(230,223,213,0.72);z-index:4}.m-skill-btn .m-icon{font-size:20px;line-height:1;z-index:2}.m-skill-btn .m-cost{position:absolute;bottom:1px;right:3px;font-size:8.5px;font-family:var(--font-mono);color:var(--text-cyan);z-index:4}.m-skill-btn .m-cd-overlay{position:absolute;bottom:0;left:0;width:100%;height:0%;background:rgba(0,0,0,0.76);z-index:3}.m-skill-btn .m-cd-text{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;font-size:11px;font-weight:bold;font-family:var(--font-mono);color:#fff;text-shadow:0 1px 3px #000;z-index:5}.m-skill-btn .m-no-essence{position:absolute;inset:0;background:rgba(110,15,15,0.68);color:#ffadad;font-size:9px;font-weight:bold;display:flex;justify-content:center;align-items:center;z-index:6}.m-skill-btn.empty-slot{opacity:0.38;border-style:dashed}#mobile-interact-toast{position:absolute;bottom:158px;left:50%;transform:translateX(-50%);background:rgba(14,18,26,0.9);border:1px solid var(--border-gold);color:var(--text-gold);padding:4px 12px;font-size:11px;border-radius:14px;white-space:nowrap;max-width:72vw;overflow:hidden;text-overflow:ellipsis;pointer-events:none}#btn-mobile-battle-fs{padding:4px 8px;font-size:10.5px;background:rgba(24,32,46,0.9);border:1px solid var(--border-gold);color:var(--text-gold)}@media (max-height:385px){body.mobile-ui .mobile-killer-row{grid-template-columns:repeat(4,40px);gap:4px}body.mobile-ui .mobile-gu-grid{grid-template-columns:repeat(4,40px);grid-template-rows:repeat(2,40px);gap:4px}body.mobile-ui .m-skill-btn{width:40px;height:40px}body.mobile-ui .m-skill-btn.m-killer-btn{height:36px}body.mobile-ui .m-skill-btn .m-icon{font-size:17px}body.mobile-ui #mobile-joystick-zone{width:126px;height:126px}body.mobile-ui .joystick-base{width:96px;height:96px}body.mobile-ui .joystick-knob{width:40px;height:40px}body.mobile-ui .m-btn-dash{width:50px;height:46px;font-size:16px}body.mobile-ui #minimapCanvas{width:68px !important;height:68px !important}}body.mobile-ui .autosave-status-row{display:none}body.mobile-ui .zoom-controls-bar{padding:3px 4px !important;gap:3px;background:rgba(14,18,25,0.82)}body.mobile-ui .zoom-btn,body.mobile-ui .zoom-pct-btn{padding:3px 5px !important;font-size:10px !important;min-width:auto}body.mobile-ui .battle-pressure-alert{font-size:9.5px;padding:2px 5px}
+
+body.mobile-ui .tk-story-window{max-width:96vw !important;max-height:94dvh !important}body.mobile-ui .tk-story-body{padding:8px 10px !important}body.mobile-ui #tk-story-canvas{max-height:170px;object-fit:contain}body.mobile-ui .tk-gauges-grid{grid-template-columns:1fr 1fr;gap:5px;padding:5px 7px}
+
+body.mobile-ui .tk-featured-banner{padding:10px 12px}body.mobile-ui .tk-featured-text h3{font-size:14px !important}body.mobile-ui .tk-step-pill{font-size:9.5px;padding:2px 6px}body.mobile-ui .tk-siege-alert{font-size:11px;padding:5px 8px}
+
+body.mobile-ui .tk-objective-panel{max-width:56vw;padding:6px 8px}
+body.mobile-ui .tk-obj-title{font-size:12px}
+body.mobile-ui .tk-obj-sub{font-size:10px}
+body.mobile-ui #tk-minimap-canvas{width:118px;height:78px}
+body.mobile-ui .tk-joystick-zone{left:14px;bottom:14px;width:98px;height:98px}
+body.mobile-ui .tk-action-pad{right:14px;bottom:14px;gap:7px}
+body.mobile-ui .tk-btn-attack{width:68px;height:68px}
+body.mobile-ui .tk-btn-special{width:58px;height:58px}
+body.mobile-ui .tk-btn-interact{width:54px;height:54px}
+body.mobile-ui .tk-dialogue-box{bottom:10px;padding:10px 12px;max-height:54vh;overflow-y:auto}
+
+body.mobile-ui .tk-battle-ticker{top:98px;font-size:10.5px;padding:4px 8px}
+body.mobile-ui .tk-cauldron-panel{bottom:6px;padding:7px 9px;max-height:52dvh;overflow-y:auto}
+body.mobile-ui .tk-cam-btn{font-size:9.5px !important;padding:2px 5px !important}
+
+body.mobile-ui .tk-letterbox.active{height:24px}
+body.mobile-ui .tk-lock-banner{top:6px;font-size:10.5px;padding:3px 10px}
+body.mobile-ui .tk-curtain-inner{padding:16px 14px}
+body.mobile-ui .tk-curtain-title{font-size:18px}
+body.mobile-ui .tk-curtain-sub{font-size:11.5px}
+
+body.mobile-ui .tk-cine-topbar{padding:6px 10px}
+body.mobile-ui .tk-cine-rec{font-size:10px}
+body.mobile-ui .tk-cine-subbar{padding:0 10px 6px 10px;gap:5px}
+body.mobile-ui .tk-cine-sub-box{font-size:11.5px;padding:5px 10px}
+body.mobile-ui .tk-cine-time{font-size:9.5px}
+
+body.mobile-ui .ext-top-settings-btn{top:8px;right:8px;padding:5px 10px;font-size:11.5px}
+body.mobile-ui .ext-settings-window{max-width:96vw !important;max-height:94dvh}
+body.mobile-ui .ext-set-row{flex-direction:column;align-items:flex-start;gap:8px;padding:8px 10px}
+body.mobile-ui .ext-set-select{width:100% !important;max-width:none}
+body.mobile-ui .ext-slider-wrap{width:100%}
+body.mobile-ui .ext-set-tab{font-size:11px;padding:5px 6px}
+
+body.mobile-ui .ext-kb-grid{grid-template-columns:1fr}
+body.mobile-ui .ext-kb-item{padding:6px 8px}
+
+body.mobile-ui .gu-card-icon-wrap{width:44px;height:44px}
+body.mobile-ui .gu-card-art{width:40px;height:40px}
+body.mobile-ui .gu-detail-portrait{width:68px;height:68px;min-width:68px}
+body.mobile-ui .gu-showcase-art{width:60px;height:60px}
+body.mobile-ui .gu-mobile-art{width:28px;height:28px}
+
+/* === MOBILE 60 FPS GPU COMPOSITING OPTIMIZATIONS (v57) === */
+body.mobile-ui .modal-backdrop,body.mobile-ui .ext-settings-backdrop,body.mobile-ui .hud-panel,body.mobile-ui .mobile-controls-layer *{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+body.mobile-ui .gu-art-img,body.mobile-ui .gu-km-art,body.mobile-ui .gu-card-art{filter:none !important}
+body.mobile-ui .battle-hud-top-left,body.mobile-ui .battle-hud-top-right,body.mobile-ui .battle-hud-bottom-center,body.mobile-ui .tk-hud-top{contain:layout style}
+
+/* === MOBILE JUMP BUTTON (v58) === */
+.mobile-move-row{display:flex;gap:6px;width:100%}
+.mobile-move-row .m-btn-jump,.mobile-move-row .m-btn-dash{flex:1;min-width:46px;height:48px}
+.m-btn-jump{border-color:#7ef7c4 !important;background:linear-gradient(180deg,rgba(20,66,54,0.92),rgba(10,32,26,0.95)) !important;color:#7ef7c4 !important}
+
+body.mobile-ui .battle-beast-bar{min-width:152px;padding:4px 6px !important;gap:3px}
+body.mobile-ui .ba-bat-head{font-size:10px}
+body.mobile-ui .ba-bat-form{font-size:9.5px !important;padding:2px 3px !important}
+body.mobile-ui .ba-squad-row{grid-template-columns:repeat(3,1fr);gap:5px}
+
+body.mobile-ui .dream-realm-screen{padding:5px 6px;gap:5px}
+body.mobile-ui .dream-topbar{padding:5px 8px}
+body.mobile-ui .dream-act-btn{padding:6px 10px;font-size:11px;min-width:96px}
+body.mobile-ui .dream-overlay-card{padding:12px 14px}
+
+body.mobile-ui .sg-carve-window{max-width:96vw !important;max-height:95dvh;overflow-y:auto}
+body.mobile-ui .sg-carve-stage{padding:6px 8px 2px 8px}
+body.mobile-ui .sg-carve-actions{padding:8px 10px}
+
+body.mobile-ui .battle-gu-house-bar{min-width:152px;padding:4px 6px !important;gap:3px}
+body.mobile-ui .gh-bat-head{font-size:9.5px}
+body.mobile-ui .gh-bat-btns button{font-size:9.5px !important;padding:2px 3px !important}
+body.mobile-ui .gh-grid{grid-template-columns:1fr}
+
+body.mobile-ui .bnt-status-row{grid-template-columns:1fr}
+body.mobile-ui .bnt-bounty-grid{grid-template-columns:1fr}
+body.mobile-ui .battle-bounty-alert{top:46px;font-size:10.5px;padding:4px 9px}
+
+body.mobile-ui .bl-build-grid{grid-template-columns:repeat(2,1fr);gap:6px}
+
+body.mobile-ui .rf-boon-cards{grid-template-columns:1fr;max-width:94vw;gap:7px}
+body.mobile-ui .rf-boon-card{padding:8px 10px;gap:3px}
+body.mobile-ui .rf-boon-icon{font-size:22px}
+
+/* === V70 MOBILE 60 FPS TOUCH & RENDER OPTIMIZATION === */
+body.mobile-ui button,body.mobile-ui .m-btn,body.mobile-ui .nav-btn{touch-action:manipulation}
+body.mobile-ui .stage-map-card,body.mobile-ui .card-box{box-shadow:none !important}
+body.mobile-ui .onboarding-steps,body.mobile-ui .glossary-grid{grid-template-columns:1fr}
+
+body.mobile-ui .ble-bestiary-grid{grid-template-columns:1fr}
+
+body.mobile-ui .qba-eq-grid{grid-template-columns:repeat(4,1fr)}
+body.mobile-ui .qba-item-grid,body.mobile-ui .qba-gu-grid{grid-template-columns:1fr}
+body.mobile-ui .ble-gu-slot,body.mobile-ui .ble-km-slot{width:34px;height:32px}
